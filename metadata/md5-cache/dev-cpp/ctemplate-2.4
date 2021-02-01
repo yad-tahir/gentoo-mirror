@@ -1,0 +1,15 @@
+BDEPEND=>=app-portage/elt-patches-20170815 || ( >=sys-devel/automake-1.16.2-r1:1.16 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
+DEFINED_PHASES=compile configure install postinst postrm prepare setup
+DEPEND=test? ( || ( dev-lang/python:3.8 dev-lang/python:3.7 ) )
+DESCRIPTION=A simple but powerful template language for C++
+EAPI=7
+HOMEPAGE=https://github.com/olafvdspek/ctemplate
+IUSE=doc emacs vim-syntax static-libs test
+KEYWORDS=amd64 arm ppc x86 ~amd64-linux ~x86-linux
+LICENSE=BSD
+RDEPEND=emacs? ( >=app-editors/emacs-23.1:* ) vim-syntax? ( >=app-editors/vim-core-7 )
+RESTRICT=test
+SLOT=0
+SRC_URI=https://github.com/OlafvdSpek/ctemplate/archive/ctemplate-2.4.tar.gz
+_eclasses_=autotools	9988ecbe04129214297a7bbf3d253710	elisp-common	34cc2b6f6d8914019a353fe39cff43ce	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	d410501a125f99ffb560b0c523cd3d1e	python-any-r1	0a79a9b53fce4525f438f8ea9695fb88	python-utils-r1	69861348186337fa4b269de5826004b3	toolchain-funcs	24921b57d6561d87cbef4916a296ada4
+_md5_=9eb528c7c0d65105b21a0c40b7f3e146

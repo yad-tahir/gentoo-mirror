@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure prepare unpack
+DEPEND=app-text/ronn virtual/pkgconfig test? ( git? ( dev-vcs/git ) dev-util/cmocka ) >=dev-vcs/git-1.8.2.1[curl] >=app-portage/elt-patches-20170815 || ( >=sys-devel/automake-1.16.2-r1:1.16 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
+DESCRIPTION=A blog compiler
+EAPI=6
+HOMEPAGE=https://blogc.rgm.io/
+IUSE=git httpd make test
+LICENSE=BSD
+PROPERTIES=live
+RDEPEND=git? ( dev-vcs/git )
+RESTRICT=!test? ( test )
+SLOT=0
+_eclasses_=autotools	9988ecbe04129214297a7bbf3d253710	git-r3	3e7ec3d6619213460c85e2aa48398441	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	d410501a125f99ffb560b0c523cd3d1e	toolchain-funcs	24921b57d6561d87cbef4916a296ada4
+_md5_=d9e2b844a26f3d359c9f57321545ea49
