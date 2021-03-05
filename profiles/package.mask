@@ -31,6 +31,60 @@
 ## app-misc/some-package
 
 #--- END OF EXAMPLES ---
+# Conrad Kostecki <conikost@gentoo.org> (2021-03-05)
+# Dead upstream and unmaintained.
+# Removal in 30 days.
+app-misc/towitoko
+
+# Conrad Kostecki <conikost@gentoo.org> (2021-03-04)
+# Dead upstream and unmaintained.
+# Removal in 30 days.
+app-misc/logserial
+
+# Conrad Kostecki <conikost@gentoo.org> (2021-03-04)
+# Dead upstream, open bugs and unmaintained.
+# Removal in 30 days.
+net-dns/sheerdns
+
+# Mike Pagano <mpagano@gentoo.org> (2021-03-04)
+# This kernel version could corrupt your
+# filesystem by overwritting it with 
+# random swap data 
+=sys-kernel/git-sources-5.12_rc1
+
+# Sam James <sam@gentoo.org> (2021-03-03)
+# Declared abandoned upstream and stuck
+# on Python 3.7.
+# Removal in 30 days.
+app-office/moneyguru
+
+# Sam James <sam@gentoo.org> (2021-03-03)
+# Doesn't seem to sync clock correctly
+# in some cases.
+# bug #772998
+~net-misc/openntpd-6.8_p1
+
+# Alfredo Tupone <tupone@gentoo.org> (2021-03-03)
+# no package uses it
+# Removal on 2021-04-02
+dev-ml/core_extended
+
+# Sam James <sam@gentoo.org> (2021-03-01)
+# Mask new proj 8.x as it removes deprecated
+# API. Likely to break several consumers
+# which haven't yet ported.
+# bug #729098
+~sci-libs/proj-8.0.0
+
+# Sam James <sam@gentoo.org> (2021-02-28)
+# games-strategy/0ad-data has been merged
+# into games-strategy/0ad for simplicity.
+# Note that in most cases, the latter uses
+# upstream pre-built assets anyway.
+# Nothing should really be using this.
+# bug #735352, bug #768930
+# Removal in 14 days.
+games-strategy/0ad-data
 
 # Bernd Waibel <waebbl-gentoo@posteo.net> (2021-02-27)
 # Mask until removal of media-gfx/openexr_viewers.
@@ -81,10 +135,6 @@ media-gfx/videorbits
 # Completely dissolved and moved into other PIM libraries upstream.
 # Masked for removal on 2021-03-10.
 kde-apps/kdepim-apps-libs
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2021-02-23)
-# Slotted mistakenly
-dev-libs/quazip:1
 
 # Matthew Thode <prometheanfire@gentoo.org> (2021-02-22)
 # Removing unneeded packages from tree Bug #772200
@@ -214,7 +264,7 @@ app-office/orage
 xfce-extra/multiload-nandhp
 xfce-extra/xfce4-embed-plugin
 xfce-extra/xfce4-equake-plugin
-xfce-extra/xfce4-kbdleds-plugin
+<xfce-extra/xfce4-kbdleds-plugin-0.2.3
 xfce-extra/xfce4-windowck-plugin
 
 # Michał Górny <mgorny@gentoo.org> (2021-02-07)
@@ -246,14 +296,6 @@ dev-libs/libressl
 # seems to be incompatible with revdeps using go-module, the variant
 # using the latter is still broken.
 dev-go/qt
-
-# Sam James <sam@gentoo.org> (2021-01-18)
-# Older versions: need Python 2
-# Newer versions: ported to Python 3, but need
-# testing on real hardware.
-# bug #735352
-games-strategy/0ad
-~games-strategy/0ad-data-0.0.24_alpha_pre20210116040036
 
 # Lars Wendler <polynomial-c@gentoo.org> (2020-12-09)
 # Masked until most broken packages have been fixed (bug #732648)
