@@ -6,14 +6,14 @@
 # This file is only for generic masks. For arch-specific masks (i.e.
 # mask everywhere, unmask on arch/*) use arch/base.
 
+# Stephan Hartmann <sultan@gentoo.org> (2021-03-21)
+# Requires unreleased sys-devel/icu-69.1
+>=www-client/chromium-91 system-icu
+
 # Michał Górny <mgorny@gentoo.org> (2021-03-06)
 # LLVM 9 has been removed.
 dev-lang/julia system-llvm
 dev-util/perf clang
-
-# Andreas K. Hüttel <dilfridge@gentoo.org> (2021-03-06)
-# Needs last-rited dev-libs/klibc
-sys-fs/dmraid klibc
 
 # Sam James <sam@gentoo.org> (2021-02-27)
 # Needs last-rited sci-mathematics/ggnfs
@@ -120,10 +120,6 @@ dev-qt/qt-creator clang
 # Depends on masked net-libs/libkvkontakte
 kde-apps/kipi-plugins vkontakte
 
-# Alfredo Tupone <tupone@gentoo.org> (2020-11-06)
-# waiting for lua to be slotted
-media-gfx/exact-image lua
-
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2020-10-08)
 # USE=doc broken on 1.47.0 and later
 # error: unresolved link to `crate::os::unix::ffi::OsStrExt`
@@ -134,10 +130,6 @@ media-gfx/exact-image lua
 # Michał Górny <mgorny@gentoo.org> (2020-09-27)
 # The respective dependencies are masked for removal.
 net-im/telepathy-connection-managers gadu icq meanwhile steam yahoo
-
-# Michał Górny <mgorny@gentoo.org> (2020-09-26)
-# The respective dependencies are masked for removal.
-sci-geosciences/viking mapnik
 
 # Joonas Niilola <juippis@gentoo.org> (2020-09-23)
 # Highly experimental, may cause breakages when updating. Use with

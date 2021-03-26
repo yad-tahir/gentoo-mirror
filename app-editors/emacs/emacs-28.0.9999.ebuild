@@ -29,7 +29,7 @@ else
 		SRC_URI="https://dev.gentoo.org/~ulm/distfiles/${P}.tar.xz"
 		S="${WORKDIR}/emacs"
 	elif [[ ${PV//[0-9]} != "." ]]; then
-		SRC_URI="mirror://gnu-alpha/emacs/pretest/${PN}-${PV/_/-}.tar.xz"
+		SRC_URI="https://alpha.gnu.org/gnu/emacs/pretest/${PN}-${PV/_/-}.tar.xz"
 	fi
 	SLOT="${PV%%.*}"
 	[[ ${PV} == *.*.* ]] && SLOT+="-vcs"
@@ -43,7 +43,7 @@ LICENSE="GPL-3+ FDL-1.3+ BSD HPND MIT W3C unicode PSF-2"
 IUSE="acl alsa aqua athena cairo dbus dynamic-loading games gconf gfile gif +gmp gpm gsettings gtk gui gzip-el harfbuzz imagemagick +inotify jpeg json kerberos lcms libxml2 livecd m17n-lib mailutils png selinux sound source ssl svg systemd +threads tiff toolkit-scroll-bars wide-int Xaw3d xft +xpm xwidgets zlib"
 RESTRICT="test"
 
-RDEPEND="app-emacs/emacs-common-gentoo[games?,gui(-)?]
+RDEPEND="app-emacs/emacs-common[games?,gui(-)?]
 	sys-libs/ncurses:0=
 	acl? ( virtual/acl )
 	alsa? ( media-libs/alsa-lib )

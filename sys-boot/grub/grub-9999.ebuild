@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,7 +9,7 @@ if [[ ${PV} == 9999  ]]; then
 fi
 
 if [[ -n ${GRUB_AUTOGEN} || -n ${GRUB_BOOTSTRAP} ]]; then
-	PYTHON_COMPAT=( python{2_7,3_{6,7,8}} )
+	PYTHON_COMPAT=( python{2_7,3_{6,7,8,9}} )
 	inherit python-any-r1
 fi
 
@@ -24,7 +24,7 @@ if [[ ${PV} != 9999 ]]; then
 	if [[ ${PV} == *_alpha* || ${PV} == *_beta* || ${PV} == *_rc* ]]; then
 		# The quote style is to work with <=bash-4.2 and >=bash-4.3 #503860
 		MY_P=${P/_/'~'}
-		SRC_URI="mirror://gnu-alpha/${PN}/${MY_P}.tar.xz"
+		SRC_URI="https://alpha.gnu.org/gnu/${PN}/${MY_P}.tar.xz"
 		S=${WORKDIR}/${MY_P}
 	else
 		SRC_URI="mirror://gnu/${PN}/${P}.tar.xz"
@@ -39,6 +39,7 @@ fi
 PATCHES=(
 	"${FILESDIR}"/gfxpayload.patch
 	"${FILESDIR}"/grub-2.02_beta2-KERNEL_GLOBS.patch
+	"${FILESDIR}"/grub-2.06-test-words.patch
 )
 
 DEJAVU=dejavu-sans-ttf-2.37
@@ -110,7 +111,7 @@ RDEPEND="${DEPEND}
 		grub_platforms_efi-32? ( sys-boot/efibootmgr )
 		grub_platforms_efi-64? ( sys-boot/efibootmgr )
 	)
-	!sys-boot/grub:0 !sys-boot/grub-static
+	!sys-boot/grub:0
 	nls? ( sys-devel/gettext )
 "
 
@@ -120,6 +121,10 @@ QA_EXECSTACK="usr/bin/grub-emu* usr/lib/grub/*"
 QA_PRESTRIPPED="usr/lib/grub/.*"
 QA_MULTILIB_PATHS="usr/lib/grub/.*"
 QA_WX_LOAD="usr/lib/grub/*"
+
+pkg_setup() {
+	:
+}
 
 src_unpack() {
 	if [[ ${PV} == 9999 ]]; then
@@ -139,16 +144,10 @@ src_prepare() {
 
 	sed -i -e /autoreconf/d autogen.sh || die
 
-	# Nothing in Gentoo packages 'american-english' in the exact path
-	# wanted for the test, but all that is needed is a compressible text
-	# file, and we do have 'words' from miscfiles in the same path.
-	sed -i \
-		-e '/CFILESSRC.*=/s,american-english,words,' \
-		tests/util/grub-fs-tester.in \
-		|| die
-
 	if [[ -n ${GRUB_AUTOGEN} || -n ${GRUB_BOOTSTRAP} ]]; then
 		python_setup
+	else
+		export PYTHON=true
 	fi
 
 	if [[ -n ${GRUB_BOOTSTRAP} ]]; then
