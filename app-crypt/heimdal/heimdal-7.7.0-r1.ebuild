@@ -46,6 +46,7 @@ DEPEND="${CDEPEND}
 	${PYTHON_DEPS}
 	dev-perl/JSON
 	virtual/pkgconfig
+	sys-apps/texinfo
 	>=sys-devel/autoconf-2.62
 	test? ( X? ( ${VIRTUALX_DEPEND} ) )"
 
@@ -73,6 +74,7 @@ PATCHES=(
 	"${FILESDIR}/heimdal_hcrypto.patch"
 	"${FILESDIR}/heimdal_build-headers-before-use.patch"
 	"${FILESDIR}/heimdal_fix-db60.patch"
+	"${FILESDIR}/heimdal_fix-autoconf-2.70.patch"
 )
 
 src_prepare() {

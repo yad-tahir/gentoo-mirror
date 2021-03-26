@@ -5,7 +5,7 @@ EAPI=7
 
 inherit flag-o-matic toolchain-funcs
 
-DESCRIPTION="An embeddable Javascript interpreter in C."
+DESCRIPTION="An embeddable JavaScript interpreter in C"
 HOMEPAGE="https://mujs.com/ https://github.com/ccxvii/mujs"
 SRC_URI="https://github.com/ccxvii/mujs/archive/${PV}.tar.gz -> ${P}.tar.gz"
 # Not available right now.
@@ -39,16 +39,15 @@ src_compile() {
 }
 
 src_install() {
-	local myeconfargs=(
+	local myemakeargs=(
 		DESTDIR="${ED}"
-		install-shared
 		libdir="/usr/$(get_libdir)"
 		prefix="/usr"
 		VERSION="${PV}"
 		$(usex static-libs install-static '')
 	)
 
-	emake "${myeconfargs[@]}"
+	emake "${myemakeargs[@]}" install-shared
 
 	mv -v "${ED}"/usr/$(get_libdir)/lib${PN}.so{,.${PV}} || die
 
