@@ -15,10 +15,6 @@
 dev-lang/julia system-llvm
 dev-util/perf clang
 
-# Sam James <sam@gentoo.org> (2021-02-27)
-# Needs last-rited sci-mathematics/ggnfs
-sci-mathematics/yafu sieve
-
 # Thomas Deutschmann <whissi@gentoo.org> (2021-02-17)
 # PCRE JIT support via dev-libs/libpcre2[jit] is only available for certain architectures
 dev-lang/php jit
@@ -143,7 +139,6 @@ net-nntp/pan gnome-keyring
 # Michał Górny <mgorny@gentoo.org> (2020-09-09)
 # The respective dependencies are masked for removal.
 media-plugins/mythplugins mythnetvision
-sys-cluster/drbd-utils heartbeat
 
 # Michał Górny <mgorny@gentoo.org> (2020-09-09)
 # The respective dependencies are masked for removal.
@@ -207,11 +202,6 @@ dev-util/meson test
 # Alfredo Tupone <tupone@gentoo.org> (2020-04-04)
 # Ada support is not yet ready for sys-devel/gcc
 sys-devel/gcc ada
-
-# Joshua Kinard <kumba@gentoo.org> (2020-03-28)
-# NCP support is masked pending removal of net-fs/ncpfs
-# Bug #681820
-net-analyzer/hydra ncp
 
 # Michał Górny <mgorny@gentoo.org> (2020-03-28)
 # Requires masked dev-vcs/bzr.  Remove the mask if breezy is packaged
@@ -504,7 +494,7 @@ app-editors/emacs:25 cairo
 app-editors/emacs:26 cairo
 
 # Matthew Brewer <tomboy64@sina.cn> (2016-06-02)
-# Acked-by: Amy Winston <amynka@gentoo.org>
+# Acked-by: Amy Liffey <amynka@gentoo.org>
 # Currently broken upstream.
 >=dev-lang/rakudo-2016.05 java
 
@@ -513,7 +503,7 @@ app-editors/emacs:26 cairo
 sys-devel/gcc vtv
 
 # Matthew Brewer <tomboy64@sina.cn> (2016-05-08)
-# Acked-by: Amy Winston <amynka@gentoo.org>
+# Acked-by: Amy Liffey <amynka@gentoo.org>
 # Upstream supports using Clang's address sanitizer, but apparently
 # invokes it wrong.
 dev-lang/moarvm asan

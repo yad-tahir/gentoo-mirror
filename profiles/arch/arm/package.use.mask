@@ -1,6 +1,10 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Mike Gilbert <floppym@gentoo.org> (2021-03-29)
+# Unmask TPM on supported archs.
+sys-apps/systemd -tpm
+
 # Sam James <sam@gentoo.org> (2021-02-17)
 # Unmask dev-libs/libpcre2[jit] support on PHP
 # where available
@@ -267,7 +271,7 @@ media-sound/rhythmbox upnp-av
 # Allow jdbc on this arch
 dev-db/mariadb -jdbc
 
-# Amy Winston <amynka@gentoo.org> (2016-06-12)
+# Amy Liffey <amynka@gentoo.org> (2016-06-12)
 # does not build on arm at all (upstream bug)
 dev-scheme/racket futures jit
 
