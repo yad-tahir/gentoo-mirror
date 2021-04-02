@@ -9,7 +9,7 @@
 # Original Author: Alexis Ballier <aballier@gentoo.org>
 # @SUPPORTED_EAPIS: 3 4 5
 # @BLURB: Provides common ebuild phases for oasis-based packages.
-# @DEPRECATED: Use opam.eclass, dune.eclass, or findlib.eclass (if necessary)
+# @DEPRECATED: opam.eclass, dune.eclass, or findlib.eclass (if necessary)
 # @DESCRIPTION:
 # Provides common ebuild phases for oasis-based packages.
 # Most of these packages will just have to inherit the eclass, set their
@@ -19,6 +19,7 @@
 # Ebuilds using oasis.eclass must be EAPI>=3.
 
 # @ECLASS-VARIABLE: OASIS_BUILD_DOCS
+# @PRE_INHERIT
 # @DESCRIPTION:
 # Will make oasis_src_compile build the documentation if this variable is
 # defined and the doc useflag is enabled.
@@ -27,6 +28,7 @@
 # Set before inheriting the eclass.
 
 # @ECLASS-VARIABLE: OASIS_BUILD_TESTS
+# @PRE_INHERIT
 # @DESCRIPTION:
 # Will make oasis_src_configure enable building the tests if the test useflag is
 # enabled. oasis_src_test will then run them.
@@ -38,6 +40,7 @@
 
 
 # @ECLASS-VARIABLE: OASIS_NO_DEBUG
+# @PRE_INHERIT
 # @DESCRIPTION:
 # Disable debug useflag usage. Old oasis versions did not support it so we allow
 # disabling it in those cases.
@@ -45,6 +48,7 @@
 # Set before inheriting the eclass.
 
 # @ECLASS-VARIABLE: OASIS_DOC_DIR
+# @PRE_INHERIT
 # @DESCRIPTION:
 # Specify where to install documentation. Default is for ocamldoc HTML.
 # Change it before inherit if this is not what you want.
