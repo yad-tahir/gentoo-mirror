@@ -9,7 +9,7 @@ EAPI=7
 #
 #CMAKE_MAKEFILE_GENERATOR="emake"
 
-inherit cmake desktop
+inherit cmake
 
 DESCRIPTION="Diablo engine for modern operating systems"
 HOMEPAGE="https://github.com/diasurgical/devilutionX"
@@ -43,6 +43,8 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.2.0_pre-no_bundled_font.patch" #704508
 )
 
+DOCS=( docs/CHANGELOG.md )
+
 src_configure() {
 	local mycmakeargs=(
 		-DASAN="OFF"
@@ -51,13 +53,12 @@ src_configure() {
 		-DDIST="ON"
 		-DUBSAN="OFF"
 	)
-	cmake_src_configure
 
 	if [[ "${PV}" != 9999 ]] ; then
-		# Build system still doesn't reliably set release version
-		sed "/PROJECT_VERSION/s@-@${PV}@" -i "${BUILD_DIR}/config.h" \
-			|| die
+		mycmakeargs+=( -DVERSION_NUM="${PV}" )
 	fi
+
+	cmake_src_configure
 }
 
 pkg_postinst() {
