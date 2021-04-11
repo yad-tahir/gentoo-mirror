@@ -32,6 +32,117 @@
 
 #--- END OF EXAMPLES ---
 
+# Michał Górny <mgorny@gentoo.org> (2021-04-10)
+# Obsolete backport to Python < 3.4.  No reverse dependencies left.
+# Removal on 2021-05-10.  Bug #781902.
+dev-python/monotonic
+
+# Sam James <sam@gentoo.org> (2021-04-09)
+# Support package for games.eclass (which is now being last-rited). Please
+# port away from games.eclass and use general ebuild functions/helpers.
+# No specific eclass is needed for general games installation.
+# Removal on 2021-05-09.
+# bug #574082
+games-misc/games-envd
+
+# Lars Wendler <polynomial-c@gentoo.org> (2021-04-08)
+# Masked for testing and until revdeps have been fixed:
+# https://bugs.gentoo.org/781188
+>=dev-libs/icu-69.1
+>=dev-libs/icu-layoutex-69.1
+
+# Lars Wendler <polynomial-c@gentoo.org> (2021-04-08)
+# Masked for testing
+>=app-crypt/gnupg-2.3.0
+
+# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-06)
+# Last release of dev-java/cal10n in 2013, no consumer
+# in the tree except dev-java/slf4j-ext which is not
+# needed by any package aswell. Removal in 30 days.
+dev-java/cal10n
+dev-java/slf4j-ext
+
+# Sergey Popov <pinkbyte@gentoo.org> (2021-04-06)
+# Ancient version, currently no consumers in main tree
+# The only one consumer was mail-client/roundcube
+# and now it uses bundled version
+# Masked for removal in 30 days.
+dev-php/PEAR-Net_LDAP3
+
+# Matt Turner <mattst88@gentoo.org> (2021-04-05)
+# Masked for testing and for dependence on masked pango
+gui-libs/gtk
+>=gnome-base/gnome-shell-40
+>=gnome-extra/gnome-shell-extensions-40
+>=x11-wm/mutter-40
+
+# David Seifert <soap@gentoo.org> (2021-04-05)
+# Completely broken, unmaintained, does not build. Newer version
+# use Maven, good luck with that. Bugs #418625, #431644, #515816
+# #542940, #574632, #780396, removal in 30 days.
+sci-biology/gatk
+
+# David Seifert <soap@gentoo.org> (2021-04-05)
+# Tests broken since perl 5.22, last release in 2008,
+# Bug #625492, removal in 30 days.
+sci-biology/diya
+
+# Michał Górny <mgorny@gentoo.org> (2021-04-04)
+# Reported to contain an unintentional ABI breakage leading to crashes
+# when loading extensions on 32-bit systems.
+=dev-lang/python-3.9.3
+
+# Mikle Kolyada <zlogene@gentoo.org> (2021-04-02)
+# TexLive 2021 mask
+# Only unmask these versions if you know what you are doing
+# DO NOT report bugs until fully unmasked (work in progress)
+~app-text/dvipsk-2021.1_p20210325
+~app-text/ps2pkm-1.8_p20210325
+~app-text/ttf2pk2-2.0_p20210325
+~app-text/texlive-2021
+~app-text/texlive-core-2021
+~dev-libs/kpathsea-6.3.3_p20210325
+~dev-libs/ptexenc-1.3.9_p20210325
+~dev-tex/bibtexu-3.71_p20210325
+~dev-texlive/texlive-basic-2021
+~dev-texlive/texlive-bibtexextra-2021
+~dev-texlive/texlive-context-2021
+~dev-texlive/texlive-fontsextra-2021
+~dev-texlive/texlive-fontsrecommended-2021
+~dev-texlive/texlive-fontutils-2021
+~dev-texlive/texlive-formatsextra-2021
+~dev-texlive/texlive-games-2021
+~dev-texlive/texlive-humanities-2021
+~dev-texlive/texlive-langarabic-2021
+~dev-texlive/texlive-langchinese-2021
+~dev-texlive/texlive-langcjk-2021
+~dev-texlive/texlive-langcyrillic-2021
+~dev-texlive/texlive-langczechslovak-2021
+~dev-texlive/texlive-langenglish-2021
+~dev-texlive/texlive-langeuropean-2021
+~dev-texlive/texlive-langfrench-2021
+~dev-texlive/texlive-langgerman-2021
+~dev-texlive/texlive-langgreek-2021
+~dev-texlive/texlive-langitalian-2021
+~dev-texlive/texlive-langjapanese-2021
+~dev-texlive/texlive-langkorean-2021
+~dev-texlive/texlive-langother-2021
+~dev-texlive/texlive-langpolish-2021
+~dev-texlive/texlive-langportuguese-2021
+~dev-texlive/texlive-langspanish-2021
+~dev-texlive/texlive-latex-2021
+~dev-texlive/texlive-latexextra-2021
+~dev-texlive/texlive-latexrecommended-2021
+~dev-texlive/texlive-luatex-2021
+~dev-texlive/texlive-mathscience-2021
+~dev-texlive/texlive-metapost-2021
+~dev-texlive/texlive-music-2021
+~dev-texlive/texlive-pictures-2021
+~dev-texlive/texlive-plaingeneric-2021
+~dev-texlive/texlive-pstricks-2021
+~dev-texlive/texlive-publishers-2021
+~dev-texlive/texlive-xetex-2021
+
 # Michał Górny <mgorny@gentoo.org> (2021-03-31)
 # New versions remove PORTAGE_CONFIGROOT support, breaking a lot
 # of scripts.
@@ -68,8 +179,8 @@ app-office/ical
 net-p2p/xmr-stak
 
 # Jonas Stein <jstein@gentoo.org> (2021-03-29)
-# Depends on gtk-2, no release since 2010. 
-# Removal on 2021-05-01.  
+# Depends on gtk-2, no release since 2010.
+# Removal on 2021-05-01.
 # Bug #779148.
 app-editors/beaver
 
@@ -135,21 +246,6 @@ mail-mta/protonmail-bridge-bin
 # touched in years either. Bugs #664776, #747592. Removal in ~30 days.
 dev-libs/zookeeper-c
 
-# Sergei Trofimovich <slyfox@gentoo.org> (2021-03-15)
-# Needs a port to network-3. No revdeps. Mask for removal
-# in a month.
-dev-haskell/network-protocol-xmpp
-
-# Sergei Trofimovich <slyfox@gentoo.org> (2021-03-15)
-# Needs a port to ghc-8.10. No revdeps. Mask for removal
-# in a month.
-dev-haskell/test-framework-th-prime
-
-# Sergei Trofimovich <slyfox@gentoo.org> (2021-03-15)
-# Needs a port to ghc-8.10. No revdeps. Mask for removal
-# in a month.
-dev-haskell/encoding
-
 # Andreas Sturmlechner <asturm@gentoo.org> (2021-03-15)
 # Unmaintained for >1 year, blocking cleanup of deprecated libraries.
 # Succeeded by LXQt many years ago (see also: lxqt-base/lxqt-meta).
@@ -173,64 +269,11 @@ dev-haskell/encoding
 <x11-libs/libfm-extra-1.3.2
 <x11-misc/pcmanfm-1.3.2
 
-# Sergei Trofimovich <slyfox@gentoo.org> (2021-03-15)
-# Needs a port to ghc-8.10. No release for past 6 years.
-# No revdeps. Mask for removal.
-dev-haskell/geniplate
-
 # Göktürk Yüksek <gokturk@gentoo.org> (2021-03-14)
 # Dead upstream. No revdeps.
 # Removal in 60 days to allow people extra time
 # for transitioning out. Bug #776262.
 app-admin/lastpass-cli
-
-# Sam James <sam@gentoo.org> (2021-03-13)
-# Stuck on oasis.eclass, out of date
-# No reverse dependencies
-# (For ounit: please port your applications to dev-ml/ounit2
-# Should be a case of just a sed in most cases.)
-# Removal in 14 days. Nothing should really
-# be able to use any of these right now anyway.
-# bug #775785, bug #749696, bug #711414
-dev-ml/qcheck
-dev-ml/macaque
-dev-ml/pgocaml
-dev-ml/csv
-dev-ml/gen
-dev-ml/tyxml
-dev-ml/stringext
-dev-ml/deriving
-dev-ml/type-conv
-dev-ml/optcomp
-dev-ml/lwt_react
-dev-ml/batteries
-dev-ml/ocaml-magic-mime
-dev-ml/iTeML
-dev-ml/ocaml-re
-dev-ml/ocamlify
-dev-ml/ocamlmod
-dev-ml/ocaml-expect
-dev-ml/oasis
-dev-ml/ounit
-
-# Hans de Graaff <graaff@gentoo.org> (2021-03-12)
-# Requires a (proxy) maintainer with access to Oracle development
-# libraries. Please express your interest on bug 772128 if you can
-# help.
-# Masked for removal in 30 days.
-dev-ruby/ruby-oci8
-
-# Hans de Graaff <graaff@gentoo.org> (2021-03-11)
-# Last upstream release in 2018, uses outdated dependencies.  No
-# longer works with dev-ruby/parser, bug 775206. No reverse
-# dependencies.
-# Masked for removal in 30 days.
-dev-ruby/astrolabe
-
-# Hans de Graaff <graaff@gentoo.org> (2021-03-09)
-# Last upstream release in 2013, ruby25-only.
-# Masked for removal in 30 days.
-dev-ruby/shorturl
 
 # Brian Evans <grknight@gentoo.org> (2021-03-08)
 # No longer consistently maintained, severely broken with PHP 8
@@ -238,123 +281,10 @@ dev-ruby/shorturl
 # Removal in 30 days.
 dev-php/PEAR-Config
 
-# Hans de Graaff <graaff@gentoo.org> (2021-03-08)
-# Last litc upstream release in 2010, no reverse dependencies,
-# ruby25-only. Includes fakeweb test dependency which is also
-# ruby25-only and has no other reverse dependencies.
-# Masked for removal in 30 days.
-dev-ruby/litc
-dev-ruby/fakeweb
-
-# Hans de Graaff <graaff@gentoo.org> (2021-03-08)
-# Last upstream release in 2009, no reverse dependencies,
-# no test suite.
-# Masked for removal in 30 days.
-dev-ruby/metaid
-
-# Hans de Graaff <graaff@gentoo.org> (2021-03-08)
-# Last upstream release in 2018, no reverse dependencies,
-# stuck on ruby25.
-# Masked for removal in 30 days.
-dev-ruby/nexpose
-
-# Hans de Graaff <graaff@gentoo.org> (2021-03-08)
-# No longer maintained upstream, last release in 2014.
-# ruby25-only.
-# Masked for removal in 30 days.
-dev-ruby/session
-
-# Hans de Graaff <graaff@gentoo.org> (2021-03-08)
-# gitsh is maintainer-needed and stuck on ruby25.
-# parslet is only needed for gitsh and also ruby25-only.
-# Masked for removal in 30 days.
-dev-vcs/gitsh
-dev-ruby/parslet
-
-# Hans de Graaff <graaff@gentoo.org> (2021-03-08)
-# Old ruby25-only slots. Use the newer slot instead.
-# Masked for removal in 30 days.
-dev-ruby/i18n:0.7
-dev-ruby/pcaprub:0.12
-dev-ruby/pg:0
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2021-03-07)
-# Unresolved build issue since 2019, QA issues, bugs #697870 and #705236
-# Blocks cleanup of equally broken sci-physics/looptools-2.8, bug #770796
-# Masked for removal on 2021-04-06.
-sci-physics/herwig++
-
-# Conrad Kostecki <conikost@gentoo.org> (2021-03-07)
-# Upstream since 2004 gone, does not supportnon-English characters,
-# multiple bugs open and unmaintained.
-# Removal in 30 days.
-app-portage/splat
-
-# David Seifert <soap@gentoo.org> (2021-03-06)
-# Unmaintained, abandoned upstream, tests fail, broken USE=doc, no revdeps
-# in tree. Removal on 2021-04-03.  Bug #623488, #697804, #774447.
-dev-libs/libgpuarray
-
 # Andreas K. Hüttel <dilfridge@gentoo.org> (2021-03-06)
 # Fails to build, multiple bugs, outdated, nontrival, unmaintained
 # Bug 729876 and several others; removal in 30days
 dev-libs/klibc
-
-# Alfredo Tupone <tupone@gentoo.org> (2021-03-07)
-# unbuildable
-# Removal on 2021-04-05
-www-servers/ocsigenserver
-dev-ml/eliom
-dev-ml/js_of_ocaml
-dev-ml/ocaml-conduit
-dev-ml/dns
-dev-ml/ocaml-cohttp
-dev-ml/ocaml-dispatch
-dev-ml/ocaml-cstruct
-dev-ml/ocaml-ipaddr
-dev-ml/ocaml-uri
-dev-ml/re2
-dev-ml/bin-prot
-dev-ml/configurator
-dev-ml/ppx_traverse
-dev-ml/ppx_type_conv
-dev-ml/bin-prot
-dev-ml/ppx_driver
-dev-ml/ppx_core
-dev-ml/ppx_ast
-dev-ml/ppx_traverse_builtins
-dev-ml/jbuilder
-
-# Conrad Kostecki <conikost@gentoo.org> (2021-03-05)
-# Deprecated by upstream and unsupported due EOL.
-# Multiple bugs open and unmaintained.
-# Removal in 30 days.
-sys-apps/newrelic-sysmond
-
-# Conrad Kostecki <conikost@gentoo.org> (2021-03-05)
-# Dead upstream, multiple bugs open and unmaintained.
-# Removal in 30 days.
-app-mobilephone/smsclient
-
-# Conrad Kostecki <conikost@gentoo.org> (2021-03-05)
-# Dead upstream, multiple bugs open and unmaintained.
-# Removal in 30 days.
-net-misc/capi4hylafax
-
-# Conrad Kostecki <conikost@gentoo.org> (2021-03-05)
-# Dead upstream and unmaintained.
-# Removal in 30 days.
-app-misc/towitoko
-
-# Conrad Kostecki <conikost@gentoo.org> (2021-03-04)
-# Dead upstream and unmaintained.
-# Removal in 30 days.
-app-misc/logserial
-
-# Conrad Kostecki <conikost@gentoo.org> (2021-03-04)
-# Dead upstream, open bugs and unmaintained.
-# Removal in 30 days.
-net-dns/sheerdns
 
 # Sam James <sam@gentoo.org> (2021-03-03)
 # Declared abandoned upstream and stuck
@@ -367,11 +297,6 @@ app-office/moneyguru
 # in some cases.
 # bug #772998
 ~net-misc/openntpd-6.8_p1
-
-# Alfredo Tupone <tupone@gentoo.org> (2021-03-03)
-# no package uses it
-# Removal on 2021-04-02
-dev-ml/core_extended
 
 # Sam James <sam@gentoo.org> (2021-03-01)
 # Mask new proj 8.x as it removes deprecated
@@ -388,12 +313,6 @@ dev-ml/core_extended
 # Lars Wendler <polynomial-c@gentoo.org> (2021-02-15)
 # Mask development versions now that they were bumped...
 =net-misc/kea-1.9*
-
-# Sergei Trofimovich <slyfox@gentoo.org> (2021-02-08)
-# Abandoned upstream. Was never ported from gtk-2.
-# A possible alternative is media-gfx/geeqie (gqview fork).
-# Removal in 3 months. Bug #769440.
-media-gfx/gqview
 
 # Michał Górny <mgorny@gentoo.org> (2021-02-01)
 # LibreSSL support is discontinued.  Please read the relevant news item
