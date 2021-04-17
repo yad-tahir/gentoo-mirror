@@ -3606,7 +3606,6 @@ kde-plasma/plasma-workspace:screencast - Enable screencast portal using media-vi
 kde-plasma/plasma-workspace:telemetry - Enable User Feedback control module for kde-plasma/systemsettings
 kde-plasma/powerdevil:brightness-control - Enable screen brightness control using app-misc/ddcutil
 kde-plasma/powerdevil:wireless - Enable wireless energy saving actions via kde-frameworks/bluez-qt and kde-frameworks/networkmanager-qt
-lxde-base/lxterminal:gtk3 - Use GTK+3 instead of GTK+2
 lxqt-base/liblxqt:backlight - Enable backlight control features.
 lxqt-base/lxqt-config:monitor - Build monitor settings tool
 lxqt-base/lxqt-config:touchpad - Build touchpad settings tool
@@ -3977,7 +3976,6 @@ media-gfx/geeqie:map - Enable items map display - experimental
 media-gfx/gimp:heif - Enable support for ISO/IEC 23008-12:2017 HEIF files
 media-gfx/gimp:vector-icons - Enable support for vector icons (experimental)
 media-gfx/gmic:cli - Build CLI interface
-media-gfx/gmic:digikam - Build media-gfx/digikam plugin
 media-gfx/gmic:krita - Build media-gfx/krita plugin
 media-gfx/gmic:opencv - Enable support for webcams using the OpenCV library
 media-gfx/gnome-photos:flickr - Ensure runtime Flickr support
@@ -4971,7 +4969,6 @@ media-video/mjpg-streamer:output-udp - Plugin receiving content over UDP and sto
 media-video/mjpg-streamer:www - Installs WWW content
 media-video/motion:mariadb - Add mariadb database support
 media-video/motion:mmal - Enables Multi-Media Abstraction Layer (MMAL) decoding support: Available e.g. on the Raspberry Pi.
-media-video/motion:supervise-daemon - Add experimental suppport for OpenRC's supervise-daemon process supervision
 media-video/motiontrack:multiprocess - Enables multi-process support (SMP/cluster) for motiontrack programs
 media-video/mplayer:bl - Blinkenlights video output
 media-video/mplayer:bluray - Enable playback of Blu-ray filesystems
@@ -5761,7 +5758,8 @@ net-im/psi:webengine - Enable themed, html-based chatlogs using dev-qt/qtwebengi
 net-im/psi:whiteboarding - Enable experimental interactive SVG drawing
 net-im/psi:xscreensaver - Use X screensaver protocol extension to monitor idle/active status based on mouse/keyboard events
 net-im/psimedia:extras - Enable Psi+ mode (required when built for Psi+)
-net-im/qtox:notification - Adds support for GTK Status Notifier tray backends
+net-im/qtox:notification - Use snorenotify for desktop notifications
+net-im/qtox:spellcheck - Enable spell cheching support
 net-im/spectrum2:frotz - Enables the Z-Engine backend.
 net-im/spectrum2:irc - Enables the IRC backend, based on net-im/libcommuni.
 net-im/spectrum2:purple - Enables the libpurple backend, based on net-im/pidgin.
