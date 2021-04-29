@@ -1,6 +1,11 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Andreas Sturmlechner <asturm@gentoo.org> (2020-04-25)
+# Depends on either unkeyworded dev-java/openjdk:11
+# or unavailable >=dev-java/icedtea-4, bug #785640
+>=app-office/libreoffice-7 base java
+
 # Mike Gilbert <floppym@gentoo.org> (2021-03-29)
 # Unmask TPM on supported archs.
 sys-apps/systemd -tpm
@@ -57,10 +62,6 @@ dev-db/mariadb -columnstore
 # Thomas Deutschmann <whissi@gentoo.org> (2020-07-27)
 # media-video/pipewire:0/0.3 is available for x86
 www-client/firefox -screencast
-
-# Sergei Trofimovich <slyfox@gentoo.org> (2020-07-11)
-# net-libs/libslirp is not yet keyworded on x86, bug #732144
-app-emulation/qemu slirp
 
 # Sam James <sam@gentoo.org> (2020-07-03)
 # Rust is available here

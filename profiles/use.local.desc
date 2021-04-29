@@ -1646,7 +1646,6 @@ dev-java/ant:resolver - Enable Apache Resolver Ant tasks
 dev-java/ant:swing - Enable Swing Ant tasks
 dev-java/ant:testutil - Enable optional test util classes
 dev-java/ant:xz - Enable XZ Ant tasks
-dev-java/commons-collections:test-framework - Install the test framework
 dev-java/commons-logging:avalon-framework - Add optional support for avalon-framework
 dev-java/commons-logging:avalon-logkit - Add optional support for avalon-logkit
 dev-java/commons-logging:log4j - Add optional support for log4j
@@ -2260,7 +2259,6 @@ dev-lisp/gcl:ansi - Build a GCL with ANSI support (else build a traditional CLtL
 dev-lisp/gcl:athena - Build xgcl - an interface to x11-libs/libXaw
 dev-lisp/sbcl:pax_kernel - Enable if the user plans to run the package under a pax enabled hardened kernel
 dev-lua/lua-cjson:internal-fpconv - Enable internal number conversion routines, can increase overall performance by up to 50%
-dev-ml/cairo-ocaml:pango - Enable support for x11-libs/pango
 dev-ml/dose3:parmap - Adds multi-core CPU support via dev-ml/parmap.
 dev-ml/dose3:rpm4 - Adds support for handling rpm4 files.
 dev-ml/dose3:zip - Adds support for handling zip files.
@@ -3568,6 +3566,7 @@ kde-misc/kdeconnect:pulseaudio - Enable system volume control plugin using media
 kde-misc/kdeconnect:wayland - Enable remote input mousepad plugin using kde-frameworks/kwayland
 kde-misc/kimtoy:scim - Enable Smart Common Input Method support
 kde-misc/kio-gdrive:kaccounts - Use kde-apps/kaccounts-integration backend (default) instead of dev-libs/qtkeychain
+kde-misc/kio-gdrive:share - Enable support for a share menu using kde-frameworks/purpose
 kde-misc/tellico:discid - Add support for reading disc IDs from audio CDs
 kde-misc/tellico:yaz - Add support for searching Z39.50 databases
 kde-plasma/discover:firmware - Enable support for firmware upgrades using sys-apps/fwupd
@@ -4103,7 +4102,6 @@ media-libs/dumb:allegro - Add support for Allegro 4
 media-libs/esdl:image - Enable image support
 media-libs/faad2:digitalradio - Digital Radio Mondiale (warning: disables other decoders)
 media-libs/flickcurl:raptor - Use media-libs/raptor for proper RDF serializing
-media-libs/fontconfig-infinality:nyx - Additional style using croscorefonts
 media-libs/freetype:adobe-cff - Use Adobe CFF as default font-renderer
 media-libs/freetype:bindist - Disable ClearType support (see http://freetype.org/patents.html)
 media-libs/freetype:brotli - Enable brotli decompression support via app-arch/brotli
@@ -5451,8 +5449,7 @@ net-dialup/ppp:radius - Enables RADIUS support
 net-dialup/xl2tpd:kernel - Enable kernel interface for PPPoL2TP
 net-dns/avahi:autoipd - Build and install the IPv4LL (RFC3927) network address configuration daemon
 net-dns/avahi:bookmarks - Install the avahi-bookmarks application (requires dev-python/twisted)
-net-dns/avahi:gtk - Use gtk3 for the avahi utilities (overrides USE=gtk2) and build the avahi-ui-gtk3 library
-net-dns/avahi:gtk2 - Use gtk2 for the avahi utilities (overridden by USE=gtk) and build the avahi-ui library
+net-dns/avahi:gtk - Use gtk3 for the avahi utilities to build the avahi-ui-gtk3 library
 net-dns/avahi:howl-compat - Enable compat libraries for howl
 net-dns/avahi:mdnsresponder-compat - Enable compat libraries for mDNSResponder
 net-dns/bind:dlz - Enables dynamic loaded zones, 3rd party extension
@@ -6740,11 +6737,6 @@ net-p2p/syncthing:tools - Install stdiscosrv, strelaysrv and other tools to /usr
 net-p2p/transmission:lightweight - Optimize transmission for low-resource systems (smaller cache size, prefer unencrypted peer connections, etc.)
 net-p2p/transmission:mbedtls - Use mbed TLS instead of OpenSSL
 net-p2p/transmission-remote-gtk:libproxy - Use net-libs/libproxy for getting the HTTP/HTTPS/SOCKS proxy configuration.
-net-p2p/xmr-stak:cuda - Enable NVIDIA CUDA toolkit support
-net-p2p/xmr-stak:devfee - Enable payment of devfee to the developer
-net-p2p/xmr-stak:hwloc - Enable CPU affinity support via hwloc
-net-p2p/xmr-stak:opencl - Enable OpenCL support
-net-p2p/xmr-stak:webserver - Enable internal webserver
 net-p2p/xmr-stak-rx:cuda - Enable NVIDIA CUDA toolkit support
 net-p2p/xmr-stak-rx:hwloc - Enable CPU affinity support via hwloc
 net-p2p/xmr-stak-rx:opencl - Enable OpenCL support
@@ -8022,6 +8014,8 @@ sys-cluster/heat:memcached - Installs the memcached server
 sys-cluster/hpx:papi - Use dev-libs/papi for NaCl
 sys-cluster/hpx:perftools - Use dev-util/google-perftools for memory allocation
 sys-cluster/hpx:tbb - Use dev-cpp/tbb for memory allocation
+sys-cluster/k3s:kubectl-symlink - Install a kubectl symlink that points to k3s.
+sys-cluster/k3s:rootless - Enables dependencies for running in rootless mode.
 sys-cluster/keepalived:bfd - compile with support for Bidirectional Forwarding Detection (BFD).
 sys-cluster/keepalived:json - compile with signal to dump configuration and stats as JSON.
 sys-cluster/keepalived:regex - compile with support for regex in health checks
@@ -8526,6 +8520,7 @@ www-apps/nikola:server - Enable support for built-in web server using dev-python
 www-apps/nikola:watchdog - Use dev-python/watchdog to monitor file system events
 www-apps/nikola:webmedia - Use dev-python/micawber to extract metadata from web media links
 www-apps/postfixadmin:vacation - Install vacation.pl script and dependencies
+www-apps/radicale:bcrypt - Enable bcrypt
 www-apps/redmine:markdown - Enable support for Markdown
 www-apps/redmine:passenger - Enable support for www-apache/passenger
 www-apps/roundup:jinja - Enable Jinja2 support
@@ -8909,8 +8904,8 @@ x11-themes/arc-theme:gtk3 - Install GTK+3 theme
 x11-themes/arc-theme:mate - Install Metacity theme for mate-base/mate
 x11-themes/arc-theme:pre-rendered - Avoid media-gfx/inkscape and media-gfx/optipng dependencies by using pre-rendered PNGs
 x11-themes/arc-theme:xfce - Install theme for xfce-base/xfwm4
-x11-themes/comix-xcursors:lefthanded - Install lefthanded version of theme in addition to default one
-x11-themes/comix-xcursors:opaque - Install non-transparent version of theme in addition to default one
+x11-themes/comix-xcursors:lefthanded - Install lefthanded version of theme in addition to default one.
+x11-themes/comix-xcursors:opaque - Install non-transparent version of theme in addition to default one.
 x11-themes/gentoo-artwork:grub - Install extra sys-boot/grub themes
 x11-themes/gentoo-artwork:icons - Install icons
 x11-themes/gentoo-artwork:lilo - Install extra sys-boot/lilo themes
