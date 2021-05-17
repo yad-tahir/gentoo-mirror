@@ -58,11 +58,6 @@ app-admin/diamond:redis - Enable Redis support
 app-admin/diradm:automount - Support for automount data in LDAP
 app-admin/diradm:irixpasswd - Support for storing separate IRIX passwords
 app-admin/doas:persist - Adds support for "persist" feature (experimental)
-app-admin/elektra:augeas - Enable plugin for reading and writing configuration files with help from Augeas
-app-admin/elektra:ini - Enable new, advanced ini support
-app-admin/elektra:simpleini - Enable simpleini support
-app-admin/elektra:uname - Enable uname information for the key database
-app-admin/elektra:yajl - Enable yajl support
 app-admin/gkrellm:X - Build both the X11 gui (gkrellm) and the server (gkrellmd). Disabling this flag builds the server only
 app-admin/gkrellm:gnutls - Enable SSL support for mail checking with net-libs/gnutls (overrides 'ssl' USE flag)
 app-admin/gkrellm:hddtemp - Enable monitoring harddrive temperatures via app-admin/hddtemp
@@ -387,6 +382,7 @@ app-editors/emacs:gsettings - Use gsettings (dev-libs/glib) to read the system f
 app-editors/emacs:gzip-el - Compress bundled Emacs Lisp source
 app-editors/emacs:harfbuzz - Use media-libs/harfbuzz as text shaping engine
 app-editors/emacs:imagemagick - Use media-gfx/imagemagick for image processing
+app-editors/emacs:jit - Compile with Emacs Lisp native compiler support via libgccjit
 app-editors/emacs:json - Compile with native JSON support using dev-libs/jansson
 app-editors/emacs:libxml2 - Use dev-libs/libxml2 to parse XML instead of the internal Lisp implementations
 app-editors/emacs:mailutils - Retrieve e-mail using net-mail/mailutils instead of the internal movemail substitute
