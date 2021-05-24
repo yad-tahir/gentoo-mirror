@@ -437,20 +437,8 @@
       <name>Ben Kohler</name>
     </member>
     <member>
-      <email>blueness@gentoo.org</email>
-      <name>Anthony G. Basile</name>
-    </member>
-    <member>
-      <email>dolsen@gentoo.org</email>
-      <name>Brian Dolbec</name>
-    </member>
-    <member>
       <email>mattst88@gentoo.org</email>
       <name>Matt Turner</name>
-    </member>
-    <member>
-      <email>vapier@gentoo.org</email>
-      <name>Mike Frysinger</name>
     </member>
   </project>
   <project>
@@ -1090,6 +1078,11 @@
     <name>GURU</name>
     <url>https://wiki.gentoo.org/wiki/Project:GURU</url>
     <description>Ebuild repository entirely maintained by Gentoo users</description>
+    <member>
+      <email>andrewammerlaan@gentoo.org</email>
+      <name>Andrew Ammerlaan</name>
+      <role>Crazy Scientist</role>
+    </member>
     <member>
       <email>bman@gentoo.org</email>
       <name>Aaron Bauman</name>
@@ -2725,10 +2718,6 @@
       <role>RISC-V; ARM; qemu autobuilds</role>
     </member>
     <member>
-      <email>dolsen@gentoo.org</email>
-      <name>Brian Dolbec</name>
-    </member>
-    <member>
       <email>gyakovlev@gentoo.org</email>
       <name>Georgy Yakovlev</name>
       <role>ppc64 helper (musl, systemd, power9)</role>
@@ -2752,11 +2741,6 @@
       <email>vapier@gentoo.org</email>
       <name>Mike Frysinger</name>
       <role>s390 Release Coordinator</role>
-    </member>
-    <member>
-      <email>williamh@gentoo.org</email>
-      <name>William Hubbs</name>
-      <role>LiveCD Tools Maintainer</role>
     </member>
   </project>
   <project>
@@ -2997,6 +2981,11 @@
       <email>amynka@gentoo.org</email>
       <name>Amy Liffey</name>
       <role>Mathematics, Physics, Geosciences, *</role>
+    </member>
+    <member>
+      <email>andrewammerlaan@gentoo.org</email>
+      <name>Andrew Ammerlaan</name>
+      <role>Physics, Electronics</role>
     </member>
     <member>
       <email>bircoph@gentoo.org</email>
