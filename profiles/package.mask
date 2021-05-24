@@ -32,6 +32,34 @@
 
 #--- END OF EXAMPLES ---
 
+# Andrew Ammmerlaan <andrewammerlaan@gentoo.org> (2021-05-20)
+# dev-python/QtPy-1.9.0-r4 now uses USE flags to control if it uses
+# PySide2 or PyQt5. With the removal of -r3, this eselect module does
+# not do anything and will only lead to confusion and possibly breakage.
+# See also: https://bugs.gentoo.org/790764
+# Removal in 30 days.
+app-eselect/eselect-QtPy
+
+# Miroslav Šulc <fordfrog@gentoo.org> (2021-05-20)
+# no non-masked consumer, removal in 30 days
+# see bug: https://bugs.gentoo.org/786852
+dev-java/sun-jimi
+
+# Miroslav Šulc <fordfrog@gentoo.org> (2021-05-20)
+# no non-masked consumer, removal in 30 days
+# see bug: https://bugs.gentoo.org/786828
+dev-java/squareness-jlf
+
+# Sam James <sam@gentoo.org> (2021-05-20)
+# Need to ditch Meson or investigate consumers.
+# https://bugs.gentoo.org/791163
+=dev-libs/tinyxml2-8.1.0
+
+# Miroslav Šulc <fordfrog@gentoo.org> (2021-05-19)
+# no consumer, removal in 30 days
+# see bug: https://bugs.gentoo.org/784065
+dev-java/werken-xpath
+
 # Zac Medico <zmedico@gentoo.org> (2021-05-16)
 # Obsoleted by go modules. Masked for removal in 30 days. Bug #790470.
 dev-go/godep
@@ -102,10 +130,6 @@ dev-python/sphinxcontrib-httpexample
 # Removal on 2021-06-08
 app-misc/gcstar
 dev-perl/gtk2-spell
-
-# Andreas K. Hüttel <dilfridge@gentoo.org> (2021-05-09)
-# Work in progress, do not use yet
-=dev-lang/perl-5.34*
 
 # David Seifert <soap@gentoo.org> (2021-05-09)
 # All revdeps masked, last release in 1999, needs to do now.
@@ -537,73 +561,10 @@ dev-java/commons-fileupload
 # see bug: https://bugs.gentoo.org/785796
 dev-java/commons-el
 
-# Andreas K. Hüttel <dilfridge@gentoo.org> (2021-04-25)
-# Broken, bug 616986; removal in 30 days
-dev-perl/HTTPD-User-Manage
-
-# Andreas K. Hüttel <dilfridge@gentoo.org> (2021-04-25)
-# Broken, bug 663274; removal in 30 days
-dev-perl/Text-Unaccent
-
 # Jonas Stein <jstein@gentoo.org> (2021-04-25)
 # Bad SRC_URI, dead upstream.
 # Removal on 2021-06-01.  Bug #785736.
 app-misc/logitech-applet
-
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-25)
-# obsolete package, nothing depends on it
-# removal in 30 days
-# see bug: https://bugs.gentoo.org/785508
-dev-java/velocity-dvsl
-
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-25)
-# nothing depends on it
-# removal in 30 days
-# see bug: https://bugs.gentoo.org/785532
-dev-java/cdegroot-db
-
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-25)
-# uses depracated classes, not used by anything,
-# removal in 30 days
-# see bug: https://bugs.gentoo.org/785415
-dev-java/codemodel
-
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-25)
-# seems to be obsolete, nothing uses it
-# removal in 30 days
-dev-java/istack-commons-buildtools
-
-# David Seifert <soap@gentoo.org> (2021-04-24)
-# Doesn't build, live ebuild broken too, blocks wxwidgets.eclass
-# modernization, unmaintained, requires unreleased changes in
-# net-libs/liquid-dsp. Bug #777720, removal in 30 days.
-net-wireless/cubicsdr
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2021-04-24)
-# dev-dotnet/gtk-sharp is effectively unmaintained. Last upstream release
-# in 2016, version packaged in Gentoo from 2013. gtk-sharp-3 never made it
-# out of beta state. An actively developed fork that targets GTK3 exists:
-# https://github.com/GtkSharp/GtkSharp
-# Removal on 2021-05-24. Tracker bug #769041
-dev-dotnet/gtk-sharp
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2021-04-24)
-# Depends on deprecated dev-dotnet/gtk-sharp, bug #769077
-# Removal on 2021-05-24
-app-misc/gnutu
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2021-04-24)
-# Depends on deprecated dev-dotnet/gtk-sharp, bug #769083
-# Alternatives (all in app-editors category): curses-hexedit, dhex, ghex,
-# hexcurse, okteta, qhexedit2, shed, wxhexeditor
-# Removal on 2021-05-24
-dev-util/bless
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2021-04-24)
-# Unmaintained, depends on dev-dotnet/gtk-sharp which is dead upstream.
-# Removal on 2021-05-24; bugs #769050, #769059
-dev-dotnet/gkeyfile-sharp
-dev-dotnet/notify-sharp
 
 # Stephan Hartmann <sultan@gentoo.org> (2021-04-24)
 # Dev channel releases are only for people who
@@ -611,86 +572,19 @@ dev-dotnet/notify-sharp
 # and accept a more unstable release.
 >=www-client/chromium-92
 
-# Michał Górny <mgorny@gentoo.org> (2021-04-22)
-# py3.7 backport with no revdeps left.
-# Removal on 2021-05-22.  Bug #784983.
-dev-python/idna-ssl
-
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-21)
-# no consumers, last commit 2017
-# see: https://bugs.gentoo.org/784836
-# removal in 30 days
-dev-java/apt-mirror
-
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-21)
-# java library, no consumers
-# see: https://bugs.gentoo.org/784830
-# removal in 30 days
-dev-java/ant-owanttask
-
 # Ulrich Müller <ulm@gentoo.org> (2021-04-20)
 # Version 3.15 is broken with Emacs 27.2.
 =app-emacs/mic-paren-3.15-r0
-
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-21)
-# java library, no consumers
-# see: https://bugs.gentoo.org/784812
-dev-java/ini4j
-
-# Matt Turner <mattst88@gentoo.org> (2021-04-18)
-# Pretty dead. Needs GTK+3 port. Doesn't build with glib-2.68.
-# Removal on 2021-05-19.  Bug #784266.
-net-nntp/pan
 
 # Jonas Stein <jstein@gentoo.org> (2021-04-19)
 # Bad SRC_URI, missing license files
 # Removal on 2021-07-01.  Bug #784221.
 x11-apps/amlc
 
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-18)
-# our version is outdated with security issues, new version
-# uses gradle to build which we don't support atm,
-# also being a web framework deployable to application servers,
-# we have no usage for it, and nothing depends on it
-# removal in 30 days
-dev-java/tapestry
-
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-18)
-# the project has been abandoned and the developement
-# is now under name SpotBugs
-# see: https://github.com/findbugsproject/findbugs
-dev-util/findbugs
-
-# Miroslav Šulc <fordfrog@gentoo.org> (2021-04-18)
-# obsolete deps, not used by any package
-# removal in 30 days
-dev-java/classmate
-dev-java/commons-configuration
-dev-java/commons-jelly
-dev-java/ezmorph
-dev-java/ical4j
-
 # Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-04-18)
 # dev-java/xerces-2.12.1 depends on masked >=virtual/{jdk,jre}-11
 # https://bugs.gentoo.org/782697
 >=dev-java/xerces-2.12.1
-
-# Michał Górny <mgorny@gentoo.org> (2021-04-17)
-# Superseded by dev-python/pycodestyle.  Last revdep masked for removal.
-# Removal on 2021-05-17.  Bug #783369.
-dev-python/pep8
-
-# Michał Górny <mgorny@gentoo.org> (2021-04-17)
-# Dead.  Upstream repo gone.  Requires obsolete dev-python/pep8.
-# No revdeps.
-# Removal on 2021-05-17.  Bug #783366.
-dev-python/pytest-pep8
-
-# Bernard Cafarelli <voyageur@gentoo.org> (2021-04-15)
-# Abandoned upstream, does not work with current API,
-# does not compile with current mpv
-# Removal on 2021-05-15, bug #782601
-media-video/orion
 
 # Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-04-15)
 # dev-java/jcodings-1.0.55 depends on masked >=virtual/{jdk,jre}-11
@@ -729,12 +623,6 @@ x11-misc/xstroke
 # Most likely caused by the following upstream commit:
 #   https://git.savannah.gnu.org/cgit/autoconf.git/commit/?id=aba75f6d4a9c875a9d5d90a07c6b3678db66a4bf
 sys-devel/autoconf:2.71
-
-# Göktürk Yüksek <gokturk@gentoo.org> (2021-03-14)
-# Dead upstream. No revdeps.
-# Removal in 60 days to allow people extra time
-# for transitioning out. Bug #776262.
-app-admin/lastpass-cli
 
 # Sam James <sam@gentoo.org> (2021-03-03)
 # Doesn't seem to sync clock correctly
@@ -834,11 +722,6 @@ dev-lang/spark
 # Patrick McLean <chutzpah@gentoo.org> (2020-02-07)
 # Mask until sys-libs/libxcrypt[system] is unmasked
 >=virtual/libcrypt-2
-
-# Andrew Ammerlaan <andrewammerlaan@riseup.net> (2020-01-26)
-# v3.6.4 uses huge amounts of memory: Bug #705682
-# v3.6.1 is the latest version without this issue
->=dev-libs/libsass-3.6.2
 
 # Lars Wendler <polynomial-c@gentoo.org> (2019-11-14)
 # Breaks archives containing relative paths

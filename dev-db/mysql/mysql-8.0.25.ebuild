@@ -36,7 +36,7 @@ REQUIRED_USE="?? ( tcmalloc jemalloc )
 	router? ( server )
 	tcmalloc? ( server )"
 
-KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris ~x86-solaris"
+KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sparc x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris ~x86-solaris"
 
 # Shorten the path because the socket path length must be shorter than 107 chars
 # and we will run a mysql server during test phase
@@ -386,7 +386,7 @@ src_test() {
 	touch "${T}/disabled.def"
 
 	local -a disabled_tests
-	disabled_tests+=( "auth_sec.atomic_rename_user;0;Depends on user running test" )
+	disabled_tests+=( "auth_sec.atomic_rename_user;103512;Depends on user running test" )
 	disabled_tests+=( "auth_sec.keyring_file_data_qa;0;Won't work with user privileges" )
 	disabled_tests+=( "gis.spatial_analysis_functions_buffer;5452;Known rounding error with latest AMD processors (PS)" )
 	disabled_tests+=( "gis.gis_bugs_crashes;5452;Known rounding error with latest AMD processors (PS)" )
