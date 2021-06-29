@@ -783,7 +783,7 @@ compile_headers() {
 
 	if kernel_is 2 4; then
 		yes "" | make oldconfig ${xmakeopts}
-		elog ">>> make oldconfig complete"
+		einfo ">>> make oldconfig complete"
 		make dep ${xmakeopts}
 	elif kernel_is 2 6; then
 		# 2.6.18 introduces headers_install which means we dont need any
@@ -905,7 +905,7 @@ install_sources() {
 
 	cd "${S}" || die
 	dodir /usr/src
-	elog ">>> Copying sources ..."
+	einfo ">>> Copying sources ..."
 
 	file="$(find ${WORKDIR} -iname "docs" -type d)"
 	if [[ -n ${file} ]]; then
@@ -945,8 +945,6 @@ preinst_headers() {
 # see inline comments
 
 postinst_sources() {
-	local MAKELINK=0
-
 	# if we have USE=symlink, then force K_SYMLINK=1
 	use symlink && K_SYMLINK=1
 
@@ -960,15 +958,11 @@ postinst_sources() {
 
 	# if we are to forcably symlink, delete it if it already exists first.
 	if [[ ${K_SYMLINK} -gt 0 ]]; then
-		[[ -h ${EROOT%/}/usr/src/linux ]] && { rm "${EROOT%/}"/usr/src/linux || die; }
-		MAKELINK=1
-	fi
+		if [[ -e ${EROOT%/}/usr/src/linux && ! -L ${EROOT%/}/usr/src/linux ]] ; then
+			die "${EROOT%/}/usr/src/linux exist and is not a symlink"
+		fi
 
-	# if the link doesnt exist, lets create it
-	[[ ! -h ${EROOT%/}/usr/src/linux ]] && MAKELINK=1
-
-	if [[ ${MAKELINK} == 1 ]]; then
-		ln -sf linux-${KV_FULL} "${EROOT%/}"/usr/src/linux || die
+		ln -snf linux-${KV_FULL} "${EROOT%/}"/usr/src/linux || die
 	fi
 
 	# Don't forget to make directory for sysfs
@@ -1494,7 +1488,7 @@ kernel-2_src_compile() {
 	[[ ${ETYPE} == headers ]] && compile_headers
 
 	if [[ ${K_DEBLOB_AVAILABLE} == 1 ]] && use deblob; then
-		elog ">>> Running deblob script ..."
+		einfo ">>> Running deblob script ..."
 		python_setup
 		sh "${T}/${DEBLOB_A}" --force || die "Deblob script failed to run!!!"
 	fi
@@ -1554,7 +1548,7 @@ kernel-2_pkg_setup() {
 	fi
 
 	[[ ${ETYPE} == headers ]] && setup_headers
-	[[ ${ETYPE} == sources ]] && elog ">>> Preparing to unpack ..."
+	[[ ${ETYPE} == sources ]] && einfo ">>> Preparing to unpack ..."
 }
 
 # @FUNCTION: kernel-2_pkg_postrm

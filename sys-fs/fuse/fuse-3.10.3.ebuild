@@ -12,7 +12,7 @@ SRC_URI="https://github.com/libfuse/libfuse/releases/download/${P}/${P}.tar.xz"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="3"
-KEYWORDS="~alpha amd64 ~arm ~arm64 hppa ~ia64 ~m68k ~mips ~ppc ppc64 ~riscv ~s390 sparc x86"
+KEYWORDS="~alpha amd64 ~arm ~arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86"
 IUSE="+suid test"
 RESTRICT="!test? ( test )"
 
@@ -58,7 +58,10 @@ multilib_src_test() {
 
 multilib_src_install_all() {
 	# installed via fuse-common
-	rm -r "${ED}"/{etc,$(get_udevdir)} || die
+	rm -r "${ED}"{/etc,$(get_udevdir)} || die
+
+	# init script location is hard-coded in install_helper.sh
+	rm -rf "${D}"/etc || die
 
 	# useroot=false prevents the build system from doing this.
 	use suid && fperms u+s /usr/bin/fusermount3

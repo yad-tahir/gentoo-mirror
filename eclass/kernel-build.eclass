@@ -32,12 +32,13 @@ case "${EAPI:-0}" in
 		;;
 esac
 
-PYTHON_COMPAT=( python3_{7..9} )
+PYTHON_COMPAT=( python3_{8..10} )
 
 inherit python-any-r1 savedconfig toolchain-funcs kernel-install
 
 BDEPEND="
 	${PYTHON_DEPS}
+	app-arch/cpio
 	sys-devel/bc
 	sys-devel/flex
 	virtual/libelf
@@ -116,7 +117,7 @@ kernel-build_src_test() {
 	fi
 
 	emake O="${WORKDIR}"/build "${MAKEARGS[@]}" \
-		INSTALL_MOD_PATH="${T}" INSTALL_PATH="${ED}/boot"  "${targets[@]}"
+		INSTALL_MOD_PATH="${T}" "${targets[@]}"
 
 	local ver="${PV}${KV_LOCALVERSION}"
 	kernel-install_test "${ver}" \
