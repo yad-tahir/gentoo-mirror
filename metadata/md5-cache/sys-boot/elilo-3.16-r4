@@ -8,5 +8,5 @@ LICENSE=GPL-2
 RDEPEND=sys-boot/efibootmgr sys-fs/dosfstools[compat]
 SLOT=0
 SRC_URI=mirror://sourceforge/elilo/elilo-3.16-all.tar.gz mirror://debian/pool/main/e/elilo/elilo_3.14-3.debian.tar.gz
-_eclasses_=multilib	d410501a125f99ffb560b0c523cd3d1e	toolchain-funcs	24921b57d6561d87cbef4916a296ada4
+_eclasses_=multilib	97566c1a256d07b00848aa767e38a352	toolchain-funcs	9ea1c67b6f8315fdc2568abb674519aa
 _md5_=6a3e02d74c33f96ac652ac01151f1e6e

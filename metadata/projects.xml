@@ -253,10 +253,6 @@
       <role>Team Leader</role>
     </member>
     <member>
-      <email>maffblaster@gentoo.org</email>
-      <name>Matthew Marchese</name>
-    </member>
-    <member>
       <email>sping@gentoo.org</email>
       <name>Sebastian Pipping</name>
     </member>
@@ -297,27 +293,7 @@
     <email>base-system@gentoo.org</email>
     <name>Base System</name>
     <url>https://wiki.gentoo.org/wiki/Project:Base</url>
-    <description>The Base System Project provides an umbrella project for keeping the system tools, libraries, compilers and layout consistent for all the various architectures under Gentoo Linux.</description>
-    <subproject ref="amd64@gentoo.org"/>
-    <subproject ref="arm@gentoo.org"/>
-    <subproject ref="alpha@gentoo.org"/>
-    <subproject ref="embedded@gentoo.org"/>
-    <subproject ref="hppa@gentoo.org"/>
-    <subproject ref="ia64@gentoo.org"/>
-    <subproject ref="m68k@gentoo.org"/>
-    <subproject ref="mips@gentoo.org"/>
-    <subproject ref="openrc@gentoo.org"/>
-    <subproject ref="ppc@gentoo.org"/>
-    <subproject ref="riscv@gentoo.org"/>
-    <subproject ref="s390@gentoo.org"/>
-    <subproject ref="sparc@gentoo.org"/>
-    <subproject ref="toolchain@gentoo.org"/>
-    <subproject ref="x86@gentoo.org"/>
-    <member>
-      <email>cardoe@gentoo.org</email>
-      <name>Doug Goldstein</name>
-      <role>Misc stuff that needs to get done</role>
-    </member>
+    <description>The Base System Project provides an umbrella project for keeping system tools, libraries, and layout consistent for all the various architectures under Gentoo Linux.</description>
     <member>
       <email>chainsaw@gentoo.org</email>
       <name>Tony Vroon</name>
@@ -617,10 +593,6 @@
     <name>Common Lisp Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Common_Lisp</url>
     <description>The Gentoo Common Lisp Project handles Common Lisp related packages in the Gentoo package tree.</description>
-    <member>
-      <email>ulm@gentoo.org</email>
-      <name>Ulrich Müller</name>
-    </member>
   </project>
   <project>
     <email>containers@gentoo.org</email>
@@ -751,10 +723,25 @@
     </member>
   </project>
   <project>
+    <email>dotnet@gentoo.org</email>
+    <name>Dotnet Project</name>
+    <url>https://wiki.gentoo.org/wiki/Project:Dotnet</url>
+    <description>The Dotnet Project handles Microsoft .NET Framework related packages in the Gentoo package tree.</description>
+    <member is-lead="1">
+      <email>zmedico@gentoo.org</email>
+      <name>Zac Medico</name>
+      <role>Lead</role>
+    </member>
+  </project>
+  <project>
     <email>ejabberd@gentoo.org</email>
     <name>ejabberd Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Ejabberd</url>
-    <description>The ejabberd project maintains the ejabberd xmpp server software and its dependencies.</description>
+    <description>The ejabberd project maintains the ejabberd XMPP server software and its dependencies.</description>
+    <member>
+      <email>flow@gentoo.org</email>
+      <name>Florian Schmaus</name>
+    </member>
     <member>
       <email>hanno@gentoo.org</email>
       <name>Hanno Böck</name>
@@ -1135,11 +1122,6 @@
     <name>Genkernel</name>
     <url>https://wiki.gentoo.org/wiki/Project:Genkernel</url>
     <description>The Genkernel project handles the maintenance and development of [https://packages.gentoo.org/packages/sys-kernel/genkernel sys-kernel/genkernel].</description>
-    <member>
-      <email>maffblaster@gentoo.org</email>
-      <name>Matthew Marchese</name>
-      <role>Merge man</role>
-    </member>
     <member is-lead="1">
       <email>robbat2@gentoo.org</email>
       <name>Robin Johnson</name>
@@ -1479,6 +1461,10 @@
     <url>https://wiki.gentoo.org/wiki/Project:Java</url>
     <description>We maintain everything Java-related in Gentoo, that is, most of dev-java/* and also packages in categories like dev-util, www-servers etc.</description>
     <member>
+      <email>flow@gentoo.org</email>
+      <name>Florian Schmaus</name>
+    </member>
+    <member>
       <email>fordfrog@gentoo.org</email>
       <name>Miroslav Šulc</name>
     </member>
@@ -1504,6 +1490,10 @@
     <member is-lead="1">
       <email>asturm@gentoo.org</email>
       <name>Andreas Sturmlechner</name>
+    </member>
+    <member>
+      <email>dilfridge@gentoo.org</email>
+      <name>Andreas K. Hüttel</name>
     </member>
     <member>
       <email>johu@gentoo.org</email>
@@ -1689,11 +1679,6 @@
     <subproject ref="common-lisp@gentoo.org" inherit-members="1"/>
     <subproject ref="emacs@gentoo.org" inherit-members="1"/>
     <subproject ref="scheme@gentoo.org" inherit-members="1"/>
-    <member>
-      <email>ulm@gentoo.org</email>
-      <name>Ulrich Müller</name>
-      <role>Developer</role>
-    </member>
   </project>
   <project>
     <email>lua@gentoo.org</email>
@@ -1967,7 +1952,7 @@
     <email>ops@gentoo.org</email>
     <name>The #gentoo Operators Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Ops</url>
-    <description>The &lt;span style="font-family: monospace; font-size: 95%;"&gt;[irc://irc.gentoo.org/gentoo #gentoo]&lt;/span&gt; Operators project describes the tasks and policies carried out by the operators of the #gentoo channel on the Libera Chat network.</description>
+    <description>The &lt;span style="font-family: monospace; font-size: 95%;"&gt;[ircs://irc.libera.chat/#gentoo #gentoo]&lt;/span&gt; (&lt;span style="font-family: monospace; font-size: 95%;"&gt;[https://web.libera.chat/#gentoo webchat]&lt;/span&gt;) Operators project describes the tasks and policies carried out by the operators of the #gentoo channel on the Libera Chat network.</description>
     <member>
       <email>neddyseagoon@gentoo.org</email>
       <name>Roy Bamford</name>
@@ -2146,11 +2131,6 @@
     <description>The Portage Development Project is devoted to maintaining and updating Portages core functionality and utilities.</description>
     <subproject ref="tools-portage@gentoo.org"/>
     <subproject ref="sandbox@gentoo.org"/>
-    <member>
-      <email>dolsen@gentoo.org</email>
-      <name>Brian Dolbec</name>
-      <role>Tools developer, Release coordinator</role>
-    </member>
     <member>
       <email>grobian@gentoo.org</email>
       <name>Fabian Groffen</name>
@@ -2575,7 +2555,7 @@
   </project>
   <project>
     <email>riscv@gentoo.org</email>
-    <name>RISC-V development project</name>
+    <name>RISC-V Development</name>
     <url>https://wiki.gentoo.org/wiki/Project:RISC-V</url>
     <description>Gentoo RISC-V architecture support project</description>
     <member>
@@ -2693,11 +2673,6 @@
       <email>gyakovlev@gentoo.org</email>
       <name>Georgy Yakovlev</name>
       <role>ppc64 helper (musl, systemd, power9)</role>
-    </member>
-    <member>
-      <email>maffblaster@gentoo.org</email>
-      <name>Matthew Marchese</name>
-      <role>Documentation Helper</role>
     </member>
     <member is-lead="1">
       <email>mattst88@gentoo.org</email>
@@ -3190,10 +3165,6 @@
       <email>nerdboy@gentoo.org</email>
       <name>Steve Arnold</name>
     </member>
-    <member>
-      <email>slyfox@gentoo.org</email>
-      <name>Sergei Trofimovich</name>
-    </member>
     <member is-lead="1">
       <email>tamiko@gentoo.org</email>
       <name>Matthias Maier</name>
@@ -3321,10 +3292,6 @@
     <description>The Virtualization Project maintains packages shared between the different virtualization (sub-)projects and provides documentation and tools to the user to make Gentoo a first choice platform as both host and guest system.</description>
     <subproject ref="openstack@gentoo.org"/>
     <subproject ref="xen@gentoo.org"/>
-    <member>
-      <email>cardoe@gentoo.org</email>
-      <name>Doug Goldstein</name>
-    </member>
     <member>
       <email>dlan@gentoo.org</email>
       <name>Yixun Lan</name>
@@ -3462,7 +3429,7 @@
   </project>
   <project>
     <email>x86@gentoo.org</email>
-    <name>x86 Architecture Development</name>
+    <name>x86 Development</name>
     <url>https://wiki.gentoo.org/wiki/Project:X86</url>
     <description>The x86 Project works to keep Gentoo the most up to date and secure x86 distribution available.</description>
     <member>
@@ -3511,10 +3478,6 @@
     <member>
       <email>alexxy@gentoo.org</email>
       <name>Alexey Shvetsov</name>
-    </member>
-    <member>
-      <email>cardoe@gentoo.org</email>
-      <name>Doug Goldstein</name>
     </member>
     <member>
       <email>dlan@gentoo.org</email>

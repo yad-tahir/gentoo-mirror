@@ -3,7 +3,7 @@
 
 EAPI=7
 
-JAVA_PKG_IUSE="doc examples source"
+JAVA_PKG_IUSE="examples source"
 
 inherit java-pkg-2
 
@@ -13,7 +13,7 @@ SRC_URI="http://www.migcalendar.com/miglayout/versions/${PV}/${P}-sources.jar"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE="swt"
 
 COMMON_DEPEND="swt? ( dev-java/swt:4.10 )"
@@ -49,16 +49,11 @@ src_compile() {
 	mkdir classes || die
 	ejavac "${classpath[@]}" -d classes @sources.lst || die
 	jar -cf ${PN}.jar -C classes . || die
-
-	if use doc; then
-		javadoc "${classpath[@]}" -author -version -d api @sources.lst || die
-	fi
 }
 
 src_install() {
 	java-pkg_dojar ${PN}.jar
 
-	use doc && java-pkg_dojavadoc api
 	use examples && java-pkg_doexamples examples
 	use source && java-pkg_dosrc net
 }
