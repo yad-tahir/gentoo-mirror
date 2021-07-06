@@ -1059,7 +1059,7 @@
     <member>
       <email>alicef@gentoo.org</email>
       <name>Alice Ferrazzi</name>
-      <role>admin</role>
+      <role>mentor</role>
     </member>
     <member>
       <email>lu_zero@gentoo.org</email>
@@ -2370,6 +2370,10 @@
     <member>
       <email>gyakovlev@gentoo.org</email>
       <name>Georgy Yakovlev</name>
+    </member>
+    <member>
+      <email>ionen@gentoo.org</email>
+      <name>Ionen Wolkens</name>
     </member>
     <member>
       <email>jstein@gentoo.org</email>
