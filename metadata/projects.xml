@@ -2373,6 +2373,10 @@
       <name>Conrad Kostecki</name>
     </member>
     <member>
+      <email>flow@gentoo.org</email>
+      <name>Florian Schmaus</name>
+    </member>
+    <member>
       <email>gyakovlev@gentoo.org</email>
       <name>Georgy Yakovlev</name>
     </member>
@@ -2551,6 +2555,10 @@
       <email>mgorny@gentoo.org</email>
       <name>Michał Górny</name>
       <role>Deputy Lead</role>
+    </member>
+    <member>
+      <email>sam@gentoo.org</email>
+      <name>Sam James</name>
     </member>
     <member is-lead="1">
       <email>soap@gentoo.org</email>
