@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit strip-linguas toolchain-funcs
+inherit flag-o-matic strip-linguas toolchain-funcs
 
 IUSE="nls dbus ssl +gtk"
 
@@ -13,7 +13,7 @@ HOMEPAGE="http://gtk-gnutella.sourceforge.net/"
 
 SLOT="0"
 LICENSE="CC-BY-SA-4.0 GPL-2"
-KEYWORDS="amd64 ppc ppc64 ~x86"
+KEYWORDS="amd64 ppc ppc64 x86"
 
 RDEPEND="
 	sys-libs/binutils-libs:=
@@ -27,6 +27,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 
 src_prepare() {
+	filter-flags -flto
 	strip-linguas -i po
 
 	echo "# Gentoo-selected LINGUAS" > po/LINGUAS
