@@ -40,7 +40,6 @@ opencl
 qt5
 pulseaudio
 rsh
-ruby
 slang
 sound
 webkit
