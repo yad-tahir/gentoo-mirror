@@ -32,6 +32,167 @@
 
 #--- END OF EXAMPLES ---
 
+# David Seifert <soap@gentoo.org> (2021-08-05)
+# Dead upstream, last release over 5 years ago, multiple
+# build issues, fails to build with GCC 11. Use something like
+# sci-biology/abyss or canu as a modern day replacement.
+# Bug #610094, #715874, #731860, #739486, removal in 30 days.
+sci-biology/wgs-assembler
+
+# David Seifert <soap@gentoo.org> (2021-08-05)
+# Unmaintained, tons of issues, fails to build with GCC 11.
+# Bug #631598, #690024, #735960, #749038, #761415, #761667,
+# #778557, #786789, #799179, removal in 30 days.
+app-backup/bareos
+dev-libs/bareos-fastlzlib
+dev-python/bareos
+
+# Sam James <sam@gentoo.org> (2021-08-05)
+# Fails to build with GCC 11. No activity upstream.
+# bug #740308, bug #789816. Removal on 2021-09-05.
+app-eselect/eselect-audicle
+app-eselect/eselect-miniaudicle
+media-sound/audicle
+
+# Sam James <sam@gentoo.org> (2021-08-04)
+# Fails to build with GCC 11. No activity upstream since 2008.
+# bug #730692, bug #787866. Removal on 2021-09-04.
+dev-scheme/ypsilon
+
+# Sam James <sam@gentoo.org> (2021-08-04)
+# Fails to build with GCC 11. Library with no reverse-dependencies.
+# bug #731254, bug #787905. Removal on 2021-09-04.
+net-libs/openmq-cclient
+
+# Sam James <sam@gentoo.org> (2021-08-04)
+# Fails to build with GCC 11, no activity upstream.
+# bug #786738. Removal on 2021-09-04.
+app-dicts/kasumi
+
+# Sam James <sam@gentoo.org> (2021-08-04)
+# Fails to build with GCC 11, no activity upstream.
+# bug #729106, bug #786648. Removal on 2021-09-04.
+app-backup/zbackup
+
+# Sam James <sam@gentoo.org> (2021-08-04)
+# Fails to build with GCC 11, large number of open bugs,
+# no activity upstream. bug #692806, bug #694674, bug #712832,
+# bug #725166, bug #740792, bug #788637, bug #798042.
+# Removal on 2021-09-04.
+net-misc/stargazer
+
+# Sam James <sam@gentoo.org> (2021-08-04)
+# Fails to build with GCC 11 and has Boost incompatibility issues.
+# bug #741646, bug #792993. Removal on 2021-09-04.
+sci-physics/sassena
+
+# David Seifert <soap@gentoo.org> (2021-08-04)
+# Last release over 4 years ago, upstream pretty much dead, the
+# ecosystem has switched to dev-util/pkgconf, which is alive. Testing
+# and prefix bugs, blocks WANT_AUTOMAKE=1.12 removal.
+# (If you hit blockers, please run:
+# $ emerge --deselect dev-util/pkgconfig
+# This is necessary as your world file should not contain dependencies.)
+# Bug #245228, #632124, #691268, #767853, removal in 30 days.
+dev-util/pkgconfig
+
+# David Seifert <soap@gentoo.org> (2021-08-04)
+# Last release 11 years ago, XDG env issue, no revdeps, blocks
+# WANT_AUTOMAKE=1.11 removal, last major distro to package this.
+# Bug #586586, removal in 30 days.
+media-libs/memphis
+
+# David Seifert <soap@gentoo.org> (2021-08-04)
+# Last release 16 years ago, multiple build failures, unmaintained,
+# upstream disappeared, last distro that still packages this.
+# Bug #722376, #742938, #742941, removal in 30 days.
+app-i18n/libtabe
+app-i18n/xcin
+
+# David Seifert <soap@gentoo.org> (2021-08-04)
+# Last release 7 years ago, multiple test failures, unmaintained,
+# last distro that still packages this.
+# Bug #629610, #646690, removal in 30 days.
+dev-libs/hyperleveldb
+dev-libs/replicant
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2021-08-02)
+# Two years after the tracker was opened it is time to mask dev-qt/qtwebkit
+# for good. No commits to upstream repository for >9 months, latest available
+# tarball still "alpha" with warning about known unpatched vulnerabilities.
+# Bugs: #684580, #685750, #709858, #740416
+dev-qt/qtwebkit:5
+app-text/fb2edit
+mail-client/trojita
+<media-video/openshot-2.5.1_p20210228
+
+# Sam James <sam@gentoo.org> (2021-08-01)
+# Broken with GCC 11, out of date, unmaintained in Gentoo.
+# bug #763651, bug #774009, bug #789027, bug #759988.
+# Removal on 2021-09-01.
+dev-util/intel-graphics-compiler
+dev-libs/intel-neo
+
+# Sam James <sam@gentoo.org> (2021-08-01)
+# Fails to compile, multiple open bugs.
+# No activity upstream since 2015.
+# bug #570484, bug #715412, bug #723204.
+# Removal on 2021-09-01.
+sys-apps/lmctfy
+
+# Sam James <sam@gentoo.org> (2021-08-01)
+# Fails to build with network-sandbox and variety
+# of other open bugs. Unmaintained.
+# bug #632638, bug #688530, bug #709992, bug #757768,
+# bug #796920. Removal on 2021-09-01.
+sys-apps/habitat
+
+# David Seifert <soap@gentoo.org> (2021-08-01)
+# Dropped into ::gentoo, then unmaintained. Multiple versions behind
+# upstream, GCC 11 bug open, lacks python 3.10, python library without
+# revdeps. Bug #790137, #792870, removal in 30 days.
+sci-libs/sktime
+
+# David Seifert <soap@gentoo.org> (2021-08-01)
+# Last release 10 years ago, EOL upstream, no other distro packages this
+# anymore, tons of bugs. Revdeps are unmaintained too and out of date.
+# Bug #798015, removal in 30 days.
+sci-biology/ncbi-tools
+sci-biology/njplot
+sci-biology/psipred
+sci-chemistry/mars
+sci-libs/rosetta-fragments
+
+# Andreas K. Hüttel <dilfridge@gentoo.org> (2021-07-31)
+# Obsolete; all versions in current Perl core distributions
+# are newer, and no virtuals currently pull these packages.
+# Removal in 30 days.
+perl-core/ExtUtils-MakeMaker
+perl-core/ExtUtils-Manifest
+perl-core/File-Path
+perl-core/Getopt-Long
+perl-core/HTTP-Tiny
+perl-core/JSON-PP
+perl-core/libnet
+
+# David Seifert <soap@gentoo.org> (2021-07-30)
+# games-engines/renpy has been gone for 6 months, the
+# eselect module has no use anymore and the ebuild has
+# QA issues. Bug #805275, removal in 30 days.
+app-eselect/eselect-renpy
+
+# Miroslav Šulc <fordfrog@gentoo.org> (2021-07-30)
+# these libs have no consumers, removal in 30 days
+# see bug: https://bugs.gentoo.org/805152
+dev-java/jgoodies-animation
+dev-java/jgoodies-binding
+dev-java/jgoodies-forms
+
+# Joonas Niilola <juippis@gentoo.org> (2021-07-29)
+# Upstream provided migration instructions from 2. -> 3. update,
+# breaks if not all at least many revdeps. #805011 for tracker bug.
+>=net-libs/mbedtls-3.0.0
+
 # Sam James <sam@gentoo.org> (2021-07-26)
 # Fails to build with GCC 11. No activity upstream.
 # Removal on 2021-08-26. bug #740536, bug #624746.
@@ -53,6 +214,8 @@ net-im/minbif
 # Fails to build with GCC 11.
 # Removal on 2021-08-26. bug #787113, bug #735714, bug #657510.
 dev-cpp/libxsd-frontend
+dev-cpp/libcutl
+dev-util/build
 
 # John Helmert III <ajak@gentoo.org> (2021-07-26)
 # Open security bug, service backing it seems to be dead, making these
@@ -76,7 +239,6 @@ sci-electronics/drawtiming
 # Only one reverse dependency (media-libs/openexr_ctl) which
 # is uninstallable.
 # Removal on 2021-08-25. bug #789792, bug #715298.
-media-libs/ctl
 media-libs/openexr_ctl
 
 # Michał Górny <mgorny@gentoo.org> (2021-07-25)
@@ -108,7 +270,7 @@ www-servers/resin
 dev-ml/cstruct
 
 # Marek Szuba <marecki@gentoo.org> (2021-07-18)
-# No gtk4 and friends in the tree yet
+# No dev-cpp/gtkmm:4 in the tree yet (Bug #801490)
 >=media-sound/easyeffects-6.0.0
 
 # Hans de Graaff <graaff@gentoo.org> (2021-07-18)
@@ -310,11 +472,6 @@ dev-python/pathlib2
 dev-python/traceback2
 dev-python/unittest2
 
-# Sergei Trofimovich <slyfox@gentoo.org> (2021-07-05)
-# The platform is outdated and not maintained anymore.
-# Mask for removal in 30 days.
-dev-haskell/haskell-platform
-
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2021-07-04)
 # severely broken nfs
 # possibly depper problem due to bug in mm/page_alloc
@@ -340,15 +497,6 @@ dev-ruby/shotgun
 # Masked for removal in 30 days.
 dev-ruby/source_map
 
-# Sergei Trofimovich <slyfox@gentoo.org> (2021-07-02)
-# Outdated, not really maintained. Grab it if you like.
-# Masked for removal in 30 days. bug #800097.
-x11-plugins/purple-mattermost
-
-# Sergei Trofimovich <slyfox@gentoo.org> (2021-07-02)
-# Masked for removal in 30 days.
-media-sound/xmms2-scrobbler
-
 # David Seifert <soap@gentoo.org> (2021-07-01)
 # Berkeley DB slots that are long past EOL by Oracle,
 # maintenance burden, and no real path forward by Oracle.
@@ -368,11 +516,6 @@ sys-libs/db:5.1
 # Bugs #735260
 # Removal on 2021-07-27
 media-sound/loudness-scanner
-
-# Marek Szuba <marecki@genoo.org> (2021-06-25)
-# Unslotted version conflicting with lua eclasses.
-# No revdeps left. EAPI 5. Removal in 30 days (Bug #798693)
-dev-lang/lua:0
 
 # Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-06-21)
 # library with no consumer, removal in 30 days
@@ -409,6 +552,8 @@ dev-java/jibx-tools
 # Davide Pesavento <pesa@gentoo.org> (2021-06-15)
 # Masked for revdep testing.
 >=dev-python/sip-6
+>=dev-python/PyQt5-5.15.5_pre
+>=dev-python/qscintilla-python-2.13
 
 # Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-06-14)
 # DeprecatedDep jre-1.3, upstream dead,removal in 30 days
@@ -421,12 +566,6 @@ media-gfx/povtree
 # bug #795138
 >=dev-lang/ocaml-4.12
 =dev-ml/camlp4-4.12
-
-# Stephan Hartmann <sultan@gentoo.org> (2021-06-05)
-# Dev channel releases are only for people who
-# are developers or want more experimental features
-# and accept a more unstable release.
->=www-client/chromium-93
 
 # Bernard Cafarelli <voyageur@gentoo.org> (2021-06-04)
 # Alpha versions of fetchmail 7
@@ -472,14 +611,14 @@ dev-java/werken-xpath
 
 # Sergei Trofimovich <slyfox@gentoo.org> (2021-05-16)
 # Mask gcc-7 branch (ended upstream support). Please switch
-# to a freshed gcc branch.
+# to a fresher gcc branch.
 <sys-devel/gcc-8
 <dev-util/nvidia-cuda-toolkit-10
 <dev-util/nvidia-cuda-sdk-10
 
 # Sergei Trofimovich <slyfox@gentoo.org> (2021-05-16)
 # Mask gcc-6 branch (ended upstream support). Please switch
-# to a freshed gcc branch.
+# to a fresher gcc branch.
 <sys-devel/gcc-7
 
 # Sam James <sam@gentoo.org> (2021-05-09)
@@ -519,13 +658,6 @@ dev-java/werken-xpath
 # Masking until we can investigate & fix
 # bug #737406
 =media-fonts/culmus-0.133-r1
-
-# Lars Wendler <polynomial-c@gentoo.org> (2021-03-22)
-# Has unidentified race condition on very fast CPUs that causes maintainer-
-# mode to be triggered.
-# Most likely caused by the following upstream commit:
-#   https://git.savannah.gnu.org/cgit/autoconf.git/commit/?id=aba75f6d4a9c875a9d5d90a07c6b3678db66a4bf
-sys-devel/autoconf:2.71
 
 # Sam James <sam@gentoo.org> (2021-03-03)
 # Doesn't seem to sync clock correctly
@@ -660,6 +792,8 @@ sys-devel/automake:1.7
 sys-devel/automake:1.8
 sys-devel/automake:1.9
 sys-devel/automake:1.10
+sys-devel/automake:1.11
+sys-devel/automake:1.12
 
 # Nicolas Bock <nicolasbock@gentoo.org> (2017-10-31)
 # There are multiple unresolved upstream issues with >=jabref-bin-4.0 (#636036).
