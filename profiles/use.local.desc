@@ -5563,7 +5563,8 @@ net-dns/unbound:ecdsa - Enable ECDSA support
 net-dns/unbound:ecs - Enable EDNS client subnet support
 net-dns/unbound:gost - Enable GOST support
 net-dns/unbound:http2 - Enable HTTP/2 support for DoHnet-libs/nghttp2
-net-dns/unbound:redis - Enable cache db backend which uses dev-libs/hiredis
+net-dns/unbound:redis - Enable cache db backend which usesdev-libs/hiredis
+net-dns/unbound:tfo - Enable TCP Fast Open client+server
 net-firewall/arno-iptables-firewall:plugins - Install optional plugins
 net-firewall/arno-iptables-firewall:rsyslog - Install configuration snippet for app-admin/rsyslog
 net-firewall/conntrack-tools:cthelper - Use net-libs/libnetfilter_cthelper for userspace conntrack helper support
@@ -7544,10 +7545,10 @@ sci-physics/geant:geant3 - Add compatibility for geant321 to geant4
 sci-physics/geant:inventor - Add support for Open Inventor SGI toolkit via Coin3D
 sci-physics/geant:raytracerx - Enable raytracing for physics events
 sci-physics/geant:vrml - Enable output of geant4 in vrml formats
-sci-physics/geant-vmc:g4root - Build G4Root (interface for GEANT4 simulation with a ROOT geometry)
-sci-physics/geant-vmc:geant3 - Build with Geant4 G3toG4 library
-sci-physics/geant-vmc:mtroot - Build MTRoot (provides ROOT IO manager classes with multi-threading support)
-sci-physics/geant-vmc:vgm - Enable the Virtual Geometry Model (sci-physics/vgm)
+sci-physics/geant4_vmc:g4root - Build G4Root (interface for GEANT4 simulation with a ROOT geometry)
+sci-physics/geant4_vmc:geant3 - Build with Geant4 G3toG4 library
+sci-physics/geant4_vmc:mtroot - Build MTRoot (provides ROOT IO manager classes with multi-threading support)
+sci-physics/geant4_vmc:vgm - Enable the Virtual Geometry Model (sci-physics/vgm)
 sci-physics/hepmc:cm - Build with cm instead of default mm for length units
 sci-physics/hepmc:gev - Build with GeV instead of default MeV for momentum units
 sci-physics/lammps:cuda - Enable cuda non-bonded kernels
@@ -8513,6 +8514,9 @@ www-apps/webdavcgi:rcs - Adds support for a revision controlled backend with RCS
 www-apps/websvn:enscript - Add enscript support to colorize code stored in the repository
 www-apps/wordpress:akismet - Installs Akismet comment spam plug-in
 www-apps/wordpress:themes - Installs themes (including default theme)
+www-apps/xpra-html5:brotli - Install assets compressed with brotli
+www-apps/xpra-html5:gzip - Install assets compressed with gzip
+www-apps/xpra-html5:minify - Minify JavaScript code for smaller transfers
 www-client/chromium:component-build - Split build into more shared libraries to speed up linking. Mostly intended for debugging and development, NOT RECOMMENDED for general use.
 www-client/chromium:hangouts - Enable support for Google Hangouts features such as screen sharing
 www-client/chromium:headless - Build Ozone only with headless backend, NOT RECOMMENDED for general use.
