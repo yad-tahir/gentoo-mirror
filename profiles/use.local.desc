@@ -263,7 +263,6 @@ app-backup/snapper:lvm - Enable LVM thinprovisioned snapshots support sys-fs/lvm
 app-backup/snapper:xattr - Add support for getting and setting POSIX extended attributes, through sys-apps/attr.
 app-backup/tsm:tsm-cit - IBM Tivoli Common Inventory Technology
 app-backup/tsm:tsm-hw - Difference snapshot support for NetApp and N-Series file servers
-app-backup/zbackup:tartool - Install tartool utility
 app-benchmarks/filebench:auto-completion - Enable command-line autocompletion using dev-libs/libtecla
 app-benchmarks/httperf:idleconn - Build with the idleconn program
 app-benchmarks/ioping:netdata - Add support for netdata
@@ -388,6 +387,7 @@ app-editors/emacs:toolkit-scroll-bars - Use the selected toolkit's scrollbars in
 app-editors/emacs:wide-int - Prefer wide Emacs integers (typically 62-bit). This option has an effect only on architectures where "long" and "long long" types have different size.
 app-editors/emacs:xwidgets - Enable use of GTK widgets in Emacs buffers (requires GTK3)
 app-editors/fe:sendmail - Send mail after editor abend
+app-editors/featherpad:X - Link application against X11 libraries which adds support for virtual desktop awareness and tab DND
 app-editors/gedit-plugins:charmap - Insert special characters just by clicking on them
 app-editors/gedit-plugins:git - Shows document changes related to git's HEAD
 app-editors/gedit-plugins:terminal - Embed a terminal in the bottom pane
@@ -2361,7 +2361,6 @@ dev-python/PyQt5:help - Build bindings for the QtHelp module
 dev-python/PyQt5:location - Build bindings for the QtLocation module
 dev-python/PyQt5:multimedia - Build bindings for the QtMultimedia module
 dev-python/PyQt5:network - Build bindings for the QtNetwork module
-dev-python/PyQt5:networkauth - Build bindings for the QtNetworkAuth module
 dev-python/PyQt5:opengl - Build bindings for the QtOpenGL module
 dev-python/PyQt5:positioning - Build bindings for the QtPositioning module
 dev-python/PyQt5:printsupport - Build bindings for the QtPrintSupport module
@@ -2372,7 +2371,6 @@ dev-python/PyQt5:sql - Build bindings for the QtSql module
 dev-python/PyQt5:svg - Build bindings for the QtSvg module
 dev-python/PyQt5:testlib - Build bindings for the QtTest module
 dev-python/PyQt5:webchannel - Build bindings for the QtWebChannel module
-dev-python/PyQt5:webkit - Build bindings for the QtWebKit module
 dev-python/PyQt5:websockets - Build bindings for the QtWebSockets module
 dev-python/PyQt5:widgets - Build bindings for the QtWidgets module
 dev-python/PyQt5:x11extras - Build bindings for the QtX11Extras module
@@ -3505,6 +3503,7 @@ kde-apps/marble:webengine - Use dev-qt/qtwebengine for embedded web browser
 kde-apps/okular:chm - Enable support for Microsoft Compiled HTML Help files
 kde-apps/okular:epub - Enable E-Book support via app-text/ebook-tools
 kde-apps/okular:image-backend - Enable image viewing support
+kde-apps/okular:kwallet - Enable encrypted storage of passwords with kde-frameworks/kwallet
 kde-apps/okular:markdown - Enable Markdown support via app-text/discount
 kde-apps/okular:mobi - Enable mobipocket support
 kde-apps/okular:plucker - Enable Plucker E-Book for Palm OS devices support
@@ -6601,29 +6600,6 @@ net-misc/spice-gtk:policykit - Enable sys-auth/polkit support for the usbredir a
 net-misc/spice-gtk:usbredir - Use sys-apps/usbredir to redirect USB devices to another machine over TCP
 net-misc/spice-gtk:webdav - Support for folder-sharing between guest and client using net-libs/phodav
 net-misc/sshrc:mosh - Install Support for mosh
-net-misc/stargazer:debug - Enable extra debug codepaths, like asserts and extra output.
-net-misc/stargazer:module_auth_always_online - Enable build of "Always Online" authentication module for Stargazer.
-net-misc/stargazer:module_auth_freeradius - Enable build of "Radius" authentication module for Stargazer. This module capable of using RADIUS procotol for user authentication.
-net-misc/stargazer:module_auth_internet_access - Enable build of "InetAccess" authentication module for Stargazer. InetAccess is a Stargazer specific authentication protocol.
-net-misc/stargazer:module_capture_ether - Enable build of "Ethernet" traffic capture module for Stargazer. This module uses RAW sockets to capture traffic.
-net-misc/stargazer:module_capture_ipq - Enable build of "IPQ" traffic capture module for Stargazer. This module uses IPQ subsystem to capture traffic.
-net-misc/stargazer:module_capture_netflow - Enable build of "NetFlow" traffic capture module for Stargazer. This module capable of receiving traffic data by NetFlow protocol.
-net-misc/stargazer:module_config_rpcconfig - Enable build of "XMLRPC" configuration module for Stargazer. This module uses XML-RPC protocol for configuring Stargazer.
-net-misc/stargazer:module_config_sgconfig - Enable build of "SGConf" configuration module for Stargazer. This module uses Stargazer specific protocol for configuring Stargazer.
-net-misc/stargazer:module_other_ping - Enable build of "Ping" module for Stargazer. This module pings connected users from time to time to ensure they are alive.
-net-misc/stargazer:module_other_remote_script - Enable build of "Remote Script" module for Stargazer. This module control rscriptd daemon over the net and makes it execute scripts in reaction to different Stargazer events.
-net-misc/stargazer:module_other_smux - Enable build of SMUX module for Stargazer. This module uses SMUX protocol to provide various information about Stargazer.
-net-misc/stargazer:module_store_files - Enable build of storage plugin for Stargazer based on plain files.
-net-misc/stargazer:module_store_firebird - Enable build of storage plugin for Stargazer, which uses Firebird database for storage.
-net-misc/stargazer:module_store_mysql - Enable build of storage plugin for Stargazer, which uses MySQL for storage.
-net-misc/stargazer:module_store_postgres - Enable build of storage plugin for Stargazer, which uses PostgreSQL for storage.
-net-misc/stargazer:radius - Enable build of FreeRADIUS module for data access via Stargazer.
-net-misc/stargazer:rscriptd - Enable build of remote script execute daemon for Stargazer, which run scripts when receive special signal from Stargazer.
-net-misc/stargazer:sgauth - Enable build of command-line utility for authorization in Stargazer.
-net-misc/stargazer:sgconf - Enable build of command-line utility for configuring Stargazer.
-net-misc/stargazer:sgconf_xml - Enable build of command-line xml-based utility for configuring Stargazer.
-net-misc/stargazer:sgconv - Enable build of utility to convert Stargazer data between storage backends.
-net-misc/stargazer:stargazer - Enable build of Stargazer billing system.
 net-misc/streamtuner:shout - Enable shoutcast plug-in.
 net-misc/streamtuner:xiph - Enable xiph.org plug-in.
 net-misc/stunnel:stunnel3 - Install the stunnel3 wrapper.
@@ -8322,7 +8298,6 @@ sys-libs/glibc:gd - build memusage and memusagestat tools
 sys-libs/glibc:multiarch - enable optimizations for multiple CPU architectures (detected at runtime)
 sys-libs/glibc:multilib-bootstrap - Provide prebuilt libgcc.a and crt files if missing. Only needed for ABI switch.
 sys-libs/glibc:nscd - Build, and enable support for, the Name Service Cache Daemon
-sys-libs/glibc:rpc - Enable obsolete RPC/NIS layers
 sys-libs/glibc:ssp - protect stack of glibc internals
 sys-libs/glibc:static-pie - Enable static PIE support (runtime files for -static-pie gcc option).
 sys-libs/glibc:suid - Make internal pt_chown helper setuid -- not needed if using Linux and have /dev/pts mounted with gid=5
@@ -8518,6 +8493,7 @@ www-apps/xpra-html5:brotli - Install assets compressed with brotli
 www-apps/xpra-html5:gzip - Install assets compressed with gzip
 www-apps/xpra-html5:minify - Minify JavaScript code for smaller transfers
 www-client/chromium:component-build - Split build into more shared libraries to speed up linking. Mostly intended for debugging and development, NOT RECOMMENDED for general use.
+www-client/chromium:debug - Enable DCHECK feature with severity configurable at runtime. Mostly intended for debugging and development, NOT RECOMMENDED for general use.
 www-client/chromium:hangouts - Enable support for Google Hangouts features such as screen sharing
 www-client/chromium:headless - Build Ozone only with headless backend, NOT RECOMMENDED for general use.
 www-client/chromium:js-type-check - Enable JavaScript type-checking for Chrome's web technology-based UI. Requires Java.
