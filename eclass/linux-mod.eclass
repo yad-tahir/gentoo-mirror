@@ -154,8 +154,6 @@ case ${EAPI:-0} in
 	*) die "${ECLASS}: EAPI ${EAPI:-0} not supported" ;;
 esac
 
-EXPORT_FUNCTIONS pkg_setup pkg_preinst pkg_postinst src_install src_compile pkg_postrm
-
 if [[ -z ${_LINUX_MOD_ECLASS} ]] ; then
 _LINUX_MOD_ECLASS=1
 
@@ -675,6 +673,11 @@ linux-mod_src_compile() {
 
 	[[ -n ${KERNEL_DIR} ]] && addpredict "${KERNEL_DIR}/null.dwo"
 
+	# Set CROSS_COMPILE in the environment.
+	# This allows it to be overridden in local Makefiles.
+	# https://bugs.gentoo.org/550428
+	local -x CROSS_COMPILE=${CROSS_COMPILE-${CHOST}-}
+
 	BUILD_TARGETS=${BUILD_TARGETS:-clean module}
 	strip_modulenames;
 	cd "${S}"
@@ -707,12 +710,11 @@ linux-mod_src_compile() {
 			# inside the variables gets used as targets for Make, which then
 			# fails.
 			eval "emake HOSTCC=\"$(tc-getBUILD_CC)\" \
-						CROSS_COMPILE=${CHOST}- \
 						LDFLAGS=\"$(get_abi_LDFLAGS)\" \
 						${BUILD_FIXES} \
 						${BUILD_PARAMS} \
 						${BUILD_TARGETS} " \
-				|| die "Unable to emake HOSTCC="$(tc-getBUILD_CC)" CROSS_COMPILE=${CHOST}- LDFLAGS="$(get_abi_LDFLAGS)" ${BUILD_FIXES} ${BUILD_PARAMS} ${BUILD_TARGETS}"
+				|| die "Unable to emake HOSTCC="$(tc-getBUILD_CC)" LDFLAGS="$(get_abi_LDFLAGS)" ${BUILD_FIXES} ${BUILD_PARAMS} ${BUILD_TARGETS}"
 			cd "${OLDPWD}"
 			touch "${srcdir}"/.built
 		fi
@@ -797,3 +799,6 @@ linux-mod_pkg_postrm() {
 }
 
 fi
+
+EXPORT_FUNCTIONS pkg_setup src_compile src_install \
+	pkg_preinst pkg_postinst pkg_postrm
