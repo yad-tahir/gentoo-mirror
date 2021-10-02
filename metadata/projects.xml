@@ -14,6 +14,10 @@
       <email>expeditioneer@gentoo.org</email>
       <name>Dennis Lamm</name>
     </member>
+    <member>
+      <email>mva@gentoo.org</email>
+      <name>Vadim Misbakh-Soloviov</name>
+    </member>
   </project>
   <project>
     <email>alsa-bugs@gentoo.org</email>
@@ -353,6 +357,26 @@
     </member>
   </project>
   <project>
+    <email>binhost@gentoo.org</email>
+    <name>Binary (i.e., precompiled) package hosting</name>
+    <url>https://wiki.gentoo.org/wiki/Project:Binhost</url>
+    <description>The Gentoo Binhost project aims to provide readily installable, precompiled packages for a subset of configurations. Currently we are still in the conceptual planning stage.</description>
+    <member>
+      <email>bman@gentoo.org</email>
+      <name>Aaron Bauman</name>
+      <role>Minion</role>
+    </member>
+    <member is-lead="1">
+      <email>dilfridge@gentoo.org</email>
+      <name>Andreas K. Hüttel</name>
+    </member>
+    <member>
+      <email>mva@gentoo.org</email>
+      <name>Vadim Misbakh-Soloviov</name>
+      <role>Not assigned (pretend to be sysadmin)</role>
+    </member>
+  </project>
+  <project>
     <email>sci-biology@gentoo.org</email>
     <name>Biology Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Biology</url>
@@ -442,7 +466,7 @@
       <name>Agostino Sarubbo</name>
       <role>stable amd64/x86 liaison</role>
     </member>
-    <member is-lead="1">
+    <member>
       <email>floppym@gentoo.org</email>
       <name>Mike Gilbert</name>
     </member>
@@ -1727,6 +1751,10 @@
     <name>Lua Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Lua</url>
     <description>Lua language and library maintenace</description>
+    <member>
+      <email>mva@gentoo.org</email>
+      <name>Vadim Misbakh-Soloviov</name>
+    </member>
     <member>
       <email>robbat2@gentoo.org</email>
       <name>Robin Johnson</name>
