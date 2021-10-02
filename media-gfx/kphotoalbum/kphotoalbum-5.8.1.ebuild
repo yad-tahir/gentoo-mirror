@@ -7,6 +7,7 @@ ECM_HANDBOOK="forceoptional"
 ECM_TEST="forceoptional"
 KFMIN=5.74.0
 QTMIN=5.15.2
+VIRTUALX_REQUIRED="test"
 inherit ecm kde.org
 
 DESCRIPTION="Tool for indexing, searching, and viewing images"
@@ -14,7 +15,7 @@ HOMEPAGE="https://kphotoalbum.org/"
 
 if [[ ${KDE_BUILD_TYPE} != live ]]; then
 	SRC_URI="mirror://kde/stable/${PN}/${PV}/${P}.tar.xz"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 x86"
 fi
 
 LICENSE="GPL-2+ FDL-1.2"

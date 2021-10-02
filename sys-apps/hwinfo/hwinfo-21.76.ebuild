@@ -3,17 +3,17 @@
 
 EAPI=7
 
-inherit multilib rpm toolchain-funcs
+inherit rpm toolchain-funcs
 
 DESCRIPTION="Hardware detection tool used in SuSE Linux"
-HOMEPAGE="https://www.opensuse.org/"
+HOMEPAGE="https://github.com/openSUSE/hwinfo/"
 #Using srpms from SUSE to get pregenerated changelog, otherwise we could use GH
 #SRC_URI="https://github.com/openSUSE/hwinfo/archive/${PV}.tar.gz -> ${P}.tar.gz"
 SRC_URI="http://download.opensuse.org/tumbleweed/repo/src-oss/src/${P}-1.1.src.rpm"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~ppc ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 ~arm ppc x86 ~amd64-linux ~x86-linux"
 IUSE=""
 
 RDEPEND="

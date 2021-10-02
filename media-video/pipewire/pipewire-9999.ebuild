@@ -5,14 +5,14 @@ EAPI="7"
 
 PYTHON_COMPAT=( python3_{8..10} )
 
-inherit meson-multilib optfeature python-any-r1 udev
+inherit meson-multilib optfeature python-any-r1 systemd udev
 
 if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://gitlab.freedesktop.org/${PN}/${PN}.git"
 	inherit git-r3
 else
 	SRC_URI="https://gitlab.freedesktop.org/${PN}/${PN}/-/archive/${PV}/${P}.tar.gz"
-	KEYWORDS="~amd64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~riscv ~x86"
 fi
 
 DESCRIPTION="Multimedia processing graphs"
@@ -47,6 +47,7 @@ RDEPEND="
 	acct-group/audio
 	media-libs/alsa-lib
 	sys-apps/dbus[${MULTILIB_USEDEP}]
+	sys-libs/readline:=
 	sys-libs/ncurses:=[unicode(+)]
 	virtual/libintl[${MULTILIB_USEDEP}]
 	virtual/libudev[${MULTILIB_USEDEP}]
@@ -57,7 +58,7 @@ RDEPEND="
 		media-libs/sbc
 		>=net-wireless/bluez-4.101:=
 	)
-	echo-cancel? ( media-libs/webrtc-audio-processing )
+	echo-cancel? ( media-libs/webrtc-audio-processing:0 )
 	extra? (
 		>=media-libs/libsndfile-1.0.20
 	)
@@ -73,10 +74,7 @@ RDEPEND="
 	)
 	pipewire-alsa? (
 		>=media-libs/alsa-lib-1.1.7[${MULTILIB_USEDEP}]
-		|| (
-			media-plugins/alsa-plugins[-pulseaudio]
-			!media-plugins/alsa-plugins
-		)
+		!media-plugins/alsa-plugins[${MULTILIB_USEDEP},pulseaudio]
 	)
 	!pipewire-alsa? ( media-plugins/alsa-plugins[${MULTILIB_USEDEP},pulseaudio] )
 	systemd? ( sys-apps/systemd )
@@ -115,7 +113,7 @@ src_prepare() {
 	if ! use systemd; then
 		# This can be applied non-conditionally but would make for a
 		# significantly worse user experience on systemd then.
-		eapply "${FILESDIR}"/${PN}-0.3.35-non-systemd-integration.patch
+		eapply "${FILESDIR}"/${PN}-0.3.36-non-systemd-integration.patch
 	fi
 
 	einfo "Generating ${limitsdfile}"
@@ -230,25 +228,27 @@ pkg_postinst() {
 	fi
 
 	if use systemd; then
-		elog "To use PipeWire for audio, the user units must be manually enabled:"
+		elog "To use PipeWire for audio, the user units must be manually enabled"
+		elog "by running this command as each user you use for desktop activities:"
 		elog
-		elog "  systemctl --user enable pipewire.socket pipewire-pulse.socket"
+		elog "  systemctl --user enable --now pipewire.socket pipewire-pulse.socket"
 		elog
-		elog "When switching from PulseAudio, do not forget to disable PulseAudio:"
+		elog "When switching from PulseAudio, do not forget to disable PulseAudio likewise:"
 		elog
-		elog "  systemctl --user disable pulseaudio.service pulseaudio.socket"
+		elog "  systemctl --user disable --now pulseaudio.service pulseaudio.socket"
 		elog
 		elog "A reboot is recommended to avoid interferences from still running"
 		elog "PulseAudio daemon."
 		elog
-		elog "Both, new users and those upgrading, need to enable pipewire-media-session:"
+		elog "Both, new users and those upgrading, need to enable pipewire-media-session"
+		elog "for relevant users:"
 		elog
-		elog "  systemctl --user enable pipewire-media-session.service"
+		elog "  systemctl --user enable --now pipewire-media-session.service"
 		elog
 	else
 		elog "This ebuild auto-enables PulseAudio replacement. Because of that, users"
-		elog "are recommended to edit: ${EROOT}/etc/pulse/client.conf and disable "
-		elog "autospawn'ing of the original daemon by setting:"
+		elog "are recommended to edit: ${EROOT}/etc/pulse/client.conf and disable"
+		elog "autospawning of the original daemon by setting:"
 		elog
 		elog "  autospawn = no"
 		elog
@@ -261,10 +261,10 @@ pkg_postinst() {
 		elog "#\"/usr/bin/pipewire\" = { args = \"-c pipewire-pulse.conf\" }"
 		elog
 		elog "NOTE:"
-		elog "Starting with PipeWire-0.3.30, package is no longer installing config"
+		elog "Starting with PipeWire-0.3.30, this package is no longer installing its config"
 		elog "into ${EROOT}/etc/pipewire by default. In case you need to change"
-		elog "config, please start by copying default config from ${EROOT}/usr/share/pipewire"
-		elog "and just override sections you want to change."
+		elog "its config, please start by copying default config from ${EROOT}/usr/share/pipewire"
+		elog "and just override the sections you want to change."
 	fi
 
 	elog "For latest tips and tricks, troubleshooting information and documentation"
@@ -273,9 +273,14 @@ pkg_postinst() {
 
 	optfeature_header "The following can be installed for optional runtime features:"
 	optfeature "restricted realtime capabilities via D-Bus" sys-auth/rtkit
-	# Once hsphfpd lands in tree, both it and ofono will need to be checked for presence here!
-	if use bluetooth; then
-		optfeature "better BT headset support (daemon startup required)" net-misc/ofono
-		#optfeature "an oFono alternative (not packaged)" foo-bar/hsphfpd
+
+	if has_version 'net-misc/ofono' ; then
+		ewarn "Native backend has become default. Please disable oFono via:"
+		if systemd_is_booted ; then
+			ewarn "systemctl disable --now ofono"
+		else
+			ewarn "rc-update delete ofono"
+		fi
+		ewarn
 	fi
 }

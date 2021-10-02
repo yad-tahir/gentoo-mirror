@@ -3,7 +3,7 @@
 
 EAPI=8
 
-KDE_ORG_COMMIT=c2ea67ecefe049f6e9bb8f910d7f9c60319d8619
+KDE_ORG_COMMIT=a4f9e56975fa6ab4a1f63a9b34a4d77b1cfe4acd
 QT5_MODULE="qtbase"
 inherit linux-info qt5-build
 
@@ -11,7 +11,7 @@ DESCRIPTION="Cross-platform application development framework"
 SLOT=5/$(ver_cut 1-3)
 
 if [[ ${QT5_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ppc ~ppc64 ~riscv ~sparc ~x86"
+	KEYWORDS="amd64 arm arm64 ~hppa ~ppc ~ppc64 ~riscv ~sparc x86"
 fi
 
 IUSE="icu old-kernel systemd"
@@ -48,9 +48,6 @@ QT5_GENTOO_PRIVATE_CONFIG=(
 PATCHES=(
 	"${FILESDIR}"/${PN}-5.14.1-cmake-macro-backward-compat.patch # bug 703306
 	"${FILESDIR}"/${PN}-5.15.1-timezone-{1,2}.patch # bug 737914
-	# Revert to 5.15.2 (upstream Qt release) behavior, QTBUG-94215
-	# See also: https://invent.kde.org/qt/qt/qtbase/-/merge_requests/46
-	"${FILESDIR}"/${P}-revert-3a273ac4.patch
 )
 
 pkg_pretend() {

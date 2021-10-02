@@ -15,7 +15,7 @@ HOMEPAGE="https://marble.kde.org/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5/$(ver_cut 1-2)"
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm64 ~riscv ~x86"
 IUSE="aprs +dbus designer +geolocation gps +kde nls +pbf phonon shapefile +webengine"
 
 # FIXME (new package): libwlocate, WLAN-based geolocation
@@ -64,6 +64,9 @@ RDEPEND="${DEPEND}"
 
 # bug 588320
 RESTRICT="test"
+
+# Upstream pending: https://invent.kde.org/education/marble/-/merge_requests/57
+PATCHES=( "${FILESDIR}/${P}-gpsd-3.23.1.patch" )
 
 src_prepare() {
 	ecm_src_prepare
