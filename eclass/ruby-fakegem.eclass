@@ -411,7 +411,7 @@ EOF
 each_fakegem_configure() {
 	tc-export PKG_CONFIG
 	for extension in "${RUBY_FAKEGEM_EXTENSIONS[@]}" ; do
-		CC=$(tc-getCC) ${RUBY} --disable=did_you_mean -C ${extension%/*} ${extension##*/} ${RUBY_FAKEGM_EXTENSION_OPTIONS} || die
+		CC=$(tc-getCC) ${RUBY} --disable=did_you_mean -C ${extension%/*} ${extension##*/} --with-cflags="${CFLAGS}" --with-ldflags="${LDFLAGS}" ${RUBY_FAKEGM_EXTENSION_OPTIONS} || die
 	done
 }
 
@@ -448,7 +448,7 @@ all_fakegem_compile() {
 # Compile extensions defined in RUBY_FAKEGEM_EXTENSIONS, if any.
 each_fakegem_compile() {
 	for extension in "${RUBY_FAKEGEM_EXTENSIONS[@]}" ; do
-		emake V=1 -C ${extension%/*} CFLAGS="${CFLAGS} -fPIC" archflag="${LDFLAGS}"
+		emake V=1 -C ${extension%/*}
 		mkdir -p "${RUBY_FAKEGEM_EXTENSION_LIBDIR%/}"
 		cp "${extension%/*}"/*$(get_modname) "${RUBY_FAKEGEM_EXTENSION_LIBDIR%/}/" || die "Copy of extension into ${RUBY_FAKEGEM_EXTENSION_LIBDIR} failed"
 	done
@@ -546,6 +546,24 @@ if [[ ${RUBY_FAKEGEM_RECIPE_TEST} != none ]]; then
 		}
 fi
 
+# @FUNCTION: ruby_fakegem_extensions_installed
+# @DESCRIPTION:
+# Install the marker indicating that extensions have been
+# installed. This is normally done as part of the extension
+# installation, but may be useful when we handle extensions manually.
+ruby_fakegem_extensions_installed() {
+	mkdir -p "${ED}$(ruby_fakegem_extensionsdir)" || die
+	touch "${ED}$(ruby_fakegem_extensionsdir)/gem.build_complete" || die
+}
+
+# @FUNCTION: ruby_fakegem_extensionsdir
+# @DESCRIPTION:
+# The directory where rubygems expects extensions for this package
+# version.
+ruby_fakegem_extensionsdir() {
+	echo "$(ruby_fakegem_gemsdir)/extensions/$(ruby_rbconfig_value 'arch')/$(ruby_rbconfig_value 'ruby_version')/${RUBY_FAKEGEM_NAME}-${RUBY_FAKEGEM_VERSION}"
+}
+
 # @FUNCTION: each_fakegem_install
 # @DESCRIPTION:
 # Install the package for each ruby target.
@@ -562,14 +580,12 @@ each_fakegem_install() {
 
 	if [[ -n ${RUBY_FAKEGEM_EXTENSIONS} ]] && [ ${#RUBY_FAKEGEM_EXTENSIONS[@]} -ge 0 ]; then
 		einfo "installing extensions"
-		local _extensionsdir="$(ruby_fakegem_gemsdir)/extensions/$(ruby_rbconfig_value 'arch')/$(ruby_rbconfig_value 'ruby_version')/${RUBY_FAKEGEM_NAME}-${RUBY_FAKEGEM_VERSION}"
 
 		for extension in ${RUBY_FAKEGEM_EXTENSIONS[@]} ; do
-			emake V=1 sitearchdir="${ED}${_extensionsdir}" sitelibdir="${ED}$(ruby_rbconfig_value 'sitelibdir')" -C ${extension%/*} install
+			emake V=1 sitearchdir="${ED}$(ruby_fakegem_extensionsdir)" sitelibdir="${ED}$(ruby_rbconfig_value 'sitelibdir')" -C ${extension%/*} install
 		done
 
-		# Add the marker to indicate that the extensions are installed
-		touch "${ED}${_extensionsdir}/gem.build_complete" || die
+		ruby_fakegem_extensions_installed
 	fi
 }
 
