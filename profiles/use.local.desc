@@ -4,6 +4,10 @@
 
 acct-user/git:gitea - Set home directory for git hosting via www-apps/gitea.
 acct-user/git:gitolite - Set home directory for git hosting via dev-vcs/gitolite or dev-vcs/gitolite-gentoo.
+acct-user/vdr:graphlcd - Prepare group membership for media-plugins/vdr-graphlcd.
+acct-user/vdr:legacy-homedir - Keep old home directory /var/vdr of an existing installation. When this useflag is cleared, the home directory is switched to FHS conformant /var/lib/vdr
+acct-user/vdr:remote - Prepare group membership for media-plugins/vdr-remote.
+acct-user/vdr:serial - Prepare group membership for media-plugins/vdr-serial.
 app-accessibility/brltty:api - build brltty's application program interface
 app-accessibility/brltty:beeper - support the console tone generator
 app-accessibility/brltty:contracted-braille - support in-line contracted braille
@@ -1209,6 +1213,10 @@ dev-ada/gnatcoll-db:sql - Build sql library
 dev-ada/gnatcoll-db:static-pic - Build shared library
 dev-ada/gnatcoll-db:xref - Build xref library
 dev-ada/gtkada:shared - Build gtkada as shared library
+dev-ada/langkit:shared - Build shared library
+dev-ada/langkit:static-pic - Build static library with pic code
+dev-ada/libadalang:shared - Build shared library
+dev-ada/libadalang:static-pic - Build static library with pic code
 dev-ada/libgpr:shared - Build shared library
 dev-ada/libgpr:static-pic - Build static library with pic code
 dev-ada/xmlada:shared - Build shared library
@@ -1818,6 +1826,7 @@ dev-lang/php:xslt - Enable the XSL extension
 dev-lang/php:zip-encryption - Enable ZIP file encryption from dev-libs/libzip
 dev-lang/polyml:portable - Build the portable interpreter version of Poly/ML instead of native
 dev-lang/python:bluetooth - Build Bluetooth protocol support in socket module
+dev-lang/python:libedit - Link readline extension against dev-libs/libedit instead of sys-libs/readline.
 dev-lang/python:lto - Optimize the build using Link Time Optimization (LTO)
 dev-lang/python:pgo - Optimize the build using Profile Guided Optimization (PGO)
 dev-lang/python:wininst - Install Windows executables required to create an executable installer for MS Windows.
@@ -3530,6 +3539,7 @@ kde-apps/step:qalculate - Enable the libqalculate library for unit conversion
 kde-apps/umbrello:php - Enable PHP import support using dev-util/kdevelop and dev-util/kdevelop-pg-qt
 kde-apps/yakuake:absolute-position - Use kde-frameworks/kwayland for absolute window positioning in KWin
 kde-frameworks/kcompletion:designer - Build plugins for dev-qt/designer
+kde-frameworks/kconfig:qml - Enable QML/QtQuick support via dev-qt/qtdeclarative
 kde-frameworks/kconfigwidgets:designer - Build plugins for dev-qt/designer
 kde-frameworks/kfilemetadata:epub - Enable support for reading EPUB ebook metadata
 kde-frameworks/kfilemetadata:office - Enable support for reading ODF and OOXML metadata
@@ -3573,7 +3583,6 @@ kde-misc/tellico:yaz - Add support for searching Z39.50 databases
 kde-plasma/discover:firmware - Enable support for firmware upgrades using sys-apps/fwupd
 kde-plasma/discover:flatpak - Enable support for flatpak repositories using sys-apps/flatpak
 kde-plasma/kde-cli-tools:kdesu - Build graphical frontend for kde-frameworks/kdesu
-kde-plasma/kdeplasma-addons:comic - Enable comic applet (requires deprecated kde-frameworks/kross)
 kde-plasma/kdeplasma-addons:share - Enable applet for quickly sharing data to a variety of sources
 kde-plasma/kdeplasma-addons:webengine - Enable dictionary and web browser applets using dev-qt/qtwebengine
 kde-plasma/kinfocenter:pci - Show advanced PCI information
@@ -3603,7 +3612,6 @@ kde-plasma/plasma-meta:kwallet - Enable support for KWallet auto-unlocking via k
 kde-plasma/plasma-meta:legacy-systray - Add support for legacy applications using kde-plasma/xembed-sni-proxy
 kde-plasma/plasma-meta:plymouth - Pull in Breeze theme for sys-boot/plymouth
 kde-plasma/plasma-meta:pulseaudio - Install Plasma applet for PulseAudio volume management
-kde-plasma/plasma-meta:qrcode - Enable support for easy WiFi network sharing using QR codes with kde-plasma/plasma-nm
 kde-plasma/plasma-meta:sddm - Pull in the x11-misc/sddm display manager and system settings module
 kde-plasma/plasma-meta:sdk - Pull in kde-plasma/plasma-sdk for Plasma development
 kde-plasma/plasma-meta:smart - Pull in kde-plasma/plasma-disks for disk health monitoring
@@ -3733,6 +3741,7 @@ mail-client/thunderbird:system-icu - Use the system-wide dev-libs/icu instead of
 mail-client/thunderbird:system-jpeg - Use the system-wide media-libs/libjpeg-turbo instead of bundled.
 mail-client/thunderbird:system-libevent - Use the system-wide dev-libs/libevent instead of bundled.
 mail-client/thunderbird:system-libvpx - Use the system-wide media-libs/libvpx instead of bundled.
+mail-client/thunderbird:system-png - Use the system-wide media-libs/libpng instead of bundled (requires APNG patches)
 mail-client/thunderbird:system-webp - Use the system-wide media-libs/libwebp instead of bundled.
 mail-filter/MailScanner:exim - Set mail-mta/exim to used MTA
 mail-filter/MailScanner:postfix - Set mail-mta/postfix to used MTA
@@ -4982,7 +4991,6 @@ media-video/ffmpeg-chromium:gpl - Build GPL code. Should be enabled unless you r
 media-video/ffmpeg-chromium:mmal - Enables Multi-Media Abstraction Layer (MMAL) decoding support: Available e.g. on the Raspberry Pi.
 media-video/ffmpeg-chromium:vulkan - Enables support for the vulkan API for GPU offload.
 media-video/ffmpeg2theora:kate - Adds support for Ogg Kate subtitles via libkate.
-media-video/google2srt:html - Install HTML documentation
 media-video/guvcview:qt5 - Build with Qt5 interface instead Gtk+
 media-video/handbrake:fdk - Support for encoding AAC using media-libs/fdk-aac.
 media-video/handbrake:gstreamer - Support for the streaming media framework from media-libs/gstreamer.
@@ -6017,6 +6025,7 @@ net-libs/libetpan:lmdb - Use dev-db/lmdb as cache DB
 net-libs/libgsasl:gcrypt - Use dev-libs/libgcrypt for low-level crypto
 net-libs/libgsasl:ntlm - Add support for Microsoft's NTLM mechanism using net-libs/libntlm
 net-libs/libiio:aio - Enable asynchronous IO support
+net-libs/libiscsi:rdma - Enable infiniband support via sys-fabric/librdmacm
 net-libs/libisds:openssl - Use dev-libs/openssl as crypto backend instead of app-crypt/gpgme and dev-libs/libgcrypt
 net-libs/libmicrohttpd:epoll - Use epoll() system call
 net-libs/libmicrohttpd:thread-names - Assign thread names to internal threads, useful for dependent apps debugging
@@ -6097,10 +6106,6 @@ net-libs/nodejs:system-ssl - Use system OpenSSL instead of the bundled one
 net-libs/nodejs:systemtap - Enable SystemTAP/DTrace tracing
 net-libs/ntirpc:gssapi - Include support for RPCSEC GSS
 net-libs/ntirpc:rdma - Include support for RDMA RPC
-net-libs/onion:boehm-gc - Add dev-libs/boehm-gc support for memory allocations.
-net-libs/onion:libev - Use dev-libs/libev as thread poller instead of Linux's epoll.
-net-libs/onion:libevent - Use dev-libs/libevent as thread poller instead of libev or Linux's epoll.
-net-libs/onion:redis - Add support for redis sessions.
 net-libs/ortp:ntp-timestamp - Turn on NTP timestamping on received packet
 net-libs/ortp:srtp - Add support for Secure RTP
 net-libs/pjproject:amr - Inlcude AMR codec in the build
@@ -6145,6 +6150,7 @@ net-libs/wvstreams:boost - Use dev-libs/boost to provide TR1-compatible function
 net-libs/xdp-tools:tools - Install various helper tools rather than just libxdp.
 net-libs/xrootd:fuse - Enable the sys-fs/fuse filesystem driver
 net-libs/xrootd:http - Enable http protocol support
+net-libs/xrootd:server - Install xrootd server and related plug-ins
 net-libs/zeromq:drafts - Build draft API, which may change at any time without any notice, and is therefore not recommended for normal use.
 net-libs/zeromq:libbsd - Use strlcpy() from dev-libs/libbsd instead of internal implementation.
 net-libs/zeromq:pgm - Build PGM (Pragmatic General Multicast)extention, a protocol for reliable multicast transport of data over IP networks.
@@ -6701,15 +6707,21 @@ net-p2p/amule:remote - Enable remote controlling of the client
 net-p2p/amule:stats - Enable statistic reporting
 net-p2p/bitcoin-cli:knots - Build enhanced Bitcoin Knots version, rather than Bitcoin Core
 net-p2p/bitcoin-qt:asm - Enable assembly for optimization
+net-p2p/bitcoin-qt:external-signer - Include support for external wallet signer programs
 net-p2p/bitcoin-qt:knots - Build enhanced Bitcoin Knots version, rather than Bitcoin Core
+net-p2p/bitcoin-qt:nat-pmp - Enable NAT-PMP port forwarding
 net-p2p/bitcoin-qt:qrcode - Enable generation of QR Codes for receiving payments
 net-p2p/bitcoin-qt:system-leveldb - Use the system-wide dev-libs/leveldb instead of bundled
+net-p2p/bitcoin-qt:systemtap - Enable SystemTAP/DTrace tracing
 net-p2p/bitcoin-qt:upnp - Enable Universal Plug and Play
 net-p2p/bitcoin-qt:wallet - Enable wallet support
 net-p2p/bitcoin-qt:zeromq - Report blocks and transactions via zeromq
 net-p2p/bitcoind:asm - Enable assembly for optimization
+net-p2p/bitcoind:external-signer - Include support for external wallet signer programs
 net-p2p/bitcoind:knots - Build enhanced Bitcoin Knots version, rather than Bitcoin Core
+net-p2p/bitcoind:nat-pmp - Enable NAT-PMP port forwarding
 net-p2p/bitcoind:system-leveldb - Use the system-wide dev-libs/leveldb instead of bundled
+net-p2p/bitcoind:systemtap - Enable SystemTAP/DTrace tracing
 net-p2p/bitcoind:upnp - Enable Universal Plug and Play
 net-p2p/bitcoind:wallet - Enable wallet support
 net-p2p/bitcoind:zeromq - Report blocks and transactions via zeromq
@@ -6807,12 +6819,15 @@ net-proxy/privoxy:force - Allow single-page disable (force load)
 net-proxy/privoxy:fuzz - Exposes Privoxy internals to input from files or stdout. Intended for fuzzing testing
 net-proxy/privoxy:graceful-termination - Allow to shutdown Privoxy through the webinterface
 net-proxy/privoxy:image-blocking - Allows the +handle-as-image action, to send "blocked" images instead of HTML
+net-proxy/privoxy:jit - Enable PCRE jit (recommended)
 net-proxy/privoxy:lfs - Support large files (>2GB) on 32-bit systems
 net-proxy/privoxy:mbedtls - Use net-libs/mbedtls for HTTPS filtering
 net-proxy/privoxy:openssl - Use dev-libs/openssl for HTTPS filtering
 net-proxy/privoxy:png-images - Use PNG format instead of GIF for built-in images
+net-proxy/privoxy:sanitize - Enable asan, msan and usan sanitizers. Your compiler must support them
 net-proxy/privoxy:ssl - HTTPS inspection support. Enables privoxy to perform SSL MITM filtering, see docs, use with care
 net-proxy/privoxy:stats - Keep statistics
+net-proxy/privoxy:threads - Enable POSIX threads. Highly recommended, otherwise both build and run-time features may not work properly.
 net-proxy/privoxy:toggle - Support temporary disable toggle via web interface
 net-proxy/privoxy:tools - Install log parser, regression tester and user agent generator tools
 net-proxy/privoxy:whitelists - Support trust files (white lists)
@@ -7109,6 +7124,8 @@ sci-chemistry/molequeue:client - Build the client application
 sci-chemistry/molequeue:server - Build the serve application
 sci-chemistry/molequeue:zeromq - Build with net-libs/zeromq support
 sci-chemistry/mopac7:gmxmopac7 - Add support library for gromacs
+sci-chemistry/openbabel:inchi - Build support for IUPAC International Chemical Identifier format
+sci-chemistry/openbabel:json - Build support for JSON formats (ChemDoodle, PubChem, etc...)
 sci-chemistry/pymol:web - Install Pymodule needed for web app support
 sci-chemistry/raster3d:gd - libgd support for PNG and JPEG output
 sci-chemistry/vmd:cuda - Use nvidia cuda toolkit for speeding up computations
@@ -7116,6 +7133,7 @@ sci-chemistry/vmd:gromacs - Add support for TNG file format
 sci-chemistry/vmd:msms - Add support for MSMS SES calcualtion tool
 sci-chemistry/vmd:povray - Add support for povray raytracer for HQ images
 sci-chemistry/vmd:tachyon - Add support for tachyon raytracer for HQ images
+sci-chemistry/votca:gromacs - Add support for gromacs file formats through sci-chemistry/gromacs
 sci-chemistry/votca-csg:extras - Pull in extra applications from sci-chemistry/votca-csgapps
 sci-chemistry/votca-csg:gromacs - Add support for gromacs file formats through sci-chemistry/gromacs
 sci-electronics/geda:stroke - enable mouse gesture support
@@ -7518,9 +7536,18 @@ sci-mathematics/polymake:normaliz - Build the bundled extension for lattice comp
 sci-mathematics/polymake:ppl - Enable dev-libs/ppl interface for convex hull computations.
 sci-mathematics/polymake:singular - Enable the interface to sci-mathematics/singular for ideal related computations.
 sci-mathematics/rstudio:server - Build and install the RStudio server
+sci-mathematics/singular:julia - Enables interface for Singular to julia
+sci-mathematics/singular:polymake - Enable the interface to TOPCOM
 sci-mathematics/slepc:complex-scalars - Make scalars complex
 sci-mathematics/unuran:prng - Use sci-mathematics/prng library
 sci-mathematics/unuran:rngstreams - Use sci-mathematics/rngstreams library
+sci-mathematics/vampire:z3 - Enable support for sci-mathematics/z3
+sci-mathematics/why3:coq - Add sci-mathematics/coq support
+sci-mathematics/why3:gtk - Build the IDE x11-libs/gtk+
+sci-mathematics/why3:re - Use Re (dev-ml/re) instead of Str for regular expressions
+sci-mathematics/why3:sexp - Add support for outputting S-expressions with dev-ml/ppx_sexp_conv
+sci-mathematics/why3:zarith - Use Zarith (dev-ml/zarith) instead of Nums (dev-ml/num) for computations
+sci-mathematics/why3:zip - Enable compression of session files
 sci-mathematics/why3-for-spark:coq - Add sci-mathematics/coq support
 sci-mathematics/why3-for-spark:html - Build HTML documentation
 sci-mathematics/why3-for-spark:hypothesis-selection - Enable hypothesis selection
@@ -7553,7 +7580,9 @@ sci-physics/geant:gdml - Enable geometry markup language for xml
 sci-physics/geant:geant3 - Add compatibility for geant321 to geant4
 sci-physics/geant:inventor - Add support for Open Inventor SGI toolkit via Coin3D
 sci-physics/geant:raytracerx - Enable raytracing for physics events
+sci-physics/geant:tbb - Enable support for dev-cpp/tbb
 sci-physics/geant:vrml - Enable output of geant4 in vrml formats
+sci-physics/geant:vtk - Use sci-libs/vtk for visualization (experimental)
 sci-physics/geant4_vmc:g4root - Build G4Root (interface for GEANT4 simulation with a ROOT geometry)
 sci-physics/geant4_vmc:geant3 - Build with Geant4 G3toG4 library
 sci-physics/geant4_vmc:mtroot - Build MTRoot (provides ROOT IO manager classes with multi-threading support)
@@ -8251,12 +8280,9 @@ sys-fs/ecryptfs-utils:gpg - Enable app-crypt/gnupg key module
 sys-fs/ecryptfs-utils:openssl - Enable dev-libs/openssl key module
 sys-fs/ecryptfs-utils:pkcs11 - Enable PKCS#11 (Smartcards) key module
 sys-fs/ecryptfs-utils:tpm - Enable support for Trusted Platform Module (TPM) using app-crypt/trousers
-sys-fs/eudev:blkid - enable blkid support
-sys-fs/eudev:efi - enable EFI support
 sys-fs/eudev:hwdb - read vendor/device string database and add it to udev database
 sys-fs/eudev:kmod - enable module loading through libkmod
 sys-fs/eudev:rule-generator - install legacy rule generator rules and support scripts - note that the functionality within was dropped from sys-fs/udev as it is not stable in all cases; use at your own risk
-sys-fs/eudev:smack - enable SMACK security model
 sys-fs/ext4magic:expert-mode - Builds ext4magic with expert mode. Highly useful in recovering data from a corrupted filesystem
 sys-fs/ext4magic:file-attr - Enable the recovery of file attributes (append, immutable, nodump etc)
 sys-fs/lessfs:filelog - Enable the ability to log to a file instead of syslog
@@ -8536,7 +8562,6 @@ www-apps/roundup:xapian - Enable Xapian full-text indexer
 www-apps/rt:lighttpd - Add www-servers/lighttpd support
 www-apps/tt-rss:daemon - Install additional init scripts for automated RSS updates
 www-apps/webdavcgi:rcs - Adds support for a revision controlled backend with RCS (dev-vcs/rcs)
-www-apps/websvn:enscript - Add enscript support to colorize code stored in the repository
 www-apps/wordpress:akismet - Installs Akismet comment spam plug-in
 www-apps/wordpress:themes - Installs themes (including default theme)
 www-apps/xpra-html5:brotli - Install assets compressed with brotli
@@ -8581,6 +8606,7 @@ www-client/firefox:system-icu - Use the system-wide dev-libs/icu instead of bund
 www-client/firefox:system-jpeg - Use the system-wide media-libs/libjpeg-turbo instead of bundled.
 www-client/firefox:system-libevent - Use the system-wide dev-libs/libevent instead of bundled.
 www-client/firefox:system-libvpx - Use the system-wide media-libs/libvpx instead of bundled.
+www-client/firefox:system-png - Use the system-wide media-libs/libpng instead of bundled (requires APNG patches).
 www-client/firefox:system-webp - Use the system-wide media-libs/libwebp instead of bundled.
 www-client/firefox-bin:gmp-autoupdate - Allow Gecko Media Plugins (binary blobs) to be automatically downloaded and kept up-to-date in user profiles
 www-client/jd:migemo - Enable migemo support for Japanese
@@ -8615,6 +8641,7 @@ www-client/seamonkey:system-icu - Use the sytem-wide dev-libs/icu instead of bun
 www-client/seamonkey:system-jpeg - Use the system-wide media-libs/libjpeg-turbo instead of bundled
 www-client/seamonkey:system-libevent - Use the system-wide dev-libs/libevent instead of bundled
 www-client/seamonkey:system-libvpx - Use the system-wide media-libs/libvpx instead of bundled
+www-client/seamonkey:system-png - Use the system-wide media-libs/libpng instead of bundled (requires APNG patches)
 www-client/seamonkey:system-sqlite - Use the system-wide dev-db/sqlite installation with secure-delete enabled
 www-client/surf:savedconfig - Without a saved config.h, this package depends on net-misc/curl and x11-terms/st for a default download mechanism
 www-client/surf:tabbed - Install surf-open.sh script for running surf in x11-misc/tabbed
@@ -8717,6 +8744,7 @@ x11-base/xwayland:rpc - Enable secure rpc
 x11-base/xwayland:unwind - Enable libunwind usage for backtraces
 x11-base/xwayland:xcsecurity - Build Security extension
 x11-drivers/nvidia-drivers:driver - Install kernel driver modules
+x11-drivers/nvidia-drivers:persistenced - Install the persistence daemon for keeping devices state when unused
 x11-drivers/nvidia-drivers:tools - Install additional tools such as nvidia-settings
 x11-drivers/xf86-video-geode:ztv - Enable building the V4L2 ZTV driver
 x11-drivers/xf86-video-intel:sna - Enable SandyBridge's New Acceleration (useful on all chipsets, not just SandyBridge)
@@ -8787,7 +8815,6 @@ x11-misc/clipmenu:rofi - Use rofi as default launcher
 x11-misc/colord:argyllcms - Enable ArgyllCMS sensor
 x11-misc/colord:extra-print-profiles - Generate extra print profiles. Warning: significant build time and memory requirements.
 x11-misc/colord:gusb - Enable dev-libs/libgusb support, needed for colorimeter drivers
-x11-misc/e16-keyedit:gtk2 - Build with x11-libs/gtk+:2 instead of x11-libs/gtk+:3
 x11-misc/fbpager:xrender - Enable transparency support via x11-libs/libXrender
 x11-misc/gpaste:gnome - Enable proper gnome support and enable gnome shell extension.
 x11-misc/grsync:gtk3 - Link against x11-libs/gtk+:3 instead of x11-libs/gtk+:2
@@ -8949,6 +8976,8 @@ x11-wm/e16:libhack - Build libhack window mode helper library
 x11-wm/e16:modules - Enable support for loadable modules
 x11-wm/e16:pango - Enable pango font rendering using x11-libs/pango
 x11-wm/e16:player - Enable audio using aplay from media-sound/alsa-utils
+x11-wm/e16:poll - Use poll() event handler API (recommended)
+x11-wm/e16:select - Use select() event handler API
 x11-wm/e16:themes - Install the official E16 themes using x11-themes/e16-themes
 x11-wm/e16:xi2 - Enable the experimental multipointer input XInput2. This incldues the MultiPointer X feature
 x11-wm/e16:xpresent - Enable support for the X Present extension via x11-libs/libXpresent
