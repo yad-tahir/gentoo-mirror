@@ -415,6 +415,9 @@ setup_flags() {
 	# #492892
 	filter-flags -frecord-gcc-switches
 
+	# #829583
+	filter-lfs-flags
+
 	unset CBUILD_OPT CTARGET_OPT
 	if use multilib ; then
 		CTARGET_OPT=$(get_abi_CTARGET)
@@ -1536,7 +1539,7 @@ glibc_sanity_check() {
 
 	# first let's find the actual dynamic linker here
 	# symlinks may point to the wrong abi
-	local newldso=$(find . -name 'ld*so.?' -type f -print -quit)
+	local newldso=$(find . -maxdepth 1 -name 'ld*so.?' -type f -print -quit)
 
 	einfo Last-minute run tests with ${newldso} in /$(get_libdir) ...
 
