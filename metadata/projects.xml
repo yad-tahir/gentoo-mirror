@@ -957,19 +957,14 @@
     <url>https://wiki.gentoo.org/wiki/Foundation:Main_Page</url>
     <description>The Gentoo Foundation, Inc. provides the legal and financial base for the Gentoo project.</description>
     <member>
-      <email>alicef@gentoo.org</email>
-      <name>Alice Ferrazzi</name>
-      <role>Officer:Vice Secretary, Board Member</role>
+      <email>anarchy@gentoo.org</email>
+      <name>Jory A. Pratt</name>
+      <role>Board Member</role>
     </member>
     <member is-lead="1">
       <email>antarus@gentoo.org</email>
       <name>Alec Warner</name>
       <role>Officer:President, Board Member</role>
-    </member>
-    <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-      <role>Officer:Secretary, Board Member</role>
     </member>
     <member>
       <email>jmbsvicetto@gentoo.org</email>
@@ -990,6 +985,11 @@
       <email>robbat2@gentoo.org</email>
       <name>Robin Johnson</name>
       <role>Treasurer, Officer: Assistant Infra Liaison, Board Member</role>
+    </member>
+    <member>
+      <email>soap@gentoo.org</email>
+      <name>David Seifert</name>
+      <role>Board Member</role>
     </member>
   </project>
   <project>
@@ -1895,6 +1895,11 @@
       <email>soap@gentoo.org</email>
       <name>David Seifert</name>
       <role>Mathematics, Numerics, Statistics</role>
+    </member>
+    <member>
+      <email>xgqt@gentoo.org</email>
+      <name>Maciej Barć</name>
+      <role>Provers, Programming Languages</role>
     </member>
   </project>
   <project>
@@ -2831,7 +2836,7 @@
     <member>
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
-      <role>RISC-V; ARM; qemu autobuilds</role>
+      <role>amd64, m68k, riscv, x86; musl; qemu autobuilds</role>
     </member>
     <member>
       <email>gyakovlev@gentoo.org</email>
@@ -3139,6 +3144,11 @@
       <name>Matthias Maier</name>
       <role>Mathematics, *, BLAS/LAPACK overlord</role>
     </member>
+    <member>
+      <email>xgqt@gentoo.org</email>
+      <name>Maciej Barć</name>
+      <role>Mathematics</role>
+    </member>
   </project>
   <project>
     <email>security@gentoo.org</email>
@@ -3282,6 +3292,21 @@
     <member>
       <email>zlogene@gentoo.org</email>
       <name>Mikle Kolyada</name>
+    </member>
+  </project>
+  <project>
+    <email>themes@gentoo.org</email>
+    <name>Themes</name>
+    <url>https://wiki.gentoo.org/wiki/Project:Themes</url>
+    <description>Maintains generic themes for X11</description>
+    <member>
+      <email>conikost@gentoo.org</email>
+      <name>Conrad Kostecki</name>
+    </member>
+    <member>
+      <email>jstein@gentoo.org</email>
+      <name>Jonas Stein</name>
+      <role>(helps to start the project)</role>
     </member>
   </project>
   <project>
