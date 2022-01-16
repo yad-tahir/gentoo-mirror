@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -13,7 +13,7 @@ if [[ ${PV} == *9999* ]]; then
 else
 	SRC_URI="https://storage.googleapis.com/aom-releases/${P}.tar.gz"
 	S="${WORKDIR}"
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~ppc ~ppc64 ~riscv ~sparc ~x86"
+	KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ppc ppc64 ~riscv ~sparc x86"
 fi
 
 DESCRIPTION="Alliance for Open Media AV1 Codec SDK"
@@ -35,8 +35,6 @@ BDEPEND="${PYTHON_DEPS}
 	abi_x86_32? ( dev-lang/yasm )
 	abi_x86_64? ( dev-lang/yasm )
 	abi_x86_x32? ( dev-lang/yasm )
-	x86-fbsd? ( dev-lang/yasm )
-	amd64-fbsd? ( dev-lang/yasm )
 	doc? ( app-doc/doxygen )
 "
 

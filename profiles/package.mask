@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 ####################################################################
@@ -33,13 +33,187 @@
 
 #--- END OF EXAMPLES ---
 
+# Georgy Yakovlev <gyakovlev@gentoo.org> (2022-01-15)
+# Last branch update happened ~ 12 month ago.
+# Maximum kernel supported is 5.9, which we no longer package.
+# So 5.10 LTS users can't use it. only 4.x LTS and 5.4 LTS.
+# ebuild is effectively unmaintained/untested, so is upstream branch.
+# Removal date: sometime around June 2022
+# Bug: https://bugs.gentoo.org/830020
+~sys-fs/zfs-0.8.6
+~sys-fs/zfs-kmod-0.8.6
+
+# Marco Genasci <fedeliallalinea@gmail.com> (2022-01-15)
+# Removed in favor of unified package dev-db/oracle-instantclient
+# Removal on 2022-02-15. Bug #589146
+dev-db/oracle-instantclient-basic
+dev-db/oracle-instantclient-jdbc
+dev-db/oracle-instantclient-odbc
+dev-db/oracle-instantclient-sqlplus
+
+# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-01-15)
+# Java-packages with no consumers and depending on virtual/{jdk,jre}-1.6
+# Removal in 30 days.
+app-emulation/edumips64
+dev-java/appframework
+dev-java/commons-jexl
+dev-java/cssparser
+dev-java/felix-bundlerepository
+dev-java/glassfish-servlet-api
+dev-java/jacoco
+dev-java/jargs
+dev-java/junitperf
+dev-java/kunststoff
+dev-java/saxpath
+dev-java/sun-jaf
+dev-java/tijmp
+dev-java/tomcat-jstl-impl
+dev-java/touchgraph-graphlayout
+dev-java/trove
+dev-java/unkrig-nullanalysis
+dev-java/xmldb
+dev-util/appinventor
+dev-util/scala-ide
+sci-astronomy/healpix
+
+# Ulrich Müller <ulm@gentoo.org> (2022-01-15)
+# Pretest versions, masked for testing.
+<app-editors/emacs-28.0.9999:28-vcs
+
+# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-01-13)
+# java-package without consumers. Bug #831107. Removal in 30 days.
+dev-java/dnsjava
+
+# Michał Górny <mgorny@gentoo.org> (2022-01-13)
+# A temporary hack used by flit to workaround a problem with pip.
+# No longer used by modern flit versions.
+# Removal on 2022-02-12.  Bug #831156.
+dev-python/intreehooks
+
+# Jakov Smolić <jsmolic@gentoo.org> (2022-01-13)
+# Dead upstream, uses EAPI 5, multiple open bugs, no revdeps,
+# no other distro is packaging this.
+# Removal on 2022-02-12. Bug #828703.
+sci-chemistry/povscript+
+
+# Jakov Smolić <jsmolic@gentoo.org> (2022-01-12)
+# Outdated, using EAPI 5, multiple open bugs, compile
+# and test failures. No other major distro is packaging this.
+# Removal on 2022-02-11. Bug #828706. Bug #828701.
+sci-biology/repeatmasker
+sci-biology/repeatmasker-libraries
+sci-biology/rmblast
+
+# Jakov Smolić <jsmolic@gentoo.org> (2022-01-12)
+# Upstream gone, uses EAPI 5, no revdeps, no other
+# distro is packaging this.
+# Removal on 2022-02-11. Bug #828708.
+sci-chemistry/molscript
+
+# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-01-12)
+# java-packages without consumers. Removal in 30 days.
+dev-java/myfaces-api
+dev-java/cdi-api
+dev-java/cofoja
+dev-java/laf-plugin
+dev-java/args4j
+
+# Jakov Smolić <jsmolic@gentoo.org> (2022-01-12)
+# Outdated java package, uses EAPI 5, no revdeps,
+# no other distro is packaging this.
+# Removal on 2022-02-11. Bug #828682.
+sys-cluster/projections
+
+# Jakov Smolić <jsmolic@gentoo.org> (2022-01-12)
+# Dead upstream, unmaintained, uses EAPI 5,
+# numerous open bugs, fails to compile.
+# Removal on 2022-02-11. Bug #828692.
+sci-visualization/gri
+
+# Jakov Smolić <jsmolic@gentoo.org> (2022-01-11)
+# Outdated java package, uses EAPI 5, no other distro
+# is packaging this.
+# Removal on 2022-02-10. Bug #826810.
+net-analyzer/jmx2munin
+
+# Eray Aslan <eras@gentoo.org> (2021-01-11)
+# New upstream with new versioning scheme
+# Please use version 2.1.53
+# Removal on 2021-02-10 bug #762958
+=app-misc/mime-types-9
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2022-01-09)
+# No more revdeps after sys-cluster/mpe2 last-rites was initiated.
+# Removal on 2022-01-31, bug #547208
+sys-cluster/mpich2
+
+# Andrew Ammerlaan <andrewammerlaan@gentoo.org> (2022-01-08)
+# Ancient versions of spyder preventing clean up of things down the tree.
+# Sadly, this means we are also going to have to say goodbye to some plugins
+# that never got ported to the newer plugin system.
+# Removal in 15 days
+<dev-python/spyder-5.1.0
+<dev-python/spyder-kernels-2.1.0
+# Stuck on spyder-4
+dev-python/spyder-line-profiler
+dev-python/spyder-memory-profiler
+# Stuck on spyder-5.0
+dev-python/spyder-notebook
+<=dev-python/spyder-unittest-0.4.1-r50
+dev-python/spyder-vim
+
+# Brian Evans <grknight@gentoo.org> (2022-01-07)
+# The main consumer, phpunit, does not initiate the new timer correctly
+# This is likely to cause issues in tests; Unmask if using for other purposes
+>=dev-php/PHP_Timer-5.0
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2022-01-07)
+# Unmaintained, cmake warnings, QA notices, weird build error, no revdeps.
+# Removal on 2022-02-06. Bug #830727
+net-libs/jreen
+
+# Marco Scardovi <marco@scardovi.com> (2022-01-01)
+# Dead upstream (also sourceforge page is dead)
+# We are the only one who still supports it
+# Removing in 30 days. # Bug 830389
+sys-cluster/onesis
+
+# Florian Schmaus <flow@gentoo.org> (2022-01-04)
+# Outdated, unmaintained, and has multiple open bugs (bug #732582, bug
+# #739398, bug #756715). As discussed at
+# https://github.com/gentoo/gentoo/pull/23483#issuecomment-1004363556,
+# in its current form it is better maintained in the 'spring' overlay.
+# Removal after 2022-02-04. Bug #830588.
+games-util/springlobby
+
+# Ionen Wolkens <ionen@gentoo.org> (2022-01-03)
+# Obsolete, higan-purify is now provided by games-emulation/higan
+# as the icarus utility (bug #821121) and dev-games/higan-ananke
+# has no known uses without higan-purify (bug #821124). Further
+# stuck on gtk2 with dead HOMEPAGE / SRC_URI.
+# Removal after 2022-02-02.
+games-util/higan-purify
+dev-games/higan-ananke
+
+# Florian Schmaus <flow@gentoo.org> (2022-01-02)
+# Unmaintained, upstream gone, only packaged by
+# Gentoo, and the whole idea to unlock based on
+# bluetooth appears to be insecure. Bug #830448
+# Removal after 2022-03-01.
+sys-auth/pam_blue
+
+# Jonas Stein <jstein@gentoo.org> (2022-01-02)
+# Unmaintained and broken.
+# Removal after 2022-03-01.  Bug #830428.
+www-servers/bozohttpd
+
 # Jonas Stein <jstein@gentoo.org> (2021-12-31)
 # Removal after 2022-05-01.  Bug #830331.
 # Broken and upstream needs new maintainer.
 x11-plugins/purple-facebook
 
 # Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-11-19)
-# java-virtuals and packages without consumers. 
+# java-virtuals and packages without consumers.
 # Bug #828719. Removal in 30 days.
 java-virtuals/ejb-api
 java-virtuals/saaj-api
@@ -142,60 +316,14 @@ sci-biology/gibbs
 # and is available as app-shells/ksh-1.0.0_beta1 at time of writing.
 ~app-shells/ksh-2020.0.0
 
-# Marco Scardovi <marco@scardovi.com> (2021-12-13)
-# Outdated, we are the only one who still have a package for it.
-# Docker can mount these NFS, AWS EFS, Ceph & Samba/CIFS volumes
-# by itself now. Removal in 30 days. Bug #829068
-net-fs/docker-volume-netshare
-
 # Bernd Waibel <waebbl-gentoo@posteo.net> (2021-12-07)
 # Masked for testing
 ~sci-libs/vtk-9.1.0
-
-# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-12-13)
-# Blocks removal of dev-java/log4j:0 bug #828657.
-# Java packages with no active consumer. Removal in 30 days.
-dev-java/slf4j-log4j12
-dev-java/jibx
-
-# Andreas K. Hüttel <dilfridge@gentoo.org> (2021-12-13)
-# Outdated, all versions in core Perl are newer. Removal in 30 days.
-perl-core/IO-Zlib
-perl-core/Module-CoreList
-perl-core/Test
-perl-core/Text-Balanced
-perl-core/Text-ParseWords
-perl-core/Thread-Semaphore
-perl-core/Time-HiRes
-perl-core/version
 
 # Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-12-12)
 # log4j-2.15.0 depends on masked >=virtual/{jdk,jre}-11
 >=dev-java/log4j-api-java9-2.15.0
 >=dev-java/log4j-api-2.15.0
-
-# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-12-11)
-# Package without consumers. Bug #732792.  Removal in 30 days.
-app-arch/fastjar
-
-# Andrew Ammerlaan <andrewammerlaan@gentoo.org> (2021-12-10)
-# As of MultiMC version 0.6.14 source built versions of MultiMC are no longer
-# usable for anything but development. The sources have been de-branded and
-# secret API keys and other required files are not included with the sources.
-# Please use the official upstream binary packaged in games-action/multimc-bin
-# instead.
-# Removal in 30 days
-games-action/multimc
-
-# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-12-10)
-# Package without consumers. Bug #828740.  Removal in 30 days.
-www-apache/mod_caucho
-
-# David Seifert <soap@gentoo.org> (2021-12-06)
-# Ancient release, EAPI 5, downloads random data,
-# latest version uses Gradle.
-# Bug #572142, #580176, #776298, removal in 30 days.
-sci-biology/picard
 
 # Conrad Kostecki <conikost@gentoo.org> (2021-12-04)
 # Masking newer versions for both packages,
@@ -204,33 +332,11 @@ sci-biology/picard
 >=dev-libs/intel-compute-runtime-21.47.21710
 >=dev-util/intel-graphics-compiler-1.0.9389
 
-# Jonas Stein <jstein@gentoo.org> (2021-12-01)
-# Removal on 2022-01-01.
-# Disbanded by upstream who sugessted to
-# use nmap instead many years ago. (bug #680546)
-net-analyzer/amap
-
 # Sam James <sam@gentoo.org> (2021-12-01)
 # OSL 12 is a development release (for now).
 # Doesn't work with LLVM 13 yet; mask to help
 # Blender compatibility (no mixed LLVM versions).
 =media-libs/osl-1.12*
-
-# William Hubbs <williamh@gentoo.org> (2021-11-30)
-# Dead upstream, no releases since 2015
-# Bug #770619; masked for removal on 2021-12-30.
-net-vpn/badvpn
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2021-11-30)
-# Blocks cleanup of sci-libs/fcl-0.5.0, unmaintained in Gentoo.
-# Upstream master claims to target sci-libs/fcl-0.6.1, but that
-# requires someone adopting the package.
-# Bug #770589; masked for removal on 2021-12-30.
-dev-python/python-fcl
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2021-11-30)
-# No revdeps, bug #774498; masked for removal on 2021-12-30.
-dev-libs/qrosscore
 
 # Hans de Graaff <graaff@gentoo.org> (2021-11-26)
 # Mask new rubygems version for testing. This version uses a new
@@ -242,11 +348,11 @@ dev-libs/qrosscore
 # Blocks (CVE-2018-11797, CVE-2021-{27807,27906,31811,31812})
 dev-tex/pdfannotextractor
 
-# Stephan Hartmann <sultan@gentoo.org> (2021-11-22)
+# Stephan Hartmann <sultan@gentoo.org> (2022-01-12)
 # Dev channel releases are only for people who
 # are developers or want more experimental features
 # and accept a more unstable release.
->=www-client/chromium-98
+>=www-client/chromium-99
 
 # Mike Pagano <mpagano@gentoo.org> (2021-11-18)
 # Bug introduced in this version that can
@@ -443,13 +549,6 @@ media-plugins/kodi-game-libretro-dosbox
 # until new upstream release with proper versioning.)
 ~app-i18n/scim-sunpinyin-3.0.0_rc1
 
-# Miroslav Šulc <fordfrog@gentoo.org> (2020-02-27)
-# >=dev-java/ant-eclipse-ecj-4.10 depends on masked >=virtual/{jdk,jre}-11
-# www-servers/tomcat >= 9 depends on masked dev-java/eclipse-ecj
->=dev-java/ant-eclipse-ecj-4.10
->=dev-java/eclipse-ecj-4.10
->=www-servers/tomcat-9
-
 # Lars Wendler <polynomial-c@gentoo.org> (2019-11-14)
 # Breaks archives containing relative paths
 # when being called with --no-absolute-filenames
@@ -485,8 +584,6 @@ app-office/texmacs
 # on it so these virtuals are not yet required. If you wish to use
 # Java 11+ then install openjdk-(jdk|jre)-bin directly.
 # bug #697014
-virtual/jdk:11
-virtual/jre:11
 virtual/jdk:17
 virtual/jre:17
 
