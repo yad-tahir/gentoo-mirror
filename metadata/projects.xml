@@ -1537,6 +1537,11 @@
     <url>https://wiki.gentoo.org/wiki/Project:Java</url>
     <description>We maintain everything Java-related in Gentoo, that is, most of dev-java/* and also packages in categories like dev-util, www-servers etc.</description>
     <member>
+      <email>arthurzam@gentoo.org</email>
+      <name>Arthur Zamarin</name>
+      <role>OpenJDK bootstrapper</role>
+    </member>
+    <member>
       <email>flow@gentoo.org</email>
       <name>Florian Schmaus</name>
     </member>
@@ -1808,10 +1813,6 @@
     <member>
       <email>kumba@gentoo.org</email>
       <name>Joshua Kinard</name>
-    </member>
-    <member>
-      <email>leio@gentoo.org</email>
-      <name>Mart Raudsepp</name>
     </member>
     <member is-lead="1">
       <email>mattst88@gentoo.org</email>
