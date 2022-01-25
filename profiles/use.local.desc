@@ -3324,7 +3324,6 @@ gnome-extra/gnome-contacts:telepathy - Start chat from contact details
 gnome-extra/gnome-shell-extension-gsconnect:nautilus - Install Nautilus extension for sending files via GSConnect
 gnome-extra/gnome-software:firmware - Enable firmware update support through sys-apps/fwupd
 gnome-extra/gnome-software:flatpak - Enable support for flatpak applications using sys-apps/flatpak
-gnome-extra/gnome-software:packagekit - Enable module for package manager integration
 gnome-extra/gnome-software:sysprof - Enable profiling data capture support using dev-util/sysprof-capture
 gnome-extra/gnome-system-monitor:systemd - Display sys-apps/systemd metadata, e.g. unit names, for running processes
 gnome-extra/libgda:canvas - Enable support for x11-libs/goocanvas
@@ -3368,7 +3367,6 @@ gui-apps/wayvnc:gbm - enable GPU-side screencopy (experimental)
 gui-apps/wayvnc:tracing - Trace kernel and memory calls
 gui-apps/wf-recorder:opencl - Enable OpenCL
 gui-libs/gtk:broadway - Enable the GDK Broadway backend.
-gui-libs/gtk:cloudprint - Enable printing via Google Cloud Print.
 gui-libs/gtk:colord - Use x11-misc/colord for color management in printing
 gui-libs/gtk:sysprof - Enable profiling data capture support using dev-util/sysprof-capture
 gui-libs/gtk:vulkan - Enable support for the Vulkan graphics API
@@ -7757,10 +7755,6 @@ sys-apps/fwupd:uefi - Enable UEFI support
 sys-apps/gawk:mpfr - use mpfr for high precision arithmetic (-M / --bignum)
 sys-apps/gnome-disk-utility:fat - Include FAT16/FAT32 support (sys-fs/dosfstools)
 sys-apps/groff:uchardet - Enable automatic encoding detection via app-i18n/uchardet
-sys-apps/hwids:net - Install the oui.txt and iab.txt databases
-sys-apps/hwids:pci - Install the pci.ids database
-sys-apps/hwids:udev - Install hwdb.d rules for udev
-sys-apps/hwids:usb - Install the usb.ids database
 sys-apps/hwloc:X - use the X Window System
 sys-apps/hwloc:cairo - Enable the Cairo back-end of hwloc's lstopo command
 sys-apps/hwloc:cpuid - Enable the cpuid-based architecture specific support (x86 component)
@@ -8666,18 +8660,20 @@ www-servers/fnord:auth - Enable HTTP authentication support
 www-servers/gatling:diet - Compile against dev-libs/dietlibc
 www-servers/h2o:libh2o - Build and install libh2o
 www-servers/h2o:mruby - Enable support for mruby
-www-servers/lighttpd:brotli - Enable output compression via Brotli (recommended)
+www-servers/lighttpd:brotli - Enable output compression via app-arch/brotli (recommended)
 www-servers/lighttpd:bzip2 - Enable output compression via bzip2
-www-servers/lighttpd:gnutls - Build module for TLS via GnuTLS
+www-servers/lighttpd:gnutls - Build module for TLS via net-libs/gnutls
 www-servers/lighttpd:libev - Enable fdevent handler
-www-servers/lighttpd:maxminddb - Add support for geolocation using libMaxMindDB
-www-servers/lighttpd:mbedtls - Build module for TLS via Mbed TLS
-www-servers/lighttpd:mmap - Use mmap with files owned by lighttpd. This is a dangerous option as it may allow local users to trigger SIGBUS crashes.
+www-servers/lighttpd:maxminddb - Add support for geolocation using dev-libs/libmaxminddb
+www-servers/lighttpd:mbedtls - Build module for TLS via net-libs/mbedtls
+www-servers/lighttpd:mmap - Use mmap when sendfile is not available
+www-servers/lighttpd:nettle - Use dev-libs/nettle as crypto backend
 www-servers/lighttpd:nss - Build module for TLS via Mozilla's Network Security Services
 www-servers/lighttpd:rrdtool - Enable rrdtool support via mod_rrdtool
+www-servers/lighttpd:system-xxhash - Use system provided dev-libs/xxhash
 www-servers/lighttpd:webdav - Enable webdav properties
-www-servers/lighttpd:zlib - Enable output compression via gzip or deflate algorithms
-www-servers/lighttpd:zstd - Enable output compression via Zstandard algorithm
+www-servers/lighttpd:zlib - Enable output compression via gzip or deflate algorithms from sys-libs/zlib
+www-servers/lighttpd:zstd - Enable output compression via Zstandard (app-arch/zstd) algorithm
 www-servers/monkeyd:debug - Enable lots of debugging info
 www-servers/monkeyd:static-plugins - Build statically linked plugins
 www-servers/nginx:aio - Enables file AIO support
@@ -8753,7 +8749,6 @@ x11-libs/cairo:valgrind - Built-in support to mark memory regions
 x11-libs/fltk:games - Builds and installs some extra games
 x11-libs/fox:tools - Install adie, calculator, shutterbug, and pathfinder apps.
 x11-libs/gtk+:broadway - Enable the GDK Broadway backend.
-x11-libs/gtk+:cloudprint - Enable printing via Google Cloud Print.
 x11-libs/gtk+:colord - Use x11-misc/colord for color management in printing
 x11-libs/gtk+:sysprof - Enable profiling data capture support using dev-util/sysprof-capture
 x11-libs/gtkdatabox:glade - Build with libglade and glade-3 supports, which includes a glade's module for GtkDataBox widget
@@ -8805,7 +8800,6 @@ x11-misc/clipmenu:fzf - Use fzf as default launcher
 x11-misc/clipmenu:rofi - Use rofi as default launcher
 x11-misc/colord:argyllcms - Enable ArgyllCMS sensor
 x11-misc/colord:extra-print-profiles - Generate extra print profiles. Warning: significant build time and memory requirements.
-x11-misc/colord:gusb - Enable dev-libs/libgusb support, needed for colorimeter drivers
 x11-misc/fbpager:xrender - Enable transparency support via x11-libs/libXrender
 x11-misc/gpaste:gnome - Enable proper gnome support and enable gnome shell extension.
 x11-misc/grsync:gtk3 - Link against x11-libs/gtk+:3 instead of x11-libs/gtk+:2
