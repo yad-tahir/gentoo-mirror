@@ -31,7 +31,8 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 DEPEND="${PYTHON_DEPS}
 	dev-libs/glib:2"
 RDEPEND="python? ( ${PYTHON_DEPS} )"
-BDEPEND="virtual/pkgconfig"
+BDEPEND="virtual/pkgconfig
+	python? ( ${DISTUTILS_DEPS} )"
 
 UNICORN_TARGETS="x86 arm aarch64 riscv mips sparc m68k ppc"
 

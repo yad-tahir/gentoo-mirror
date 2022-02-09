@@ -33,6 +33,64 @@
 
 #--- END OF EXAMPLES ---
 
+# Jonas Stein <jstein@gentoo.org> (2022-02-09)
+# Upstream is 404, open bugs, not maintained.
+# Removal after 2022-05-01.  Bug #832954.
+x11-misc/sisctrl
+
+# Jonas Stein <jstein@gentoo.org> (2022-02-08)
+# Not maintained, open bugs, upstream outdated.
+# Removal after 2022-07-01.  Bug #832953.
+x11-misc/easystroke
+
+# Zoltan Puskas <zoltan@sinustrom.info> (2022-02-07)
+# Fork of sci-libs/opencascade. Upstream unmaintained due to opencascade
+# becoming community friendly and making this fork obsolete. Recommends moving
+# to opencascade. See: https://github.com/tpaviot/oce/issues/745
+# Blocks deprecation of sci-libs/vtk-8.2.0.
+# Removal on 2022-03-01. Bug #832625.
+sci-libs/oce
+
+# Stephan Hartmann <sultan@gentoo.org> (2022-02-06)
+# Dev channel releases are only for people who
+# are developers or want more experimental features
+# and accept a more unstable release.
+>=www-client/chromium-100
+
+# Jonas Stein <jstein@gentoo.org> (2022-02-06)
+# Dead upstream, unmaintained, open bugs.
+# Removal after 2022-04-01.  Bug #832808.
+app-misc/emelfm2
+
+# Sam James <sam@gentoo.org> (2022-01-31)
+# Fork of media-video/atomicparsley. media-video/atomicparsley now uses this
+# fork (wez), so just switch to that. No need for a separate package for the fork.
+# Removal on 2022-02-31. bug #668708.
+media-video/atomicparsley-wez
+
+# Michał Górny <mgorny@gentoo.org> (2022-01-30)
+# NIH package with no revdeps and an awful build system that can't work
+# with PEP 517 builders.  Last release in 2017.
+# Removal on 2022-03-01.  Bug #832366.
+dev-python/python-slip
+
+# Fabian Groffen <grobian@gentoo.org> (2022-01-29)
+# Fails to compile with GCC on macOS.  No revdeps.
+# Removal on 2022-02-28.  Bug #832309.
+dev-perl/Mac-Pasteboard
+
+# Michał Górny <mgorny@gentoo.org> (2022-01-29)
+# No maintainer.  No upstream activity since Dec 2019.
+# Tests not enabled.  No revdeps.
+# Removal on 2022-02-28.  Bug #832318.
+dev-python/django-pglocks
+
+# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-01-27)
+# Java-library + java-virtual with no consumers.
+# Removal in 30 days.
+java-virtuals/script-api
+dev-java/jsr223
+
 # Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-01-23)
 # Java-libraries with no consumers and depending on virtual/{jdk,jre}-1.6
 # Removal in 30 days.
@@ -64,7 +122,7 @@ net-misc/npapi-sdk
 <dev-lang/rust-1.58.1
 <dev-lang/rust-bin-1.58.1
 <virtual/rust-1.58.1
-<=www-client/seamonkey-2.53.9.1-r1
+<www-client/seamonkey-2.53.10.2
 
 # Andreas K. Hüttel <dilfridge@gentoo.org> (2022-01-22)
 # Prelink support is being removed from glibc and was
@@ -101,62 +159,6 @@ dev-java/colt
 # FFmpeg 5.0 ABI/API changes break many packages.
 # Masking for tracker/tinderbox.
 >=media-video/ffmpeg-5.0
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2022-01-18)
-# KDE Release Service 5.23.90 (5.24 Beta) mask - pre-release version
-# See also: https://kde.org/announcements/plasma/5/5.23.90/
-~kde-plasma/bluedevil-5.23.90
-~kde-plasma/breeze-5.23.90
-~kde-plasma/breeze-grub-5.23.90
-~kde-plasma/breeze-gtk-5.23.90
-~kde-plasma/breeze-plymouth-5.23.90
-~kde-plasma/discover-5.23.90
-~kde-plasma/drkonqi-5.23.90
-~kde-plasma/kactivitymanagerd-5.23.90
-~kde-plasma/kde-cli-tools-5.23.90
-~kde-plasma/kde-gtk-config-5.23.90
-~kde-plasma/kdecoration-5.23.90
-~kde-plasma/kdeplasma-addons-5.23.90
-~kde-plasma/kgamma-5.23.90
-~kde-plasma/khotkeys-5.23.90
-~kde-plasma/kinfocenter-5.23.90
-~kde-plasma/kmenuedit-5.23.90
-~kde-plasma/kscreen-5.23.90
-~kde-plasma/kscreenlocker-5.23.90
-~kde-plasma/ksshaskpass-5.23.90
-~kde-plasma/ksystemstats-5.23.90
-~kde-plasma/kwallet-pam-5.23.90
-~kde-plasma/kwayland-integration-5.23.90
-~kde-plasma/kwayland-server-5.23.90
-~kde-plasma/kwin-5.23.90
-~kde-plasma/kwrited-5.23.90
-~kde-plasma/layer-shell-qt-5.23.90
-~kde-plasma/libkscreen-5.23.90
-~kde-plasma/libksysguard-5.23.90
-~kde-plasma/libkworkspace-5.23.90
-~kde-plasma/milou-5.23.90
-~kde-plasma/oxygen-5.23.90
-~kde-plasma/plasma-browser-integration-5.23.90
-~kde-plasma/plasma-desktop-5.23.90
-~kde-plasma/plasma-disks-5.23.90
-~kde-plasma/plasma-firewall-5.23.90
-~kde-plasma/plasma-integration-5.23.90
-~kde-plasma/plasma-meta-5.23.90
-~kde-plasma/plasma-nm-5.23.90
-~kde-plasma/plasma-pa-5.23.90
-~kde-plasma/plasma-sdk-5.23.90
-~kde-plasma/plasma-systemmonitor-5.23.90
-~kde-plasma/plasma-thunderbolt-5.23.90
-~kde-plasma/plasma-workspace-5.23.90
-~kde-plasma/plasma-workspace-wallpapers-5.23.90
-~kde-plasma/plasma-vault-5.23.90
-~kde-plasma/plymouth-kcm-5.23.90
-~kde-plasma/polkit-kde-agent-5.23.90
-~kde-plasma/powerdevil-5.23.90
-~kde-plasma/sddm-kcm-5.23.90
-~kde-plasma/systemsettings-5.23.90
-~kde-plasma/xdg-desktop-portal-kde-5.23.90
-~kde-plasma/xembed-sni-proxy-5.23.90
 
 # David Seifert <soap@gentoo.org> (2022-01-16)
 # Most of these packages have been merged into sys-cluster/rdma-core and
@@ -295,43 +297,10 @@ net-analyzer/jmx2munin
 # Removal on 2021-02-10 bug #762958
 =app-misc/mime-types-9
 
-# Andreas Sturmlechner <asturm@gentoo.org> (2022-01-09)
-# No more revdeps after sys-cluster/mpe2 last-rites was initiated.
-# Removal on 2022-01-31, bug #547208
-sys-cluster/mpich2
-
 # Brian Evans <grknight@gentoo.org> (2022-01-07)
 # The main consumer, phpunit, does not initiate the new timer correctly
 # This is likely to cause issues in tests; Unmask if using for other purposes
 >=dev-php/PHP_Timer-5.0
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2022-01-07)
-# Unmaintained, cmake warnings, QA notices, weird build error, no revdeps.
-# Removal on 2022-02-06. Bug #830727
-net-libs/jreen
-
-# Marco Scardovi <marco@scardovi.com> (2022-01-01)
-# Dead upstream (also sourceforge page is dead)
-# We are the only one who still supports it
-# Removing in 30 days. # Bug 830389
-sys-cluster/onesis
-
-# Florian Schmaus <flow@gentoo.org> (2022-01-04)
-# Outdated, unmaintained, and has multiple open bugs (bug #732582, bug
-# #739398, bug #756715). As discussed at
-# https://github.com/gentoo/gentoo/pull/23483#issuecomment-1004363556,
-# in its current form it is better maintained in the 'spring' overlay.
-# Removal after 2022-02-04. Bug #830588.
-games-util/springlobby
-
-# Ionen Wolkens <ionen@gentoo.org> (2022-01-03)
-# Obsolete, higan-purify is now provided by games-emulation/higan
-# as the icarus utility (bug #821121) and dev-games/higan-ananke
-# has no known uses without higan-purify (bug #821124). Further
-# stuck on gtk2 with dead HOMEPAGE / SRC_URI.
-# Removal after 2022-02-02.
-games-util/higan-purify
-dev-games/higan-ananke
 
 # Florian Schmaus <flow@gentoo.org> (2022-01-02)
 # Unmaintained, upstream gone, only packaged by
@@ -361,16 +330,6 @@ x11-plugins/purple-facebook
 <dev-util/nvidia-cuda-sdk-11
 <dev-util/nvidia-cuda-toolkit-11
 
-# Jonas Stein <jstein@gentoo.org> (2021-12-20)
-# Package is broken and obsolete.
-# Removal on 2022-02-01.  Bug #828875.
-x11-misc/3ddesktop
-
-# Jonas Stein <jstein@gentoo.org> (2021-12-20)
-# Package is broken and obsolete.
-# Removal on 2022-02-01.  Bug #464364.
-x11-misc/habak
-
 # Mart Raudsepp <leio@gentoo.org> (2021-12-18)
 # GNOME 42 mask
 >=gui-libs/libhandy-1.5.0
@@ -396,9 +355,8 @@ x11-misc/habak
 ~sci-libs/vtk-9.1.0
 
 # Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-12-12)
-# log4j-2.15.0 depends on masked >=virtual/{jdk,jre}-11
+# Needs masked >=virtual/{jdk,jre}-11
 >=dev-java/log4j-api-java9-2.15.0
->=dev-java/log4j-api-2.15.0
 
 # Conrad Kostecki <conikost@gentoo.org> (2021-12-04)
 # Masking newer versions for both packages,
@@ -422,12 +380,6 @@ x11-misc/habak
 # Does not support updated dev-java/pdfbox-2.0.24, Bug #803488
 # Blocks (CVE-2018-11797, CVE-2021-{27807,27906,31811,31812})
 dev-tex/pdfannotextractor
-
-# Stephan Hartmann <sultan@gentoo.org> (2022-01-12)
-# Dev channel releases are only for people who
-# are developers or want more experimental features
-# and accept a more unstable release.
->=www-client/chromium-99
 
 # Mike Pagano <mpagano@gentoo.org> (2021-11-18)
 # Bug introduced in this version that can
@@ -520,18 +472,6 @@ net-libs/libsoup:3.0
 # breaks if not all at least many revdeps. #805011 for tracker bug.
 >=net-libs/mbedtls-3.0.0
 
-# Luke Dashjr <luke-jr+gentoobugs@utopios.org> (2021-11-04)
-# This release adds enforcement of the Taproot protocol change to the Bitcoin
-# rules, beginning in November. Protocol changes require user consent to be
-# effective, and if enforced inconsistently within the community may compromise
-# your security or others! If you do not know what you are doing, learn more
-# before November. (You must make a decision either way - simply not upgrading
-# is insecure in all scenarios.)
-# To learn more, see https://bitcointaproot.cc
->=net-p2p/bitcoind-0.21.1
->=net-p2p/bitcoin-qt-0.21.1
->=net-libs/libbitcoinconsensus-0.21.1
-
 # Lars Wendler <polynomial-c@gentoo.org> (2021-07-10)
 # Masked for testing
 # bug #802186
@@ -570,18 +510,9 @@ net-libs/libsoup:3.0
 # to a fresher gcc branch.
 <sys-devel/gcc-7
 
-# Eray Aslan <eras@gentoo.org> (2021-04-29)
-# Mask experimental software
-=mail-mta/postfix-3.7*
-
 # Ulrich Müller <ulm@gentoo.org> (2021-04-20)
 # Version 3.15 is broken with Emacs 27.2.
 =app-emacs/mic-paren-3.15-r0
-
-# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2021-04-18)
-# dev-java/xerces-2.12.1 depends on masked >=virtual/{jdk,jre}-11
-# https://bugs.gentoo.org/782697
->=dev-java/xerces-2.12.1
 
 # Sam James <sam@gentoo.org> (2021-03-30)
 # Seems to break dev-tex/culmus-latex

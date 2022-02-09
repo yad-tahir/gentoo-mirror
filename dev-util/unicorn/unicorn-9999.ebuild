@@ -5,6 +5,7 @@ EAPI=8
 
 MY_PV=${PV/_/-}
 
+DISTUTILS_USE_PEP517=setuptools
 DISTUTILS_OPTIONAL=1
 PYTHON_COMPAT=( python3_{9..10} )
 inherit cmake distutils-r1
@@ -30,7 +31,8 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 DEPEND="${PYTHON_DEPS}
 	dev-libs/glib:2"
 RDEPEND="python? ( ${PYTHON_DEPS} )"
-BDEPEND="virtual/pkgconfig"
+BDEPEND="virtual/pkgconfig
+	python? ( ${DISTUTILS_DEPS} )"
 
 UNICORN_TARGETS="x86 arm aarch64 riscv mips sparc m68k ppc"
 
