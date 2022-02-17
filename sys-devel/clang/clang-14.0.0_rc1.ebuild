@@ -17,7 +17,7 @@ LICENSE="Apache-2.0-with-LLVM-exceptions UoI-NCSA MIT"
 SLOT="$(ver_cut 1)"
 KEYWORDS=""
 IUSE="debug default-compiler-rt default-libcxx default-lld
-	doc llvm-libunwind +static-analyzer test xml"
+	doc llvm-libunwind +pie +static-analyzer test xml"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 RESTRICT="!test? ( test )"
 
@@ -44,11 +44,13 @@ PDEPEND="
 	default-libcxx? ( >=sys-libs/libcxx-${PV} )
 	default-lld? ( sys-devel/lld )"
 
-LLVM_COMPONENTS=( clang clang-tools-extra cmake )
+LLVM_COMPONENTS=(
+	clang clang-tools-extra cmake
+	llvm/lib/Transforms/Hello
+)
 LLVM_MANPAGES=build
 LLVM_TEST_COMPONENTS=(
 	llvm/lib/Testing/Support
-	llvm/lib/Transforms/Hello
 	llvm/utils/{lit,llvm-lit,unittest}
 	llvm/utils/{UpdateTestChecks,update_cc_test_checks.py}
 )
@@ -254,6 +256,7 @@ multilib_src_configure() {
 		-DCLANG_DEFAULT_CXX_STDLIB=$(usex default-libcxx libc++ "")
 		-DCLANG_DEFAULT_RTLIB=$(usex default-compiler-rt compiler-rt "")
 		-DCLANG_DEFAULT_LINKER=$(usex default-lld lld "")
+		-DCLANG_DEFAULT_PIE_ON_LINUX=$(usex pie)
 		-DCLANG_DEFAULT_UNWINDLIB=$(usex default-compiler-rt libunwind "")
 
 		-DCLANG_ENABLE_ARCMT=$(usex static-analyzer)

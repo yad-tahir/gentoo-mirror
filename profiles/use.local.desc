@@ -217,7 +217,6 @@ app-arch/libarchive:blake2 - Enable Blake2 hash support via app-crypt/libb2.
 app-arch/libarchive:bzip2 - Allow accessing bzip2-compressed archives through libbz2 (which comes with app-arch/bzip2). This only affects libarchive's native support: bsdtar will keep using bunzip2 as a filter if that's not built-in.
 app-arch/libarchive:e2fsprogs - Use file flags from sys-fs/e2fsprogs headers instead of virtual/os-headers headers
 app-arch/libarchive:nettle - Use dev-libs/nettle as crypto backend
-app-arch/libarchive:zlib - Allow accessing gzip-compressed archives through sys-libs/zlib. This only affects libarchive's native support: bsdtar will keep using gunzip as a filter if that's not built-in. It's also needed for supporting extraction of ZIP files.
 app-arch/p7zip:rar - Enable support for non-free rar decoder
 app-arch/pbzip2:symlink - Install symlinks which override app-arch/bzip2 implementation
 app-arch/pigz:symlink - Install symlinks which override app-arch/gzip implementation
@@ -358,6 +357,7 @@ app-crypt/mit-krb5:keyutils - Enable for the keyring ccache using keyutils
 app-crypt/mit-krb5:lmdb - Add support for using dev-db/lmdb for lookup tables
 app-crypt/mit-krb5:openldap - Enable support for ldap as a database backend
 app-crypt/mit-krb5:pkinit - Enable pkinit support for the initial ticket
+app-crypt/mkp224o:pcre2 - Search with a regex instead of prefix/suffix matching
 app-crypt/ophcrack:tables - Require the additional tables used to carry out cracking (app-crypt/ophcrack-tables)
 app-crypt/ophcrack-tables:vistafree - Installs the free Vista ophcrack tables
 app-crypt/ophcrack-tables:xpfast - Installs the fast XP ophcrack tables
@@ -470,7 +470,6 @@ app-editors/xemacs:eolconv - Support detection and translation of newline conven
 app-editors/xemacs:mule - Add multi-language support to XEmacs
 app-editors/xemacs:pop - Support POP for mail retrieval
 app-editors/xemacs:xim - Enable X11 XiM input method
-app-editors/zile:valgrind - Enable usage of dev-util/valgrind in tests
 app-emacs/auctex:preview-latex - Use bundled preview-latex
 app-emacs/bbdb:tex - Install plain TeX support files
 app-emacs/bbdb:vm - Add support for app-emacs/vm
@@ -487,6 +486,13 @@ app-emacs/slime:xref - Install xref.lisp cross-referencing tool
 app-emacs/vm:bbdb - Include support for app-emacs/bbdb
 app-emacs/wanderlust:bbdb - Include support for app-emacs/bbdb
 app-emacs/wikipedia-mode:outline-magic - Enable support for outline-mode extensions (app-emacs/outline-magic)
+app-emulation/86Box:dinput - Enable legacy Dinput mode instead of Xinput for older controllers.
+app-emulation/86Box:dynarec - Enable dynamic recompiler, which should provide a better emulation speed.
+app-emulation/86Box:experimental - Enable hardware from devbranch, which may be unstable or unusable.
+app-emulation/86Box:fluidsynth - Enable MIDI support through media-sound/fluidsynth.
+app-emulation/86Box:munt - Enable MIDI MT-32 support through media-libs/munt-mt32emu.
+app-emulation/86Box:new-dynarec - Enable new dynamic recompiler from PCem 15, which should provide an even better emulation speed.
+app-emulation/86Box:vramdump - Enable the posibility to dump the virtual Video RAM.
 app-emulation/aranym:clipboard - Enable bidirectional clipboard transfer between the host and FreeMiNT
 app-emulation/aranym:jit - Build Just-In-Time compiler variant with increased performance
 app-emulation/aranym:lilo - Enable support for directly booting kernels such as Linux
@@ -1673,7 +1679,6 @@ dev-java/commons-logging:avalon-logkit - Add optional support for avalon-logkit
 dev-java/commons-logging:log4j - Add optional support for log4j
 dev-java/commons-logging:servletapi - Add optional support for servletapi
 dev-java/dom4j:jaxen - Includes org.jaxen.dom4j package
-dev-java/ecj-gcj:native - Build a native binary along with the jar. Provides faster execution time, but needs about 1G memory and some patience to compile.
 dev-java/eclipse-ecj:ant - Support using ecj in Ant builds via dev-java/ant-eclipse-ecj
 dev-java/emma:launcher - Install /usr/bin/emma. Collides with sci-biology/emboss.
 dev-java/gcj-jdk:awt - Install AWT libraries, needed by some GUIs (not needed to build icedtea)
@@ -2728,6 +2733,7 @@ dev-scheme/kawa:swing - Assume Swing is available
 dev-scheme/kawa:xqtests - Support XQuery Test Suite
 dev-scheme/racket:chez - Build Racket on Chez (Racket CS)
 dev-scheme/racket:futures - Enable racket/future library for fine-grained hardware parallelism
+dev-scheme/racket:ncurses - Add ncurses support for expeditor (REPL expression editor)
 dev-scheme/racket:places - Enable racket/place library for share-nothing parallelism and message-passing communication. Compared to futures, places are heavyweight, but they have a simpler performance model.
 dev-scheme/racket:threads - Enable support for green threads
 dev-scheme/scm:arrays - Support for arrays, uniform-arrays and uniform-vectors.
@@ -3257,7 +3263,6 @@ games-strategy/megaglest:streflop - Use the library streflop. Out of synchs may 
 games-strategy/megaglest:tools - Build model import/export tools
 games-strategy/megaglest:unicode - Use unicode strings for wxwidgets
 games-strategy/megaglest:wxuniversal - Use the wxUniversal port which implements the various GUI controls by drawing them itself
-games-strategy/naev:mixer - Enables media-libs/sdl-mixer sound backend in addition to media-libs/openal one.
 games-strategy/satellite-reign:gui - Install the GUI for configuring screen resolution and input
 games-strategy/ufoai:client - Build the main game client
 games-strategy/ufoai:server - Build the dedicated server
@@ -3703,6 +3708,7 @@ mail-client/mutt:autocrypt - Enable autocrypt.org support
 mail-client/mutt:berkdb - Enable sys-libs/db database backend for header caching
 mail-client/mutt:gdbm - Enable sys-libs/gdbm database backend for header caching
 mail-client/mutt:gpgme - Build gpgme backend to support S/MIME, PGP/MIME and traditional/inline PGP
+mail-client/mutt:gsasl - Use GNU SASL via virtual/gsasl instead of Cyrus SASL (requires USE=sasl)
 mail-client/mutt:hcache - Enable header cache, one database backend needs to be enabled
 mail-client/mutt:lmdb - Enable dev-db/lmdb database backend for header caching
 mail-client/mutt:pgp-classic - Build classic_pgp backend to support PGP/MIME and traditional/inline PGP
@@ -4076,6 +4082,9 @@ media-gfx/pstoedit:emf - Enable media-libs/libemf support
 media-gfx/pstoedit:pptx - Enable support for generating PowerPoint pptx files
 media-gfx/qimgv:opencv - Enable HQ scaling via media-libs/opencv
 media-gfx/qimgv:video - Add support for gif/webm playback via libmpv
+media-gfx/qrencode:png - Enable PNG output support in qrencode tool
+media-gfx/renderdoc:pyside2 - Expose the QRenderdoc UI to Python scripting to allow for customisation
+media-gfx/renderdoc:qt5 - Build and install the qrenderdoc GUI
 media-gfx/shotwell:opencv - Enable face detection via media-libs/opencv
 media-gfx/xpaint:pgf - Support for loading PGF images
 media-gfx/xsane:ocr - Enable support for Optical Character Recognition reader
@@ -5656,6 +5665,7 @@ net-fs/autofs:sasl - Enable SASL support in the LDAP module
 net-fs/cifs-utils:ads - Enable Active Directory support and create cifs.idmap binary - idmap support
 net-fs/cifs-utils:caps - Enable sys-libs/libcap-ng support
 net-fs/cifs-utils:creds - cifs credentials support
+net-fs/cifs-utils:python - Enable support for python and install python tools
 net-fs/cvmfs:server - Install the cvmfsd program and init script
 net-fs/libnfs:utils - Build/install nfs-{cat,ls,cp} utils
 net-fs/netatalk:pgp - Add support pgp authentication module
@@ -6039,7 +6049,7 @@ net-libs/libetpan:lmdb - Use dev-db/lmdb as cache DB
 net-libs/libgsasl:gcrypt - Use dev-libs/libgcrypt for low-level crypto
 net-libs/libgsasl:ntlm - Add support for Microsoft's NTLM mechanism using net-libs/libntlm
 net-libs/libiio:aio - Enable asynchronous IO support
-net-libs/libiscsi:rdma - Enable infiniband support via sys-fabric/librdmacm
+net-libs/libiscsi:rdma - Enable infiniband support via sys-cluster/rdma-core
 net-libs/libisds:openssl - Use dev-libs/openssl as crypto backend instead of app-crypt/gpgme and dev-libs/libgcrypt
 net-libs/libmicrohttpd:epoll - Use epoll() system call
 net-libs/libmicrohttpd:thread-names - Assign thread names to internal threads, useful for dependent apps debugging
@@ -6668,6 +6678,7 @@ net-misc/x2goserver:fuse - Use net-fs/sshfs to allow shared folders
 net-misc/xmrig:donate - Set the default donation level to 1% instead of 0
 net-misc/xmrig:hwloc - Use sys-apps/hwloc for CPU affinity support
 net-misc/xmrig:opencl - Enable OpenCL support
+net-misc/youtube-dl:yt-dlp - Use net-misc/yt-dlp to provide the command and only install the python module
 net-misc/youtube-viewer:gtk - Install the gtk3 GUI
 net-misc/ytfzf:minimal - Skip app-shells/fzf and media-video/mpv dependencies (requires custom settings)
 net-misc/zerotier:clang - Use Clang compiler instead of GCC
@@ -7065,7 +7076,6 @@ net-wireless/yatebts:uhd - Build UHD transceiver
 net-wireless/yatebts:usrp1 - Build USRP1 transceiver
 sci-astronomy/cpl:gasgano - Enable support for sci-astronomy/gasgano file organizer
 sci-astronomy/esomidas:libtirpc - Build against net-libs/libtirpc for RPC support
-sci-astronomy/healpix:idl - Install healpix IDL/GDL routines
 sci-astronomy/kstars:fits - Enable support for NASA's sci-libs/cfitsio library
 sci-astronomy/kstars:indi - Enable support for Astronomical control library using libindi
 sci-astronomy/kstars:password - Store passwords securely via dev-libs/qtkeychain
@@ -7106,6 +7116,8 @@ sci-chemistry/avogadro2:vtk - include vtk support
 sci-chemistry/chemtool:emf - EMF export support
 sci-chemistry/gnome-chemistry-utils:gnumeric - Add a Gnumeric plugin to provide a molarmass function for the spreadsheet
 sci-chemistry/gromacs:build-manual - Build manual instead of downloading it
+sci-chemistry/gromacs:clang - Build gromacs with Clang instead of default compiler
+sci-chemistry/gromacs:clang-cuda - Use clang for cuda units compilation
 sci-chemistry/gromacs:cuda - Enable cuda non-bonded kernels
 sci-chemistry/gromacs:double-precision - More precise calculations at the expense of speed
 sci-chemistry/gromacs:gmxapi - Add support for gmxapi library
@@ -7968,7 +7980,7 @@ sys-block/fio:gnuplot - Install tools for generating gnuplots
 sys-block/fio:io-uring - Enable efficient I/O via sys-libs/liburing.
 sys-block/fio:numa - Enable numa support
 sys-block/fio:rbd - Enable Rados block device support via sys-cluster/ceph
-sys-block/fio:rdma - Enable infiniband support via sys-fabric/librdmacm
+sys-block/fio:rdma - Enable infiniband support via sys-cluster/rdma-core
 sys-block/fio:tcmalloc - Link against dev-util/google-perftools by default which will speed up USE=rbd up to 20%
 sys-block/fio:zbc - Enable ZBC & ZAC disks via sys-block/libzbc.
 sys-block/gparted:wayland - Enable interim workaround to allow running GParted under Wayland by granting permission to the X11 display using x11-apps/xhost.
@@ -8085,6 +8097,7 @@ sys-cluster/minikube:libvirt - Build plugin for kvm
 sys-cluster/mpich:mpi-threads - Enable MPI_THREAD_MULTIPLE
 sys-cluster/mpich:romio - Build the ROMIO MPI-IO component
 sys-cluster/nomad:nvidia - build with nvidia integration
+sys-cluster/nomad:ui - do not embed the ui in the binary
 sys-cluster/openmpi:cma - Enable the CMA (Cross Memory Attach) MCA
 sys-cluster/openmpi:cuda - Add GPU direct support
 sys-cluster/openmpi:libompitrace - Enable support for contributed package libompitrace
@@ -8211,13 +8224,6 @@ sys-devel/sparse:llvm - Build the sparse-llvm utility
 sys-devel/sparse:xml - Build the c2xml utility (requires dev-libs/libxml2)
 sys-fabric/mstflint:adb-generic-tools - Enable compiling the following tools: mstreg and mstlink
 sys-fabric/mstflint:inband - Enable firmware updates for Mellanox SwitchX and ConnectIB devices
-sys-fabric/ofed:diags - Add dignostic tools for infiniband
-sys-fabric/ofed:ibacm - Add support for userspace pre-connection services
-sys-fabric/ofed:opensm - Add OpenSM - Subnet manager for infiniband
-sys-fabric/ofed:perftest - Add perftest utils
-sys-fabric/ofed:qperf - Add rdma tests
-sys-fabric/ofed:rds - Tools to manage rds sockets
-sys-fabric/ofed:srp - Suport for userspace part for srp initiator
 sys-fabric/opensm:tools - Install ssld extra tool
 sys-firmware/edk2-ovmf:binary - Use pre-built binaries
 sys-firmware/intel-microcode:hostonly - only install ucode(s) supported by currently available (=online) processor(s)
@@ -8934,8 +8940,6 @@ x11-terms/rxvt-unicode:iso14755 - Enable ISO-14755 support
 x11-terms/rxvt-unicode:mousewheel - Enable scrolling via mouse wheel or buttons 4 and 5
 x11-terms/rxvt-unicode:perl - Enable perl script support. You can still disable this at runtime with -pe ""
 x11-terms/rxvt-unicode:unicode3 - Use 21 instead of 16 bits to represent unicode characters
-x11-terms/rxvt-unicode:utmp - Enable utmp support
-x11-terms/rxvt-unicode:wtmp - Enable wtmp support
 x11-terms/terminology:extras - Install additional testing tools
 x11-terms/xfce4-terminal:utempter - Include utmp management support via sys-libs/libutempter
 x11-terms/xterm:openpty - Use openpty() in preference to posix_openpt()

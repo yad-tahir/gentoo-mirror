@@ -1,8 +1,8 @@
-BDEPEND=>=app-text/scdoc-1.9.7 >=dev-lang/go-1.13 >=dev-lang/go-1.12 app-arch/unzip >=dev-vcs/git-1.8.2.1[curl]
+BDEPEND=>=app-text/scdoc-1.9.7 >=dev-lang/go-1.13 >=dev-lang/go-1.16 app-arch/unzip >=dev-vcs/git-1.8.2.1[curl]
 DEFINED_PHASES=compile install postinst unpack
 DEPEND=notmuch? ( net-mail/notmuch:= )
 DESCRIPTION=Email client for your terminal
-EAPI=7
+EAPI=8
 HOMEPAGE=https://aerc-mail.org
 IUSE=notmuch
 LICENSE=Apache-2.0 BSD BSD-2 MIT
@@ -10,5 +10,5 @@ PROPERTIES=live
 RDEPEND=notmuch? ( net-mail/notmuch:= )
 RESTRICT=strip
 SLOT=0
-_eclasses_=git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da	go-module	6be3eb7a42e4cecb88f18356a783ee35
-_md5_=b2de5d2205611f037ecc5ab45c17545d
+_eclasses_=git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da	go-module	647607f6215b4dcaba913a2ca6586407
+_md5_=f5b47810c98cc9c6d7d71e8c0031b6ff

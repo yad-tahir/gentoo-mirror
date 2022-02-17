@@ -1053,6 +1053,10 @@
       <name>Hans de Graaff</name>
     </member>
     <member>
+      <email>matthew@gentoo.org</email>
+      <name>Matthew Smith</name>
+    </member>
+    <member>
       <email>ulm@gentoo.org</email>
       <name>Ulrich Müller</name>
     </member>
@@ -2259,11 +2263,6 @@
       <name>Thomas Sachau</name>
       <role>Mutlilib liaison</role>
     </member>
-    <member>
-      <email>vapier@gentoo.org</email>
-      <name>Mike Frysinger</name>
-      <role>Member, Sandbox developer, Documenter</role>
-    </member>
     <member is-lead="1">
       <email>zmedico@gentoo.org</email>
       <name>Zac Medico</name>
@@ -2503,6 +2502,10 @@
     <member>
       <email>juippis@gentoo.org</email>
       <name>Joonas Niilola</name>
+    </member>
+    <member>
+      <email>matthew@gentoo.org</email>
+      <name>Matthew Smith</name>
     </member>
     <member is-lead="1">
       <email>mgorny@gentoo.org</email>
@@ -3387,6 +3390,10 @@
     <member>
       <email>jsmolic@gentoo.org</email>
       <name>Jakov Smolić</name>
+    </member>
+    <member>
+      <email>matthew@gentoo.org</email>
+      <name>Matthew Smith</name>
     </member>
     <member>
       <email>mgorny@gentoo.org</email>
