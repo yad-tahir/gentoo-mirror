@@ -345,12 +345,13 @@ app-crypt/hashcat:brain - Enable the hashcat brain
 app-crypt/heimdal:hdb-ldap - Adds support for LDAP as a database backend
 app-crypt/heimdal:lmdb - Add support for using dev-db/lmdb for lookup tables
 app-crypt/heimdal:otp - Adds support for one-time passwords
-app-crypt/hmaccalc:fips - Enable NSS FIPS mode and support only the FIPS-compliant functions
+app-crypt/ima-evm-utils:tpm - Enable TPM support
 app-crypt/johntheripper-jumbo:opencl - Build with opencl/GPU cracking support
 app-crypt/johntheripper-jumbo:pcap - Build with pcap support
 app-crypt/kbfs:git - Build the Git remote helper for storing repositories in Keybase
 app-crypt/kstart:afs - Enables afs support which means you can acquire an afs token and set PAGs. It's recommended to set this USE if you need authenticated access to an AFS cell for your daemon/app.
 app-crypt/libb2:native-cflags - Use CFLAGS as determined by configure script. These flags will enable all CPU specific features it find available, to further optimise the implementation. This discards any existing CFLAGS set in make.conf or similar.
+app-crypt/libsecret:tpm - Enable Trusted Platform Module support via app-crypt/tpm2-tss
 app-crypt/libu2f-host:systemd - Use user ACLs rather than plugdev group to give user access to the HIDRAW device.
 app-crypt/mit-krb5:doc - Creates and installs the API and implementation documentation. This is only useful if you want to develop software which depends on kerberos
 app-crypt/mit-krb5:keyutils - Enable for the keyring ccache using keyutils
@@ -660,7 +661,6 @@ app-emulation/wine-staging:osmesa - Add support for OpenGL in bitmaps using libO
 app-emulation/wine-staging:pcap - Support packet capture software (e.g. wireshark)
 app-emulation/wine-staging:perl - Install helpers written in perl (winedump/winemaker)
 app-emulation/wine-staging:pipelight - Apply Wine-Staging patches for Pipelight/Silverlight support
-app-emulation/wine-staging:prelink - Run prelink on DLLs during build; For Gentoo hardened, do not disable if you do not know what this means as it can break things at runtime
 app-emulation/wine-staging:realtime - Pull in sys-auth/rtkit for low-latency pulseaudio support
 app-emulation/wine-staging:run-exes - Use Wine to open and run .EXE and .MSI files
 app-emulation/wine-staging:samba - Add support for NTLM auth. See: https://web.archive.org/web/20160108123008/http://wiki.winehq.org:80/NtlmAuthSetupGuide and https://web.archive.org/web/20150906013746/http://wiki.winehq.org/NtlmSigningAndSealing (these pages are not currently in the updated WineHQ Wiki).
@@ -685,7 +685,6 @@ app-emulation/wine-vanilla:opencl - Enable OpenCL support
 app-emulation/wine-vanilla:osmesa - Add support for OpenGL in bitmaps using libOSMesa
 app-emulation/wine-vanilla:pcap - Support packet capture software (e.g. wireshark)
 app-emulation/wine-vanilla:perl - Install helpers written in perl (winedump/winemaker)
-app-emulation/wine-vanilla:prelink - Run prelink on DLLs during build; For Gentoo hardened, do not disable if you do not know what this means as it can break things at runtime
 app-emulation/wine-vanilla:realtime - Pull in sys-auth/rtkit for low-latency pulseaudio support
 app-emulation/wine-vanilla:run-exes - Use Wine to open and run .EXE and .MSI files
 app-emulation/wine-vanilla:samba - Add support for NTLM auth. See: https://web.archive.org/web/20160108123008/http://wiki.winehq.org:80/NtlmAuthSetupGuide and https://web.archive.org/web/20150906013746/http://wiki.winehq.org/NtlmSigningAndSealing (these pages are not currently in the updated WineHQ Wiki).
@@ -721,7 +720,6 @@ app-forensics/afflib:s3 - Enable support for Amazon S3
 app-forensics/aide:curl - Use curl for http,https and ftp backends
 app-forensics/aide:e2fs - Enable support for checking file attributes on ext2/ext3/ext4 filesystems
 app-forensics/aide:postgres - Use postgresql library for storing databases
-app-forensics/aide:prelink - Bypass prelinking when calculating checksums
 app-forensics/chkrootkit:cron - Install cron script for weekly rootkit scans
 app-forensics/honggfuzz:clang - Enable clang support (pull sys-libs/blocksruntime dependency).
 app-forensics/libewf:bfio - Enables libbfio for chaining file in file handling
@@ -1802,6 +1800,7 @@ dev-lang/nqp:moar - Build the MoarVM backend (experimental/broken)
 dev-lang/ocaml:flambda - Enables the Flambda optimizer: A new intermediate representation (introduced in ocaml 4.03) in the depths of the compiler designed to allow for better inlining.
 dev-lang/ocaml:spacetime - Enables the Spacetime memory profiler. See https://caml.inria.fr/pub/docs/manual-ocaml/spacetime.html for more information.
 dev-lang/perl:ithreads - Enable Perl threads, has some compatibility problems
+dev-lang/perl:quadmath - Enable 128bit floating point arithmetic via libquadmath
 dev-lang/php:apparmor - Support FPM application confinement through sys-libs/libapparmor
 dev-lang/php:argon2 - Enable password hashing algorithm from app-crypt/argon2
 dev-lang/php:bcmath - Add support for libbcmath
@@ -2586,8 +2585,6 @@ dev-qt/qt-creator:python - Build plugin for Python language support
 dev-qt/qt-creator:qbs - Build plugin for Qbs-based projects
 dev-qt/qt-creator:qmake - Build plugin for qmake-based projects
 dev-qt/qt-creator:qml - Build plugins for QML-based development (designer, editor, project manager)
-dev-qt/qt-creator:qmldesigner - Enable designer for QML/QtQuick-based UIs
-dev-qt/qt-creator:qmljs - Build the QML/JavaScript editor plugin
 dev-qt/qt-creator:qmlprofiler - Build the QML profiler plugin
 dev-qt/qt-creator:qnx - Build plugin for QNX devices
 dev-qt/qt-creator:remotelinux - Build plugin for deployment and execution on a remote Linux host
@@ -3230,10 +3227,17 @@ games-simulation/openttd:dedicated - Build only the openttd server, and not the 
 games-simulation/openttd:fluidsynth - Compile with support for FluidSynth
 games-simulation/openttd:lzo - Enables LZO compression for savegames. This is only needed to load extremely old savegames. (versions before 0.2)
 games-simulation/openttd:openmedia - Enables the free open media sets: OpenGFX, OpenSFX, OpenMSX, removing the requirement for proprietary TTD assets to play OpenTTD.
+games-simulation/simutrans:minimal - Don't install any PakSets (scenario data)
 games-simulation/simutrans:pak128 - Install more detailed scenario data
 games-simulation/simutrans:pak128-britain - Install British scenario data
 games-simulation/simutrans:pak128-german - Install German scenario data
 games-simulation/simutrans:pak192-comic - Install comic-like scenario data
+games-simulation/simutrans-paksets:128 - Install higher resolution scenario data (128 px graphics)
+games-simulation/simutrans-paksets:comic192 - Install comic-like scenario data (192 px graphics)
+games-simulation/simutrans-paksets:cs128 - Install Czech-Slovak scenario data (128 px graphics)
+games-simulation/simutrans-paksets:excentrique48 - Install eccentric scenario data (48 px graphics)
+games-simulation/simutrans-paksets:german128 - Install German scenario data (128 px graphics)
+games-simulation/simutrans-paksets:nippon64 - Install Nippon scenario data (64 px graphics)
 games-simulation/train-valley:gui - Install the GUI for configuring screen resolution and input
 games-sports/speed-dreams:osggraph - Enable the new work-in-progress 3D engine using dev-games/openscenegraph
 games-sports/speed-dreams:webstats - Enable support for sending racing statistics to a web server (experimental)
@@ -3913,8 +3917,6 @@ media-gfx/album:plugins - Install optional plugins
 media-gfx/album:themes - Install optional themes
 media-gfx/alembic:hdf5 - Add support sci-libs/hdf5
 media-gfx/alembic:test - Build and run the test-suite
-media-gfx/apngasm:7z - Enable support for 7zip compression
-media-gfx/apngasm:zopfli - Enable support for Zopfli compression
 media-gfx/asymptote:boehm-gc - Enables using the Boehm-Demers-Weiser conservative garbage collector
 media-gfx/asymptote:context - Enables support for ConTeXt format (dev-texlive/texlive-context)
 media-gfx/asymptote:curl - Enables running remote programs via net-misc/curl
@@ -3931,6 +3933,7 @@ media-gfx/blender:dds - Adds DDS textures support to Blender.
 media-gfx/blender:embree - Use embree to accelerate certain areas of the Cycles render engine.
 media-gfx/blender:fluid - Adds fluid simulation support via the built-in Mantaflow library.
 media-gfx/blender:headless - Build without graphical support (renderfarm, server mode only).
+media-gfx/blender:nanovdb - Enable nanoVDB support in Cycles. Uses less memory than regular openVDB when rendering.
 media-gfx/blender:ndof - Enable NDOF input devices (SpaceNavigator and friends).
 media-gfx/blender:oidn - Enable OpenImageDenoiser Support
 media-gfx/blender:opencl - Allow OpenCL Graphics Acceleration. This may require extra graphics card drivers.
@@ -4070,7 +4073,10 @@ media-gfx/openvdb:abi5-compat - Disables newer features to maintain compatibilit
 media-gfx/openvdb:abi6-compat - Disables newer features to maintain compatibility with ABI6.
 media-gfx/openvdb:abi7-compat - Disables newer features to maintain compatibility with ABI7.
 media-gfx/openvdb:abi8-compat - Disables newer features to maintain compatibility with ABI8.
+media-gfx/openvdb:abi9-compat - Disables newer features to maintain compatibility with ABI9.
 media-gfx/openvdb:blosc - Allow using blosc compression via dev-libs/c-blosc
+media-gfx/openvdb:cuda - Enable support for CUDA in NanoVDB.
+media-gfx/openvdb:nanovdb - A lightweight, header only, and GPU friendly version of VDB.
 media-gfx/openvdb:numpy - Build pyopenvdb with support for dev-python/numpy
 media-gfx/openvdb:utils - Build utility binaries
 media-gfx/photoqt:devil - Support additional image formats using media-libs/devil
@@ -4952,6 +4958,7 @@ media-video/dvdrip:fping - Enables fping support for cluster rendering
 media-video/dvdrip:subtitles - Enables support for subtitle ripping
 media-video/ffdiaporama:openclipart - Support openclipart database
 media-video/ffdiaporama:texturemate - Install extra backgrounds
+media-video/ffmpeg:amf - Enables support for AMD's Advanced Media Framework (AMF)
 media-video/ffmpeg:amr - Enables Adaptive Multi-Rate Audio support
 media-video/ffmpeg:amrenc - Enables Adaptive Multi-Rate Audio encoding support with media-libs/vo-amrwbenc.
 media-video/ffmpeg:appkit - Enables Apple AppKit framework
@@ -5701,7 +5708,6 @@ net-fs/samba:ads - Enable Active Directory support
 net-fs/samba:ceph - Enable support for Ceph distributed filesystem via sys-cluster/ceph
 net-fs/samba:client - Enables the client part
 net-fs/samba:cluster - Enable support for clustering
-net-fs/samba:dmapi - Enable support for DMAPI. This currently works only in combination with XFS.
 net-fs/samba:glusterfs - Enable support for Glusterfs filesystem via sys-cluster/glusterfs
 net-fs/samba:gpg - Use app-crypt/gpgme for AD DC
 net-fs/samba:iprint - Enabling iPrint technology by Novell
@@ -7206,6 +7212,7 @@ sci-geosciences/qgis:hdf5 - Enable MDAL support for sci-libs/hdf5
 sci-geosciences/qgis:mapserver - Determines whether mapserver should be built
 sci-geosciences/qgis:netcdf - Enable MDAL support for GRIB and XMDF formats
 sci-geosciences/qgis:opencl - Enable OpenCL support
+sci-geosciences/qgis:pdal - Enable support for PDAL for point clouds via sci-libs/pdal
 sci-geosciences/qgis:polar - Enable support for the polar coordinate system via x11-libs/qwtpolar
 sci-geosciences/qgis:qml - Enable support Qml-based plugins using dev-qt/qtdeclarative
 sci-geosciences/qgis:serial - Enable support for serial GPS using dev-qt/qtserialport
@@ -7464,7 +7471,6 @@ sci-libs/trilinos:tbb - Add support for threading building blocks library (dev-c
 sci-libs/trilinos:tvmet - Add support for tvmet (dev-libs/tvmet)
 sci-libs/trilinos:yaml - Add support for yaml (dev-cpp/yaml-cpp)
 sci-libs/umfpack:cholmod - Use sci-libs/cholmod for matrix ordering
-sci-libs/vtk:R - Enable support for dev-lang/R
 sci-libs/vtk:all-modules - Build all modules
 sci-libs/vtk:boost - Add support for boost
 sci-libs/vtk:cuda - Add support for CUDA
@@ -7514,7 +7520,6 @@ sci-mathematics/lcalc:double - Use double precision (the upstream default)
 sci-mathematics/lcalc:double-double - Use sci-libs/qdfor double-double precision
 sci-mathematics/lcalc:pari - Use sci-mathematics/pari for elliptic curve L-functions
 sci-mathematics/lcalc:quad-double - Use sci-libs/qdfor quad-double precision
-sci-mathematics/lean:json - Enable JSON support
 sci-mathematics/maxima:clisp - Compile maxima with GNU CLISP (dev-lisp/clisp)
 sci-mathematics/maxima:clozurecl - Compile maxima with 32-bit Clozure Common Lisp (dev-lisp/clozurecl)
 sci-mathematics/maxima:clozurecl64 - Compile maxima with 64-bit Clozure Common Lisp (dev-lisp/clozurecl)
@@ -7959,6 +7964,7 @@ sys-auth/pambase:securetty - Enable pam_securetty module in the login stack. Not
 sys-auth/pambase:sha512 - Switch Linux-PAM's pam_unix module to use sha512 for passwords hashes rather than MD5. This option requires sys-libs/pam version 1.0.1 built against sys-libs/glibc version 2.7, if it's built against an earlier version, it will silently be ignored, and MD5 hashes will be used. All the passwords changed after this USE flag is enabled will be saved to the shadow file hashed using SHA512 function. The password previously saved will be left untouched. Please note that while SHA512-hashed passwords will still be recognised if the USE flag is removed, the shadow file will not be compatible with systems using an earlier glibc version.
 sys-auth/pambase:systemd - Use pam_systemd module to register user sessions in the systemd control group hierarchy.
 sys-auth/pambase:yescrypt - Switch Linux-PAM's pam_unix module to use yescrypt for passwords hashes rather than MD5
+sys-auth/polkit:duktape - Use dev-lang/duktape instead of dev-lang/spidermonkey as JavaScript engine
 sys-auth/polkit:elogind - Use sys-auth/elogind for session tracking
 sys-auth/polkit:systemd - Use sys-apps/systemd for session tracking
 sys-auth/seatd:builtin - Enable embedded server in libseat
@@ -8096,7 +8102,6 @@ sys-cluster/lustre:utils - Enable lustre utils
 sys-cluster/minikube:libvirt - Build plugin for kvm
 sys-cluster/mpich:mpi-threads - Enable MPI_THREAD_MULTIPLE
 sys-cluster/mpich:romio - Build the ROMIO MPI-IO component
-sys-cluster/nomad:nvidia - build with nvidia integration
 sys-cluster/nomad:ui - do not embed the ui in the binary
 sys-cluster/openmpi:cma - Enable the CMA (Cross Memory Attach) MCA
 sys-cluster/openmpi:cuda - Add GPU direct support
