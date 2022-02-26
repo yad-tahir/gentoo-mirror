@@ -108,7 +108,7 @@ KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~x86 ~amd64-linux"
 COMMON_DEPEND="${PYTHON_DEPS}
 	app-arch/unzip
 	app-arch/zip
-	app-crypt/gpgme[cxx]
+	app-crypt/gpgme:=[cxx]
 	app-text/hunspell:=
 	>=app-text/libabw-0.1.0
 	>=app-text/libebook-0.1
@@ -296,6 +296,9 @@ PATCHES=(
 
 	# 7.3 branch
 	"${FILESDIR}/${PN}-7.2.2.2-makefile-gengal.patch"
+
+	# master branch
+	"${FILESDIR}/${PN}-7.2.5.2-kf591.patch"
 )
 
 S="${WORKDIR}/${PN}-${MY_PV}"
