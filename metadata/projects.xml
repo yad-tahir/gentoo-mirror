@@ -15,6 +15,10 @@
       <name>Dennis Lamm</name>
     </member>
     <member>
+      <email>matthew@gentoo.org</email>
+      <name>Matthew Smith</name>
+    </member>
+    <member>
       <email>mva@gentoo.org</email>
       <name>Vadim Misbakh-Soloviov</name>
     </member>
@@ -1059,6 +1063,10 @@
     <member>
       <email>ulm@gentoo.org</email>
       <name>Ulrich Müller</name>
+    </member>
+    <member>
+      <email>xgqt@gentoo.org</email>
+      <name>Maciej Barć</name>
     </member>
   </project>
   <project>
@@ -2726,6 +2734,10 @@
       <email>gyakovlev@gentoo.org</email>
       <name>Georgy Yakovlev</name>
       <role>can do keywording</role>
+    </member>
+    <member>
+      <email>jsmolic@gentoo.org</email>
+      <name>Jakov Smolić</name>
     </member>
     <member>
       <email>marecki@gentoo.org</email>
