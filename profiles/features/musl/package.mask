@@ -1,6 +1,14 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Pacho Ramos <pacho@gentoo.org> (2022-03-13)
+# Binary package linked to glibc
+sys-power/dptfxtract
+
+# Bernd Waibel <waebbl-gentoo@posteo.net> (2022-03-14)
+# Doesn't build with musl, bug #832742
+sci-libs/opencascade
+
 # Adel KARA SLIMANE <adel.ks@zegrapher.com> (2022-03-09)
 # Binary packages linked to glibc
 app-editors/vscode
