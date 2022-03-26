@@ -6,6 +6,14 @@
 # This file is only for generic masks. For arch-specific masks (i.e.
 # mask everywhere, unmask on arch/*) use arch/base.
 
+# Matt Turner <mattst88@gentoo.org> (2022-03-25)
+# Depends on libsoup:3.0
+>=gnome-base/gvfs-1.50 http
+
+# Craig Andrews <candrews@gentoo.org> (2022-03-25)
+# Requires as of yet unreleased QUIC support in OpenSSL
+net-libs/ngtcp2 openssl
+
 # Andreas Sturmlechner <asturm@gentoo.org> (2022-03-07)
 # Requires PMASKED dev-libs/device-atlas-api-c, bug #770499
 net-proxy/haproxy device-atlas
@@ -62,11 +70,6 @@ sci-libs/flann doc
 # Broken, upstream issue/PR open since 2021-05 without reply.
 # Gentoo bug #821253
 media-video/mjpg-streamer http-management
-
-# Thomas Deutschmann <whissi@gentoo.org> (2021-12-03)
-# Requires newer media-libs/dav1d which isn't available yet,
-# see https://bugzilla.mozilla.org/1734058
->=www-client/firefox-95.0 system-av1
 
 # Wolfgang E. Sanyer <ezzieyguywuf@gmail.com> (2021-12-01)
 # Requires pandoc, which is unstable due to various haskell dependencies
