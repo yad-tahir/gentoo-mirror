@@ -213,6 +213,7 @@ llvm.org_set_globals() {
 			SRC_URI+="
 				!doc? (
 					https://dev.gentoo.org/~mgorny/dist/llvm/llvm-${PV}-manpages.tar.bz2
+					https://dev.gentoo.org/~sam/distfiles/llvm/llvm-${PV}-manpages.tar.bz2
 				)"
 			;;
 		*)
@@ -221,7 +222,8 @@ llvm.org_set_globals() {
 
 	if [[ -n ${LLVM_PATCHSET} ]]; then
 		SRC_URI+="
-			https://dev.gentoo.org/~mgorny/dist/llvm/llvm-gentoo-patchset-${LLVM_PATCHSET}.tar.xz"
+			https://dev.gentoo.org/~mgorny/dist/llvm/llvm-gentoo-patchset-${LLVM_PATCHSET}.tar.xz
+			https://dev.gentoo.org/~sam/distfiles/llvm/llvm-gentoo-patchset-${LLVM_PATCHSET}.tar.xz"
 	fi
 
 	local x
@@ -300,15 +302,10 @@ llvm.org_src_unpack() {
 		grep -E -r -L "^Gentoo-Component:.*(${components[*]})" \
 			"${WORKDIR}/llvm-gentoo-patchset-${LLVM_PATCHSET}" |
 			xargs rm
-		assert
-
-		if ver_test -ge 13.0.1_rc3; then
-			# fail if no patches remain
-			if [[ ! -s ${WORKDIR}/llvm-gentoo-patchset-${LLVM_PATCHSET} ]]
-			then
-				die "No patches in the patchset apply to the package"
-			fi
-		fi
+		local status=( "${PIPESTATUS[@]}" )
+		[[ ${status[1]} -ne 0 ]] && die "rm failed"
+		[[ ${status[0]} -ne 0 ]] &&
+			die "No patches in the patchset apply to the package"
 	fi
 }
 

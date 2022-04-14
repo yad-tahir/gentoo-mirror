@@ -1,6 +1,16 @@
 # Copyright 2019-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Jakov Smolić <jsmolic@gentoo.org> (2022-04-07)
+# Depends on sys-cluster/ceph which pulls in valgrind, which is
+# unavailable on riscv currently
+sys-block/fio rbd
+
+# Marek Szuba <marecki@gentoo.org> (2022-03-30)
+# Indirectly depends on dev-python/pytest-testinfra, which is currently
+# blocked from being keyworded on this arch by several errors (Bug #835717)
+dev-python/subprocess-tee test-full
+
 # Jakov Smolić <jsmolic@gentoo.org> (2022-03-25)
 # sys-process/criu doesn't support riscv (bug #835975)
 # Upstream bug for criu: https://github.com/checkpoint-restore/criu/issues/1702
@@ -52,10 +62,6 @@ dev-python/anyio test
 # Alex Fan <alex.fan.q@gmail.com> (2021-11-19)
 # depends on dev-lang/ocaml
 app-accessibility/brltty ocaml ocamlopt
-
-# Sam James <sam@gentoo.org> (2021-10-26)
-# sys-libs/libhugetlbfs is not keyworded on ~riscv right now
-sys-apps/nvme-cli hugepages
 
 # Marek Szuba <marecki@gentoo.org> (2021-09-23)
 # mkdocs ecosystem only partly keyworded on riscv, has rather messy
@@ -195,8 +201,8 @@ mail-mta/courier fax
 
 # Marek Szuba <marecki@gentoo.org> (2021-07-05)
 # Dependencies not keyworded here yet:
-#  - dev-cpp/glog, sci-libs/vtk
-media-libs/opencv contribsfm glog vtk
+#  - sci-libs/vtk
+media-libs/opencv vtk
 sci-libs/opencascade vtk
 #  - dev-util/aruba
 sys-block/thin-provisioning-tools test

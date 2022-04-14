@@ -23,7 +23,7 @@ S="${WORKDIR}"
 LICENSE="NVIDIA-r2 BSD BSD-2 GPL-2 MIT"
 SLOT="0/${PV%%.*}"
 KEYWORDS="-* amd64 x86"
-IUSE="+X abi_x86_32 abi_x86_64 +driver persistenced static-libs +tools"
+IUSE="+X abi_x86_32 abi_x86_64 +driver persistenced +static-libs +tools"
 
 COMMON_DEPEND="
 	acct-group/video
@@ -132,7 +132,8 @@ pkg_setup() {
 		ewarn "  <=sys-kernel/gentoo-kernel-${NV_KERNEL_MAX}.x"
 		ewarn "  <=sys-kernel/gentoo-sources-${NV_KERNEL_MAX}.x"
 		ewarn "You are free to try or use /etc/portage/patches, but support will"
-		ewarn "not be given and issues wait until NVIDIA releases a fixed version."
+		ewarn "not be given and issues wait until NVIDIA releases a fixed version"
+		ewarn "(Gentoo will not accept patches for this)."
 		ewarn
 		ewarn "Do _not_ file a bug report if run into issues."
 		ewarn
