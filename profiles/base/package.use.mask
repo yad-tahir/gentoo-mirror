@@ -127,8 +127,7 @@ dev-lang/rust parallel-compiler
 # rspamd-3.0 segfaults a lot with jemalloc enabled (Bug #810337)
 # It is caused by -Wl,--as-needed linker flag,
 # see also: https://github.com/rspamd/rspamd/issues/3871
-~mail-filter/rspamd-3.0 jemalloc
-~mail-filter/rspamd-3.1 jemalloc
+>=mail-filter/rspamd-3.0 jemalloc
 
 # Matt Turner <mattst88@gentoo.org> (2021-08-28)
 # Mask experimental options.
@@ -423,7 +422,7 @@ app-text/ghostscript-gpl l10n_ja
 
 # Michał Górny <mgorny@gentoo.org> (2019-03-21)
 # x11-wm/afterstep is slated for removal.
-x11-terms/aterm background
+<x11-terms/aterm-1.0.1-r5 background
 
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2019-03-05)
 # Not keyworded on non-x86 arches
