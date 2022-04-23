@@ -33,6 +33,73 @@
 
 #--- END OF EXAMPLES ---
 
+# Hans de Graaff <graaff@gentoo.org> (2022-04-23)
+# Obsolete slots that are no longer used by current
+# dev-ruby/rqrcode versions and has no use on its own.
+# Masked for removal in 30 days.
+dev-ruby/rqrcode_core:0
+
+# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-04-22)
+# Unused java library. Removal on 2022-05-24.
+dev-java/jgraph
+
+# Michał Górny <mgorny@gentoo.org> (2022-04-22)
+# Obsolete namespace packages.  PEP 420 implicit namespaces are now
+# the preferred solution.  Upgrade the reverse dependencies to get
+# these packages unmerged.
+# Removal on 2022-05-09.
+dev-python/namespace-google
+dev-python/namespace-lazr
+dev-python/namespace-paste
+dev-python/namespace-repoze
+dev-python/namespace-ruamel
+dev-python/namespace-zope
+
+# Hans de Graaff <graaff@gentoo.org> (2022-04-22)
+# Obsolete slots that are no longer used by current
+# dev-ruby/simplecov versions and have no use on their own.
+# Masked for removal in 30 days.
+dev-ruby/simplecov-html:0.10
+dev-ruby/simplecov-html:0.11
+
+# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-04-19)
+# Release of the source-based ebuild is from 2014. At the moment
+# impossible to provide source-based ebuild for the current version.
+# Up-to-date binary package exists. Removal on 2022-05-30
+app-text/jabref
+dev-java/glazedlists
+dev-java/jempbox
+dev-java/microba
+dev-java/spin
+
+# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-04-17)
+# Unused java libraries. Removal in 30 days.
+dev-java/boot-bin
+dev-java/eclipsito
+dev-java/gcj-jdk
+dev-java/japitools
+dev-java/jboss-marshalling
+dev-java/jdbc-mssqlserver
+dev-java/jsr250
+dev-java/maven-hawtjni-plugin
+dev-java/mimepull
+dev-java/oracle-javamail
+dev-java/xjavac
+
+# David Seifert <soap@gentoo.org> (2022-04-17)
+# Dead library, part of >=sys-fs/e2fsprogs-1.46.5 now, bug #806875,
+# removal on 2022-05-17.
+# (If you hit blockers, please run:
+# $ emerge --deselect sys-libs/e2fsprogs-libs
+# This is necessary as your world file should not contain dependencies.)
+sys-libs/e2fsprogs-libs
+
+# Michał Górny <mgorny@gentoo.org> (2022-04-17)
+# Unmaintained in Gentoo.  Pending a bump since January.  Non-trivial
+# to test.  No revdeps.
+# Removal on 2022-05-17.  Bug #838895.
+dev-python/pymssql
+
 # Marek Szuba <marecki@gentoo.org> (2022-04-14)
 # Singularity has been renamed upstream to Apptainer. Therefore, up-to-date
 # versions of this software are now available as app-containers/apptainer.
@@ -45,8 +112,7 @@ sys-cluster/singularity
 # at least some UX issues with 2.35.2+ with the new "safe directory" mechanism).
 # Earlier versions are still safe as long as you do not use git commands
 # on a local repository controlled by a user you do not trust.
-=dev-vcs/git-2.35.2
-=dev-vcs/git-2.35.3
+>=dev-vcs/git-2.35.2
 
 # Conrad Kostecki <conikost@gentoo.org> (2022-04-13)
 # Abandoned by upstream, does not work correctly anymore.
@@ -232,98 +298,15 @@ dev-libs/bareos-fastlzlib
 # Removal on 2022-04-22.
 app-crypt/seahorse-sharing
 
-# David Seifert <soap@gentoo.org> (2022-03-21)
-# Unmaintained, EAPI 5, no revdeps in tree.
-# Bug #786093, removal on 2022-04-20.
-dev-java/freehep-graphicsbase
-dev-java/freehep-io
-dev-java/glassfish-interceptor-api
-dev-java/gnu-classpath
-dev-java/invokebinder
-dev-java/java-apicheck
-dev-java/jboss-marshalling-river
-dev-java/jboss-marshalling-serial
-
-# David Seifert <soap@gentoo.org> (2022-03-21)
-# EAPI 5, last release 15 years ago, QA permission issues, no other
-# distro packages this.
-# Bug #553404, #835364, removal on 2022-04-20.
-media-video/mplayer-sh
-
-# David Seifert <soap@gentoo.org> (2022-03-20)
-# Added and then left unmaintained by author, no revdeps in tree,
-# stuck on kernel 4.19, distribution model unlikely a good fit for
-# Gentoo, QA issues, blocks automake-1.15 removal, build issues.
-# Bug #725746, #728154, #835693, removal on 2022-04-19.
-sys-cluster/lustre
-
 # David Seifert <soap@gentoo.org> (2022-03-20)
 # Mask gcc-8 branch (ended upstream support). Please switch
 # to a fresher gcc branch.
 <sys-devel/gcc-9
 
-# David Seifert <soap@gentoo.org> (2022-03-19)
-# Unmaintained, no revdeps in tree, not even on latest version, EAPI 5,
-# typical 'webapp' smell, last upstream release more than 9 years ago.
-# Bug #402849, #513594, #690042, #828702, removal on 2022-04-18.
-sci-biology/GBrowse
-
 # Michał Górny <mgorny@gentoo.org> (2022-03-18)
 # The new version breaks building docs w/o Internet access (because it
 # tries to fetch and install all dependencies locally).
 ~dev-python/jaraco-packaging-9.0.0
-
-# Jakov Smolić <jsmolic@gentoo.org> (2022-03-16)
-# Unmaintaned, broken packages, no revdeps.
-# Bugs 832618, 731720, 713684,
-# 733662, 741082, and many others.
-# Removal on 2022-04-16.
-net-wireless/yatebts
-net-wireless/srslte
-net-wireless/gr-scan
-
-# Jakov Smolić <jsmolic@gentoo.org> (2022-03-16)
-# Unmaintaned, broken library with no revdeps.
-# Removal on 2022-04-16. Bug #643444. Bug #749639. Bug #684758.
-net-libs/libosmocore
-
-# Jakov Smolić <jsmolic@gentoo.org> (2022-03-16)
-# 9999-only ebuilds, various other QA issues (no python
-# 3.10, using deprecated EAPI, ...)
-# Removal on 2022-04-15.
-net-libs/libmirisdr
-media-sound/deinvert
-net-wireless/gr-m2k
-net-wireless/libm2k
-
-# Jakov Smolić <jsmolic@gentoo.org> (2022-03-16)
-# Python packages with no revdeps, tests are not
-# enabled, not ported to python 3.10
-# Removal on 2022-04-15.
-net-wireless/soapy_power
-dev-python/simplesoapy
-dev-python/simplespectral
-
-# Fabian Groffen <grobian@gentoo.org> (2022-03-16)
-# little activity upstream, doesn't work with PHP 8.0
-# Removal in 30 days
-www-apps/agendav
-
-# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-03-16)
-# Java library without consumers.
-# Removal in 30 days. Bug #835389.
-dev-java/android-util
-
-# Michał Górny <mgorny@gentoo.org> (2022-03-15)
-# No maintainer.  This package is repeatedly non-bumpable due to missing
-# upstream tags.  No revdeps.
-# Removal on 2022-04-14.  Bug #835352.
-dev-python/sphinx-jinja
-
-# Sam James <sam@gentoo.org> (2022-03-15)
-# No reverse dependencies, stuck on deprecated EAPI 5.
-# Removal on 2022-04-15. bug #835350.
-dev-java/headius-options
 
 # John Helmert III <ajak@gentoo.org> (2022-03-13)
 # Arti is not a production-ready Tor client. According to upstream, "do
@@ -331,11 +314,6 @@ dev-java/headius-options
 # security, or stability." Feel free to unmask if this is not a
 # necessity.
 net-p2p/arti
-
-# Alfredo Tupone <tupone@gentoo.org> (2022-03-13)
-# No revdeps, last update on 2011
-# Removal on 2022-04-13.
-www-apps/rocketwiki-lqfb
 
 # Stephan Hartmann <sultan@gentoo.org> (2022-04-01)
 # Dev channel releases are only for people who

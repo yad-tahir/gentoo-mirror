@@ -13,7 +13,7 @@ else
 
 	SRC_URI="https://musl.libc.org/releases/${P}.tar.gz"
 	SRC_URI+=" verify-sig? ( https://musl.libc.org/releases/${P}.tar.gz.asc )"
-	KEYWORDS="-* ~amd64 ~arm ~arm64 ~mips ~ppc ~ppc64 ~riscv ~x86"
+	KEYWORDS="-* ~amd64 ~arm ~arm64 ~mips ppc ~ppc64 ~riscv ~x86"
 
 	BDEPEND="verify-sig? ( sec-keys/openpgp-keys-musl )"
 fi
@@ -167,7 +167,7 @@ src_install() {
 pkg_postinst() {
 	is_crosscompile && return 0
 
-	[ "${ROOT}" != "/" ] && return 0
+	[ -n "${ROOT}" ] && return 0
 
 	ldconfig || die
 }

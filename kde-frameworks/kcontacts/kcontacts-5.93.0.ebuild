@@ -23,13 +23,14 @@ RDEPEND="
 	=kde-frameworks/ki18n-${PVCUT}*:5
 "
 DEPEND="${RDEPEND}
-	test? ( =dev-qt/qtdeclarative-${QTMIN}*:5 )
+	test? ( >=dev-qt/qtdeclarative-${QTMIN}:5 )
 "
 
 src_test() {
 	# bug #566648 (access to /dev/dri/card0 denied)
+	# bug #838502 (again some Qt translations loading related err...)
 	local myctestargs=(
-		-E "(kcontacts-picturetest)"
+		-E "(kcontacts-addresstest|kcontacts-picturetest)"
 	)
 	ecm_src_test
 }

@@ -10,7 +10,7 @@ DESCRIPTION="Wayland platform plugin for Qt"
 SLOT=5/${QT5_PV} # bug 815646
 
 if [[ ${QT5_BUILD_TYPE} == release ]]; then
-	KEYWORDS="amd64 arm arm64 ~hppa ~ppc ~ppc64 ~riscv ~sparc x86"
+	KEYWORDS="amd64 arm arm64 ~hppa ppc ppc64 ~riscv ~sparc x86"
 fi
 
 IUSE="vulkan X"
@@ -33,7 +33,10 @@ BDEPEND="
 	dev-util/wayland-scanner
 "
 
-PATCHES=( "${FILESDIR}/${PN}-5.15.2-QTBUG-90037-QTBUG-91264.patch" ) # upstream pending
+PATCHES=(
+	"${FILESDIR}/${PN}-5.15.2-QTBUG-90037-QTBUG-91264.patch" # upstream pending
+	"${FILESDIR}/${PN}-5.15.3-clang.patch"
+)
 
 src_configure() {
 	local myqmakeargs=(
