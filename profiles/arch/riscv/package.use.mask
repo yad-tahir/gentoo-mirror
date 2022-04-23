@@ -1,6 +1,10 @@
 # Copyright 2019-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Matt Turner <mattst88@gentoo.org> (2022-04-18)
+# app-text/nuspell is not keyworded
+app-text/enchant nuspell
+
 # Jakov Smolić <jsmolic@gentoo.org> (2022-04-07)
 # Depends on sys-cluster/ceph which pulls in valgrind, which is
 # unavailable on riscv currently
@@ -128,9 +132,7 @@ dev-lang/ruby xemacs
 # Yixun Lan <dlan@gentoo.org> (2021-08-20)
 # dependencies not keyworded/tested
 gnome-extra/sushi office
-gnome-base/gnome-control-center v4l
-gnome-base/gnome-shell telepathy browser-extension
-gnome-base/gdm accessibility
+gnome-base/gnome-shell browser-extension
 
 # Alex Fan <alexfanqi@yahoo.com> (2021-08-17)
 # dependencies not keyworded/tested
@@ -141,10 +143,6 @@ kde-plasma/plasma-meta grub plymouth
 sys-auth/sssd test
 
 # Marek Szuba <marecki@gentoo.org> (2021-08-11)
-# dev-ruby/httpclient not keyworded here due to failing tests
-# (Bug #807727). That said, with httpclient-2.8.3 installed manually
-# (and without testing) all webmock-3.13.0 tests passed.
-dev-ruby/webmock test
 # Currently requires dev-lang/spidermonkey:68, which explicitly
 # does not support riscv. Hopefully temporary, see Bug #807772.
 net-libs/libproxy spidermonkey
