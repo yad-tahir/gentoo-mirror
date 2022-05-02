@@ -5,10 +5,8 @@
 	<email>nerdboy@gentoo.org</email>
 	<name>Steve Arnold</name>
 </maintainer>
-<longdescription lang="en">
-	Updated Python implementation of Mustache templating framework.
-</longdescription>
 <upstream>
 	<remote-id type="github">PennyDreadfulMTG/pystache</remote-id>
+	<remote-id type="pypi">pystache</remote-id>
 </upstream>
 </pkgmetadata>
