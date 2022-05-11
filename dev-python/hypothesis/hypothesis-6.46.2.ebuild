@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{8..10} pypy3 )
+PYTHON_COMPAT=( python3_{8..11} pypy3 )
 PYTHON_REQ_USE="threads(+),sqlite"
 
 inherit distutils-r1 multiprocessing optfeature
@@ -16,7 +16,7 @@ S="${WORKDIR}/${PN}-${PN}-python-${PV}/${PN}-python"
 
 LICENSE="MPL-2.0"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~x64-macos"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~x64-macos"
 IUSE="cli"
 
 RDEPEND="
@@ -38,6 +38,12 @@ BDEPEND="
 "
 
 distutils_enable_tests pytest
+
+src_prepare() {
+	# unblock py3.11 betas
+	sed -i -e '/release.*alpha/d' tests/conftest.py || die
+	distutils-r1_src_prepare
+}
 
 python_test() {
 	# subtests are broken by warnings from random plugins

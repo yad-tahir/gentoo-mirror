@@ -2209,6 +2209,7 @@ dev-libs/pocl:hardening - Enable hardening against various attacks. May worsen p
 dev-libs/pocl:hwloc - Enable hwloc support
 dev-libs/pocl:memmanager - Enables custom memory manager. Except for special circumstances, this should be disabled
 dev-libs/poco:7z - Add Support for the 7z archive format
+dev-libs/poco:activerecord - Add ActiveRecord support
 dev-libs/poco:cppparser - Build and install a minimal C++ parser
 dev-libs/poco:crypto - Encryption and digital signing classes
 dev-libs/poco:data - Database abstraction layer to easily send/retrieve data to/from various databases
@@ -2428,7 +2429,6 @@ dev-python/bpython:clipboard - Enable copying to clipboard using dev-python/pype
 dev-python/bpython:jedi - Enable autocompletion using dev-python/jedi
 dev-python/bpython:urwid - Ebable dev-python/urwid-based interface
 dev-python/bpython:watch - Enable watching paths using dev-python/watchdog
-dev-python/ctypescrypto:gost - Build with support for GOST Message Authentication Code
 dev-python/cvxopt:dsdp - Use interior point library sci-libs/dsdp
 dev-python/cvxopt:glpk - Use GNU Linear Programming Kit sci-mathematics/glpk
 dev-python/drf-yasg:validation - Enable swagger spec validation using swagger-spec-validator
@@ -2497,7 +2497,6 @@ dev-python/python-lsp-server:all-plugins - Pull in all optional plugins
 dev-python/python-mpd:twisted - Enable twisted support
 dev-python/python-stdnum:vies - Enable VIES
 dev-python/pyudev:qt5 - Install PyQt5 bindings
-dev-python/pyyaml:libyaml - enable support for C implementation using libyaml
 dev-python/pyzmq:draft - Enable draft API support
 dev-python/rarfile:compressed - Enables the module to support compressed v3 archives by calling the app-arch/unrar.
 dev-python/rfc3986:idna - enable support for the IDNA specification (RFC 5891)
@@ -2808,6 +2807,7 @@ dev-util/glade:webkit - Build catalog support for net-libs/webkit-gtk:4 widgets.
 dev-util/global:vim - Integrate the GNU GLOBAL source code tag system with Vim
 dev-util/gnome-builder:clang - Provide integration with sys-devel/clang for best possible C/C++ autocompletion, semantic highlighting, symbol resolving, and diagnostics support
 dev-util/gnome-builder:devhelp - Provide API docs browsing and integration via dev-util/devhelp
+dev-util/gnome-builder:flatpak - Enable support for flatpak applications using sys-apps/flatpak
 dev-util/gnome-builder:git - Provide support for the Git version control system via dev-libs/libgit2-glib (such as setup of Git for New Project, direct cloning for Open Project and changed lines indicators in the editor gutter)
 dev-util/gnome-builder:glade - Provide integration with dev-util/glade UI designer for Gtk
 dev-util/gnome-builder:sysprof - Provide an integrated profiler via dev-util/sysprof
@@ -2837,7 +2837,6 @@ dev-util/mdds:valgrind - Add support for memory debugging using dev-util/valgrin
 dev-util/mingw64-runtime:idl - Install idl files.
 dev-util/mingw64-runtime:libraries - Build extra libraries: mangle, pseh, winpthreads.
 dev-util/mingw64-runtime:tools - Build extra tools: gendef, genidl.
-dev-util/nemiver:memoryview - Enable the optional hexadecimal memory inspection with app-editors/ghex
 dev-util/nvidia-cuda-sdk:cuda - Build CUDA binaries
 dev-util/nvidia-cuda-sdk:opencl - Build OpenCL binaries
 dev-util/nvidia-cuda-toolkit:debugger - Install the CUDA debugger
@@ -3315,9 +3314,6 @@ gnome-extra/evolution-data-server:berkdb - sys-libs/db support needed to migrate
 gnome-extra/evolution-data-server:gnome-online-accounts - Enable net-libs/gnome-online-accounts based Google authentication support
 gnome-extra/evolution-data-server:oauth - Enable internal OAuth2 authentication support for Google and Outlook.com. If gnome-online-accounts is enabled and used, this is not necessary, but both can be supported at the same time with different setup at runtime
 gnome-extra/evolution-data-server:weather - Enable optional weather calendar support
-gnome-extra/filemanager-actions:caja - Install the mate-base/caja extension
-gnome-extra/filemanager-actions:nautilus - Install the gnome-base/nautilus extension
-gnome-extra/filemanager-actions:nemo - Install the gnome-extra/nemo extension
 gnome-extra/gnome-commander:gsf - Add metadata support for OLE, OLE2 and ODF
 gnome-extra/gnome-commander:pdf - Add metadata support for PDF
 gnome-extra/gnome-commander:taglib - Add metadata support for ID3, Vorbis, FLAC and APE
@@ -4124,7 +4120,6 @@ media-libs/dav1d:8bit - Add support for decoding 8-bit AV1.
 media-libs/dav1d:asm - Enable custom assembly for faster decoding.
 media-libs/dav1d:xxhash - Enable dev-libs/xxhash support for hashing muxer
 media-libs/devil:allegro - Add support for Allegro
-media-libs/devil:nvtt - Add support for media-gfx/nvidia-texture-tools
 media-libs/dumb:allegro - Add support for Allegro 4
 media-libs/embree:compact-polys - Enables double indexed poly layout.
 media-libs/embree:ispc - Build Embree with support for ISPC applications.
@@ -5270,12 +5265,9 @@ net-analyzer/graphite-web:carbon - Enable carbon support
 net-analyzer/graphite-web:memcached - Enable memcached support
 net-analyzer/greenbone-security-assistant:extras - Pdf results, extra fonts, html docs support
 net-analyzer/gvm:cli - Command Line Interface for OpenVAS Scanner
-net-analyzer/gvm:cron - A cron job to update GVM's vulnerability feeds daily
-net-analyzer/gvm:extras - Extra fonts, pdf-results! and html docs support
 net-analyzer/gvm:gsa - Greenbone Security Assistant (WebUI)
 net-analyzer/gvm:ospd - Enable support for scanner wrappers
 net-analyzer/gvm-libs:extras - Html docs support
-net-analyzer/gvmd:extras - Html docs support
 net-analyzer/hexinject:experimental - Install experimental packets.tcl
 net-analyzer/hexinject:tools - Install hex2raw and prettypacket tools
 net-analyzer/httping:tfo - Enable support for TCP Fast Open
@@ -5800,7 +5792,6 @@ net-im/ekg2:gpg - Enable jabber message encryption through app-crypt/gpgme.
 net-im/ekg2:minimal - Disable building extra plugins with no additional deps.
 net-im/ekg2:openssl - Support encryption in sim plugin, using OpenSSL.
 net-im/ekg2:sqlite - Support logging messages into SQLite3 database.
-net-im/element-desktop-bin:emoji - Use media-fonts/noto-emoji for displaying emoji
 net-im/empathy:gnome-online-accounts - Enable using net-libs/gnome-online-accounts for authorization (e.g. for Google Talk)
 net-im/empathy:map - Enable world map support through media-libs/libchamplain
 net-im/err:irc - Pull optional dependencies, needed for IRC backend
@@ -6666,10 +6657,6 @@ net-misc/tigervnc:xorgmodule - Build the Xorg module
 net-misc/uftp:server - Install uftp server daemon
 net-misc/vde:pcap - Enable the pcap-based plugin that allows creating a switch against a real interface.
 net-misc/vde:ssl - Enable the cryptcab plugin that allows creating an encrypted virtual cable.
-net-misc/vinagre:spice - Enable access to SPICE-enabled virtual machines
-net-misc/vinagre:ssh - Enable ssh plugin using x11-libs/vte
-net-misc/vinagre:telepathy - Enable access to remote desktop via a net-libs/telepathy-glib client
-net-misc/vino:telepathy - Enable desktop sharing through a telepathy client
 net-misc/wget:cookie-check - Enable cookie checks via net-libs/libpsl
 net-misc/wget:metalink - Enable support for media-libs/libmetalink
 net-misc/wget:ntlm - Enable support for NTLM (Windows-based) authorization
@@ -6901,6 +6888,7 @@ net-voip/yate:zaptel - Enable Zaptel driver
 net-vpn/i2p:nls - Adds Native Language Support using GNU gettext.
 net-vpn/i2pd:i2p-hardening - Compile with hardening on vanilla compilers/linkers
 net-vpn/libreswan:dnssec - Use DNSSEC resolver (requires net-dns/unbound)
+net-vpn/networkmanager-sstp:gtk4 - Use gui-libs/gtk for GUI support.
 net-vpn/ocserv:otp - Enable support for one-time passwords
 net-vpn/openconnect:gssapi - Build GSSAPI support
 net-vpn/openconnect:libproxy - Enable proxy support
@@ -6921,21 +6909,25 @@ net-vpn/strongswan:gcrypt - Enable dev-libs/libgcrypt plugin which provides 3DES
 net-vpn/strongswan:non-root - Force IKEv1/IKEv2 daemons to normal user privileges. This might impose some restrictions mainly to the IKEv1 daemon. Disable only if you really require superuser privileges.
 net-vpn/strongswan:openssl - Enable dev-libs/openssl plugin which is required for Elliptic Curve Cryptography (DH groups 19-21,25,26) and ECDSA. Also provides 3DES, AES, Blowfish, Camellia, CAST, DES, IDEA and RC5 ciphers along with MD2, MD4, MD5 and SHA1/2 hash algorithms, RSA and DH groups 1,2,5,14-18 and 22-24(4.4+) dev-libs/openssl has to be compiled with USE="-bindist".
 net-vpn/strongswan:pkcs11 - Enable pkcs11 support
+net-vpn/strongswan:strongswan_plugins_addrblock - Enable support for the addrblock crypto plugin
 net-vpn/strongswan:strongswan_plugins_aesni - Enable support for Intel AES-NI crypto plugin
 net-vpn/strongswan:strongswan_plugins_blowfish - Enable support for the blowfish plugin
 net-vpn/strongswan:strongswan_plugins_bypass-lan - Enable support for the bypass-lan plugin
 net-vpn/strongswan:strongswan_plugins_ccm - Enable support for the ccm plugin
 net-vpn/strongswan:strongswan_plugins_chapoly - Enable ChaCha20/Poly1305 AEAD implementation and ChaCha20 XOF plugin
 net-vpn/strongswan:strongswan_plugins_ctr - Enable support for the ctr plugin
+net-vpn/strongswan:strongswan_plugins_error-notify - Enable support for the error-notify plugin
 net-vpn/strongswan:strongswan_plugins_forecast - Enable multicast and broadcast forwarding plugin
 net-vpn/strongswan:strongswan_plugins_gcm - Enable support for the gcm plugin
 net-vpn/strongswan:strongswan_plugins_ha - Enable support for the ha plugin
 net-vpn/strongswan:strongswan_plugins_ipseckey - Enable support for the ipseckey plugin
+net-vpn/strongswan:strongswan_plugins_kdf - Enable support for the kdf plugin
 net-vpn/strongswan:strongswan_plugins_led - Enable support for the led plugin
 net-vpn/strongswan:strongswan_plugins_lookip - Enable support for the lookip plugin
 net-vpn/strongswan:strongswan_plugins_newhope - Enable plugin that allows key exchange based on post-quantum computer New Hope algorithm
 net-vpn/strongswan:strongswan_plugins_ntru - Enable support for the ntru plugin
 net-vpn/strongswan:strongswan_plugins_padlock - Enable support for the padlock plugin
+net-vpn/strongswan:strongswan_plugins_prf-plus - Enable support for the prf-plus plugin
 net-vpn/strongswan:strongswan_plugins_rdrand - Enable support for the rdrand plugin
 net-vpn/strongswan:strongswan_plugins_save-keys - Enable plugin that saves IKE and/or ESP keys to files compatible with Wireshark (for debugging)
 net-vpn/strongswan:strongswan_plugins_systime-fix - Enable support for the systime-fix plugin
@@ -7513,6 +7505,7 @@ sci-mathematics/geomview:motionaveraging - Enable experimental motion averaging 
 sci-mathematics/giac:ecm - Enable the use of sci-mathematics/gmp-ecm
 sci-mathematics/giac:gc - Enable garbage collection support via dev-libs/boehm-gc
 sci-mathematics/giac:glpk - Enable the use of sci-mathematics/glpk
+sci-mathematics/gmp-ecm:cuda - Use NVidia's cuda toolkit for computations
 sci-mathematics/gmp-ecm:custom-tune - Improve performance of some operations by selecting machine-specific defaults
 sci-mathematics/gretl:R - Enable support for dev-lang/R
 sci-mathematics/gretl:extras - Build and install add-ons bundled with gretl
@@ -7531,6 +7524,7 @@ sci-mathematics/maxima:sbcl - Compile maxima with Steel Bank Common Lisp (dev-li
 sci-mathematics/maxima:vtk - Support plotting with sci-libs/vtk
 sci-mathematics/msieve:ecm - Enable support for the GMP-ECM library
 sci-mathematics/normaliz:extras - Install Macaulay2 and sci-mathematics/singularpackages as shipped by upstream
+sci-mathematics/normaliz:nauty - Use sci-mathematics/nauty to compute automorphism groups.
 sci-mathematics/octave:glpk - Add support for sci-mathematics/glpk for linear programming
 sci-mathematics/octave:json - Allow using jsonencode and jsondecode commands via dev-libs/rapidjson
 sci-mathematics/octave:qhull - Add support for media-libs/qhull, to allow `delaunay', `convhull', and related functions
@@ -7571,6 +7565,7 @@ sci-mathematics/why3:coq - Add sci-mathematics/coq support
 sci-mathematics/why3:gtk - Build the IDE x11-libs/gtk+
 sci-mathematics/why3:re - Use Re (dev-ml/re) instead of Str for regular expressions
 sci-mathematics/why3:sexp - Add support for outputting S-expressions with dev-ml/ppx_sexp_conv
+sci-mathematics/why3:stackify - Enable structure reconstruction algorithm for MLCFG
 sci-mathematics/why3:zarith - Use Zarith (dev-ml/zarith) instead of Nums (dev-ml/num) for computations
 sci-mathematics/why3:zip - Enable compression of session files
 sci-mathematics/why3-for-spark:coq - Add sci-mathematics/coq support
@@ -7898,7 +7893,7 @@ sys-apps/systemd:curl - Enable support for uploading journals
 sys-apps/systemd:dns-over-tls - Enable DNS-over-TLS support
 sys-apps/systemd:elfutils - Enable coredump stacktraces in the journal
 sys-apps/systemd:fido2 - Enable FIDO2 support
-sys-apps/systemd:gcrypt - Enable sealing of journal files using gcrypt
+sys-apps/systemd:gcrypt - Enable use of dev-libs/libgcrypt for various features
 sys-apps/systemd:gnuefi - Enable EFI boot manager and stub loader (built using sys-boot/gnu-efi)
 sys-apps/systemd:homed - Enable portable home directories
 sys-apps/systemd:hostnamed-fallback - Enable setting hostname with networkd/hostnamed without polkit (requires running sys-apps/dbus-broker)
@@ -7907,7 +7902,7 @@ sys-apps/systemd:importd - Enable import daemon
 sys-apps/systemd:kmod - Enable kernel module loading via sys-apps/kmod
 sys-apps/systemd:lz4 - Enable lz4 compression for the journal
 sys-apps/systemd:nat - Enable support for network address translation in networkd
-sys-apps/systemd:openssl - Enable use of dev-libs/openssl
+sys-apps/systemd:openssl - Enable use of dev-libs/openssl for various features
 sys-apps/systemd:pkcs11 - Enable PKCS#11 support for cryptsetup and homed
 sys-apps/systemd:pwquality - Enable password quality checking in homed
 sys-apps/systemd:qrcode - Enable qrcode output support in journal
@@ -8169,12 +8164,9 @@ sys-devel/clang-runtime:openmp - Install sys-libs/libomp for -fopenmp support
 sys-devel/clang-runtime:sanitize - Enable compiler-rt sanitizer (-fsanitize*) support
 sys-devel/distcc:gssapi - Enable support for net-libs/libgssglue
 sys-devel/gcc:ada - Build the ADA language (GNAT) frontend
-sys-devel/gcc:awt - Useful only when building GCJ, this enables Abstract Window Toolkit (AWT) peer support on top of GTK+
 sys-devel/gcc:cet - Enable support for Intel Control Flow Enforcement Technology (CET)
-sys-devel/gcc:cilk - Support the Cilk Plus language (C/C++ based languages for parallel programming)
 sys-devel/gcc:d - Enable support for the D programming language
 sys-devel/gcc:fixed-point - Enable fixed-point arithmetic support for MIPS targets in gcc (Warning: significantly increases compile time!)
-sys-devel/gcc:gcj - Build the GCJ Java language frontend.
 sys-devel/gcc:go - Build the GCC Go language frontend.
 sys-devel/gcc:graphite - Add support for the framework for loop optimizations based on a polyhedral intermediate representation
 sys-devel/gcc:jit - Enable libgccjit so other applications can embed gcc for Just-In-Time compilation. This will slow down the compiler a bit as it forces all of the toolchain to be shared libs.
@@ -8395,6 +8387,7 @@ sys-libs/libblockdev:dmraid - Support for dmraid devices, also known as ATA-RAID
 sys-libs/libblockdev:escrow - Support for building crypto plugin with escrow device support
 sys-libs/libblockdev:kbd - Enable kernel block device support.
 sys-libs/libblockdev:lvm - Enable support for Logical Volume Management via sys-fs/lvm2.
+sys-libs/libblockdev:nvme - Add nvme support via sys-libs/libnvme
 sys-libs/libblockdev:tools - Build tools
 sys-libs/libblockdev:vdo - Enable Virtual Data Optimizer support.
 sys-libs/libcap:tools - Install captree, which requires dev-lang/go
@@ -8552,7 +8545,6 @@ www-apps/icingaweb2:apache2-server - Adds support for the apache2-server
 www-apps/icingaweb2:fpm - Adds FPM support to php
 www-apps/icingaweb2:nginx - Adds support for nginx
 www-apps/ikiwiki:extras - Installs additional modules used by ikiwiki plugins
-www-apps/kibana-bin:x-pack - Enable additional features (may need a license)
 www-apps/klaus:ctags - Enable support for Exuberant ctags; makes all source code symbols hyperlinks to their definitions
 www-apps/nikola:assets - Support web asset management
 www-apps/nikola:charts - Support chart generation through dev-python/pygal
@@ -8666,6 +8658,7 @@ www-client/seamonkey:system-libevent - Use the system-wide dev-libs/libevent ins
 www-client/seamonkey:system-libvpx - Use the system-wide media-libs/libvpx instead of bundled
 www-client/seamonkey:system-png - Use the system-wide media-libs/libpng instead of bundled (requires APNG patches)
 www-client/seamonkey:system-sqlite - Use the system-wide dev-db/sqlite installation with secure-delete enabled
+www-client/seamonkey:webrtc - Enable WebRTC support. Disabled by default due to privacy concerns.
 www-client/surf:savedconfig - Without a saved config.h, this package depends on net-misc/curl and x11-terms/st for a default download mechanism
 www-client/surf:tabbed - Install surf-open.sh script for running surf in x11-misc/tabbed
 www-client/uget:aria2 - Enable support for net-misc/aria2 through xmlrpc. You'll find the plugin in the app's settings.
@@ -9001,6 +8994,7 @@ x11-themes/vertex-theme:gnome-shell - Install theme for gnome-base/gnome-shell
 x11-themes/vertex-theme:mate - Install Metacity theme for mate-base/mate
 x11-themes/vertex-theme:xfce - Install theme for xfce-base/xfwm4
 x11-themes/zuki-themes:gnome-shell - Install theme for gnome-base/gnome-shell
+x11-themes/zuki-themes:gtk2 - Install GTK+2 theme
 x11-themes/zuki-themes:mate - Install Metacity theme for mate-base/mate
 x11-themes/zuki-themes:xfce - Install theme for xfce-base/xfwm4
 x11-themes/zukitwo:gnome-shell - Install theme for gnome-base/gnome-shell

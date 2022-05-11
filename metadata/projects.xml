@@ -755,12 +755,6 @@
     </member>
   </project>
   <project>
-    <email>dotnet@gentoo.org</email>
-    <name>Dotnet Project</name>
-    <url>https://wiki.gentoo.org/wiki/Project:Dotnet</url>
-    <description>The Dotnet Project handles Microsoft .NET Framework related packages in the Gentoo package tree.</description>
-  </project>
-  <project>
     <email>ejabberd@gentoo.org</email>
     <name>ejabberd Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Ejabberd</url>
@@ -1370,6 +1364,11 @@
       <email>chutzpah@gentoo.org</email>
       <name>Patrick McLean</name>
       <role>PaX markings</role>
+    </member>
+    <member>
+      <email>concord@gentoo.org</email>
+      <name>Kenton Groombridge</name>
+      <role>SELinux</role>
     </member>
     <member>
       <email>klondike@gentoo.org</email>
@@ -2712,10 +2711,6 @@
       <name>Andreas Sturmlechner</name>
     </member>
     <member>
-      <email>dilfridge@gentoo.org</email>
-      <name>Andreas K. Hüttel</name>
-    </member>
-    <member>
       <email>mgorny@gentoo.org</email>
       <name>Michał Górny</name>
       <role>Deputy Lead</role>
@@ -3005,6 +3000,11 @@
     <name>SELinux</name>
     <url>https://wiki.gentoo.org/wiki/Project:SELinux</url>
     <description>This project manages SELinux support in Gentoo. This includes providing kernels with SELinux support, providing patches to userland utilities, writing strong Gentoo-specific default profiles, and maintaining a good default set of policies.</description>
+    <member>
+      <email>concord@gentoo.org</email>
+      <name>Kenton Groombridge</name>
+      <role>Documentation, Policy</role>
+    </member>
     <member is-lead="1">
       <email>perfinion@gentoo.org</email>
       <name>Jason Zaman</name>
