@@ -23,7 +23,7 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~m68k ~mips ppc ~ppc64 ~riscv ~s390 ~sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
 IUSE="examples +sqlite test"
 
 BDEPEND="
@@ -45,7 +45,10 @@ src_prepare() {
 }
 
 python_test() {
-	local EPYTEST_DESELECT=()
+	local EPYTEST_DESELECT=(
+		# warning tests are unreliable
+		test/base/test_warnings.py
+	)
 	[[ ${EPYTHON} == pypy3 ]] && EPYTEST_DESELECT+=(
 		test/ext/test_associationproxy.py::ProxyHybridTest::test_msg_fails_on_cls_access
 	)
