@@ -5,7 +5,7 @@ EAPI=8
 
 CARGO_OPTIONAL=yes
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{8..10} pypy3 )
+PYTHON_COMPAT=( python3_{8..11} pypy3 )
 
 CRATES="
 	bitflags-1.3.2
@@ -104,6 +104,7 @@ RDEPEND="
 	virtual/rust
 	<dev-python/semantic_version-3[${PYTHON_USEDEP}]
 	>=dev-python/semantic_version-2.8.2[${PYTHON_USEDEP}]
+	dev-python/setuptools[${PYTHON_USEDEP}]
 	>=dev-python/typing-extensions-3.7.4.3[${PYTHON_USEDEP}]
 "
 BDEPEND="

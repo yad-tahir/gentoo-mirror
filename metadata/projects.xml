@@ -299,7 +299,7 @@
       <name>Patrick McLean</name>
       <role>Misc stuff that needs to get done</role>
     </member>
-    <member is-lead="1">
+    <member>
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
       <role>Misc stuff, toolchain</role>
@@ -322,7 +322,7 @@
       <name>Robin Johnson</name>
       <role>Specialized block devices and lots of other miscellaneous stuff</role>
     </member>
-    <member>
+    <member is-lead="1">
       <email>sam@gentoo.org</email>
       <name>Sam James</name>
     </member>
@@ -567,6 +567,10 @@
     <member>
       <email>chewi@gentoo.org</email>
       <name>James Le Cuirot</name>
+    </member>
+    <member>
+      <email>dilfridge@gentoo.org</email>
+      <name>Andreas K. Hüttel</name>
     </member>
     <member>
       <email>gyakovlev@gentoo.org</email>

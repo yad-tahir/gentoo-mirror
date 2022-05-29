@@ -4,6 +4,15 @@
 # This file requires eapi 5 or later. New entries go on top.
 # Please use the same syntax as in package.use.mask
 
+# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-05-08)
+# gentoo-vm useflag is not stable yet
+dev-java/openjdk-bin:17 gentoo-vm
+dev-java/openjdk:17 gentoo-vm
+
+# Matt Turner <mattst88@gentoo.org> (2022-05-11)
+# app-text/pandoc is not stable
+app-text/nuspell doc
+
 # Volkmar W. Pogatzki <gentoo@pogatzki.net> (2022-05-05)
 # fop[test] depends on mockito:4, which is not yet stable (bug #727504),
 # and itself blocked by libffi stabilization (bug #813756).
@@ -102,7 +111,7 @@ app-emulation/winetricks test
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2019-12-21)
 # For bleeding edge features and testing, not generally suitable
 # for stable systems
-dev-lang/rust miri nightly system-bootstrap
+dev-lang/rust miri nightly profiler system-bootstrap
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2019-12-09)
 # Declared experimental, and dev-cpp/websocketpp not stable yet
