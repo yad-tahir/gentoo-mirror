@@ -4,7 +4,7 @@
 EAPI=8
 
 PYTHON_COMPAT=( python3_{8..10} )
-inherit optfeature python-single-r1 toolchain-funcs xdg
+inherit optfeature multiprocessing python-single-r1 toolchain-funcs xdg
 
 if [[ ${PV} == 9999 ]] ; then
 	inherit git-r3
@@ -15,7 +15,7 @@ else
 		https://github.com/kovidgoyal/kitty/releases/download/v${PV}/${P}.tar.xz
 		verify-sig? ( https://github.com/kovidgoyal/kitty/releases/download/v${PV}/${P}.tar.xz.sig )"
 	VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}/usr/share/openpgp-keys/kovidgoyal.gpg"
-	KEYWORDS="~amd64 ~ppc64 ~x86"
+	KEYWORDS="amd64 ~ppc64 x86"
 fi
 
 DESCRIPTION="Fast, feature-rich, GPU-based terminal"
@@ -71,7 +71,9 @@ PATCHES=(
 src_prepare() {
 	default
 
-	sed -i "s/'x11 wayland'/'$(usev X x11) $(usev wayland)'/" setup.py || die
+	sed -e "s/'x11 wayland'/'$(usev X x11) $(usev wayland)'/" \
+		-e "/num_workers = /s/=.*/= $(makeopts_jobs)/" \
+		-i setup.py || die
 
 	if use !transfer; then
 		sed -i 's/rs_cflag =/& []#/;/files.*rsync/d' setup.py || die
