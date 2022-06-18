@@ -33,6 +33,19 @@
 
 #--- END OF EXAMPLES ---
 
+# Hans de Graaff <graaff@gentoo.org> (2020-06-18)
+# Obsolete ruby26-only slots. Please use a newer slot instead.
+# Masked for removal in 30 days.
+dev-ruby/autoprefixer-rails:9
+dev-ruby/sass:3.5
+dev-ruby/slim:0
+
+# William Hubbs <williamh@gentoo.org> (2022-06-17)
+# Dead upstream, please use dev-util/github-cli
+# Bug #845921
+# Removal: 2022-07-17
+dev-util/cligh
+
 # Ulrich Müller <ulm@gentoo.org> (2022-06-16)
 # Last release in 2002. The distfile cannot be redistributed
 # and is no longer available upstream. Use media-gfx/imagemagick
@@ -331,12 +344,6 @@ dev-python/unicodecsv
 # offers additional features over whatsapp-desktop-bin
 # Masked for removal in 30 days
 net-im/whatsapp-desktop-bin
-
-# Matt Turner <mattst88@gentoo.org> (2022-05-17)
-# Dead packages. No reverse dependencies.
-# Removal on 2022-06-17
-dev-perl/Gtk2-SourceView2
-dev-perl/Gtk2-Unique
 
 # Michał Górny <mgorny@gentoo.org> (2022-05-16)
 # This was only added for dev-python/nptyping, and nptyping-2.0.0
