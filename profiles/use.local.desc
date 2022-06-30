@@ -561,6 +561,7 @@ app-emulation/libvirt:xen - Support management of Xen virtualisation (app-emulat
 app-emulation/libvirt:zfs - Enable ZFS backend storage sys-fs/zfs
 app-emulation/nemu:network-map - Adds possibility of exporting network map to SVG
 app-emulation/nemu:ovf - Adds support for OVA/OVF import
+app-emulation/nemu:remote-api - Adds API for remote control
 app-emulation/nemu:savevm - Adds support for QEMU savevm snapshots (experimental, QEMU must be patched)
 app-emulation/nemu:spice - Adds Spice protocol support
 app-emulation/nemu:vnc-client - Adds support for external VNC client
@@ -3042,6 +3043,7 @@ games-emulation/mgba:discord - Enable Discord RPC support
 games-emulation/mgba:elf - Enable the use of elf utils via dev-libs/elfutils
 games-emulation/mgba:gles2 - Build OpenGL ES 2.x RenderSystem
 games-emulation/mgba:gles3 - Build OpenGL ES 3.x RenderSystem
+games-emulation/mgba:libretro - Build libretro port
 games-emulation/mupen64plus:audio-sdl - Enable SDL audio plugin.
 games-emulation/mupen64plus:input-sdl - Enable SDL input plugin.
 games-emulation/mupen64plus:rsp-hle - Enable HLE RSP plugin.
@@ -3065,6 +3067,8 @@ games-emulation/snes9x:libretro - Build libretro port
 games-emulation/snes9x:netplay - Enable playing ROMs over the network (not recommended)
 games-emulation/vbam:link - Enable GBA linking functionality
 games-engines/devilutionx:lto - Build with link time optimization enabled
+games-engines/devilutionx:sodium - Enable network packet encryption using dev-libs/libsodium
+games-engines/devilutionx:zerotier - Enable ZeroTier for online public games
 games-engines/exult:fluidsynth - Compile with support for FluidSynth
 games-engines/exult:sdl2 - Use libsdl2 instead of libsdl
 games-engines/exult:tools - Enable tools
@@ -3345,6 +3349,7 @@ gui-apps/foot:grapheme-clustering - Enable grapheme clustering support
 gui-apps/grim:jpeg - Enable JPEG support.
 gui-apps/gtkgreet:layershell - Enable layer shell support
 gui-apps/mako:icons - Enable support for icons
+gui-apps/swaybg:gdk-pixbuf - Support image types other than PNG
 gui-apps/swayidle:elogind - Enable support for rootless session via elogind
 gui-apps/swaylock:gdk-pixbuf - Enable additional image format support via the x11-libs/gdk-pixbuf library
 gui-apps/waybar:mpd - Enable support for the Music Player Daemon
@@ -4266,11 +4271,7 @@ media-libs/lsp-plugins:lv2 - build lv2 plugins
 media-libs/lv2:plugins - Enables examples plugins.
 media-libs/lvtk:gtk2 - Enable x11-libs/gtk+:2 based GUI support
 media-libs/lvtk:tools - Compile and install ttl2c tool
-media-libs/mesa:classic - Build drivers based on the classic architecture.
 media-libs/mesa:d3d9 - Enable Direct 3D9 API through Nine state tracker. Can be used together with patched wine.
-media-libs/mesa:egl - Enable EGL support.
-media-libs/mesa:gallium - Build drivers based on Gallium3D, the new architecture for 3D graphics drivers.
-media-libs/mesa:gbm - Enable the Graphics Buffer Manager for EGL on KMS.
 media-libs/mesa:gles1 - Enable GLESv1 support.
 media-libs/mesa:gles2 - Enable GLESv2 support.
 media-libs/mesa:llvm - Enable LLVM backend for Gallium3D.
@@ -4367,10 +4368,11 @@ media-libs/sdl2-mixer:playtools - Install playwave and playmus tools (useful for
 media-libs/sdl2-mixer:tremor - enable OGG Vorbis music via libtremor
 media-libs/sdl2-mixer:wav - support WAVE files
 media-libs/sdl2-ttf:harfbuzz - Use media-libs/harfbuzz for enhanced font rendering
-media-libs/sdl_audiolib:fluidsynth - use media-sound/fluidsynth for MIDI
+media-libs/sdl_audiolib:fluidsynth - Enable support for MIDI via media-sound/fluidsynth
 media-libs/sdl_audiolib:mpg123 - Enable support for mp3 decoding via media-sound/mpg123
 media-libs/sdl_audiolib:openmpt - OpenMPT decoder via media-libs/libopenmpt
 media-libs/sdl_audiolib:soxr - Enable SoX Resampler support via media-libs/soxr
+media-libs/sdl_audiolib:wildmidi - Enable support for MIDI via media-sound/wildmidi
 media-libs/sge:image - enable sdl-image support
 media-libs/spandsp:fixed-point - Enable fixed point support
 media-libs/speex:utils - Enables speex commandline utilities (speexenc, speexdec).
@@ -4469,8 +4471,8 @@ media-plugins/vdr-epgsearch:conflictcheckonly - install the "conflictcheckonly" 
 media-plugins/vdr-epgsearch:epgsearchonly - install the "epgsearchonly" vdr-plugin
 media-plugins/vdr-epgsearch:quicksearch - install the "quicksearch" vdr-plugin
 media-plugins/vdr-epgsearch:tre - Add support for unlimited fuzzy searching with help of dev-libs/tre library
-media-plugins/vdr-streamdev:client - Compile the VDR plugin vdr-streamdev-client that acts like a dvb-budget card
-media-plugins/vdr-streamdev:server - Compile the VDR plugin vdr-streamdev-server that allows remote systems to access the DVB cards used for the local VDR
+media-plugins/vdr-streamdev:client - Compile the VDR plugin vdr-streamdev-client that can connect a vdr to a remote streamdev-server instance
+media-plugins/vdr-streamdev:server - Compile the VDR plugin vdr-streamdev-server that allows remote systems to access the vdr using streamdev-specific VTP and HTTP protocol
 media-plugins/vdr-vdrmanager:stream - Add support for streaming Video to Android client
 media-plugins/vdr-weatherng:dxr3 - enables lower osd color depth for dxr3 cards
 media-plugins/vdr-xineliboutput:bluray - Enable BluRay metadata support through media-libs/libbluray
@@ -4668,12 +4670,6 @@ media-sound/mpd:webdav - Enable using music from a WebDAV share
 media-sound/mpd:wildmidi - Enable MIDI support via wildmidi
 media-sound/mpfc:wav - Enable wav audio codec support
 media-sound/mpg123:int-quality - Use rounding instead of fast truncation for integer output, where possible
-media-sound/mumble:g15 - Enable support for the Logitech G15 LCD (and compatible devices).
-media-sound/mumble:pipewire - Enable pipewire support for audio output.
-media-sound/mumble:rnnoise - Enable alternative noise suppression option based on RNNoise.
-media-sound/mumble:speech - Enable text-to-speech support in Mumble.
-media-sound/murmur:grpc - Use net-libs/grpc to enable remote control capabilities.
-media-sound/murmur:ice - Use dev-libs/Ice to enable remote control capabilities.
 media-sound/musescore:omr - Enable PDF import (OMR - optical music recognition)
 media-sound/musescore:osc - Enable OSC remote control protocol
 media-sound/musescore:portmidi - Enable support for building against media-libs/portmidi
@@ -4823,8 +4819,6 @@ media-sound/supercollider:vim - Enable the SCVIM user interface
 media-sound/supercollider:webengine - Enable the internal help system using QtWebengine
 media-sound/teamspeak-client:system-libcxx - Use sys-libs/libcxx instead of shipped libs.
 media-sound/teamspeak-server:tsdns - Install TeamSpeaks own DNS service for handling multiple virtual servers.
-media-sound/umurmur:mbedtls - Use net-libs/mbedtls as TLS provider
-media-sound/umurmur:shm - Enable shared memory support
 media-sound/upmpdcli:thirdparty - Enable streaming from Qobuz and Tidal external services
 media-sound/vimpc:boost - Use boost instead of C++11 libraries
 media-sound/vorbis-tools:kate - Adds support for Ogg Kate subtitles via libkate.
@@ -6063,6 +6057,7 @@ net-libs/libproxy:kde - Enable support for reading proxy settings from KDE
 net-libs/libproxy:spidermonkey - Use libmozjs from dev-lang/spidermonkey for PAC parsing
 net-libs/libproxy:webkit - Use libjavascriptcoregtk from net-libs/webkit-gtk for PAC parsing
 net-libs/libqmi:mbim - Support QMI over Mobile Broadband Interface Model (MBIM)
+net-libs/libqmi:qrtr - Support QMI over IPC Router bus (QRTR)
 net-libs/libsoup:brotli - Enable brotli decompression support
 net-libs/libsoup:gssapi - Enable GSSAPI support
 net-libs/libsoup:samba - Use net-fs/samba for NTLM Single Sign-On
@@ -6503,6 +6498,7 @@ net-misc/miniupnpd:portinuse - Check if a port is in use before allowing a NAT-P
 net-misc/miniupnpd:strict - Be more strict regarding compliance with UPnP specifications.
 net-misc/modemmanager:mbim - Enable MBIM modem protocol
 net-misc/modemmanager:qmi - Enable support for the QMI modem protocol used by devices with Qualcomm chipsets
+net-misc/modemmanager:qrtr - Enable support for the QMI over IPC Router bus (QRTR) protocol
 net-misc/mosh:client - Build network client
 net-misc/mosh:examples - Include example scripts
 net-misc/mosh:mosh-hardening - Enable compiler and linker options to frustrate memory corruption exploits
@@ -6865,8 +6861,16 @@ net-proxy/tsocks:envconf - Allow TSOCKS_CONF_FILE to specify configuration file
 net-proxy/tsocks:server-lookups - Allow hostname resolution _for_ SOCKS servers
 net-proxy/tsocks:tordns - Apply tordns patch which allows transparent TORification of the DNS queries
 net-voip/captagent:redis - Enable redis support
+net-voip/mumble:g15 - Enable support for the Logitech G15 LCD (and compatible devices).
+net-voip/mumble:pipewire - Enable pipewire support for audio output.
+net-voip/mumble:rnnoise - Enable alternative noise suppression option based on RNNoise.
+net-voip/mumble:speech - Enable text-to-speech support in Mumble.
+net-voip/murmur:grpc - Use net-libs/grpc to enable remote control capabilities.
+net-voip/murmur:ice - Use dev-libs/Ice to enable remote control capabilities.
 net-voip/telepathy-gabble:jingle - Enable voice calls for jabber
 net-voip/telepathy-gabble:plugins - Enable plugin loader
+net-voip/umurmur:mbedtls - Use net-libs/mbedtls as TLS provider
+net-voip/umurmur:shm - Enable shared memory support
 net-voip/yate:amrnb - use AMR-NB
 net-voip/yate:dahdi - Enable Dahdi driver
 net-voip/yate:gsm - use GSM codec
@@ -6925,7 +6929,6 @@ net-vpn/strongswan:strongswan_plugins_lookip - Enable support for the lookip plu
 net-vpn/strongswan:strongswan_plugins_newhope - Enable plugin that allows key exchange based on post-quantum computer New Hope algorithm
 net-vpn/strongswan:strongswan_plugins_ntru - Enable support for the ntru plugin
 net-vpn/strongswan:strongswan_plugins_padlock - Enable support for the padlock plugin
-net-vpn/strongswan:strongswan_plugins_prf-plus - Enable support for the prf-plus plugin
 net-vpn/strongswan:strongswan_plugins_rdrand - Enable support for the rdrand plugin
 net-vpn/strongswan:strongswan_plugins_save-keys - Enable plugin that saves IKE and/or ESP keys to files compatible with Wireshark (for debugging)
 net-vpn/strongswan:strongswan_plugins_systime-fix - Enable support for the systime-fix plugin
@@ -7271,8 +7274,10 @@ sci-libs/coinor-cppad:ipopt - Add support for IPOPT (sci-libs/ipopt)
 sci-libs/coinor-symphony:glpk - Enable GNU Linear Programming Kit sci-mathematics/glpk support
 sci-libs/coinor-utils:glpk - Enable GNU Linear Programming Kit sci-mathematics/glpk support
 sci-libs/dealii:adolc - Adds support for ADOL-C (sci-libs/adolc)
+sci-libs/dealii:arborx - Adds support for ARBORX (sci-libs/arborx)
 sci-libs/dealii:arpack - Adds support for ARPACK (sci-libs/arpack)
 sci-libs/dealii:assimp - Add support for assimp (media-libs/assimp)
+sci-libs/dealii:cgal - Adds support for CGAL (sci-mathematics/cgal)
 sci-libs/dealii:cuda - Add support for cuda (dev-util/nvidia-cuda-sdk)
 sci-libs/dealii:debug - Build an additional debug library with extra debug codepaths, like asserts and extra output. If you want to get meaningful backtraces see <https://www.gentoo.org/proj/en/qa/backtraces.xml>
 sci-libs/dealii:ginkgo - Add support for ginkgo (sci-libs/ginkgo)
@@ -8395,6 +8400,7 @@ sys-libs/glibc:multiarch - enable optimizations for multiple CPU architectures (
 sys-libs/glibc:multilib-bootstrap - Provide prebuilt libgcc.a and crt files if missing. Only needed for ABI switch.
 sys-libs/glibc:nscd - Build, and enable support for, the Name Service Cache Daemon
 sys-libs/glibc:ssp - protect stack of glibc internals
+sys-libs/glibc:stack-realign - Realign the stack in the 32-bit build for compatibility with older binaries at some performance cost
 sys-libs/glibc:static-pie - Enable static PIE support (runtime files for -static-pie gcc option).
 sys-libs/glibc:suid - Make internal pt_chown helper setuid -- not needed if using Linux and have /dev/pts mounted with gid=5
 sys-libs/glibc:systemtap - enable systemtap static probe points
@@ -8430,6 +8436,7 @@ sys-libs/libxcrypt:compat - Build with compatibility interfaces for other crypt 
 sys-libs/libxcrypt:system - Install as system libcrypt.so rather than to an alternate directory (will collide with sys-libs/glibc's version)
 sys-libs/musl-nscd:minimal - Only installs the header files
 sys-libs/ncurses:ada - Add bindings for the ADA programming language
+sys-libs/ncurses:stack-realign - Realign the stack in the 32-bit build for compatibility with older binaries at some performance cost. Avoids crashes in older 32-bit binaries. Only affects x86/32-bit multilib builds on amd64.
 sys-libs/ncurses:tinfo - Build curses library (libncurses) sep from the low-level terminfo library (libtinfo) -- usually needed only for binary packages -- but it is binary compatible in either mode
 sys-libs/ncurses:trace - Enable test trace() support in ncurses calls
 sys-libs/ncurses-compat:tinfo - Build curses library (libncurses) sep from the low-level terminfo library (libtinfo) -- usually needed only for binary packages -- but it is binary compatible in either mode
@@ -8562,20 +8569,11 @@ www-apps/drupal:uploadprogress - Install dev-php/pecl-uploadprogress package
 www-apps/gitea:acct - User and group management via acct-*/git packages
 www-apps/gitit:plugins - enables optional plugin runtime loader
 www-apps/hugo:sass - Enable SASS/SCSS support
-www-apps/hugo:test-full - Pull optional heavier test-dependency packages
 www-apps/icingaweb2:apache2-server - Adds support for the apache2-server
 www-apps/icingaweb2:fpm - Adds FPM support to php
 www-apps/icingaweb2:nginx - Adds support for nginx
 www-apps/ikiwiki:extras - Installs additional modules used by ikiwiki plugins
 www-apps/klaus:ctags - Enable support for Exuberant ctags; makes all source code symbols hyperlinks to their definitions
-www-apps/nikola:assets - Support web asset management
-www-apps/nikola:charts - Support chart generation through dev-python/pygal
-www-apps/nikola:hyphenation - Add hyphenation support through dev-python/pyphen
-www-apps/nikola:ipython - Add IPython notebook compilation and LESS support
-www-apps/nikola:jinja - Add support for dev-python/jinja as alternative templating engine to Mako
-www-apps/nikola:server - Enable support for built-in web server using dev-python/aiohttp
-www-apps/nikola:watchdog - Use dev-python/watchdog to monitor file system events
-www-apps/nikola:webmedia - Use dev-python/micawber to extract metadata from web media links
 www-apps/postfixadmin:vacation - Install vacation.pl script and dependencies
 www-apps/redmine:markdown - Enable support for Markdown
 www-apps/redmine:minimagick - Enable image processing support via dev-ruby/mini_magick
@@ -8814,7 +8812,6 @@ x11-libs/libXaw:deprecated - Install deprecated Xaw6 library.
 x11-libs/libXfont2:bzip2 - Support bzip2 compressed PCF fonts.
 x11-libs/libXfont2:truetype - Use media-libs/freetype for font rasterization.
 x11-libs/libdlo:test-program - Build the program for testing Displaylink devices.
-x11-libs/libdrm:libkms - Enable building of libkms, a library for applications to interface with KMS
 x11-libs/libdrm:valgrind - Compile in valgrind memory hints
 x11-libs/libfm:automount - Use gnome-base/gvfs for automounting
 x11-libs/libfm:udisks - Use libfm's udisks-based volume monitor implementation instead of using the one from gvfs
