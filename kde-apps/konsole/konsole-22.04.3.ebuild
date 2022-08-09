@@ -8,14 +8,14 @@ ECM_TEST="true"
 KFMIN=5.92.0
 QTMIN=5.15.4
 VIRTUALX_REQUIRED="test"
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="KDE's terminal emulator"
 HOMEPAGE="https://apps.kde.org/konsole/ https://konsole.kde.org"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="X"
 
 DEPEND="
@@ -50,11 +50,12 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
+PATCHES=( "${FILESDIR}/${P}-without_x11.patch" )
+
 src_configure() {
 	local mycmakeargs=(
-		$(cmake_use_find_package X X11)
+		-DWITHOUT_X11=$(usex !X)
 	)
-
 	ecm_src_configure
 }
 

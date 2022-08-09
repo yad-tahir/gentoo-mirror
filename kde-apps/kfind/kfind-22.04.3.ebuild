@@ -6,14 +6,14 @@ EAPI=8
 ECM_HANDBOOK="optional"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="File finder utility based on KDE Frameworks"
 HOMEPAGE="https://apps.kde.org/kfind/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE=""
 
 RDEPEND="

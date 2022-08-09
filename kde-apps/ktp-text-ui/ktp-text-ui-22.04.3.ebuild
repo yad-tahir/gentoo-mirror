@@ -6,14 +6,14 @@ EAPI=8
 PVCUT=$(ver_cut 1-3)
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="KDE Telepathy text chat window"
 HOMEPAGE="https://community.kde.org/KTp"
 
 LICENSE="Apache-2.0 || ( AFL-2.1 BSD ) GPL-2+ LGPL-2.1+ MIT"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="amd64 arm64 x86"
 IUSE="speech"
 
 DEPEND="

@@ -6,14 +6,14 @@ EAPI=8
 ECM_HANDBOOK="forceoptional"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org flag-o-matic
+inherit ecm gear.kde.org flag-o-matic
 
 DESCRIPTION="Periodic table of the elements"
 HOMEPAGE="https://apps.kde.org/kalzium/ https://edu.kde.org/kalzium/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="amd64 arm64 x86"
 IUSE="editor solver"
 
 DEPEND="

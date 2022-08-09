@@ -7,14 +7,14 @@ ECM_HANDBOOK="forceoptional"
 ECM_TEST="forceoptional"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Shell script to create the necessary framework to develop KDE applications"
 HOMEPAGE="https://apps.kde.org/kapptemplate/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE=""
 
 DEPEND="

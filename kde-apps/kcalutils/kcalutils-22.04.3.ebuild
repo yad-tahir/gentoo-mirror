@@ -9,14 +9,14 @@ PVCUT=$(ver_cut 1-3)
 KFMIN=5.92.0
 QTMIN=5.15.4
 VIRTUALX_REQUIRED="test"
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Library providing utility functions for the handling of calendar data"
 HOMEPAGE="https://api.kde.org/kdepim/kcalutils/html/index.html"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE=""
 
 RESTRICT="test" # bugs 653616, 711666

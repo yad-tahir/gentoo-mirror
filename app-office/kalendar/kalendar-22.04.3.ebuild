@@ -9,14 +9,14 @@ ECM_TEST="forceoptional"
 PVCUT=$(ver_cut 1-3)
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Calendar application using Akonadi"
 HOMEPAGE="https://apps.kde.org/kalendar/"
 
 LICENSE="|| ( GPL-2 GPL-3 ) CC0-1.0"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 x86"
 IUSE=""
 
 # All of the tests involve interacting with akonadi right now (as of 22.04)

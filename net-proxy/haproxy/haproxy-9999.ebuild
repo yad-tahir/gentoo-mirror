@@ -53,10 +53,6 @@ S="${WORKDIR}/${MY_P}"
 DOCS=( CHANGELOG CONTRIBUTING MAINTAINERS README )
 EXTRAS=( admin/halog admin/iprange dev/tcploop dev/hpack )
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-lua54.patch
-)
-
 haproxy_use() {
 	(( $# != 2 )) && die "${FUNCNAME} <USE flag> <make option>"
 
@@ -123,8 +119,8 @@ src_install() {
 	dosbin haproxy
 	dosym ../sbin/haproxy /usr/bin/haproxy
 
-	newconfd "${FILESDIR}/${PN}.confd" ${PN}
-	newinitd "${FILESDIR}/${PN}.initd-r7" ${PN}
+	newconfd "${FILESDIR}/${PN}.confd-r1" ${PN}
+	newinitd "${FILESDIR}/${PN}.initd-r8" ${PN}
 
 	doman doc/haproxy.1
 

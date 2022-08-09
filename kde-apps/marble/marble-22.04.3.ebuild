@@ -8,14 +8,14 @@ ECM_TEST="forceoptional"
 KFMIN=5.92.0
 QTMIN=5.15.4
 VIRTUALX_REQUIRED="test"
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Virtual Globe and World Atlas to learn more about Earth"
 HOMEPAGE="https://marble.kde.org/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5/$(ver_cut 1-2)"
-KEYWORDS="~amd64 ~arm64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~riscv x86"
 IUSE="aprs +dbus designer +geolocation gps +kde nls +pbf phonon shapefile +webengine"
 
 # FIXME (new package): libwlocate, WLAN-based geolocation

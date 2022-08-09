@@ -7,13 +7,13 @@ ECM_HANDBOOK="forceoptional"
 ECM_TEST="true"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="KDE library for CDDB"
 
 LICENSE="GPL-2+ handbook? ( FDL-1.2 )"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="musicbrainz"
 
 DEPEND="

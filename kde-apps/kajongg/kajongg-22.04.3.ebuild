@@ -8,14 +8,14 @@ PYTHON_COMPAT=( python3_{8..11} )
 PVCUT=$(ver_cut 1-3)
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit python-single-r1 ecm kde.org
+inherit python-single-r1 ecm gear.kde.org
 
 DESCRIPTION="Classical Mah Jongg for four players"
 HOMEPAGE="https://apps.kde.org/kajongg/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~riscv x86"
 IUSE=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

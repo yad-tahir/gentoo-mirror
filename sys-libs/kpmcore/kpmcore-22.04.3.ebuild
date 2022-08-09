@@ -7,14 +7,14 @@ ECM_NONGUI="true"
 KDE_GEAR="true"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Library for managing partitions"
 HOMEPAGE="https://apps.kde.org/partitionmanager/"
 
 LICENSE="GPL-3"
 SLOT="5/10"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~x86"
+KEYWORDS="amd64 ~arm arm64 ~ppc64 x86"
 IUSE=""
 
 # bug 689468, tests need polkit etc.

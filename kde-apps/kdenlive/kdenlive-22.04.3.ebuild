@@ -9,14 +9,14 @@ ECM_TEST="true"
 KFMIN=5.92.0
 QTMIN=5.15.4
 VIRTUALX_REQUIRED="test"
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Non-linear video editing suite by KDE"
 HOMEPAGE="https://kdenlive.org/en/"
 
 LICENSE="GPL-3"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="gles2-only semantic-desktop share v4l"
 
 RESTRICT="test" # segfaults, bug 684132

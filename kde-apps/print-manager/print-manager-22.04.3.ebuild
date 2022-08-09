@@ -6,13 +6,13 @@ EAPI=8
 KFMIN=5.92.0
 PLASMA_MINIMAL=5.16.5
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Manage print jobs and printers in Plasma"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="+gtk"
 
 DEPEND="

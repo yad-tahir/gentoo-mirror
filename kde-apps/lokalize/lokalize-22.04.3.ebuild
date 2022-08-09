@@ -7,14 +7,14 @@ ECM_HANDBOOK="forceoptional"
 PYTHON_COMPAT=( python3_{8..10} )
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit python-single-r1 ecm kde.org optfeature
+inherit python-single-r1 ecm gear.kde.org optfeature
 
 DESCRIPTION="Localization tool for KDE software and other free and open source software"
 HOMEPAGE="https://apps.kde.org/lokalize/ https://l10n.kde.org/tools/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="amd64 arm64 x86"
 IUSE=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

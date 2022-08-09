@@ -6,13 +6,13 @@ EAPI=8
 ECM_TEST="true"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Library for playing & ripping CDs"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="alsa"
 
 DEPEND="

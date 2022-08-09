@@ -3,6 +3,16 @@
 
 EAPI=8
 
+# 1. Please regularly check (even at the point of bumping) Fedora's packaging
+# for needed backports at https://src.fedoraproject.org/rpms/pipewire/tree/rawhide.
+#
+# 2. Upstream also sometimes amend release notes for the previous release to mention
+# needed patches, e.g. https://gitlab.freedesktop.org/pipewire/pipewire/-/tags/0.3.55#distros
+#
+# 3. Keep an eye on git master (for both PipeWire and WirePlumber) as things
+# continue to move quickly. It's not uncommon for fixes to be made shortly
+# after releases.
+
 PYTHON_COMPAT=( python3_{8..11} )
 
 inherit flag-o-matic meson-multilib optfeature prefix python-any-r1 systemd udev
@@ -141,7 +151,7 @@ PATCHES=(
 limitsdfile=40-${PN}.conf
 
 python_check_deps() {
-	has_version -b "dev-python/docutils[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/docutils[${PYTHON_USEDEP}]"
 }
 
 src_prepare() {

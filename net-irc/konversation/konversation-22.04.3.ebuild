@@ -7,14 +7,14 @@ ECM_HANDBOOK="forceoptional"
 KDE_GEAR="true"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="User friendly IRC Client"
 HOMEPAGE="https://konversation.kde.org https://apps.kde.org/konversation/"
 
 LICENSE="GPL-2"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="+crypt"
 
 DEPEND="

@@ -6,14 +6,14 @@ EAPI=8
 ECM_HANDBOOK="forceoptional"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="VNC-compatible server to share Plasma desktops"
 HOMEPAGE="https://apps.kde.org/krfb/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="wayland"
 
 COMMON_DEPEND="

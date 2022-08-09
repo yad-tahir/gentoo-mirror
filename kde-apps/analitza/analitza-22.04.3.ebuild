@@ -6,13 +6,13 @@ EAPI=8
 ECM_TEST="forceoptional"
 QTMIN=5.15.4
 VIRTUALX_REQUIRED="test"
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="KDE library for mathematical features"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~riscv x86"
 IUSE="eigen nls"
 
 BDEPEND="

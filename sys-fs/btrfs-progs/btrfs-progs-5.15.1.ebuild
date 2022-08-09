@@ -5,7 +5,7 @@ EAPI=7
 
 PYTHON_COMPAT=( python3_{8..10} )
 
-inherit bash-completion-r1 python-single-r1
+inherit bash-completion-r1 python-single-r1 udev
 
 libbtrfs_soname=0
 
@@ -84,6 +84,9 @@ pkg_setup() {
 }
 
 src_prepare() {
+	local PATCHES=(
+		"${FILESDIR}/btrfs-progs-5.18.1-glibc-2.36.patch"
+	)
 	default
 	if [[ ${PV} == 9999 ]]; then
 		AT_M4DIR=m4 eautoreconf

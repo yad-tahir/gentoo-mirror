@@ -46,8 +46,6 @@ virtual/jpeg
 
 # Matt Turner <mattst88@gentoo.org> (2022-03-27)
 # Deprecated GNOME 2 era packages
-app-misc/tracker:0
-app-misc/tracker-miners:0
 app-text/enchant:0
 app-text/gnome-doc-utils
 app-text/gtkspell:2
@@ -60,7 +58,6 @@ dev-libs/libunique:1
 gnome-base/gconf
 gnome-base/libgnomecanvas
 gnome-extra/gconf-editor
-gnome-extra/gtkhtml
 x11-libs/gtk+extra
 x11-libs/gtksourceview:2.0
 x11-libs/libwnck:1

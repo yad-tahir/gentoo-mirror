@@ -5,13 +5,13 @@ EAPI=8
 
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="SANE Library interface based on KDE Frameworks"
 
 LICENSE="|| ( LGPL-2.1 LGPL-3 )"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="kwallet"
 
 DEPEND="

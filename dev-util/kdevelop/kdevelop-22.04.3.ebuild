@@ -11,7 +11,7 @@ KFMIN=5.92.0
 QTMIN=5.15.4
 VIRTUALDBUS_TEST="true"
 VIRTUALX_REQUIRED="test"
-inherit ecm kde.org optfeature
+inherit ecm gear.kde.org optfeature
 
 DESCRIPTION="Integrated Development Environment, supporting KF5/Qt, C/C++ and much more"
 HOMEPAGE="https://kdevelop.org/"
@@ -19,7 +19,7 @@ HOMEPAGE="https://kdevelop.org/"
 LICENSE="GPL-2 LGPL-2"
 SLOT="5/57" # look at KDEVELOP_SOVERSION inside CMakeLists.txt
 IUSE="+gdbui hex +plasma +qmake reviewboard subversion"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 x86"
 
 # see bug 366471
 RESTRICT="test"

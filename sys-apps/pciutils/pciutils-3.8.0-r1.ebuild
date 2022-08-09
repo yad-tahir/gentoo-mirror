@@ -11,7 +11,7 @@ SRC_URI="https://mj.ucw.cz/download/linux/pci/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux"
 IUSE="dns +kmod static-libs +udev zlib"
 REQUIRED_USE="static-libs? ( !udev )"
 
@@ -112,6 +112,9 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# bug #640836, bug #852929
+	filter-lto
+
 	# bug #471102
 	append-lfs-flags
 }
