@@ -7,7 +7,7 @@ ECM_HANDBOOK="optional"
 ECM_TEST="forceoptional"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Visualise disk usage with interactive map of concentric, segmented rings"
 HOMEPAGE="https://apps.kde.org/filelight/
@@ -15,8 +15,13 @@ https://utils.kde.org/projects/filelight/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE=""
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-22.04.3-fix_musl_dev_bsize.patch
+	"${FILESDIR}"/${PN}-22.04.3-fix_sincos_impl.patch
+)
 
 DEPEND="
 	>=dev-qt/qtgui-${QTMIN}:5

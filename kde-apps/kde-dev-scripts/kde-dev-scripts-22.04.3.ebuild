@@ -5,13 +5,13 @@ EAPI=8
 
 ECM_HANDBOOK="true"
 KFMIN=5.92.0
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="KDE Development Scripts"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~riscv x86"
 IUSE=""
 
 # kdelibs4support - required for kdex.dtd

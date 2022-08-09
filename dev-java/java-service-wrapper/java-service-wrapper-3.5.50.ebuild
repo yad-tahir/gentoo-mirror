@@ -13,7 +13,7 @@ SRC_URI="https://download.tanukisoftware.com/wrapper/${PV}/wrapper_${PV}_src.tar
 
 LICENSE="tanuki-community"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~x86"
+KEYWORDS="amd64 ~arm ~arm64 ~x86"
 RESTRICT="!test? ( test )"
 
 RDEPEND=">=virtual/jre-1.8:*"
@@ -48,8 +48,9 @@ src_prepare() {
 	java-pkg-2_src_prepare
 
 	# enable tests on all platforms
-	grep "testsuite_SOURCE" "src/c/Makefile-linux-x86-64.make" | tee -a src/c/Makefile-*.make || die
 	if use test; then
+		grep "testsuite_SOURCE" "src/c/Makefile-linux-x86-64.make" | tee -a src/c/Makefile-*.make
+		assert
 		echo 'all: testsuite' | tee -a src/c/Makefile-*.make
 		assert
 	fi

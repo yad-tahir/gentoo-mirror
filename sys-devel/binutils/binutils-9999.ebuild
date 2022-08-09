@@ -8,7 +8,7 @@ inherit libtool flag-o-matic gnuconfig strip-linguas toolchain-funcs
 DESCRIPTION="Tools necessary to build programs"
 HOMEPAGE="https://sourceware.org/binutils/"
 LICENSE="GPL-3+"
-IUSE="cet default-gold doc +gold multitarget +nls pgo +plugins static-libs test vanilla"
+IUSE="cet default-gold doc gold multitarget +nls pgo +plugins static-libs test vanilla"
 REQUIRED_USE="default-gold? ( gold )"
 
 # Variables that can be set here  (ignored for live ebuilds)
@@ -33,7 +33,7 @@ else
 		https://dev.gentoo.org/~${PATCH_DEV}/distfiles/binutils-${PATCH_BINUTILS_VER}-patches-${PATCH_VER}.tar.xz"
 	SLOT=$(ver_cut 1-2)
 	# live ebuild
-	#KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+	#KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 fi
 
 #
@@ -157,14 +157,12 @@ src_configure() {
 	LIBPATH=/usr/$(get_libdir)/binutils/${CTARGET}/${PV}
 	INCPATH=${LIBPATH}/include
 	DATAPATH=/usr/share/binutils-data/${CTARGET}/${PV}
-
-	# see Note [tooldir hack for ldscripts]
 	if is_cross ; then
 		TOOLPATH=/usr/${CHOST}/${CTARGET}
-		BINPATH=${TOOLPATH}/binutils-bin/${PV}
 	else
-		BINPATH=/usr/${CTARGET}/binutils-bin/${PV}
+		TOOLPATH=/usr/${CTARGET}
 	fi
+	BINPATH=${TOOLPATH}/binutils-bin/${PV}
 
 	# Make sure we filter $LINGUAS so that only ones that
 	# actually work make it through, bug #42033
@@ -256,7 +254,7 @@ src_configure() {
 		# TODO: Available from 2.39+ on but let's try the warning on for a bit
 		# first... (--enable-warn-execstack)
 		# Could put it under USE=hardened?
-		#--enable-default-execstack
+		#--disable-default-execstack
 
 		# Things to think about
 		#--enable-deterministic-archives
@@ -310,11 +308,7 @@ src_compile() {
 	cd "${MY_BUILDDIR}" || die
 
 	# see Note [tooldir hack for ldscripts]
-	if is_cross ; then
-		emake V=1 tooldir="${EPREFIX}${TOOLPATH}" all
-	else
-		emake V=1 all
-	fi
+	emake V=1 tooldir="${EPREFIX}${TOOLPATH}" all
 
 	# only build info pages if the user wants them
 	if use doc ; then
@@ -342,7 +336,6 @@ src_install() {
 
 	# see Note [tooldir hack for ldscripts]
 	emake V=1 DESTDIR="${D}" tooldir="${EPREFIX}${LIBPATH}" install
-
 	rm -rf "${ED}"/${LIBPATH}/bin || die
 	use static-libs || find "${ED}" -name '*.la' -delete
 
@@ -424,10 +417,10 @@ src_install() {
 	fi
 
 	# Remove shared info pages
-	rm -f "${ED}"/${DATAPATH}/info/{dir,configure.info,standards.info} || die
+	rm -f "${ED}"/${DATAPATH}/info/{dir,configure.info,standards.info}
 
 	# Trim all empty dirs
-	find "${ED}" -depth -type d -exec rmdir {} + 2>/dev/null || die
+	find "${ED}" -depth -type d -exec rmdir {} + 2>/dev/null
 }
 
 pkg_postinst() {
@@ -486,11 +479,3 @@ pkg_postrm() {
 #   ${TOOLPATH}: /usr/${CHOST} (or /usr/${CHOST}/${CTARGET} for cross-case)
 # - at install-time set scriptdir to point to slotted location:
 #   ${LIBPATH}: /usr/$(get_libdir)/binutils/${CTARGET}/${PV}
-#
-# Now, this would all be very nice except for the fact that the changed
-# directory makes libtool re-link libraries during the install phase.
-# It uses libraries from the system installation to do that (bad)
-# and fails if it cant handle these (e.g. newer LTO version than in
-# current gcc, see bugs 834720 and 838925).
-#
-# So, we apply this whole hack only for cross builds.

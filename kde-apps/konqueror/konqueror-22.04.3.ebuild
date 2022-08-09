@@ -8,14 +8,14 @@ ECM_TEST="true"
 KFMIN=5.92.0
 QTMIN=5.15.4
 VIRTUALX_REQUIRED="test"
-inherit flag-o-matic ecm kde.org optfeature
+inherit flag-o-matic ecm gear.kde.org optfeature
 
 DESCRIPTION="Web browser and file manager based on KDE Frameworks"
 HOMEPAGE="https://apps.kde.org/konqueror/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="amd64 arm64 x86"
 IUSE="activities speech X"
 
 # 4 of 4 tests fail. Last checked for 4.0.3
@@ -63,6 +63,8 @@ RDEPEND="${COMMON_DEPEND}
 	kde-plasma/kde-cli-tools:5
 "
 
+PATCHES=( "${FILESDIR}/${P}-with_x11.patch" )
+
 src_prepare() {
 	[[ ${CHOST} == *-solaris* ]] && append-ldflags -lmalloc
 
@@ -74,7 +76,7 @@ src_configure() {
 		-DCMAKE_DISABLE_FIND_PACKAGE_Hunspell=ON # requires fixing bug 634122
 		$(cmake_use_find_package activities KF5Activities)
 		$(cmake_use_find_package speech Qt5TextToSpeech)
-		$(cmake_use_find_package X X11)
+		-DWITH_X11=$(usex X)
 	)
 	ecm_src_configure
 }

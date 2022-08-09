@@ -6,13 +6,13 @@ EAPI=8
 ECM_QTHELP="true"
 ECM_TEST="true"
 KFMIN=5.92.0
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Libary for handling mail messages and newsgroup articles"
 
 LICENSE="GPL-2+"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE=""
 
 DEPEND="

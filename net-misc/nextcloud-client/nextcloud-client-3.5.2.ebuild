@@ -8,6 +8,7 @@ inherit cmake virtualx xdg
 DESCRIPTION="Desktop Syncing Client for Nextcloud"
 HOMEPAGE="https://github.com/nextcloud/desktop"
 SRC_URI="https://github.com/nextcloud/desktop/archive/v${PV/_/-}.tar.gz -> ${P}.tar.gz"
+S="${WORKDIR}/desktop-${PV/_/-}"
 
 LICENSE="CC-BY-3.0 GPL-2"
 SLOT="0"
@@ -15,7 +16,7 @@ KEYWORDS="amd64 ~arm64 x86"
 IUSE="doc dolphin nautilus test webengine"
 RESTRICT="!test? ( test )"
 
-COMMON_DEPEND="
+RDEPEND="
 	>=dev-db/sqlite-3.34:3
 	>=dev-libs/openssl-1.1.0:0=
 	dev-libs/qtkeychain:=[qt5(+)]
@@ -36,27 +37,25 @@ COMMON_DEPEND="
 	nautilus? ( dev-python/nautilus-python )
 	webengine? ( dev-qt/qtwebengine:5[widgets] )
 "
-DEPEND="
-	${COMMON_DEPEND}
-	dev-qt/linguist-tools:5
+DEPEND="${RDEPEND}
 	dev-qt/qtconcurrent:5
 	dev-qt/qtxml:5
-	gnome-base/librsvg
+	|| ( gnome-base/librsvg media-gfx/inkscape )
 	doc? (
 		dev-python/sphinx
 		dev-tex/latexmk
 		dev-texlive/texlive-latexextra
 		virtual/latex-base
 	)
-	dolphin? ( kde-frameworks/extra-cmake-modules )
 	test? (
-		dev-util/cmocka
 		dev-qt/qttest:5
+		dev-util/cmocka
 	)
 "
-RDEPEND="${COMMON_DEPEND}"
-
-S="${WORKDIR}/desktop-${PV/_/-}"
+BDEPEND="
+	dev-qt/linguist-tools:5
+	dolphin? ( kde-frameworks/extra-cmake-modules )
+"
 
 src_prepare() {
 	# We do not package libcloudproviders

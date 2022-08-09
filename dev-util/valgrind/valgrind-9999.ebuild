@@ -34,6 +34,12 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${PN}-3.15.0-Build-ldst_multiple-test-with-fno-pie.patch
 
+	# conditionally copy musl specific suppressions && apply patch
+	if use elibc_musl ; then
+		cp "${FILESDIR}/musl.supp" "${S}" || die
+		eapply "${FILESDIR}/valgrind-3.13.0-malloc.patch"
+	fi
+
 	if [[ ${CHOST} == *-solaris* ]] ; then
 		# upstream doesn't support this, but we don't build with
 		# Sun/Oracle ld, we have a GNU toolchain, so get some things
@@ -65,12 +71,14 @@ src_configure() {
 	# -fstack-protector-strong See -fstack-protector (bug #620402)
 	# -m64 -mx32			for multilib-portage, bug #398825
 	# -ggdb3                segmentation fault on startup
+	# -flto*                fails to build, bug #858509
 	filter-flags -fomit-frame-pointer
 	filter-flags -fstack-protector
 	filter-flags -fstack-protector-all
 	filter-flags -fstack-protector-strong
 	filter-flags -m64 -mx32
 	replace-flags -ggdb3 -ggdb2
+	filter-lto
 
 	if use amd64 || use ppc64; then
 		! has_multilib_profile && myconf+=("--enable-only64bit")

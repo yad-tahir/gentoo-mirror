@@ -1,0 +1,16 @@
+BDEPEND=virtual/pkgconfig gui? ( dev-qt/qtcore:5 )
+DEFINED_PHASES=configure install postinst postrm preinst prepare setup
+DEPEND=dev-libs/expat dev-libs/openssl:0=[-bindist(-)] >=media-video/ffmpeg-1.0.0:0= sys-libs/glibc sys-libs/zlib gui? ( dev-qt/qtcore:5 dev-qt/qtdbus:5 dev-qt/qtgui:5 dev-qt/qtwidgets:5 )
+DESCRIPTION=Tool for ripping and streaming Blu-ray, HD-DVD and DVD discs
+EAPI=8
+HOMEPAGE=http://www.makemkv.com/
+INHERIT=flag-o-matic linux-info xdg
+IUSE=+gui +java
+KEYWORDS=-* ~amd64 ~x86
+LICENSE=GPL-2 LGPL-2.1 MPL-1.1 MakeMKV-EULA openssl
+RDEPEND=dev-libs/expat dev-libs/openssl:0=[-bindist(-)] >=media-video/ffmpeg-1.0.0:0= sys-libs/glibc sys-libs/zlib gui? ( dev-qt/qtcore:5 dev-qt/qtdbus:5 dev-qt/qtgui:5 dev-qt/qtwidgets:5 ) net-misc/wget java? ( >=virtual/jre-1.8 )
+RESTRICT=bindist mirror
+SLOT=0
+SRC_URI=http://www.makemkv.com/download/makemkv-oss-1.17.1.tar.gz http://www.makemkv.com/download/makemkv-bin-1.17.1.tar.gz
+_eclasses_=flag-o-matic	38d6ec96711cea42a5cb1cc723a6e906	linux-info	529bb8cd5756c8476d37ba89dd41e635	multilib	5ca4e49abed8e3a2f7b56920eadee157	toolchain-funcs	1542e649be915f43f6908a9e93909961	xdg	6024fbc93167fad782e2032933654857	xdg-utils	fffb53a53cf17c9c0c998a3c0a590c7e
+_md5_=c8296ec696813ad22054111a565c8608

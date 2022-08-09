@@ -6,14 +6,14 @@ EAPI=8
 PVCUT=$(ver_cut 1-3)
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Quake-style terminal emulator based on konsole"
 HOMEPAGE="https://apps.kde.org/yakuake/"
 
 LICENSE="GPL-2 LGPL-2"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 x86"
 IUSE="absolute-position X"
 
 DEPEND="
@@ -48,10 +48,12 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
+PATCHES=( "${FILESDIR}/${P}-without_x11.patch" )
+
 src_configure() {
 	local mycmakeargs=(
 		$(cmake_use_find_package absolute-position KF5Wayland)
-		$(cmake_use_find_package X X11)
+		-DWITHOUT_X11=$(usex !X)
 	)
 
 	ecm_src_configure

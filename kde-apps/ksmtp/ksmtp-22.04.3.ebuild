@@ -7,14 +7,14 @@ ECM_QTHELP="true"
 ECM_TEST="true"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Job-based library to send email through an SMTP server"
 HOMEPAGE="https://api.kde.org/kdepim/ksmtp/html/index.html"
 
 LICENSE="LGPL-2.1+"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE=""
 
 RESTRICT="test" # bug 642410

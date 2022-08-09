@@ -12,7 +12,7 @@ KDE_ORG_NAME="kdev-php"
 KFMIN=5.92.0
 QTMIN=5.15.4
 VIRTUALX_REQUIRED="test"
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="PHP plugin for KDevelop"
 HOMEPAGE="https://kdevelop.org/"
@@ -20,7 +20,7 @@ HOMEPAGE="https://kdevelop.org/"
 LICENSE="GPL-2 LGPL-2"
 SLOT="5"
 IUSE=""
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="amd64 arm64 x86"
 
 # remaining tests fail for some, bug 668530
 RESTRICT="test"

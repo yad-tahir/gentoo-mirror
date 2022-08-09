@@ -6,14 +6,14 @@ EAPI=8
 ECM_HANDBOOK="optional"
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="KDE program that clicks the mouse for you"
 HOMEPAGE="https://apps.kde.org/kmousetool/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~riscv x86"
 IUSE=""
 
 RDEPEND="

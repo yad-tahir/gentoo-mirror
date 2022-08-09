@@ -332,20 +332,6 @@
       <role>NFS</role>
     </member>
     <member>
-      <email>vapier@gentoo.org</email>
-      <name>Mike Frysinger</name>
-    </member>
-    <member>
-      <email>whissi@gentoo.org</email>
-      <name>Thomas Deutschmann</name>
-      <role>Version bumps and security stabilizations</role>
-    </member>
-    <member>
-      <email>williamh@gentoo.org</email>
-      <name>William Hubbs</name>
-      <role>Misc stuff that needs to get done</role>
-    </member>
-    <member>
       <email>zlogene@gentoo.org</email>
       <name>Mikle Kolyada</name>
       <role>Minor stuff doer (bumps/security/stabilization)</role>
@@ -2005,17 +1991,6 @@
     </member>
   </project>
   <project>
-    <email>news@gentoo.org</email>
-    <name>News</name>
-    <url>https://wiki.gentoo.org/wiki/Project:News</url>
-    <description>Presenting news as it develops, the News project is intended to provide the Gentoo community a stream of information regarding changes in the Gentoo universe.</description>
-    <member is-lead="1">
-      <email>maffblaster@gentoo.org</email>
-      <name>Matthew Marchese</name>
-      <role>Host</role>
-    </member>
-  </project>
-  <project>
     <email>office@gentoo.org</email>
     <name>Office project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Office</url>
@@ -2399,10 +2374,6 @@
       <name>Fabian Groffen</name>
       <role>General, maintainer of prefix portage</role>
     </member>
-    <member>
-      <email>haubi@gentoo.org</email>
-      <name>Michael Haubenwallner</name>
-    </member>
     <member is-lead="1">
       <email>heroxbd@gentoo.org</email>
       <name>Benda Xu</name>
@@ -2573,7 +2544,6 @@
     <name>Public Relations</name>
     <url>https://wiki.gentoo.org/wiki/Project:Public_Relations</url>
     <description>The Public Relations project improves Gentoo's visibility toward the rest of the world. We maintain a presence for Gentoo on various walled garden web silos such as Facebook, Twitter, and various chat services.</description>
-    <subproject ref="news@gentoo.org" inherit-members="1"/>
     <subproject ref="planet@gentoo.org"/>
     <subproject ref="www@gentoo.org"/>
     <member>

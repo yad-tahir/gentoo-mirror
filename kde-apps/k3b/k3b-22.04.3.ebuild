@@ -8,14 +8,14 @@ ECM_TEST="true"
 PVCUT=$(ver_cut 1-3)
 KFMIN=5.92.0
 QTMIN=5.15.4
-inherit ecm kde.org
+inherit ecm gear.kde.org
 
 DESCRIPTION="Full-featured burning and ripping application based on KDE Frameworks"
 HOMEPAGE="https://apps.kde.org/k3b/ https://userbase.kde.org/K3b"
 
 LICENSE="GPL-2 FDL-1.2"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="dvd encode flac mad mp3 musepack sndfile sox taglib vcd vorbis"
 
 REQUIRED_USE="
@@ -77,6 +77,10 @@ RDEPEND="${DEPEND}
 "
 
 DOCS+=( ChangeLog {FAQ,PERMISSIONS,README}.txt )
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-22.04.3-fstab_h-musl.patch
+)
 
 src_configure() {
 	local mycmakeargs=(

@@ -8,14 +8,14 @@ ECM_TEST="true"
 KFMIN=5.92.0
 QTMIN=5.15.4
 VIRTUALX_REQUIRED="test"
-inherit ecm kde.org optfeature
+inherit ecm gear.kde.org optfeature
 
 DESCRIPTION="Multi-document editor with network transparency, Plasma integration and more"
 HOMEPAGE="https://kate-editor.org/ https://apps.kde.org/kate/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="activities +filebrowser lspclient +projects plasma +snippets sql telemetry"
 
 # only addons/externaltools depends on kiconthemes, too small for USE

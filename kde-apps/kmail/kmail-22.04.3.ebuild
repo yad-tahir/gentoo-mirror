@@ -9,7 +9,7 @@ PVCUT=$(ver_cut 1-3)
 KFMIN=5.92.0
 QTMIN=5.15.4
 VIRTUALX_REQUIRED="test"
-inherit ecm kde.org optfeature
+inherit ecm gear.kde.org optfeature
 
 DESCRIPTION="Email client, supporting POP3 and IMAP mailboxes"
 HOMEPAGE="https://apps.kde.org/kmail2/
@@ -17,7 +17,7 @@ https://kontact.kde.org/components/kmail.html"
 
 LICENSE="GPL-2+ handbook? ( FDL-1.2+ )"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 x86"
 IUSE="pch speech telemetry"
 
 RESTRICT="test" # bug 616878

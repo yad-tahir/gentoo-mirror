@@ -24,7 +24,7 @@ HOMEPAGE="http://xine.sourceforge.net/"
 
 LICENSE="GPL-2"
 SLOT="1"
-IUSE="a52 aac aalib +alsa altivec bluray +css dav1d dts dvb dxr3 fbcon flac gtk imagemagick ipv6 jack jpeg libcaca mad +mmap mng modplug musepack nfs opengl oss pulseaudio samba sftp sdl speex theora truetype v4l vaapi vcd vdpau vdr vidix +vis vorbis vpx wavpack wayland +X xinerama +xv xvmc ${NLS_IUSE}"
+IUSE="a52 aac aalib +alsa bluray cpu_flags_ppc_altivec +css dav1d dts dvb dxr3 fbcon flac gtk imagemagick ipv6 jack jpeg libcaca mad +mmap mng modplug musepack nfs opengl oss pulseaudio samba sftp sdl speex theora truetype v4l vaapi vcd vdpau vdr vidix +vis vorbis vpx wavpack wayland +X xinerama +xv xvmc ${NLS_IUSE}"
 
 BDEPEND="
 	app-arch/xz-utils
@@ -78,7 +78,7 @@ RDEPEND="
 		media-libs/freetype:2
 	)
 	v4l? ( media-libs/libv4l )
-	vaapi? ( x11-libs/libva:0=[X,opengl] )
+	vaapi? ( x11-libs/libva:0=[X] )
 	vcd? (
 		>=media-video/vcdimager-0.7.23
 		dev-libs/libcdio:0=[-minimal]
@@ -163,7 +163,7 @@ src_configure() {
 		$(use_enable a52 a52dec)
 		$(use_enable aac faad)
 		$(use_enable aalib)
-		$(use_enable altivec)
+		$(use_enable cpu_flags_ppc_altivec altivec)
 		$(use_enable bluray)
 		$(use_enable dts)
 		$(use_enable dvb)

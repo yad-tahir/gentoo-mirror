@@ -16,7 +16,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	?? ( elogind systemd )"
 RESTRICT="!test? ( test )"
 
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm arm64 ~ppc64 ~riscv x86"
 
 # libXfixes-5.0 needed for pointer barriers and #include <X11/extensions/Xfixes.h>
 # FIXME:
@@ -125,7 +125,7 @@ RDEPEND="${DEPEND}
 PDEPEND="
 	>=gnome-base/gdm-3.5[introspection(+)]
 	>=gnome-base/gnome-control-center-3.26[bluetooth(+)?,networkmanager(+)?]
-	browser-extension? ( gnome-extra/chrome-gnome-shell )
+	browser-extension? ( gnome-extra/gnome-browser-connector )
 "
 BDEPEND="
 	dev-libs/libxslt

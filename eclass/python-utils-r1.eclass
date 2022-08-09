@@ -35,6 +35,7 @@ fi
 if [[ ! ${_PYTHON_UTILS_R1} ]]; then
 
 [[ ${EAPI} == [67] ]] && inherit eapi8-dosym
+[[ ${EAPI} == 6 ]] && inherit eqawarn
 inherit multiprocessing toolchain-funcs
 
 # @ECLASS_VARIABLE: _PYTHON_ALL_IMPLS
@@ -462,7 +463,7 @@ _python_export() {
 					python3.10)
 						PYTHON_PKG_DEP=">=dev-lang/python-3.10.4:3.10";;
 					python3.11)
-						PYTHON_PKG_DEP=">=dev-lang/python-3.11.0_beta3:3.11";;
+						PYTHON_PKG_DEP=">=dev-lang/python-3.11.0_beta4:3.11";;
 					python*)
 						PYTHON_PKG_DEP="dev-lang/python:${impl#python}";;
 					pypy)
@@ -1330,6 +1331,9 @@ epytest() {
 		# sterilize pytest-markdown as it runs code snippets from all
 		# *.md files found without any warning
 		-p no:markdown
+		# pytest-sugar undoes everything that's good about pytest output
+		# and makes it hard to read logs
+		-p no:sugar
 	)
 	local x
 	for x in "${EPYTEST_DESELECT[@]}"; do
