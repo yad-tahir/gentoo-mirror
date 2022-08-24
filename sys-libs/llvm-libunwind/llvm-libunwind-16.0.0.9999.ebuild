@@ -3,7 +3,6 @@
 
 EAPI=8
 
-CMAKE_ECLASS=cmake
 PYTHON_COMPAT=( python3_{8..11} )
 inherit cmake-multilib flag-o-matic llvm llvm.org python-any-r1 \
 	toolchain-funcs
@@ -43,7 +42,7 @@ llvm.org_set_globals
 
 python_check_deps() {
 	use test || return 0
-	has_version "dev-python/lit[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/lit[${PYTHON_USEDEP}]"
 }
 
 multilib_src_configure() {
@@ -69,6 +68,7 @@ multilib_src_configure() {
 	fi
 
 	local mycmakeargs=(
+		-DCMAKE_CXX_COMPILER_TARGET="${CHOST}"
 		-DPython3_EXECUTABLE="${PYTHON}"
 		-DLLVM_ENABLE_RUNTIMES="libunwind"
 		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
