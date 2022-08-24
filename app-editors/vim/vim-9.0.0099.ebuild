@@ -19,7 +19,7 @@ if [[ ${PV} == 9999* ]] ; then
 else
 	SRC_URI="https://github.com/vim/vim/archive/v${PV}.tar.gz -> ${P}.tar.gz
 		https://gitweb.gentoo.org/proj/vim-patches.git/snapshot/vim-patches-vim-9.0.0049-patches.tar.gz"
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
+	KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 fi
 
 DESCRIPTION="Vim, an improved vi-style text editor"
@@ -78,7 +78,8 @@ src_prepare() {
 
 	if [[ ${PV} != 9999* ]] ; then
 		# Gentoo patches to fix runtime issues, cross-compile errors, etc
-		eapply "${WORKDIR}/vim-patches-vim-9.0.0049-patches"
+		eapply "${WORKDIR}"/vim-patches-vim-9.0.0049-patches
+		eapply "${FILESDIR}"/vim-9.0-fix-create-timer-for-cros-compiling.patch
 	fi
 
 	# Fixup a script to use awk instead of nawk
@@ -246,6 +247,14 @@ src_configure() {
 	# keep prefix env contained within the EPREFIX
 	use prefix && myconf+=( --without-local-dir )
 
+	if tc-is-cross-compiler ; then
+		export vim_cv_getcwd_broken=no \
+			   vim_cv_memmove_handles_overlap=yes \
+			   vim_cv_stat_ignores_slash=yes \
+			   vim_cv_terminfo=yes \
+			   vim_cv_toupper_broken=no
+	fi
+
 	econf \
 		--with-modified-by=Gentoo-${PVR} \
 		"${myconf[@]}"
@@ -293,7 +302,9 @@ src_test() {
 	# Too sensitive to leaked environment variables.
 	# - Test_term_mouse_multiple_clicks_to_select_mode
 	# Hangs.
-	export TEST_SKIP_PAT='\(Test_expand_star_star\|Test_exrc\|Test_job_tty_in_out\|Test_spelldump_bang\|Test_fuzzy_completion_env\|Test_term_mouse_multiple_clicks_to_select_mode\)'
+	# - Test_spelldump
+	# Hangs.
+	export TEST_SKIP_PAT='\(Test_expand_star_star\|Test_exrc\|Test_job_tty_in_out\|Test_spelldump_bang\|Test_fuzzy_completion_env\|Test_term_mouse_multiple_clicks_to_select_mode\|Test_spelldump\)'
 
 	emake -j1 -C src/testdir nongui
 }

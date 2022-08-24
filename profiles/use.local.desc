@@ -1048,6 +1048,7 @@ app-shells/autojump:ipython - Add support for dev-python/ipython
 app-shells/bash:bashlogger - Log ALL commands typed into bash; should ONLY be used in restricted environments such as honeypots
 app-shells/bash:mem-scramble - Build with custom malloc/free overwriting allocated/freed memory
 app-shells/bash:net - Enable /dev/tcp/host/port redirection
+app-shells/bash:pgo - Optimize the build using Profile Guided Optimization (PGO)
 app-shells/bash:plugins - Add support for loading builtins at runtime via 'enable'
 app-shells/bash-completion:eselect - Support blacklisting of completions via 'eselect bash-completion'. This enables custom Gentoo patching of upstream completion loader.
 app-shells/mksh:lksh - variant that uses POSIX-compliant arithmetics with the host “long” data type and is automatically in POSIX mode when called as /bin/sh
@@ -1389,6 +1390,13 @@ dev-games/cegui:ogre - Enable the OGRE renderer
 dev-games/cegui:tinyxml - Enable the Tiny XML parser module
 dev-games/cegui:xerces-c - Enable the Xerces-C++ XML parser module
 dev-games/cegui:zip - Enable the Minizip resource provider
+dev-games/godot:bullet - Enable the sci-physics/bullet module
+dev-games/godot:deprecated - Enable support for deprecated features
+dev-games/godot:raycast - Enable the raycast Editor module using media-libs/embree
+dev-games/godot:runner - Build an additional binary optimized for running games (only relevant with USE=tools)
+dev-games/godot:speech - Enable text-to-speech support
+dev-games/godot:tools - Enable the Godot Editor for game development
+dev-games/godot:webm - Enable the WebM module
 dev-games/guichan:allegro - Build the Allegro frontend
 dev-games/mygui:l10n_ru - Install some additional russian docs if 'doc' useflag enabled
 dev-games/mygui:ogre - Use the ogre render subsystem. (cannot combine with opengl)
@@ -1455,23 +1463,15 @@ dev-haskell/aeson:ordered-keymap - Use ordered @Data.Map.Strict@ for KeyMap impl
 dev-haskell/aeson-pretty:lib-only - don't build 'aeson-pretty' executable.
 dev-haskell/ansi-terminal:example - Build the example application.
 dev-haskell/atomic-primops:debug - Enable extra internal checks.
-dev-haskell/authenticate:network-uri - Get Network.URI from the network-uri package
 dev-haskell/bifunctors:semigroups - You can disable the use of the `semigroups` package using `-f-semigroups`. Disabing this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users.
 dev-haskell/bifunctors:tagged - You can disable the use of the `tagged` package using `-f-tagged`. Disabing this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users.
-dev-haskell/biosff:fclip - Build the 'fclip' executable.
-dev-haskell/biosff:flower - Build the 'flower' executable.
-dev-haskell/biosff:frecover - Build the 'frecover' executable.
-dev-haskell/bytedump:executable - build executable file
-dev-haskell/bytes:test-doctests - Enable the doctest suite when using the enable-tests option for cabal.
 dev-haskell/c2hs:regression - run regression tests
 dev-haskell/cabal-install:lukko - Use @lukko@ for file-locking
 dev-haskell/cabal-install:native-dns - Enable use of the [resolv](https://hackage.haskell.org/package/resolv) & [windns](https://hackage.haskell.org/package/windns) packages for performing DNS lookups
 dev-haskell/chaselev-deque:debug - Enable the extra internal checks.
 dev-haskell/chell:color-output - use colors in program output
-dev-haskell/chimera:representable - Define Representable instance from adjunctions package
 dev-haskell/citeproc:executable - Build citeproc executable
 dev-haskell/citeproc:icu - Use Haskell bindings to the ICU library
-dev-haskell/cmark:system-cmark - use app-text/cmark instead of bundled copy
 dev-haskell/cmdargs:quotation - Build quote module
 dev-haskell/cmdargs:testprog - Build the test program
 dev-haskell/comonad:indexed-traversable - You can disable the use of the `indexed-traversable` package using `-f-indexed-traversable`. Disabling this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users. If disabled we will not supply instances of `FunctorWithIndex`
@@ -1484,66 +1484,36 @@ dev-haskell/cryptonite:integer-gmp - Whether or not to use GMP for some function
 dev-haskell/cryptonite:target-attributes - use GCC / clang function attributes instead of global target options.
 dev-haskell/dlist:werror - Enable -Werror
 dev-haskell/entropy:halvm - Build for the HaLVM.
-dev-haskell/filestore:maxcount - Make use of a recent (>= 2.3.0) Darcs feature which vastly improves the performance of 'latest'. You should disable this flag if you plan to use gitit with an older version of Darcs, or 'latest' will raise an error.
 dev-haskell/foundation:experimental - enable building experimental features, known as highly unstable or without good support cross-platform
-dev-haskell/glib:closure-signals - Use the the GClosure-based signals implementation.
-dev-haskell/gtk:deprecated - Include definitions in this library that are considered obsolete.
-dev-haskell/gtk:fmode-binary - Set the default file translation mode for file I/O operations to _O_BINARY.
-dev-haskell/gtk:gio - Depend on GIO package, thereby enabling certain features.
-dev-haskell/gtk2hs-buildtools:closuresignals - Use the the GClosure-based signals implementation.
-dev-haskell/gtk3:fmode-binary - Set the default file translation mode for file I/O operations to _O_BINARY.
-dev-haskell/gtk3:gio - Depend on GIO package, thereby enabling certain features.
 dev-haskell/hackage-security:lukko - Use @lukko@ for file-locking, otherwise use @GHC.IO.Handle.Lock@
-dev-haskell/hakyll:buildwebsite - Build the hakyll website
-dev-haskell/hakyll:checkexternal - Include external link checking
-dev-haskell/hakyll:previewserver - Include the preview server
-dev-haskell/hakyll:usepandoc - Include Pandoc support
-dev-haskell/hakyll:watchserver - wait for filesystem changes and rebuild pages
-dev-haskell/happstack-server:network-uri - Get Network.URI from the network-uri package
 dev-haskell/hashtables:bounds-checking - if on, use bounds-checking array accesses
 dev-haskell/hashtables:detailed-profiling - add detailed profiling information to profiled build-depends
 dev-haskell/haskeline:terminfo - Use the terminfo package for POSIX consoles.
 dev-haskell/hdbc-sqlite3:splitbase - Choose the new smaller, split-up package.
-dev-haskell/highlighting-kate:executable - Build the Highlight executable.
-dev-haskell/highlighting-kate:pcre-light - Use the pcre-light library instead of regex-pcre-builtin.
 dev-haskell/hlint:gpl - Use GPL libraries, specifically hscolour
 dev-haskell/hlint:hsyaml - Use HsYAML instead of yaml
 dev-haskell/hlint:threaded - Build with support for multithreaded execution
-dev-haskell/hps:build-exec - Build the `hps-fractals' executable
-dev-haskell/hs3:network-uri - Get Network.URI from the network-uri package
 dev-haskell/hsopenssl:fast-bignum - Enable fast moving of bignums between OpenSSL and GMP (GHC Only)
 dev-haskell/hsyaml-aeson:exe - Enable @exe:yaml-test@ component
 dev-haskell/http-api-data:text-show - Use text-show library for efficient ToHttpApiData implementation.
 dev-haskell/httpd-shed:buildexamples - Build example executables.
 dev-haskell/io-streams:network - Include network support
 dev-haskell/io-streams:zlib - Include zlib support
-dev-haskell/json:mapdict - Encode Haskell maps as JSON dicts
-dev-haskell/json:parsec - Add support for parsing with Parsec
-dev-haskell/json:pretty - Add support for using pretty printing combinators
-dev-haskell/language-dot:executable - Build the `ppdot' executable
 dev-haskell/libyaml:no-unicode - Don't enable unicode output. Instead, unicode characters will be escaped.
 dev-haskell/libyaml:system-libyaml - Use the system-wide libyaml instead of the bundled copy
 dev-haskell/lpeg:rely-on-shared-lpeg-library - Do not build lpeg from source, but trust that lpeg is made available in other ways, e.g., through a system-wide installation. The loader will be replaced with a placeholder function that only emits a message.
 dev-haskell/lua:system-lua - Use @pkg-config@ to discover library and include paths. Setting this flag implies `pkg-config`.
-dev-haskell/mod:semirings - Derive semiring instances
 dev-haskell/monad-logger:template-haskell - Enable Template Haskell support.
 dev-haskell/monad-par:chaselev - Use Chase-Lev Deques for higher-perf work-stealing.
 dev-haskell/nats:binary - enable binary instances
 dev-haskell/nats:hashable - enable hashable instances
 dev-haskell/nats:template-haskell - enable template_haskell
 dev-haskell/network:devel - using tests for developers
-dev-haskell/network-data:small-base - Build the split-up base package.
 dev-haskell/optparse-simple:build-example - Build the example executable
-dev-haskell/pandoc-citeproc:bibutils - Use Chris Putnam's Bibutils.
-dev-haskell/pandoc-citeproc:debug - Turn on debug tracing.
-dev-haskell/pandoc-citeproc:embed-data-files - Embed locale files into the library (needed for windows packaging)
-dev-haskell/pandoc-citeproc:static - Use static linking.
-dev-haskell/pandoc-citeproc:unicode-collation - Use Haskell bindings to the International Components for Unicode (ICU) libraries
 dev-haskell/parsec-numbers:parsec1 - use dev-haskell/parsec1 instead of dev-haskell/parsec
 dev-haskell/parsers:attoparsec - Enable the use of the `attoparsec` package
 dev-haskell/parsers:binary - You can disable the use of the `binary` package using `-f-binary`.
 dev-haskell/parsers:parsec - Enable the use of the `parsec` package
-dev-haskell/path:dev - Turn on development settings.
 dev-haskell/persistent-sqlite:build-sanity-exe - Build a sanity check test executable.
 dev-haskell/pointed:comonad - You can disable the use of the `comonad` package using `-f-transformers`.
 dev-haskell/pointed:kan-extensions - You can disable the use of the `kan-extensions` package using `-f-kan-extensions`.
@@ -1553,8 +1523,6 @@ dev-haskell/pointed:stm - You can disable the use of the `stm` package using `-f
 dev-haskell/pointed:tagged - You can disable the use of the `tagged` package using `-f-tagged`.
 dev-haskell/pointed:transformers - You can disable the use of the `transformers` package using `-f-transformers`.
 dev-haskell/pointed:unordered-containers - You can disable the use of the `unordered-containers` package using `-f-unordered-containers`.
-dev-haskell/publicsuffixlist:create - export Network.PublicSuffixList.Create module
-dev-haskell/publicsuffixlist:runtimelist - read suffix list from dist at startup instead of embedding list into library
 dev-haskell/quickcheck:template-haskell - Enable additional test modules requiring Template Haskell support.
 dev-haskell/quickcheck-classes:aeson - Enable the use of the `aeson` package. This may be useful for accelerating builds in sandboxes for expert users.
 dev-haskell/quickcheck-classes:binary-laws - Include infrastructure for testing class laws of binary type constructors. Disabling `unary-laws` while keeping `binary-laws` enabled is an unsupported configuration.
@@ -1564,16 +1532,7 @@ dev-haskell/quickcheck-classes:unary-laws - Include infrastructure for testing c
 dev-haskell/quickcheck-classes:vector - Enable the use of the `vector` package. This may be useful for accelerating builds in sandboxes for expert users.
 dev-haskell/quickcheck-classes-base:binary-laws - Include infrastructure for testing class laws of binary type constructors. Disabling `unary-laws` while keeping `binary-laws` enabled is an unsupported configuration.
 dev-haskell/quickcheck-classes-base:unary-laws - Include infrastructure for testing class laws of unary type constructors.
-dev-haskell/recaptcha:network-uri - Get Network.URI from the network-uri package.
 dev-haskell/sandi:conduit - Build with conduit
-dev-haskell/semigroupoid-extras:profunctors - You can disable the use of the `profunctors` package using `-f-profunctors`. Disabing this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users.
-dev-haskell/semigroupoids:comonad - You can disable the use of the `comonad` package using `-f-comonad`. Disabling this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users. If disabled we will not supply instances of `Comonad`
-dev-haskell/semigroupoids:containers - You can disable the use of the `containers` package using `-f-containers`. Disabling this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users.
-dev-haskell/semigroupoids:contravariant - You can disable the use of the `contravariant` package using `-f-contravariant`. Disabling this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users. If disabled we will not supply instances of `Contravariant`
-dev-haskell/semigroupoids:distributive - You can disable the use of the `distributive` package using `-f-distributive`. Disabling this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users. If disabled we will not supply instances of `Distributive`
-dev-haskell/semigroupoids:tagged - You can disable the use of the `tagged` package using `-f-tagged`. Disabing this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users.
-dev-haskell/semigroupoids:unordered-containers - Enable the use of the `unordered-containers` package (and also its dependency `hashable`). Disabling this is an unsupported configuration, but it may be useful for accelerating builds in sandboxes for expert users.
-dev-haskell/sendfile:portable - Explicitly enable portable sendfile support (implemented in Haskell)
 dev-haskell/sha:exe - Build a sha1 and a sha384 executable similar to 'md5sum'.
 dev-haskell/shelly:lifted - run the tests against Shelly.Lifted
 dev-haskell/simple-sendfile:allow-bsd - Allow use of BSD sendfile (disable on GNU/kFreeBSD)
@@ -1587,22 +1546,15 @@ dev-haskell/snap-server:openssl - Enable https support using the HsOpenSSL libra
 dev-haskell/snap-server:pong-server - Build a server that just returns "PONG". Normally useful only for benchmarks.
 dev-haskell/snap-server:test-server - Build the blackbox testserver
 dev-haskell/splitmix:optimised-mixer - Use JavaScript for mix32
-dev-haskell/store-core:force-alignment - No description
 dev-haskell/texmath:executable - Compile test executable.
 dev-haskell/texmath:server - Compile webserver.
 dev-haskell/text-short:asserts - Enable runtime-checks via 'assert'
-dev-haskell/thyme:bug-for-bug - bug-for-bug compatibility with time
-dev-haskell/thyme:lens - use the full lens package
-dev-haskell/thyme:show-internal - instance Show of internal representation
 dev-haskell/tls:compat - Accept SSLv2 compatible handshake.
 dev-haskell/tls:network - Use the base network library.
 dev-haskell/transformers-base:orphaninstances - Build instances for orphan datatypes.
 dev-haskell/unicode-collation:doctests - Run doctests as part of test suite. Use with: @--write-ghc-environment-files=always@.
 dev-haskell/unicode-collation:executable - Build the unicode-collate executable.
 dev-haskell/unix-compat:old-time - build against old-time package
-dev-haskell/uri-encode:network-uri - Get Network.URI from the network-uri package.
-dev-haskell/uri-encode:tools - Build executables.
-dev-haskell/uuagc:loag - Use MiniSat as external SAT-solver to schedule all Linear Ordered AGs
 dev-haskell/vector:boundschecks - Enable bounds checking
 dev-haskell/vector:internalchecks - Enable internal consistency checks at the cost of a significant performance penalty
 dev-haskell/vector:unsafechecks - Enable bounds checking in unsafe operations at the cost of a significant performance penalty
@@ -2420,7 +2372,11 @@ dev-python/QtPy:opengl - Pull in bindings for the QtOpenGL module
 dev-python/QtPy:positioning - Pull in bindings for the QtPositioning module
 dev-python/QtPy:printsupport - Pull in bindings for the QtPrintSupport module
 dev-python/QtPy:pyqt5 - Use dev-python/PyQt5 as Qt for Python implementation
+dev-python/QtPy:pyqt6 - Use dev-python/PyQt6 as Qt for Python implementation
 dev-python/QtPy:pyside2 - Use dev-python/pyside2 as Qt for Python implementation
+dev-python/QtPy:pyside6 - Use dev-python/pyside6 as Qt for Python implementation
+dev-python/QtPy:qml - Build bindings for the QtQml
+dev-python/QtPy:quick - Build bindings for the QtQuick
 dev-python/QtPy:sensors - Pull in bindings for the QtSensors module
 dev-python/QtPy:serialport - Pull in bindings for the QtSerialPort module
 dev-python/QtPy:speech - Build bindings for the QtTextToSpeech module
@@ -2470,6 +2426,7 @@ dev-python/pyocr:cuneiform - Enable support for the app-text/cuneiform OCR engin
 dev-python/pyocr:tesseract - Enable support for the app-text/tesseract OCR engine
 dev-python/pypax:ptpax - Enable PT_PAX_FLAGS support.
 dev-python/pypax:xtpax - Enable XATTR_PAX_FLAGS support.
+dev-python/pypy:full-stdlib - Install complete stdlib as necessary to use PyPy for general purpose programs. By default, only a limited subset that is used when building dev-python/pypy3-exe is installed. Note that PyPy2.7's stdlib contains multiple known vulnerabilities.
 dev-python/pypy-exe:low-memory - Build using PyPy with the engine configured towards low memory footprint. This makes it possible to build PyPy using ~3.5G of RAM on amd64 and ~half of that on x86, at the cost of lengthened build time.
 dev-python/pypy3:ensurepip - Install the ensurepip module that uses bundled wheels to bootstrap pip and setuptools (if disabled, it will be only possible to use venv `--without-pip`)
 dev-python/pypy3-exe:low-memory - Build using PyPy with the engine configured towards low memory footprint. This makes it possible to build PyPy using ~3.5G of RAM on amd64 and ~half of that on x86, at the cost of lengthened build time.
@@ -2503,6 +2460,27 @@ dev-python/pyside2:widgets - Build QtWidgets module
 dev-python/pyside2:x11extras - Build QtX11Extras module
 dev-python/pyside2:xml - Build QtXml module
 dev-python/pyside2:xmlpatterns - Build QtXmlPatterns module
+dev-python/pyside6:concurrent - Build QtConcurrent module
+dev-python/pyside6:designer - Build QtDesigner and QtUiTools modules
+dev-python/pyside6:gles2-only - Build QtGui "QOpenGL*" classes
+dev-python/pyside6:gui - Build QtGui module
+dev-python/pyside6:help - Build QtHelp module
+dev-python/pyside6:multimedia - Build QtMultimedia and QtMultimediaWidgets modules
+dev-python/pyside6:network - Build QtNetwork module
+dev-python/pyside6:positioning - Build QtPositioning module
+dev-python/pyside6:printsupport - Build QtPrintSupport module
+dev-python/pyside6:qml - Build QtQml module
+dev-python/pyside6:quick - Build QtQuick and QtQuickWidgets modules
+dev-python/pyside6:quick3d - Build QtQuick3D and QtQuickWidgets modules
+dev-python/pyside6:serialport - Build QtSerialPort modules
+dev-python/pyside6:sql - Build QtSql module
+dev-python/pyside6:svg - Build QtSvg module
+dev-python/pyside6:testlib - Build QtTest module
+dev-python/pyside6:webchannel - Build QtWebChannel module
+dev-python/pyside6:webengine - Build QtWebEngine and QtWebEngineWidgets modules
+dev-python/pyside6:websockets - Build QtWebSockets module
+dev-python/pyside6:widgets - Build QtWidgets module
+dev-python/pyside6:xml - Build QtXml module
 dev-python/python-lsp-server:all-plugins - Pull in all optional plugins
 dev-python/python-mpd:twisted - Enable twisted support
 dev-python/python-stdnum:vies - Enable VIES
@@ -2518,6 +2496,9 @@ dev-python/scipy:sparse - Adds support for sparse solving with sci-libs/umfpack
 dev-python/shiboken2:docstrings - Expose documentation as Python docstrings (recommended)
 dev-python/shiboken2:numpy - Implicitly convert passed NumPy arrays to Qt lists
 dev-python/shiboken2:vulkan - Generate "QSurface::VulkanSurface" bindings
+dev-python/shiboken6:docstrings - Expose documentation as Python docstrings (recommended)
+dev-python/shiboken6:numpy - Implicitly convert passed NumPy arrays to Qt lists
+dev-python/shiboken6:vulkan - Generate "QSurface::VulkanSurface" bindings
 dev-python/subprocess-tee:test-full - Enable full test mode. Pulls in many additional dependencies, and requires having been emerged without this flag first in order to avoid a circular dependency.
 dev-python/sympy:aesara - Add support for dev-python/aesara
 dev-python/sympy:imaging - Add support for dev-python/pillow
@@ -2782,8 +2763,6 @@ dev-util/bpftool:caps - Use sys-libs/libcap to enable unprivileged run support
 dev-util/bpftrace:fuzzing - Build bpftrace for fuzzing
 dev-util/buildbot:docker - Add support for worker docker command steps
 dev-util/buildbot:irc - Add support for status delivery through an ircbot.
-dev-util/bustle:interactivetests - Build interactive test programs
-dev-util/bustle:threaded - Build with the multi-threaded runtime
 dev-util/cargo-audit:fix - Add support for 'fix' subcommand (experimental)
 dev-util/catalyst:ccache - Enables ccache support
 dev-util/catalyst:iso - Pulls in the depends for building iso images
@@ -2955,6 +2934,7 @@ dev-vcs/git:mediawiki - Support pulling and pushing from MediaWiki
 dev-vcs/git:mediawiki-experimental - Add experimental patches for improved MediaWiki support
 dev-vcs/git:perforce - Add support for Perforce version control system (requires manual installation of Perforce client)
 dev-vcs/git:ppcsha1 - Make use of a bundled routine that is optimized for the PPC arch
+dev-vcs/git:safe-directory - Respect the safe.directory setting
 dev-vcs/git:subversion - Include git-svn for dev-vcs/subversion support
 dev-vcs/git:tk - Include the 'gitk' and 'git gui' tools
 dev-vcs/git:webdav - Adds support for push'ing to HTTP/HTTPS repositories via DAV
@@ -3267,7 +3247,6 @@ games-sports/xmoto:double-precision - more precise calculations at the expense o
 games-strategy/0ad:editor - Include Atlas scenario editor projects
 games-strategy/0ad:lobby - Enable the use of net-libs/gloox and the multiplayer lobby
 games-strategy/0ad:nvtt - Support for some uncompressed data formats (might be needed for some mods)
-games-strategy/augustus:uncapped - Uncap grand temple count
 games-strategy/colobot:devbuild - TODO
 games-strategy/colobot:tools - Build tools
 games-strategy/colobot-data:music - Enable music support
@@ -3441,10 +3420,12 @@ kde-apps/cantor:julia - Enable dev-lang/julia backend support
 kde-apps/cantor:qalculate - Enable sci-libs/libqalculate backend support
 kde-apps/dolphin:activities - Track which folders are frequently accessed on a Plasma desktop
 kde-apps/gwenview:activities - Enable kactivities support
+kde-apps/gwenview:annotate - Enable support for image annotations using media-libs/kimageannotator
 kde-apps/gwenview:fits - Enable support for NASA's sci-libs/cfitsio library
 kde-apps/gwenview:mpris - Enable support for MPRIS2 interface, requiring dev-qt/qtdbus as dependency.
 kde-apps/gwenview:share - Enable support for a share menu using kde-frameworks/purpose
 kde-apps/kaccounts-providers:webengine - Enable Nextcloud KAccounts plugin using dev-qt/qtwebengine
+kde-apps/kalarm:pim - Enable birthday import, email functions etc. using kde-apps/akonadi
 kde-apps/kalarm:speech - Enable text-to-speech support
 kde-apps/kalzium:editor - Enable the embedded molecule editor/viewer
 kde-apps/kalzium:solver - Enable the equation solver
@@ -3456,6 +3437,13 @@ kde-apps/kate:plasma - Enable Session Applet addon for KDE Plasma
 kde-apps/kate:projects - Enable Project plugin for executing queries on SQL DBs
 kde-apps/kate:snippets - Enable Snippets Tool View plugin to manage or download code snippets
 kde-apps/kate:sql - Enable SQL plugin for executing queries on SQL DBs
+kde-apps/kate-addons:filebrowser - Enable File System browser tool view
+kde-apps/kate-addons:lspclient - Enable LSP (Language Server Protocol) client plugin
+kde-apps/kate-addons:plasma - Enable Session Applet addon for KDE Plasma
+kde-apps/kate-addons:projects - Enable Project plugin for executing queries on SQL DBs
+kde-apps/kate-addons:snippets - Enable Snippets Tool View plugin to manage or download code snippets
+kde-apps/kate-addons:sql - Enable SQL plugin for executing queries on SQL DBs
+kde-apps/kate-lib:activities - Enable Plasma Activities support via kde-frameworks/kactivities
 kde-apps/kde-apps-meta:accessibility - Pull in kde-apps/kdeaccessibility-meta packages
 kde-apps/kde-apps-meta:admin - Pull in kde-apps/kdeadmin-meta packages
 kde-apps/kde-apps-meta:education - Pull in kde-apps/kdeedu-meta packages
@@ -3507,6 +3495,7 @@ kde-apps/kio-extras:phonon - Enable file audio preview plugin using media-libs/p
 kde-apps/kio-extras:sftp - Enable SFTP protocol support using net-libs/libssh
 kde-apps/kio-extras:taglib - Enable audio thumbnails via media-libs/taglib
 kde-apps/kitinerary:barcode - Enable support for PDF417 and Aztec barcode decoding using media-libs/zxing-cpp
+kde-apps/kleopatra:pim - Enable WKS publishing support using kde-apps/kmail
 kde-apps/kmag:keyboardfocus - Enable keyboard focus tracking
 kde-apps/kmail:speech - Enable text-to-speech support
 kde-apps/knights:speech - Enable text-to-speech support
@@ -3766,6 +3755,7 @@ mail-client/sylpheed:oniguruma - Use dev-libs/oniguruma for regular expression
 mail-client/thunderbird:clang - Use Clang compiler instead of GCC
 mail-client/thunderbird:eme-free - Disable EME (DRM plugin) capability at build time
 mail-client/thunderbird:hwaccel - Force-enable hardware-accelerated rendering (Mozilla bug 594876)
+mail-client/thunderbird:libproxy - Enable libproxy support
 mail-client/thunderbird:lto - Enable Link Time Optimization (LTO). Requires Gold linker when using GCC or LDD linker when using Clang
 mail-client/thunderbird:openh264 - Use media-libs/openh264 for H.264 support instead of downloading binary blob from Mozilla at runtime
 mail-client/thunderbird:pgo - Add support for profile-guided optimization using gcc-4.5, for faster binaries. This option will double the compile time.
@@ -3775,8 +3765,10 @@ mail-client/thunderbird:system-harfbuzz - Use the system-wide media-libs/harfbuz
 mail-client/thunderbird:system-icu - Use the system-wide dev-libs/icu instead of bundled.
 mail-client/thunderbird:system-jpeg - Use the system-wide media-libs/libjpeg-turbo instead of bundled.
 mail-client/thunderbird:system-libevent - Use the system-wide dev-libs/libevent instead of bundled.
+mail-client/thunderbird:system-librnp - Use system-wide dev-util/librnp instead of bundled one.
 mail-client/thunderbird:system-libvpx - Use the system-wide media-libs/libvpx instead of bundled.
 mail-client/thunderbird:system-png - Use the system-wide media-libs/libpng instead of bundled (requires APNG patches)
+mail-client/thunderbird:system-python-libs - Use system's python site instead of bundled python libraries
 mail-client/thunderbird:system-webp - Use the system-wide media-libs/libwebp instead of bundled.
 mail-filter/MailScanner:exim - Set mail-mta/exim to used MTA
 mail-filter/MailScanner:postfix - Set mail-mta/postfix to used MTA
@@ -3907,14 +3899,12 @@ media-fonts/fonts-meta:ms - Install (free) fonts for the "ms" preset
 media-fonts/ibm-plex:otf - Install OTF fonts
 media-fonts/ibm-plex:ttf - Install TTF fonts
 media-fonts/intlfonts:bdf - Install BDF fonts in addition to PCF
-media-fonts/intlfonts:non-free - Install non-free Tibetan fonts
 media-fonts/liberation-fonts:fontforge - Use media-gfx/fontforge to build fonts from source
 media-fonts/montecarlo:bdf - Install BDF fonts in addition to PCF
 media-fonts/mplus-outline-fonts:ipafont - Generates new fonts merged with media-fonts/ja-ipafonts
 media-fonts/noto:extra - Install full upstream font set
 media-fonts/noto-emoji:buildfont - Build Noto Emoji font with supplied images.
 media-fonts/sil-charis:compact - Use more compactly spaced font
-media-fonts/sil-gentium:compact - Also install more compact version of the font.
 media-fonts/terminus-font:a-like-o - Changes view of letter 'a' - a looks like o (see homepage)
 media-fonts/terminus-font:center-tilde - Place the '~' character vertically centered on the line instead of to the top.
 media-fonts/terminus-font:distinct-l - ll2 variant with more distinctive l (lowercase L)
@@ -4115,6 +4105,7 @@ media-gfx/qrencode:png - Enable PNG output support in qrencode tool
 media-gfx/renderdoc:pyside2 - Expose the QRenderdoc UI to Python scripting to allow for customisation
 media-gfx/renderdoc:qt5 - Build and install the qrenderdoc GUI
 media-gfx/shotwell:opencv - Enable face detection via media-libs/opencv
+media-gfx/skanpage:ocr - Enable support for Optical Character Recognition via app-text/tesseract
 media-gfx/solvespace:system-mimalloc - Use system dev-libs/mimalloc instead of vendored library
 media-gfx/xpaint:pgf - Support for loading PGF images
 media-gfx/xsane:ocr - Enable support for Optical Character Recognition reader
@@ -4339,6 +4330,7 @@ media-libs/mlt:rtaudio - Builds rtaudio consumer for native audio support on mul
 media-libs/mlt:rubberband - Enable audio pitch-shifting using media-libs/rubberband
 media-libs/mlt:vidstab - Enabled video stabilization with media-libs/vidstab
 media-libs/netpbm:rle - Build converters for the RLE format (utah raster toolkit)
+media-libs/openal:pipewire - Enable support for the media-video/pipewire audio backend
 media-libs/openal:sndio - Enable support for the media-sound/sndio backend
 media-libs/opencv:contrib - Install user contributed scripts from opencv_contrib (Experimental!)
 media-libs/opencv:contribcvv - CVV module requires Qt5
@@ -4958,7 +4950,6 @@ media-video/aravis:packet-socket - Enable packet socket support.
 media-video/aravis:viewer - Build the GTK+-based video viewer.
 media-video/chaplin:transcode - Enable DVD ripping and transcoding
 media-video/droidcam:gtk - Build the dev-cpp/gtkmm:3.0 client.
-media-video/dv2sub:kino - install kino plugin
 media-video/dvdrip:fping - Enables fping support for cluster rendering
 media-video/dvdrip:subtitles - Enables support for subtitle ripping
 media-video/ffdiaporama:openclipart - Support openclipart database
@@ -5034,7 +5025,6 @@ media-video/handbrake:gtk - Install the GTK UI, ghb.
 media-video/handbrake:libav-aac - Support for encoding AAC using libav's internal encoder.
 media-video/handbrake:numa - Adds support for x265's NUMA capabilities.
 media-video/handbrake:x265 - Support for encoding h265 using media-libs/x265.
-media-video/kino:gpac - Enable GPAC support when exporting to 3GPP format
 media-video/libva-utils:examples - Build and install decode, encode, videoprocess and other VA-API examples.
 media-video/libva-utils:putsurface - Build and install putsurface tool.
 media-video/libva-utils:vainfo - Build and install vainfo tool.
@@ -5768,9 +5758,7 @@ net-ftp/tftp-hpa:server - Compile and install the tftp server
 net-ftp/yafc:ssh - Build with SFTP support
 net-im/biboumi:udns - Asynchronously resolve domain names using net-libs/udns
 net-im/bitlbee:libevent - Use libevent for event handling
-net-im/bitlbee:msn - Enable MSN Messenger IM protocol support.
-net-im/bitlbee:nss - Use NSS for SSL support in MSN and Jabber
-net-im/bitlbee:oscar - Enable Oscar (AIM/ICQ) IM protocol support
+net-im/bitlbee:nss - Prefer dev-libs/nss as SSL/TLS provider
 net-im/bitlbee:otr - Enable support for encrypted conversations
 net-im/bitlbee:plugins - Enable support for plugins
 net-im/bitlbee:purple - Use libpurple instead of the built-in IM protocol support
@@ -6105,6 +6093,7 @@ net-libs/libvncserver:gcrypt - Use dev-libs/libgcrypt as crypto backend
 net-libs/libvncserver:lzo - Enable LZO support via dev-libs/lzo instead of using internal miniLZO implementation
 net-libs/libwebsockets:access-log - Support generating Apache-compatible access logs
 net-libs/libwebsockets:client - The client part of the library and libwebsockets-test-client
+net-libs/libwebsockets:extensions - Compile with extensions (permessage-deflate)
 net-libs/libwebsockets:generic-sessions - With the Generic Sessions plugin
 net-libs/libwebsockets:http-proxy - Support for rewriting HTTP proxying
 net-libs/libwebsockets:http2 - Support the HTTP/2 protocol
@@ -6390,7 +6379,6 @@ net-misc/connman:vpnc - Use net-vpn/vpnc for cisco VPN support.
 net-misc/connman:wireguard - Enable WireGuard VPN support.
 net-misc/connman:wispr - Enable support for WISPr hotspot logins.
 net-misc/connman-gtk:openconnect - Support easier authentication to AnyConnect VPNs
-net-misc/csync:sftp - Enable sftp transfer support via net-libs/libssh
 net-misc/curl:alt-svc - Enable alt-svc support
 net-misc/curl:brotli - Enable brotli compression support
 net-misc/curl:ftp - Enable FTP support
@@ -7541,10 +7529,6 @@ sci-libs/vtk:rendering - Building Redering modules
 sci-libs/vtk:tbb - Use dev-cpp/tbb to handle smp support
 sci-libs/vtk:views - Building Views modules
 sci-libs/vtk:web - Install web component
-sci-mathematics/agda:cpphs - Use cpphs instead of cpp.
-sci-mathematics/agda:debug - Enable debugging features that may slow Agda down.
-sci-mathematics/agda:enable-cluster-counting - Enable the --count-clusters flag. (If enable-cluster-counting is False, then the --count-clusters flag triggers an error message.)
-sci-mathematics/agda:stdlib - Install the standard library.
 sci-mathematics/bertini:optimization - Accept upstream's choices for -O option.
 sci-mathematics/cadabra:jupyter - Build the Cadabra Jupyter kernel
 sci-mathematics/cgal:mpfi - Enable support for multiple recision interval arithmetic via sci-libs/mpfi
@@ -7621,7 +7605,6 @@ sci-mathematics/polymake:ppl - Enable dev-libs/ppl interface for convex hull com
 sci-mathematics/polymake:singular - Enable the interface to sci-mathematics/singular for ideal related computations.
 sci-mathematics/primecount:executable - Build the primecount CLI executable
 sci-mathematics/primesieve:executable - Build the primesieve CLI executable
-sci-mathematics/rstudio:server - Build and install the RStudio server
 sci-mathematics/singular:polymake - Enable the interface to TOPCOM
 sci-mathematics/slepc:complex-scalars - Make scalars complex
 sci-mathematics/stp:cryptominisat - Enable sci-mathematics/cryptominisat support
@@ -7738,8 +7721,6 @@ sci-visualization/labplot:matio - Enable support for matio (sci-libs/matio)
 sci-visualization/labplot:origin - Enable support for reading OriginLab OPJ project files through sci-libs/liborigin
 sci-visualization/labplot:root - Enable support for CERN's ROOT file type
 sci-visualization/labplot:serial - Enable support for RS232 serial ports using dev-qt/qtserialport
-sci-visualization/opendx:cdf - Add support for sci-libs/cdf data exchange format
-sci-visualization/opendx:hdf - Add support for the Hierarchical Data Format (sci-libs/hdf)
 sci-visualization/paraview:boost - Enable the usage of dev-libs/boost
 sci-visualization/paraview:cg - Add support for nvidia's cg shaders
 sci-visualization/paraview:nvcontrol - Add NVCONTROL support for OpenGL options
@@ -7766,6 +7747,16 @@ sys-apps/coreutils:hostname - Build the hostname program
 sys-apps/coreutils:kill - Build the kill program
 sys-apps/coreutils:multicall - Build all tools into a single `coreutils` program akin to busybox to save space
 sys-apps/coreutils:split-usr - Enable this if /bin and /usr/bin are separate directories
+sys-apps/cpu-x:bandwidth - Intégrer bandwidth
+sys-apps/cpu-x:cpu - Use the dev-libs/libcpuid library for CPU info
+sys-apps/cpu-x:dmidecode - Intégrer dmidecode
+sys-apps/cpu-x:force-libstatgrab - Use sys-libs/libstatgrab to instead of sys-process/procps
+sys-apps/cpu-x:gpu - Use the media-libs/glfw library for GPU info
+sys-apps/cpu-x:libcpuid - Utiliser la bibliothèque dev-libs/libcpuid
+sys-apps/cpu-x:libglfw - Utiliser la bibliothèque media-libs/glfw
+sys-apps/cpu-x:libpci - Utiliser la bibliothèque sys-apps/pciutils
+sys-apps/cpu-x:opencl - Use the virtual/opencl library
+sys-apps/cpu-x:pci - Use the sys-apps/pciutils library for PCI info
 sys-apps/dbus:elogind - Use sys-auth/elogind for session tracking.
 sys-apps/dbus:systemd - Build with sys-apps/systemd at_console support
 sys-apps/dbus-broker:launcher - dbus-daemon compatibility launcher
@@ -8146,6 +8137,7 @@ sys-cluster/glusterfs:georeplication - Enable support for georeplication (requir
 sys-cluster/glusterfs:ipv6 - Use IPv6 by default, requires libtirpc
 sys-cluster/glusterfs:libtirpc - Build against net-libs/libtirpc for RPC support
 sys-cluster/glusterfs:rsyslog - Install configuration snippet for app-admin/rsyslog
+sys-cluster/glusterfs:uring - Control whether or not glusterfs is compiled with uring support or not.
 sys-cluster/hpx:papi - Use dev-libs/papi for NaCl
 sys-cluster/hpx:perftools - Use dev-util/google-perftools for memory allocation
 sys-cluster/hpx:tbb - Use dev-cpp/tbb for memory allocation
@@ -8269,6 +8261,7 @@ sys-devel/llvm:ncurses - Support querying terminal properties using ncurses' ter
 sys-devel/llvm:xar - Support dumping LLVM bitcode sections in Mach-O files (uses app-arch/xar)
 sys-devel/llvm:z3 - Enable support for sci-mathematics/z3 constraint solver
 sys-devel/llvm-roc:runtime - Builds the compiler runtime libraries.
+sys-devel/mold:system-tbb - Use dev-cpp/tbb package instead of vendored copy
 sys-devel/parity:vc10_0 - Enable support for Visual Studio 2010
 sys-devel/parity:vc11_0 - Enable support for Visual Studio 2012
 sys-devel/parity:vc12_0 - Enable support for Visual Studio 2013
@@ -8606,7 +8599,6 @@ www-apps/cgit:highlight - Enable source code highlighting
 www-apps/cgit:lua - Enable support for Lua scripting
 www-apps/drupal:uploadprogress - Install dev-php/pecl-uploadprogress package
 www-apps/gitea:acct - User and group management via acct-*/git packages
-www-apps/gitit:plugins - enables optional plugin runtime loader
 www-apps/hugo:sass - Enable SASS/SCSS support
 www-apps/icingaweb2:apache2-server - Adds support for the apache2-server
 www-apps/icingaweb2:fpm - Adds FPM support to php
@@ -8801,7 +8793,6 @@ x11-apps/igt-gpu-tools:runner - Build the test runner
 x11-apps/igt-gpu-tools:tests - Build and install tests
 x11-apps/igt-gpu-tools:valgrind - Support valgrind annotations
 x11-apps/igt-gpu-tools:xv - Enable intel-gpu-overlay xv backend
-x11-apps/mesa-progs:egl - Build EGL utilities
 x11-apps/mesa-progs:gles2 - Build OpenGL ES 2 utilities
 x11-apps/xdpyinfo:dmx - Builds support for Distributed Multiheaded X x11-base/xorg-server
 x11-apps/xinit:twm - Control dependencies on legacy apps (xterm, twm, ...). Safe to disable if you use a modern desktop environment.
@@ -9092,6 +9083,7 @@ x11-wm/fvwm3:rplay - Enable rplay support
 x11-wm/fvwm3:stroke - Mouse Gesture support
 x11-wm/i3:doc - Build and install the HTML documentation and regenerate the man pages
 x11-wm/icewm:gdk-pixbuf - Enable gdk-pixbuf rendering
+x11-wm/jwm:pango - Bidirectional text layout support with pango using xft backend.
 x11-wm/lumina:desktop-utils - Build and install lumina's desktop-utils
 x11-wm/metacity:libcanberra - Enable sound event support using media-libs/libcanberra
 x11-wm/metacity:vulkan - Enable Vulkan based compositor support via META_COMPOSITOR=vulkan environment variable

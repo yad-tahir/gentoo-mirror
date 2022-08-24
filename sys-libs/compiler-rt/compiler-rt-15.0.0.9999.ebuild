@@ -38,7 +38,7 @@ llvm.org_set_globals
 
 python_check_deps() {
 	use test || return 0
-	has_version "dev-python/lit[${PYTHON_USEDEP}]"
+	python_has_version ">=dev-python/lit-15[${PYTHON_USEDEP}]"
 }
 
 pkg_pretend() {
@@ -88,8 +88,10 @@ src_configure() {
 			local -x LDFLAGS="${LDFLAGS} ${nolib_flags[*]}"
 			ewarn "${CC} seems to lack runtime, trying with ${nolib_flags[*]}"
 		elif test_compiler "${nolib_flags[@]}" -nostartfiles; then
-			# Avoiding -nostartfiles earlier on for bug #862540
-			nolib_flags+=( -nostartfiles )
+			# Avoiding -nostartfiles earlier on for bug #862540,
+			# and set available entry symbol for bug #862798.
+			nolib_flags+=( -nostartfiles -emain )
+
 			local -x LDFLAGS="${LDFLAGS} ${nolib_flags[*]}"
 			ewarn "${CC} seems to lack runtime, trying with ${nolib_flags[*]}"
 		fi

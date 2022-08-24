@@ -6,6 +6,24 @@
 # This file is only for generic masks. For arch-specific masks (i.e.
 # mask everywhere, unmask on arch/*) use arch/base.
 
+# Matthew Smith <matthew@gentoo.org> (2022-08-19)
+# Upstream recommends that tbb be built with a patch to avoid bugs.
+# https://github.com/rui314/mold/releases/tag/v1.4.1
+sys-devel/mold system-tbb
+
+# John Helmert III <ajak@gentoo.org> (2022-08-14)
+# libaacplus is last rited
+media-sound/darkice aacplus
+
+# John Helmert III <ajak@gentoo.org> (2022-08-14)
+# slurm is last rited
+app-metrics/collectd collectd_plugins_slurm
+sys-cluster/openmpi openmpi_rm_slurm
+
+# Andrew Ammerlaan <andrewammerlaan@gentoo.org> (2022-08-13)
+# PyQt6/PySide6 are masked for testing
+dev-python/QtPy pyqt6 pyside6
+
 # Joonas Niilola <juippis@gentoo.org> (2022-08-02)
 # Doesn't compile with 'Xaw3d' use flag, #849947.
 app-text/xdvik Xaw3d
@@ -14,10 +32,6 @@ app-text/xdvik Xaw3d
 # Depends on an older enigmail that only supports python2, which is
 # being removed soon. #758344
 www-client/seamonkey crypt
-
-# Sam James <sam@gentoo.org> (2022-07-12)
-# Depends on last-rited media-video/kino
-media-video/dv2sub kino
 
 # Sam James <sam@gentoo.org> (2022-07-10)
 # TBB support is deprecated/broken upstream, needs older version,
@@ -68,6 +82,7 @@ dev-python/jupyter_server doc
 # Joonas Niilola <juippis@gentoo.org> (2022-05-03)
 # system-python-libs is HIGHLY EXPERIMENTAL according to upstream, and
 # still being worked on in Gentoo.
+>=mail-client/thunderbird-100.0 system-python-libs
 >=www-client/firefox-100.0 system-python-libs
 
 # Piotr Karbowski <slashbeast@gentoo.org> (2022-04-29)
