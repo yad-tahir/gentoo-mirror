@@ -1,6 +1,11 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# matoro <matoro_gentoo@matoro.tk> (2022-09-29)
+# Pulls in dev-util/google-perftools, which is arch-specific
+# Unmask on supported arches.
+tcmalloc
+
 # Michał Górny <mgorny@gentoo.org> (2021-01-07)
 # Prebuilt kernels are not supported on all architectures.
 dist-kernel
@@ -75,7 +80,6 @@ cpu_flags_ppc_vsx3
 ppcsha1
 
 # mips arch specific USE flags
-fixed-point
 loongson2f
 mipsdspr1
 mipsdspr2
@@ -123,6 +127,7 @@ video_cards_geode
 input_devices_vmmouse
 video_cards_ast
 video_cards_crocus
+video_cards_d3d12
 video_cards_i915
 video_cards_i965
 video_cards_intel
@@ -208,7 +213,10 @@ sbcl
 systemd
 
 # Mike Gilbert <floppym@gentoo.org> (2014-10-19)
+# Requires the following packages to be keyworded/stable:
 # sys-libs/libapparmor
+# sys-apps/apparmor
+# sys-apps/apparmor-utils
 apparmor
 
 # Mask flags that correspond to all possible ARCH values.

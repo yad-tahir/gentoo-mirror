@@ -43,10 +43,6 @@
       <name>Agostino Sarubbo</name>
     </member>
     <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-    </member>
-    <member>
       <email>jsmolic@gentoo.org</email>
       <name>Jakov Smolić</name>
     </member>
@@ -206,19 +202,10 @@
     <name>Alpha Development</name>
     <url>https://wiki.gentoo.org/wiki/Project:Alpha</url>
     <description>The Gentoo/Alpha Arch Team is devoted to keeping Gentoo in good shape on the Alpha architecture.</description>
-    <member>
-      <email>ago@gentoo.org</email>
-      <name>Agostino Sarubbo</name>
-      <role>Security bugs primarily</role>
-    </member>
     <member is-lead="1">
       <email>mattst88@gentoo.org</email>
       <name>Matt Turner</name>
       <role>Lead</role>
-    </member>
-    <member>
-      <email>zlogene@gentoo.org</email>
-      <name>Mikle Kolyada</name>
     </member>
   </project>
   <project>
@@ -347,11 +334,6 @@
       <name>Yury German</name>
       <role>Janitor</role>
     </member>
-    <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-      <role>Minion</role>
-    </member>
     <member is-lead="1">
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
@@ -444,21 +426,12 @@
     <url>https://wiki.gentoo.org/wiki/Project:Chromium</url>
     <description>The Chromium in Gentoo project manages the Chromium-related ebuilds within Gentoo.</description>
     <member>
-      <email>ago@gentoo.org</email>
-      <name>Agostino Sarubbo</name>
-      <role>stable amd64/x86 liaison</role>
-    </member>
-    <member>
       <email>floppym@gentoo.org</email>
       <name>Mike Gilbert</name>
     </member>
     <member>
       <email>sultan@gentoo.org</email>
       <name>Stephan Hartmann</name>
-    </member>
-    <member>
-      <email>voyageur@gentoo.org</email>
-      <name>Bernard Cafarelli</name>
     </member>
   </project>
   <project>
@@ -535,10 +508,6 @@
       <email>sam@gentoo.org</email>
       <name>Sam James</name>
     </member>
-    <member>
-      <email>whissi@gentoo.org</email>
-      <name>Thomas Deutschmann</name>
-    </member>
   </project>
   <project>
     <email>comrel@gentoo.org</email>
@@ -608,6 +577,10 @@
     <name>Containers</name>
     <url>https://wiki.gentoo.org/wiki/Project:Containers</url>
     <description>The Contains Project provides minimal container images for a variety of container formats so that users can have a consistent experience when building application specific containers.</description>
+    <member>
+      <email>ajak@gentoo.org</email>
+      <name>John Helmert III</name>
+    </member>
     <member>
       <email>arzano@gentoo.org</email>
       <name>Max Magorsch</name>
@@ -885,10 +858,6 @@
       <name>Guilherme Amadio</name>
     </member>
     <member>
-      <email>johu@gentoo.org</email>
-      <name>Johannes Huber</name>
-    </member>
-    <member>
       <email>jstein@gentoo.org</email>
       <name>Jonas Stein</name>
     </member>
@@ -975,10 +944,6 @@
       <name>Andreas Sturmlechner</name>
     </member>
     <member>
-      <email>eva@gentoo.org</email>
-      <name>Gilles Dartiguelongue</name>
-    </member>
-    <member>
       <email>floppym@gentoo.org</email>
       <name>Mike Gilbert</name>
     </member>
@@ -1011,11 +976,7 @@
     <email>gnome@gentoo.org</email>
     <name>GNOME Desktop</name>
     <url>https://wiki.gentoo.org/wiki/Project:GNOME</url>
-    <description>The Gentoo Gnome Project aims to bring the current and complete GNOME Desktop Environment to Gentoo.</description>
-    <member>
-      <email>eva@gentoo.org</email>
-      <name>Gilles Dartiguelongue</name>
-    </member>
+    <description>The Gentoo Gnome Project aims to bring the current and complete GNOME desktop environment to Gentoo.</description>
     <member is-lead="1">
       <email>leio@gentoo.org</email>
       <name>Mart Raudsepp</name>
@@ -1113,10 +1074,6 @@
     <url>https://wiki.gentoo.org/wiki/Project:GStreamer</url>
     <description>The GStreamer project maintains packages associated with the upstream GStreamer project and associated Gentoo tooling</description>
     <member>
-      <email>eva@gentoo.org</email>
-      <name>Gilles Dartiguelongue</name>
-    </member>
-    <member>
       <email>leio@gentoo.org</email>
       <name>Mart Raudsepp</name>
     </member>
@@ -1134,11 +1091,6 @@
     <member>
       <email>arthurzam@gentoo.org</email>
       <name>Arthur Zamarin</name>
-    </member>
-    <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-      <role>Comedic Relief</role>
     </member>
     <member is-lead="1">
       <email>mgorny@gentoo.org</email>
@@ -1190,10 +1142,6 @@
     <member is-lead="1">
       <email>robbat2@gentoo.org</email>
       <name>Robin Johnson</name>
-    </member>
-    <member>
-      <email>whissi@gentoo.org</email>
-      <name>Thomas Deutschmann</name>
     </member>
     <member>
       <email>zerochaos@gentoo.org</email>
@@ -1294,6 +1242,28 @@
     </member>
   </project>
   <project>
+    <email>libera-groupcontacts@gentoo.org</email>
+    <name>Group Contacts</name>
+    <url>https://wiki.gentoo.org/wiki/Project:Group_Contacts</url>
+    <description>Group Contacts for libera.chat administration</description>
+    <member>
+      <email>jmbsvicetto@gentoo.org</email>
+      <name>Jorge Manuel B. S. Vicetto</name>
+    </member>
+    <member>
+      <email>juippis@gentoo.org</email>
+      <name>Joonas Niilola</name>
+    </member>
+    <member>
+      <email>sam@gentoo.org</email>
+      <name>Sam James</name>
+    </member>
+    <member is-lead="1">
+      <email>zlogene@gentoo.org</email>
+      <name>Mikle Kolyada</name>
+    </member>
+  </project>
+  <project>
     <email>hppa@gentoo.org</email>
     <name>HPPA Development</name>
     <url>https://wiki.gentoo.org/wiki/Project:HPPA</url>
@@ -1301,6 +1271,7 @@
     <member>
       <email>arthurzam@gentoo.org</email>
       <name>Arthur Zamarin</name>
+      <role>hppa keywording/stabilization</role>
     </member>
     <member>
       <email>jsmolic@gentoo.org</email>
@@ -1474,11 +1445,6 @@
       <role>General system administration, Blogs, Planet</role>
     </member>
     <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-      <role>Minion</role>
-    </member>
-    <member>
       <email>grknight@gentoo.org</email>
       <name>Brian Evans</name>
     </member>
@@ -1591,10 +1557,6 @@
       <name>Andreas K. Hüttel</name>
     </member>
     <member>
-      <email>johu@gentoo.org</email>
-      <name>Johannes Huber</name>
-    </member>
-    <member>
       <email>kensington@gentoo.org</email>
       <name>Michael Palimaka</name>
     </member>
@@ -1634,11 +1596,6 @@
       <role>Member (Kernel, gentoo-sources, genpatches)</role>
     </member>
     <member>
-      <email>whissi@gentoo.org</email>
-      <name>Thomas Deutschmann</name>
-      <role>Member (Kernel, gentoo-sources, genpatches)</role>
-    </member>
-    <member>
       <email>zorry@gentoo.org</email>
       <name>Magnus Granberg</name>
       <role>Member (Kernel, hardened)</role>
@@ -1652,10 +1609,6 @@
     <member>
       <email>alicef@gentoo.org</email>
       <name>Alice Ferrazzi</name>
-    </member>
-    <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
     </member>
     <member>
       <email>zx2c4@gentoo.org</email>
@@ -1678,15 +1631,6 @@
     <url>https://wiki.gentoo.org/wiki/Project:LLVM</url>
     <description>Support project for LLVM, clang and the related packages.</description>
     <member>
-      <email>aballier@gentoo.org</email>
-      <name>Alexis Ballier</name>
-      <role>libc++</role>
-    </member>
-    <member>
-      <email>blueness@gentoo.org</email>
-      <name>Anthony G. Basile</name>
-    </member>
-    <member>
       <email>lu_zero@gentoo.org</email>
       <name>Luca Barbato</name>
     </member>
@@ -1696,8 +1640,8 @@
       <role>Lead, core LLVM/clang</role>
     </member>
     <member>
-      <email>williamh@gentoo.org</email>
-      <name>William Hubbs</name>
+      <email>sam@gentoo.org</email>
+      <name>Sam James</name>
     </member>
   </project>
   <project>
@@ -1779,6 +1723,14 @@
     <member>
       <email>robbat2@gentoo.org</email>
       <name>Robin Johnson</name>
+    </member>
+    <member>
+      <email>sam@gentoo.org</email>
+      <name>Sam James</name>
+    </member>
+    <member>
+      <email>soap@gentoo.org</email>
+      <name>David Seifert</name>
     </member>
     <member>
       <email>williamh@gentoo.org</email>
@@ -1904,10 +1856,6 @@
       <name>Piotr Karbowski</name>
     </member>
     <member>
-      <email>whissi@gentoo.org</email>
-      <name>Thomas Deutschmann</name>
-    </member>
-    <member>
       <email>zerochaos@gentoo.org</email>
       <name>Rick Farina</name>
     </member>
@@ -1947,10 +1895,6 @@
     <member>
       <email>robbat2@gentoo.org</email>
       <name>Robin Johnson</name>
-    </member>
-    <member>
-      <email>whissi@gentoo.org</email>
-      <name>Thomas Deutschmann</name>
     </member>
   </project>
   <project>
@@ -2118,10 +2062,6 @@
       <email>grknight@gentoo.org</email>
       <name>Brian Evans</name>
     </member>
-    <member>
-      <email>whissi@gentoo.org</email>
-      <name>Thomas Deutschmann</name>
-    </member>
   </project>
   <project>
     <email>pms@gentoo.org</email>
@@ -2143,10 +2083,6 @@
     <name>Perl Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Perl</url>
     <description>We maintain everything perlish in Gentoo.</description>
-    <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-    </member>
     <member is-lead="1">
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
@@ -2194,6 +2130,16 @@
       <email>nicolasbock@gentoo.org</email>
       <name>Nicolas Bock</name>
       <role>Physics</role>
+    </member>
+  </project>
+  <project>
+    <email>pkgcore@gentoo.org</email>
+    <name>PkgCore</name>
+    <url>https://wiki.gentoo.org/wiki/Project:PkgCore</url>
+    <description>The PkgCore Project is devoted to maintaining and updating the pkgcore stack, the other package manager for Gentoo and its ebuild format, and the tools based on it, which includes pkgcheck and pkgdev.</description>
+    <member is-lead="1">
+      <email>arthurzam@gentoo.org</email>
+      <name>Arthur Zamarin</name>
     </member>
   </project>
   <project>
@@ -2474,10 +2420,6 @@
       <name>Andreas Sturmlechner</name>
     </member>
     <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-    </member>
-    <member>
       <email>candrews@gentoo.org</email>
       <name>Craig Andrews</name>
     </member>
@@ -2593,10 +2535,6 @@
     <member>
       <email>arthurzam@gentoo.org</email>
       <name>Arthur Zamarin</name>
-    </member>
-    <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
     </member>
     <member>
       <email>chutzpah@gentoo.org</email>
@@ -2845,7 +2783,7 @@
     <member is-lead="1">
       <email>mattst88@gentoo.org</email>
       <name>Matt Turner</name>
-      <role>Lead, Alpha/HPPA/IA64/MIPS/PPC/PPC64/SPARC/S390 Release Coordinator</role>
+      <role>Lead</role>
     </member>
     <member>
       <email>robbat2@gentoo.org</email>
@@ -2885,10 +2823,6 @@
     <name>Retirement</name>
     <url>https://wiki.gentoo.org/wiki/Project:Retirement</url>
     <description>The Community Relations Retirement project handles developer retirement, both when developers announce their retirement as well as due to developer inactivity.</description>
-    <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-    </member>
     <member>
       <email>juippis@gentoo.org</email>
       <name>Joonas Niilola</name>
@@ -3162,21 +3096,8 @@
       <role>Lead</role>
     </member>
     <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-    </member>
-    <member>
       <email>sam@gentoo.org</email>
       <name>Sam James</name>
-    </member>
-    <member>
-      <email>zlogene@gentoo.org</email>
-      <name>Mikle Kolyada</name>
-    </member>
-    <member>
-      <email>zx2c4@gentoo.org</email>
-      <name>Jason A. Donenfeld</name>
-      <role>Code review, vulnerability discovery, hardening</role>
     </member>
   </project>
   <project>
@@ -3360,14 +3281,6 @@
     <url>https://wiki.gentoo.org/wiki/Project:Treecleaner</url>
     <description>The Tree Cleaning Team is primarily concerned with removing unmaintained and broken packages from the tree.</description>
     <member>
-      <email>bman@gentoo.org</email>
-      <name>Aaron Bauman</name>
-    </member>
-    <member>
-      <email>johu@gentoo.org</email>
-      <name>Johannes Huber</name>
-    </member>
-    <member>
       <email>jsmolic@gentoo.org</email>
       <name>Jakov Smolić</name>
     </member>
@@ -3397,14 +3310,26 @@
     </member>
   </project>
   <project>
+    <email>vaapi@gentoo.org</email>
+    <name>VA-API</name>
+    <url>https://wiki.gentoo.org/wiki/Project:VA-API</url>
+    <description>The Gentoo VA-API Project maintains packages related to the [https://en.wikipedia.org/wiki/Video_Acceleration_API Video Acceleration API].</description>
+    <member>
+      <email>conikost@gentoo.org</email>
+      <name>Conrad Kostecki</name>
+      <role>Member</role>
+    </member>
+    <member is-lead="1">
+      <email>mattst88@gentoo.org</email>
+      <name>Matt Turner</name>
+      <role>Lead</role>
+    </member>
+  </project>
+  <project>
     <email>vdr@gentoo.org</email>
     <name>VDR project</name>
     <url>https://wiki.gentoo.org/wiki/Project:VDR</url>
     <description>The VDR Project maintains and updates the VDR packages in the portage tree. It integrates them with Gentoo as tight as possible. VDR is the abbreviation for Video Disk Recorder.</description>
-    <member>
-      <email>hd_brummy@gentoo.org</email>
-      <name>Joerg Bornkessel</name>
-    </member>
   </project>
   <project>
     <email>media-video@gentoo.org</email>
@@ -3540,6 +3465,10 @@
       <name>Jimi Huotari</name>
     </member>
     <member>
+      <email>ionen@gentoo.org</email>
+      <name>Ionen Wolkens</name>
+    </member>
+    <member>
       <email>NP-Hardass@gentoo.org</email>
       <name>Adam Feldman</name>
     </member>
@@ -3567,14 +3496,6 @@
     <name>X11 Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:X11</url>
     <description>The X11 project manages the X implementations and related packages in Portage.</description>
-    <member>
-      <email>chithanh@gentoo.org</email>
-      <name>Chí-Thanh Christopher Nguyễn</name>
-    </member>
-    <member>
-      <email>leio@gentoo.org</email>
-      <name>Mart Raudsepp</name>
-    </member>
     <member is-lead="1">
       <email>mattst88@gentoo.org</email>
       <name>Matt Turner</name>
@@ -3615,11 +3536,6 @@
     <member>
       <email>sam@gentoo.org</email>
       <name>Sam James</name>
-    </member>
-    <member>
-      <email>whissi@gentoo.org</email>
-      <name>Thomas Deutschmann</name>
-      <role>Stabilization primarily</role>
     </member>
     <member>
       <email>zlogene@gentoo.org</email>

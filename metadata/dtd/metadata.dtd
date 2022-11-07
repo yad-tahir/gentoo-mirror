@@ -1,10 +1,8 @@
 <!-- Metadata for a category -->
 <!ELEMENT catmetadata ( (longdescription)* )>
-<!ATTLIST catmetadata pkgname CDATA "">
 
 <!-- Metadata for a package -->
 <!ELEMENT pkgmetadata ( (maintainer|longdescription|slots|stabilize-allarches|use|upstream)* )>
-<!ATTLIST pkgmetadata pkgname CDATA "">
 
   <!-- One tag for each maintainer of a package, multiple allowed-->
   <!ELEMENT maintainer (email|name|description)+>
@@ -58,7 +56,7 @@
     <!ELEMENT bugs-to (#PCDATA)>
     <!-- specify a type of package identification tracker -->
     <!ELEMENT remote-id (#PCDATA)>
-      <!ATTLIST remote-id type (bitbucket|cpan|cpan-module|cpe|cran|ctan|gentoo|github|gitlab|google-code|hackage|heptapod|launchpad|osdn|pear|pecl|pypi|rubygems|sourceforge|sourcehut|vim) #REQUIRED>
+      <!ATTLIST remote-id type (bitbucket|cpan|cpan-module|cpe|cran|ctan|freedesktop-gitlab|gentoo|github|gitlab|gnome-gitlab|google-code|hackage|heptapod|launchpad|osdn|pear|pecl|pypi|rubygems|savannah|savannah-nongnu|sourceforge|sourcehut|vim) #REQUIRED>
 
   <!-- category/package information for cross-linking in descriptions
     and useflag descriptions -->

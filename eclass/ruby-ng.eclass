@@ -114,7 +114,7 @@ _ruby_get_all_impls() {
 	for i in ${USE_RUBY}; do
 		case ${i} in
 			# removed implementations
-			ruby19|ruby20|ruby21|ruby22|ruby23|ruby24|ruby25|jruby)
+			ruby19|ruby20|ruby21|ruby22|ruby23|ruby24|ruby25|ruby26|jruby)
 				;;
 			*)
 				echo ${i};;
@@ -630,7 +630,7 @@ doruby() {
 	[[ -z ${RUBY} ]] && die "\$RUBY is not set"
 	( # don't want to pollute calling env
 		sitelibdir=$(ruby_rbconfig_value 'sitelibdir')
-		insinto ${sitelibdir#${EPREFIX}}
+		insinto "${sitelibdir#${EPREFIX}}"
 		insopts -m 0644
 		doins "$@"
 	) || die "failed to install $@"

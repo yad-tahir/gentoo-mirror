@@ -6,12 +6,6 @@
 # so force the flag on until problem fixed upstream
 >=sys-cluster/ceph-17.2.1 system-boost
 
-# Sam James <sam@gentoo.org> (2022-05-17)
-# Force on jpeg & png for now until build system fixes are made
-# by upstream. The CMake port is new so it's fairly expected
-# to have a few bumps. bug #844751.
-=sci-libs/gdal-3.5.0-r3 jpeg png
-
 # Esteve Varela Colominas <esteve.varela@gmail.com> (2022-02-19)
 # Use the jemalloc allocator for telegram, as recommended by upstream,
 # to reduce memory usage, at least on glibc.
@@ -26,10 +20,6 @@ sys-devel/clang pie
 # Force to use installed openjdk{,-bin} for bootstrapping
 dev-java/openjdk:11 system-bootstrap
 dev-java/openjdk:17 system-bootstrap
-
-# Joonas Niilola <juippis@gentoo.org> (2022-01-08)
-# -xft broken, investigate in bug #830777
-~x11-misc/xscreensaver-6.02 xft
 
 # Michał Górny <mgorny@gentoo.org> (2021-11-04)
 # Enable all LLVM targets unconditionally.  Unfortunately, disabling
@@ -140,7 +130,7 @@ sys-kernel/vanilla-kernel initramfs
 # distribution and rely on external providers like libxcrypt.
 # Here we are following that path too.
 <sys-libs/glibc-2.33-r2 crypt
->=sys-libs/libxcrypt-4.4.23-r1 system compat
+sys-libs/libxcrypt system compat
 
 # Matt Turner <mattst88@gentoo.org> (2019-09-01)
 # <dev-scheme/guile-2 is package.mask'd, so force USE=guile2
@@ -185,20 +175,10 @@ net-misc/netkit-bootparamd libtirpc
 sci-astronomy/esomidas libtirpc
 sys-cluster/glusterfs libtirpc
 
-# Adam Feldman <NP-Hardass@gentoo.org> (2017-04-10)
-# Always force patch on appropriate variant
-app-emulation/wine-staging staging
-
 # David Seifert <soap@gentoo.org> (2017-03-07)
 # Only ever use system ffmpeg, allow kodi bundled ffmpeg
 # only for debug pruposes.
 media-tv/kodi system-ffmpeg
-
-# Sam Jorna <wraeth@gentoo.org> (2016-12-15)
-# Known to build unbootable EFI binaries on some systems when built with
-# UDK. Forcing use of gnu-efi until it's more stable
-# (probably after stabilization of refind-0.11.4).
-sys-boot/refind gnuefi
 
 # Maciej Mrozowski <reavertm@gentoo.org> (2016-09-01)
 # Workaround until resolved upstream (bug #586840)

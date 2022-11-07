@@ -8,4 +8,4 @@ LICENSE=LGPL-2.1+ BSD
 RDEPEND=!<sys-libs/glibc-2.26 virtual/libintl
 SLOT=0
 SRC_URI=https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.3/rpcsvc-proto-1.4.3.tar.xz
-_md5_=7b398f0d682bff8a5b827d04c752a2b9
+_md5_=faf9aeb80d3e9ffcc3617b8b43700e0f

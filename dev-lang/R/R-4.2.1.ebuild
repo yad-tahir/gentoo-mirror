@@ -16,7 +16,7 @@ SRC_URI="
 
 LICENSE="|| ( GPL-2 GPL-3 ) LGPL-2.1"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~hppa ~ia64 ~sparc ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 arm64 ~hppa ~ia64 sparc x86 ~amd64-linux ~x86-linux"
 IUSE="cairo doc icu java jpeg lapack lto minimal nls openmp perl png prefix profile readline test tiff tk X"
 
 REQUIRED_USE="
@@ -35,7 +35,6 @@ DEPEND="
 	app-text/ghostscript-gpl
 	dev-libs/libpcre2:=
 	>=dev-libs/tre-0.8.0_p20210321[approx]
-	net-libs/libtirpc
 	net-misc/curl
 	virtual/blas
 	sys-libs/zlib[minizip]
@@ -49,6 +48,7 @@ DEPEND="
 	)
 	icu? ( dev-libs/icu:= )
 	jpeg? ( media-libs/libjpeg-turbo:= )
+	kernel_linux? ( net-libs/libtirpc )
 	lapack? ( virtual/lapack )
 	perl? ( dev-lang/perl )
 	png? ( media-libs/libpng:= )
@@ -71,10 +71,11 @@ BDEPEND="
 	test? ( virtual/latex-base )"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-3.4.1-parallel.patch
-	"${FILESDIR}"/${PN}-3.4.1-rmath-shared.patch
-	"${FILESDIR}"/${PN}-3.6.2-no-LDFLAGS-in-libR-pkg-config.patch
-	"${FILESDIR}"/${PN}-3.6.2-no-gzip-doc.patch
+	"${FILESDIR}"/R-3.4.1-parallel.patch
+	"${FILESDIR}"/R-3.4.1-rmath-shared.patch
+	"${FILESDIR}"/R-3.6.2-no-LDFLAGS-in-libR-pkg-config.patch
+	"${FILESDIR}"/R-3.6.2-no-gzip-doc.patch
+	"${FILESDIR}"/R-4.2.1-reg-packages-testfix.patch
 )
 
 pkg_pretend() {
@@ -107,11 +108,6 @@ src_prepare() {
 	# fix HTML links to manual (gentoo bug #273957)
 	sed -e 's:\.\./manual/:manual/:g' \
 		-i $(grep -Flr ../manual/ doc) || die "sed for HTML links failed"
-
-	# Disable this test until it passes again,
-	# https://bugs.r-project.org/show_bug.cgi?id=18338
-	sed -e 's/ reg-packages.R / /' \
-		-i tests/Makefile.common || die
 
 	use lapack &&
 		export LAPACK_LIBS="$($(tc-getPKG_CONFIG) --libs lapack)"

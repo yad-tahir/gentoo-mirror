@@ -1,6 +1,14 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Sam James <sam@gentoo.org> (2022-10-29)
+# pandoc not keyworded here, bug #878355
+app-admin/conky doc
+
+# Andrey Grozin <grozin@gentoo.org> (2022-09-02)
+# dev-libs/capstone not keyworded
+dev-lisp/sbcl capstone
+
 # Arthur Zamarin <arthurzam@gentoo.org> (2022-08-15)
 # deps not keyworded
 dev-util/pkgcheck emacs
@@ -33,10 +41,6 @@ app-text/enchant nuspell
 # Matt Turner <mattst88@gentoo.org> (2022-04-16)
 # net-misc/freerdp is not keyworded
 dev-libs/weston rdp
-
-# Matt Turner <mattst88@gentoo.org> (2022-04-16)
-# sys-auth/seatd is not keyworded
-dev-libs/weston seatd
 
 # Lars Wendler <polynomial-c@gentoo.org> (2022-04-01)
 # gnome-base/librsvg missing keywords
@@ -99,6 +103,7 @@ dev-cpp/eigen test
 # Sam James <sam@gentoo.org> (2021-04-27)
 # Deps not yet tested/keyworded.
 sys-devel/clang default-compiler-rt default-lld
+sys-devel/clang-common default-compiler-rt default-lld
 sys-devel/clang-runtime compiler-rt
 sys-devel/llvm z3
 
@@ -146,7 +151,7 @@ net-libs/webkit-gtk gamepad
 
 # Joonas Niilola <juippis@gentoo.org> (2020-11-16)
 # app-text/libgepub not yet keyworded on this arch. #754762
-xfce-extra/tumbler epub
+xfce-base/tumbler epub
 
 # Arfrever Frehtes Taifersar Arahesis <arfrever.fta@gmail.com> (2020-10-14)
 # app-i18n/fcitx:4 not keyworded.
@@ -316,10 +321,6 @@ net-print/cups-filters pdf
 # Skip keywording it for now.
 app-office/scribus osg
 
-# Sergei Trofimovich <slyfox@gentoo.org> (2018-06-17)
-# Mask broken HIPE support on sparc32 (bug #656618)
-dev-lang/erlang hipe
-
 # Sergei Trofimovich <slyfox@gentoo.org> (2018-05-08)
 # Mask USE=games to avoid unkeyworded games-util/qstat.
 net-analyzer/monitoring-plugins game
@@ -352,7 +353,7 @@ net-libs/gnutls test-full
 
 # Michał Górny <mgorny@gentoo.org> (2017-08-07)
 # Requires USE=bluetooth that is masked in this profile.
-media-sound/pulseaudio native-headset ofono-headset
+media-sound/pulseaudio ofono-headset
 media-sound/pulseaudio-daemon ofono-headset
 net-misc/ofono dundee
 

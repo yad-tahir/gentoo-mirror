@@ -3,7 +3,7 @@
 
 # Kai-Chun Ning <kaichun.ning@gmail.com> (2022-05-26)
 # intel-hybrid-codec-driver does not work on x32
-x11-libs/intel-hybrid-codec-driver
+media-libs/intel-hybrid-codec-driver
 
 # Jonas Licht <jonas.licht@gmail.com> (2022-05-01)
 # Requires net-libs/nodejs, plus mask all reverse-dependecies.
@@ -55,6 +55,9 @@ dev-lang/typescript
 dev-python/spyder
 dev-python/spyder-terminal
 dev-python/spyder-unittest
+dev-python/spyder-line-profiler
+dev-python/spyder-vim
+dev-python/spyder-notebook
 dev-util/kdevelop:5
 dev-util/kdevelop-php:5
 dev-util/kdevelop-python:5
@@ -96,7 +99,6 @@ kde-apps/pim-data-exporter:5
 kde-apps/pim-sieve-editor:5
 kde-apps/plasma-telepathy-meta:5
 >=kde-misc/kio-gdrive-22.04.3-r1
-kde-misc/kmarkdownwebview:5
 kde-misc/tellico:5
 kde-misc/zanshin:5
 mail-client/kube
@@ -113,8 +115,8 @@ net-misc/nextcloud-client
 net-p2p/ktorrent:5
 sci-geosciences/qmapshack
 sci-mathematics/rkward:5
-sci-mathematics/rstudio
 sci-visualization/labplot:5
+sys-apps/polychromatic
 www-client/falkon
 www-client/otter
 www-client/qutebrowser
@@ -174,3 +176,4 @@ sys-apps/yarn
 www-apps/jekyll-coffeescript
 www-apps/kibana-bin
 www-client/chromium
+>=www-apps/redmine-5.0.2

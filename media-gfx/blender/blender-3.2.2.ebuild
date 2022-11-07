@@ -28,7 +28,8 @@ IUSE="+bullet +dds +fluid +openexr +tbb \
 	alembic collada +color-management cuda +cycles \
 	debug doc +embree +ffmpeg +fftw +gmp headless jack jemalloc jpeg2k \
 	man +nanovdb ndof nls openal +oidn +openimageio +openmp +opensubdiv \
-	+openvdb +osl +pdf +potrace +pugixml pulseaudio sdl +sndfile test +tiff valgrind"
+	+openvdb optix +osl +pdf +potrace +pugixml pulseaudio sdl +sndfile \
+	test +tiff valgrind"
 RESTRICT="!test? ( test )"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
@@ -37,19 +38,20 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	cycles? ( openexr tiff openimageio )
 	fluid? ( tbb )
 	openvdb? ( tbb )
+	optix? ( cuda )
 	osl? ( cycles )
 	test? ( color-management )"
 
 # Library versions for official builds can be found in the blender source directory in:
 # build_files/build_environment/install_deps.sh
 RDEPEND="${PYTHON_DEPS}
-	dev-libs/boost:=[nls?,threads(+)]
+	dev-libs/boost:=[nls?]
 	dev-libs/lzo:2=
 	$(python_gen_cond_dep '
 		dev-python/cython[${PYTHON_USEDEP}]
 		dev-python/numpy[${PYTHON_USEDEP}]
+		dev-python/python-zstandard[${PYTHON_USEDEP}]
 		dev-python/requests[${PYTHON_USEDEP}]
-		dev-python/zstandard[${PYTHON_USEDEP}]
 	')
 	media-libs/freetype:=
 	media-libs/glew:*
@@ -93,6 +95,7 @@ RDEPEND="${PYTHON_DEPS}
 		>=media-gfx/openvdb-9.0.0:=[nanovdb?]
 		dev-libs/c-blosc:=
 	)
+	optix? ( <dev-libs/optix-7.5.0 )
 	osl? ( >=media-libs/osl-1.11.16.0-r3:= )
 	pdf? ( media-libs/libharu )
 	potrace? ( media-gfx/potrace )
@@ -122,6 +125,13 @@ BDEPEND="
 	)
 	nls? ( sys-devel/gettext )
 "
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.2.2-support-building-with-musl-libc.patch
+	"${FILESDIR}"/${PN}-3.2.2-musl-glibc-prereq.patch
+	"${FILESDIR}"/${PN}-3.2.2-Cycles-add-option-to-specify-OptiX-runtime-root-dire.patch
+	"${FILESDIR}"/${PN}-3.2.2-Fix-T100845-wrong-Cycles-OptiX-runtime-compilation-i.patch
+)
 
 blender_check_requirements() {
 	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
@@ -217,6 +227,7 @@ src_configure() {
 		-DWITH_CXX_GUARDEDALLOC=$(usex debug)
 		-DWITH_CYCLES=$(usex cycles)
 		-DWITH_CYCLES_DEVICE_CUDA=$(usex cuda TRUE FALSE)
+		-DWITH_CYCLES_DEVICE_OPTIX=$(usex optix)
 		-DWITH_CYCLES_EMBREE=$(usex embree)
 		-DWITH_CYCLES_OSL=$(usex osl)
 		-DWITH_CYCLES_STANDALONE=OFF
@@ -263,6 +274,13 @@ src_configure() {
 		-DWITH_USD=OFF
 		-DWITH_XR_OPENXR=OFF
 	)
+
+	if use optix; then
+		mycmakeargs+=(
+			-DCYCLES_RUNTIME_OPTIX_ROOT_DIR="${EPREFIX}"/opt/optix
+			-DOPTIX_ROOT_DIR="${EPREFIX}"/opt/optix
+		)
+	fi
 
 	append-flags $(usex debug '-DDEBUG' '-DNDEBUG')
 

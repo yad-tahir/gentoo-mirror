@@ -16,7 +16,7 @@ S="${WORKDIR}/${MY_P}"
 LICENSE="openssl"
 SLOT="0/1.1" # .so version of libssl/libcrypto
 if [[ ${PV} != *_pre* ]] ; then
-	KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris ~x86-winnt"
+	KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris ~x86-winnt"
 fi
 IUSE="+asm rfc3779 sctp cpu_flags_x86_sse2 sslv3 static-libs test tls-compression tls-heartbeat vanilla verify-sig weak-ssl-ciphers"
 RESTRICT="!test? ( test )"
@@ -123,6 +123,7 @@ src_prepare() {
 	# it's still relevant:
 	# - https://github.com/llvm/llvm-project/issues/55255
 	# - https://github.com/openssl/openssl/issues/18225
+	# - https://github.com/openssl/openssl/issues/18663#issuecomment-1181478057
 	# Don't remove the no strict aliasing bits below!
 	filter-flags -fstrict-aliasing
 	append-flags -fno-strict-aliasing
@@ -180,13 +181,15 @@ multilib_src_configure() {
 
 	# See if our toolchain supports __uint128_t.  If so, it's 64bit
 	# friendly and can use the nicely optimized code paths, bug #460790.
-	local ec_nistp_64_gcc_128
-
+	#local ec_nistp_64_gcc_128
+	#
 	# Disable it for now though (bug #469976)
-	# echo "__uint128_t i;" > "${T}"/128.c
-	# if ${CC} ${CFLAGS} -c "${T}"/128.c -o /dev/null >&/dev/null ; then
-	# 	ec_nistp_64_gcc_128="enable-ec_nistp_64_gcc_128"
-	# fi
+	# Do NOT re-enable without substantial discussion first!
+	#
+	#echo "__uint128_t i;" > "${T}"/128.c
+	#if ${CC} ${CFLAGS} -c "${T}"/128.c -o /dev/null >&/dev/null ; then
+	#	ec_nistp_64_gcc_128="enable-ec_nistp_64_gcc_128"
+	#fi
 
 	local sslout=$(./gentoo.config)
 	einfo "Use configuration ${sslout:-(openssl knows best)}"

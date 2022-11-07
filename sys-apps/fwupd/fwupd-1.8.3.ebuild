@@ -13,7 +13,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm ~arm64 ~loong ~ppc64 ~riscv x86"
 IUSE="amt archive bash-completion bluetooth cbor dell elogind fastboot flashrom gnutls gtk-doc gusb introspection logitech lzma +man minimal modemmanager nvme policykit spi +sqlite synaptics systemd test tpm uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	^^ ( elogind minimal systemd )
@@ -100,7 +100,7 @@ PATCHES=(
 
 pkg_setup() {
 	python-single-r1_pkg_setup
-	vala_setup
+
 	if use nvme ; then
 		kernel_is -ge 4 4 || die "NVMe support requires kernel >= 4.4"
 	fi
@@ -108,6 +108,8 @@ pkg_setup() {
 
 src_prepare() {
 	default
+
+	vala_setup
 
 	# c.f. https://github.com/fwupd/fwupd/issues/1414
 	sed -e "/test('thunderbolt-self-test', e, env: test_env, timeout : 120)/d" \
@@ -196,9 +198,11 @@ src_install() {
 }
 
 pkg_postinst() {
+	xdg_pkg_postinst
 	use minimal || udev_reload
 }
 
 pkg_postrm() {
+	xdg_pkg_postrm
 	use minimal || udev_reload
 }

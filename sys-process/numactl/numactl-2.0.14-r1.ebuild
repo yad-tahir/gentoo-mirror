@@ -3,6 +3,14 @@
 
 EAPI=8
 
+if [[ ${PV} != 2.0.14 ]] ; then
+	eerror "Please do not bump to 2.0.15! It's broken:"
+	eerror "https://github.com/numactl/numactl/issues/135"
+	eerror "It's also missing a dist tarball:"
+	eerror "https://github.com/numactl/numactl/issues/140"
+	die "Please check ebuild!"
+fi
+
 inherit autotools multilib-minimal
 
 DESCRIPTION="Utilities and libraries for NUMA systems"
@@ -12,7 +20,7 @@ if [[ ${PV} == 9999 ]] ; then
 	EGIT_REPO_URI="https://github.com/numactl/numactl.git"
 else
 	SRC_URI="https://github.com/numactl/numactl/releases/download/v${PV}/${P}.tar.gz"
-	KEYWORDS="~alpha ~amd64 ~arm64 ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86 ~amd64-linux"
+	KEYWORDS="~alpha amd64 arm64 ~ia64 ~loong ~mips ppc ppc64 ~riscv sparc x86 ~amd64-linux"
 fi
 
 LICENSE="GPL-2"

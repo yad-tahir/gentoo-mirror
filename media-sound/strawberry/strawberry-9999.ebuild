@@ -39,17 +39,17 @@ COMMON_DEPEND="
 	dev-qt/qtwidgets:5
 	dev-qt/qtx11extras:5
 	media-libs/alsa-lib
-	>=media-libs/taglib-1.11.1_p20181028
+	media-libs/taglib
 	x11-libs/libX11
 	cdda? ( dev-libs/libcdio:= )
 	gstreamer? (
-		>=media-libs/chromaprint-1.4:=
+		media-libs/chromaprint:=
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
 	)
-	ipod? ( >=media-libs/libgpod-0.8.0 )
+	ipod? ( media-libs/libgpod )
 	moodbar? ( sci-libs/fftw:3.0 )
-	mtp? ( >=media-libs/libmtp-1.0.0 )
+	mtp? ( media-libs/libmtp )
 	pulseaudio? ( media-sound/pulseaudio )
 	vlc? ( media-video/vlc )
 "
@@ -64,7 +64,7 @@ RDEPEND="${COMMON_DEPEND}
 	udisks? ( sys-fs/udisks:2 )
 "
 DEPEND="${COMMON_DEPEND}
-	>=dev-cpp/gtest-1.8.0
+	dev-cpp/gtest
 	dev-libs/boost
 	dev-qt/qttest:5
 "

@@ -27,7 +27,12 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	test? ( dev-qt/qttest:5 )
 "
-BDEPEND="doc? ( app-doc/doxygen )"
+BDEPEND="
+	doc? (
+		app-doc/doxygen[dot]
+		dev-qt/qthelp:5
+	)
+"
 
 src_prepare() {
 	default

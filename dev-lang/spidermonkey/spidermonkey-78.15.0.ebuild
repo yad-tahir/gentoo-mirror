@@ -126,8 +126,8 @@ llvm_check_deps() {
 		fi
 
 		if use lto ; then
-			if ! has_version -b "=sys-devel/lld-${LLVM_SLOT}*" ; then
-				einfo "=sys-devel/lld-${LLVM_SLOT}* is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
+			if ! has_version -b "sys-devel/lld:${LLVM_SLOT}" ; then
+				einfo "sys-devel/lld:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
 				return 1
 			fi
 		fi
@@ -252,10 +252,12 @@ src_configure() {
 	einfo "Current RUSTFLAGS: ${RUSTFLAGS}"
 
 	local have_switched_compiler=
-	if use clang && ! tc-is-clang ; then
+	if use clang; then
 		# Force clang
 		einfo "Enforcing the use of clang due to USE=clang ..."
-		have_switched_compiler=yes
+		if tc-is-gcc; then
+			have_switched_compiler=yes
+		fi
 		AR=llvm-ar
 		CC=${CHOST}-clang
 		CXX=${CHOST}-clang++
@@ -306,9 +308,11 @@ src_configure() {
 		$(use_enable test tests)
 	)
 
-	if ! use x86 && [[ ${CHOST} != armv*h* ]] ; then
-		myeconfargs+=( --enable-rust-simd )
-	fi
+	# Breaks with newer (1.63+) Rust.
+	# if ! use x86 && [[ ${CHOST} != armv*h* ]] ; then
+	#	myeconfargs+=( --enable-rust-simd )
+	#fi
+	myeconfargs+=( --disable-rust-simd )
 
 	# Modifications to better support ARM, bug 717344
 	if use cpu_flags_arm_neon ; then

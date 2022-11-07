@@ -12,7 +12,7 @@ SRC_URI="https://www.shlomifish.org/open-source/projects/${PN}/arcs/${P}.tar.xz
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~m68k ~mips ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~m68k ~mips ~ppc64 ~riscv ~sparc ~x86"
 IUSE="offensive test"
 RESTRICT="!test? ( test )"
 
@@ -20,7 +20,7 @@ RDEPEND="
 	app-text/recode:=
 	!games-misc/fortune-mod-tao
 "
-DEPEND="${DEPEND}"
+DEPEND="${RDEPEND}"
 BDEPEND="
 	app-text/App-XML-DocBook-Builder
 	dev-lang/perl

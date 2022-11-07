@@ -32,7 +32,7 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 # NOTE: Boost is needed at runtime too for the CLI tool.
 DEPEND="
-	boost? ( >=dev-libs/boost-1.48:= )
+	boost? ( dev-libs/boost:= )
 	bzip2? ( >=app-arch/bzip2-1.0.5:= )
 	lzma? ( app-arch/xz-utils:= )
 	python? ( ${PYTHON_DEPS} )
@@ -81,8 +81,10 @@ src_configure() {
 
 			if [[ ${CHOST} == *hppa* ]] ; then
 				chostarch=parisc
-			elif [[ ${PROFILE_ARCH} == sparc64 ]] ; then
-				chostarch="sparc32-v9"
+			elif [[ ${ABI} == sparc64 ]] ; then
+				chostarch="sparc64"
+			elif [[ ${ABI} == sparc32 ]] ; then
+				chostarch="sparc32"
 			fi
 			;;
 	esac

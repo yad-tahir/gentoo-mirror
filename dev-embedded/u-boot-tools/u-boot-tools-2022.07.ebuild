@@ -13,12 +13,13 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm arm64 ppc ~ppc64 ~riscv x86"
 IUSE="envtools"
 
 RDEPEND="dev-libs/openssl:="
 DEPEND="${RDEPEND}"
 BDEPEND="
+	dev-lang/swig
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig

@@ -8,7 +8,7 @@ CRATES="
 
 MY_PV="${PV//_rc/-rc}"
 # https://bugs.gentoo.org/725962
-PYTHON_COMPAT=( python3_{7..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 
 inherit bash-completion-r1 cargo desktop python-any-r1
 
@@ -34,7 +34,7 @@ COMMON_DEPEND="
 	media-libs/fontconfig:=
 	media-libs/freetype:2
 	x11-libs/libxkbcommon
-	X? ( x11-libs/libxcb:=[xkb] )
+	X? ( x11-libs/libxcb:= )
 "
 
 DEPEND="

@@ -14,7 +14,7 @@ QEMU_DOCS_VERSION=$(ver_cut 1-3)
 # bug #830088
 QEMU_DOCS_USEFLAG="+doc"
 
-PYTHON_COMPAT=( python3_{8,9,10} )
+PYTHON_COMPAT=( python3_{8,9,10,11} )
 PYTHON_REQ_USE="ncurses,readline"
 
 FIRMWARE_ABI_VERSION="7.0.0"
@@ -42,7 +42,7 @@ else
 		SRC_URI+=" !doc? ( https://dev.gentoo.org/~${QEMU_DOCS_PREBUILT_DEV}/distfiles/${CATEGORY}/${PN}/${PN}-${QEMU_DOCS_VERSION}-docs.tar.xz )"
 	fi
 
-	KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~riscv ~x86"
+	KEYWORDS="amd64 ~arm arm64 ~loong ~ppc ppc64 ~riscv x86"
 	S="${WORKDIR}/${MY_P}"
 fi
 
@@ -302,6 +302,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-virtio-scsi-fixes.patch
 	"${FILESDIR}"/${P}-pci-overflow-fortify-source-3.patch
 	"${FILESDIR}"/${P}-glibc-2.36.patch
+	"${FILESDIR}"/${PN}-7.0.0-have-user-meson.patch
 )
 
 QA_PREBUILT="

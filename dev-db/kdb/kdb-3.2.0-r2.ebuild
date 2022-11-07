@@ -5,7 +5,7 @@ EAPI=8
 
 ECM_QTHELP="true"
 ECM_TEST="true"
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 KFMIN=5.82.0
 QTMIN=5.15.2
 inherit ecm kde.org python-any-r1
@@ -51,6 +51,7 @@ PATCHES=(
 	"${WORKDIR}"/${P}-patches/${P}-gcc12.patch
 	# master
 	"${WORKDIR}"/${P}-patches/${P}-KDEInstallDirs.patch
+	"${FILESDIR}"/${P}-postgresql-gcc12.patch # bug 869368
 )
 
 pkg_setup() {
