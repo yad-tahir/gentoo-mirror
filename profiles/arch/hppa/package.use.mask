@@ -4,6 +4,11 @@
 # NOTE: When masking a USE flag due to missing keywords, please file a keyword
 # request bug for the hppa arch.
 
+# Conrad Kostecki <conikost@gentoo.org> (2022-11-01)
+# Mask tests, as not all needed deps are available on this arch.
+# See #878933 for progress.
+net-dns/ddclient test
+
 # Arthur Zamarin <arthurzam@gentoo.org> (2022-08-15)
 # deps not keyworded
 dev-util/pkgcheck emacs
@@ -237,10 +242,6 @@ dev-ruby/asciidoctor test
 # libgo needs an explicit port to hppa: bug #686624
 sys-devel/gcc go
 
-# Jeroen Roovers (jer@gentoo.org) (2018-03-22)
-# HiPE does not work on HPPA
-dev-lang/erlang hipe
-
 # Thomas Deutschmann <whissi@gentoo.org> (2018-07-04)
 # dev-libs/xxhash not keyworded for hppa
 app-admin/rsyslog xxhash
@@ -356,7 +357,7 @@ sci-mathematics/octave hdf5 qhull
 
 # Jeroen Roovers <jer@gentoo.org> (2012-07-08)
 # media-libs/devil has not been fully tested on HPPA
-media-gfx/graphviz devil lefty
+media-gfx/graphviz devil
 
 # Jeroen Roovers <jer@gentoo.org> (2012-07-03)
 # Mask USE=connman for net-libs/gupnp (bug #424225)
@@ -371,7 +372,6 @@ dev-libs/libpcre jit
 # usable. Mask until this is available.
 # Jeroen Roovers <jer@gentoo.org> (2014-02-18)
 # OSS is the only kernel audio interface that works on HPPA
-media-sound/pulseaudio equalizer -oss
 media-sound/pulseaudio-daemon equalizer -oss
 
 # Jeroen Roovers <jer@gentoo.org> (2012-05-21)

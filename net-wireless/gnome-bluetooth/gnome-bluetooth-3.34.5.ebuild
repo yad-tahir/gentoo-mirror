@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 inherit gnome.org gnome2-utils meson python-any-r1 udev xdg
 
 DESCRIPTION="Bluetooth graphical utilities integrated with GNOME"
@@ -47,8 +47,8 @@ PATCHES=(
 
 python_check_deps() {
 	if use test; then
-		has_version -b "dev-python/python-dbusmock[${PYTHON_USEDEP}]" &&
-		has_version -b "dev-python/dbus-python[${PYTHON_USEDEP}]"
+		python_has_version -b "dev-python/python-dbusmock[${PYTHON_USEDEP}]" &&
+		python_has_version -b "dev-python/dbus-python[${PYTHON_USEDEP}]"
 	fi
 }
 

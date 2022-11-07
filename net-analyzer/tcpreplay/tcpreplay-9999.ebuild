@@ -39,7 +39,6 @@ DOCS=( docs/{CHANGELOG,CREDIT,HACKING,TODO} )
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-4.3.0-enable-pcap_findalldevs.patch
-	"${FILESDIR}"/${PN}-4.4.1-fix-bashism-configure.patch
 )
 
 src_prepare() {

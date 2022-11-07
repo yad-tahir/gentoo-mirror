@@ -36,6 +36,7 @@ RDEPEND="
 	python? ( ${PYTHON_DEPS} )
 "
 DEPEND="${RDEPEND}"
+BDEPEND="${PYTHON_DEPS}"
 
 RESTRICT=test # only regression tests
 
@@ -55,6 +56,10 @@ wrap_python() {
 	fi
 }
 
+pkg_setup() {
+	python_setup
+}
+
 src_prepare() {
 	default
 
@@ -72,6 +77,7 @@ src_configure() {
 		-DBUILD_SHARED_LIBS=ON
 		-DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS// /;}"
 		-DLLVM_HOST_TRIPLE="${CHOST}"
+		-DPYTHON_EXECUTABLE="${PYTHON}"
 	)
 
 	cmake_src_configure

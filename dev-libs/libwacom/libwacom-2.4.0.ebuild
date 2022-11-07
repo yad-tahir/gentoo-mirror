@@ -12,7 +12,7 @@ SRC_URI="https://github.com/linuxwacom/${PN}/releases/download/${P}/${P}.tar.xz"
 
 LICENSE="MIT"
 SLOT="0/9" # libwacom SONAME
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~ia64 ~ppc ~ppc64 ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm ~arm64 ~ia64 ppc ppc64 sparc x86"
 IUSE="doc test"
 RESTRICT="!test? ( test )"
 
@@ -35,9 +35,9 @@ BDEPEND="
 "
 
 python_check_deps() {
-	has_version -b "dev-python/python-libevdev[${PYTHON_USEDEP}]" &&
-	has_version -b "dev-python/pyudev[${PYTHON_USEDEP}]" &&
-	has_version -b "dev-python/pytest[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/python-libevdev[${PYTHON_USEDEP}]" &&
+	python_has_version "dev-python/pyudev[${PYTHON_USEDEP}]" &&
+	python_has_version "dev-python/pytest[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {

@@ -13,11 +13,11 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86 ~x64-macos"
+KEYWORDS="amd64 ~arm arm64 ~ppc64 ~riscv x86 ~x64-macos"
 RESTRICT="test"
 
-RDEPEND=">=app-admin/ansible-base-2.12.0
-	<app-admin/ansible-base-2.13"
+RDEPEND=">=app-admin/ansible-core-2.12.0
+	<app-admin/ansible-core-2.13"
 
 python_compile() {
 	local -x ANSIBLE_SKIP_CONFLICT_CHECK=1

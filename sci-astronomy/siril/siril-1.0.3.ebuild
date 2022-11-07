@@ -13,7 +13,7 @@ if [[ ${PV} == "9999" ]]; then
 	EGIT_REPO_URI="https://gitlab.com/free-astro/${PN}.git"
 else
 	SRC_URI="https://gitlab.com/free-astro/siril/-/archive/${PV/_/-}/${PN}-${PV/_/-}.tar.bz2"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 x86"
 	S="${WORKDIR}/${PN}-${PV/_/-}"
 fi
 
@@ -48,7 +48,7 @@ RDEPEND="
 
 PATCHES=(
 	"${FILESDIR}/${PN}-docfiles.patch"
-	"${FILESDIR}/${P}-dependencies.patch"
+	"${FILESDIR}/${PN}-$(ver_cut 1-2)-dependencies.patch"
 )
 
 DOCS=( README.md NEWS ChangeLog AUTHORS )

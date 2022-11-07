@@ -63,7 +63,10 @@ src_configure() {
 	# likely cross-compiling from here, update toolchain variables
 	if ${MW_CROSS} && [[ ! -v MINGW_BYPASS ]]; then
 		unset AR AS CC CPP CXX LD NM OBJCOPY OBJDUMP RANLIB RC STRIP
+		filter-flags '-fstack-clash-protection' #758914
+		filter-flags '-fstack-protector*' #870136
 		filter-flags '-fuse-ld=*'
+		filter-flags '-mfunction-return=thunk*' #878849
 	fi
 	local CHOST=${CTARGET}
 	strip-unsupported-flags

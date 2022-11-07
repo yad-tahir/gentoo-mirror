@@ -6,7 +6,7 @@ SUBSLOT="18"
 
 JAVA_PKG_OPT_USE="jdbc"
 
-inherit eutils systemd flag-o-matic prefix toolchain-funcs \
+inherit systemd flag-o-matic prefix toolchain-funcs \
 	multiprocessing java-pkg-opt-2 cmake
 
 # Patch version
@@ -73,7 +73,10 @@ COMMON_DEPEND="
 		innodb-snappy? ( app-arch/snappy )
 		mroonga? ( app-text/groonga-normalizer-mysql >=app-text/groonga-7.0.4 )
 		numa? ( sys-process/numactl )
-		oqgraph? ( >=dev-libs/boost-1.40.0:0= dev-libs/judy:0= )
+		oqgraph? (
+			dev-libs/boost:=
+			dev-libs/judy:0=
+		)
 		pam? ( sys-libs/pam:0= )
 		systemd? ( sys-apps/systemd:= )
 		tokudb? ( app-arch/snappy )

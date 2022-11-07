@@ -6,7 +6,7 @@ EAPI=8
 VALA_MIN_API_VERSION="0.14"
 VALA_USE_DEPEND="vapigen"
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 
 inherit desktop meson optfeature python-any-r1 readme.gentoo-r1 vala xdg
 
@@ -64,14 +64,14 @@ RDEPEND="
 		>=net-libs/libsoup-2.49.91:2.4
 	)
 "
-# TODO: spice-gtk has an automagic dependency on x11-libs/libva without a
+# TODO: spice-gtk has an automagic dependency on media-libs/libva without a
 # configure knob. The package is relatively lightweight so we just depend
 # on it unconditionally for now. It would be cleaner to transform this into
 # a USE="vaapi" conditional and patch the buildsystem...
 RDEPEND="${RDEPEND}
-	amd64? ( x11-libs/libva:= )
-	arm64? ( x11-libs/libva:= )
-	x86? ( x11-libs/libva:= )
+	amd64? ( media-libs/libva:= )
+	arm64? ( media-libs/libva:= )
+	x86? ( media-libs/libva:= )
 "
 DEPEND="${RDEPEND}
 	>=app-emulation/spice-protocol-${SPICE_PROTOCOL_VER}"

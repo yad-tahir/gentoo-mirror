@@ -18,7 +18,7 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="amd64 arm arm64 ppc ~ppc64 ~riscv x86 ~x64-macos"
+KEYWORDS="amd64 arm arm64 ~hppa ~ia64 ppc ppc64 ~riscv ~sparc x86 ~x64-macos"
 IUSE="+native-extensions"
 
 # extension code is relying on CPython implementation details
@@ -27,9 +27,6 @@ BDEPEND="
 		$(python_gen_cond_dep '
 			>=dev-python/cython-0.29.30[${PYTHON_USEDEP}]
 		' 'python*')
-	)
-	test? (
-		dev-python/six[${PYTHON_USEDEP}]
 	)
 "
 

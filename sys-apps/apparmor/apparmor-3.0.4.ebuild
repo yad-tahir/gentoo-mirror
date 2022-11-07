@@ -13,7 +13,7 @@ SRC_URI="https://launchpad.net/${PN}/${MY_PV}/${PV}/+download/${PN}-${PV}.tar.gz
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64"
+KEYWORDS="~amd64 ~arm64 ~riscv"
 IUSE="doc"
 
 # Was restricted previously b/c needs apparmor support in kernel
@@ -21,8 +21,10 @@ IUSE="doc"
 #RESTRICT="test" # bug 675854
 
 RDEPEND="~sys-libs/libapparmor-${PV}"
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	dev-lang/perl
+	sys-apps/which
 	sys-devel/bison
 	sys-devel/gettext
 	sys-devel/flex

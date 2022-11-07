@@ -15,7 +15,7 @@ SRC_URI="https://github.com/nicolargo/${PN}/archive/v${PV}.tar.gz -> ${P}.gh.tar
 
 LICENSE="LGPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 arm arm64 ppc64 x86 ~amd64-linux ~x86-linux"
 IUSE=""
 
 RDEPEND="
@@ -64,7 +64,7 @@ python_install_all() {
 
 pkg_postinst() {
 	#optfeature "Action script feature" dev-python/pystache
-	optfeature "Autodiscover mode" dev-python/zeroconf
+	optfeature "Autodiscover mode" dev-python/python-zeroconf
 	optfeature "Cloud support" dev-python/requests
 	optfeature "Docker monitoring support" dev-python/docker-py
 	#optfeature "Export module" \

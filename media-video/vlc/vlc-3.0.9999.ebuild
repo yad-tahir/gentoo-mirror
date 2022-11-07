@@ -20,7 +20,7 @@ else
 	else
 		SRC_URI="https://download.videolan.org/pub/videolan/testing/${MY_P}/${MY_P}.tar.xz"
 	fi
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 -sparc ~x86"
+	KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 -sparc ~x86"
 fi
 inherit autotools flag-o-matic lua-single toolchain-funcs virtualx xdg
 
@@ -93,20 +93,20 @@ RDEPEND="
 	dts? ( media-libs/libdca )
 	dvbpsi? ( >=media-libs/libdvbpsi-1.2.0:= )
 	dvd? (
-		>=media-libs/libdvdnav-6.1.1:0=
-		>=media-libs/libdvdread-6.1.2:0=
+		>=media-libs/libdvdnav-6.1.1:=
+		>=media-libs/libdvdread-6.1.2:=
 	)
 	faad? ( media-libs/faad2 )
 	fdk? ( media-libs/fdk-aac:= )
-	ffmpeg? ( >=media-video/ffmpeg-3.1.3:0=[postproc,vaapi?,vdpau?] )
+	ffmpeg? ( >=media-video/ffmpeg-3.1.3:=[postproc,vaapi?,vdpau?] )
 	flac? (
-		media-libs/flac
+		media-libs/flac:=
 		media-libs/libogg
 	)
 	fluidsynth? ( media-sound/fluidsynth:= )
 	fontconfig? ( media-libs/fontconfig:1.0 )
 	gcrypt? (
-		dev-libs/libgcrypt:0=
+		dev-libs/libgcrypt:=
 		dev-libs/libgpg-error
 	)
 	gme? ( media-libs/game-music-emu )
@@ -199,9 +199,9 @@ RDEPEND="
 	)
 	twolame? ( media-sound/twolame )
 	udev? ( virtual/udev )
-	upnp? ( net-libs/libupnp:=[ipv6] )
+	upnp? ( net-libs/libupnp:=[ipv6(+)] )
 	v4l? ( media-libs/libv4l:= )
-	vaapi? ( x11-libs/libva:=[drm(+),wayland?,X?] )
+	vaapi? ( media-libs/libva:=[drm(+),wayland?,X?] )
 	vdpau? ( x11-libs/libvdpau )
 	vnc? ( net-libs/libvncserver )
 	vpx? ( media-libs/libvpx:= )

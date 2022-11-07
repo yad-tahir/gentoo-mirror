@@ -8,7 +8,8 @@ QTMIN=5.15.4
 inherit ecm gear.kde.org
 
 DESCRIPTION="Can be used to show nice dialog boxes from shell scripts"
-HOMEPAGE="https://apps.kde.org/kdialog/"
+HOMEPAGE="https://userbase.kde.org/Kdialog
+https://develop.kde.org/deploy/kdialog/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
@@ -34,9 +35,11 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
+PATCHES=( "${FILESDIR}/${P}-without_x11.patch" )
+
 src_configure() {
 	local mycmakeargs=(
-		$(cmake_use_find_package X X11)
+		-DWITHOUT_X11=$(usex !X)
 	)
 	ecm_src_configure
 }

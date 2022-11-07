@@ -16,7 +16,7 @@ SRC_URI="https://github.com/checkpoint-restore/${PN}/archive/v${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 -riscv"
+KEYWORDS="amd64 ~arm arm64 ppc64 -riscv"
 IUSE="bpf doc gnutls nftables selinux setproctitle static-libs test video_cards_amdgpu"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -61,6 +61,7 @@ PATCHES=(
 
 	"${FILESDIR}/${P}-amdgpu-build-fixes.patch"
 	"${FILESDIR}/${PN}-3.17-glibc-2.36.patch"
+	"${FILESDIR}/${PN}-3.17-glibc-2.36-deux.patch"
 )
 
 criu_arch() {

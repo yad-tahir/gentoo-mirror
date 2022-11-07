@@ -38,7 +38,12 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 "
-BDEPEND="python? ( ${DISTUTILS_DEPS} )"
+BDEPEND="
+	python? (
+		${DISTUTILS_DEPS}
+		test? ( dev-python/unittest-or-fail[${PYTHON_USEDEP}] )
+	)
+"
 
 DOCS=( README.md CONTRIBUTING.md )
 
@@ -84,4 +89,11 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	use python && distutils-r1_src_install
+
+	doman docs/brotli.1
+
+	local page
+	for page in constants decode encode types ; do
+		newman docs/${page}.h.3 ${PN}_${page}.h.3
+	done
 }

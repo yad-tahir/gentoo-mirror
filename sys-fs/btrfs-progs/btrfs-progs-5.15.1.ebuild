@@ -23,7 +23,7 @@ else
 fi
 
 DESCRIPTION="Btrfs filesystem utilities"
-HOMEPAGE="https://btrfs.wiki.kernel.org"
+HOMEPAGE="https://btrfs.wiki.kernel.org https://btrfs.readthedocs.io/en/latest/"
 
 LICENSE="GPL-2"
 SLOT="0/${libbtrfs_soname}"
@@ -131,5 +131,5 @@ src_install() {
 }
 
 pkg_postrm() {
-	[[ -n ${REPLACED_BY_VERSION} ]] || udev_reload
+	udev_reload
 }
