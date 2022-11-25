@@ -39,7 +39,7 @@ else
 	S="${WORKDIR}"/${MY_P}
 
 	if [[ ${PV} != *rc* ]] ; then
-		KEYWORDS="~amd64 ~arm ~arm64 -hppa ~ppc ~ppc64 ~riscv ~s390 ~x86"
+		KEYWORDS="~amd64 ~arm ~arm64 -hppa ~ia64 ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 	fi
 fi
 
@@ -90,6 +90,8 @@ src_unpack() {
 }
 
 python_configure_all() {
+	# workaround stupid numpy distutils overrides, indirectly via pythran
+	export SETUPTOOLS_USE_DISTUTILS=stdlib
 	export SCIPY_USE_PYTHRAN=$(usex fortran 1 0)
 }
 

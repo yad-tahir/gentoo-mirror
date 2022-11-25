@@ -3,7 +3,7 @@
 
 EAPI=8
 
-DISTUTILS_USE_PEP517=setuptools
+DISTUTILS_USE_PEP517=standalone
 PYTHON_COMPAT=( python3_{9..11} )
 inherit distutils-r1
 
@@ -32,33 +32,16 @@ else
 	RDEPEND+=" >=dev-python/snakeoil-0.10.1[${PYTHON_USEDEP}]"
 fi
 BDEPEND="
+	>=dev-python/flit_core-3.8[${PYTHON_USEDEP}]
 	test? (
-		>=dev-python/pytest-6[${PYTHON_USEDEP}]
 		dev-vcs/git
 	)
 "
 
-distutils_enable_tests setup.py
-
-src_prepare() {
-	# force Gentoo's prefix
-	sed -e "/INSTALL_PREFIX =/s@= .*\$@= '${EPREFIX}/usr'@" -i setup.py || die
-
-	distutils-r1_src_prepare
-}
-
-src_test() {
-	# With PYTHONDONTWRITEBYTECODE=, python will try rebuild all sorts of modules.
-	# https://bugs.gentoo.org/840266
-	local -x SANDBOX_PREDICT=${SANDBOX_PREDICT}
-	addpredict /
-
-	local -x PYTHONDONTWRITEBYTECODE=
-	distutils-r1_src_test
-}
+distutils_enable_tests pytest
 
 python_install_all() {
 	local DOCS=( NEWS.rst )
-	[[ ${PV} == *9999 ]] || doman man/*
+	[[ ${PV} == *9999 ]] || doman build/sphinx/man/*
 	distutils-r1_python_install_all
 }

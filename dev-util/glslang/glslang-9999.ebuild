@@ -19,10 +19,19 @@ fi
 DESCRIPTION="Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator"
 HOMEPAGE="https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/ https://github.com/KhronosGroup/glslang"
 
+PATCHES=( "${FILESDIR}/${PN}-1.3.231-Install-static-libs.patch" )
+
 LICENSE="BSD"
-SLOT="0"
+SLOT="0/1"
 
 BDEPEND="${PYTHON_DEPS}"
 
 # Bug 698850
 RESTRICT="test"
+
+multilib_src_configure() {
+	local mycmakeargs=(
+		-DENABLE_PCH=OFF
+	)
+	cmake_src_configure
+}

@@ -9,7 +9,7 @@ inherit ecm frameworks.kde.org python-single-r1
 
 DESCRIPTION="Framework based on Gettext for internationalizing user interface text"
 LICENSE="LGPL-2+"
-KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm arm64 ~loong ~ppc64 ~riscv x86"
 IUSE=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -41,7 +41,7 @@ src_configure() {
 }
 
 src_test() {
-	# requires LANG fr_CH. bug 823816
-	local myctestargs=( -E "(kcountrytest|kcountrysubdivisiontest)" )
+	# requires LANG fr_CH. bugs 823816, 879223
+	local myctestargs=( -E "(kcatalogtest|kcountrytest|kcountrysubdivisiontest)" )
 	ecm_src_test
 }

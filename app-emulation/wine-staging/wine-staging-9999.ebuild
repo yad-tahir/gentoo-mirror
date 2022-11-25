@@ -23,17 +23,16 @@ fi
 S="${WORKDIR}/wine-${PV}"
 
 DESCRIPTION="Free implementation of Windows(tm) on Unix, with Wine-Staging patchset"
-HOMEPAGE="https://www.winehq.org/"
+HOMEPAGE="https://wiki.winehq.org/Wine-Staging"
 
-LICENSE="LGPL-2.1+ BSD-2 IJG MIT ZLIB gsm libpng2 libtiff"
+LICENSE="LGPL-2.1+ BSD-2 IJG MIT OPENLDAP ZLIB gsm libpng2 libtiff"
 SLOT="${PV}"
 IUSE="
 	+X +abi_x86_32 +abi_x86_64 +alsa capi crossdev-mingw cups dos
 	llvm-libunwind debug custom-cflags +fontconfig +gecko gphoto2
-	+gstreamer kerberos ldap +mingw +mono netapi nls odbc openal
-	opencl +opengl osmesa pcap perl pulseaudio samba scanner +sdl
-	selinux +ssl +truetype udev udisks +unwind usb v4l +vulkan
-	+xcomposite xinerama"
+	+gstreamer kerberos +mingw +mono netapi nls odbc opencl +opengl
+	osmesa pcap perl pulseaudio samba scanner +sdl selinux +ssl
+	+truetype udev udisks +unwind usb v4l +vulkan +xcomposite xinerama"
 REQUIRED_USE="
 	X? ( truetype )
 	crossdev-mingw? ( mingw )" # bug #551124 for truetype
@@ -83,8 +82,6 @@ WINE_COMMON_DEPEND="
 		media-libs/gst-plugins-base:1.0[${MULTILIB_USEDEP}]
 		media-libs/gstreamer:1.0[${MULTILIB_USEDEP}]
 	)
-	ldap? ( net-nds/openldap:=[${MULTILIB_USEDEP}] )
-	openal? ( media-libs/openal[${MULTILIB_USEDEP}] )
 	opencl? ( virtual/opencl[${MULTILIB_USEDEP}] )
 	pcap? ( net-libs/libpcap[${MULTILIB_USEDEP}] )
 	pulseaudio? ( media-libs/libpulse[${MULTILIB_USEDEP}] )
@@ -115,12 +112,15 @@ DEPEND="
 	X? ( x11-base/xorg-proto )"
 BDEPEND="
 	dev-lang/perl
+	sys-devel/binutils
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig
-	mingw? ( !crossdev-mingw? ( dev-util/mingw64-toolchain[${MULTILIB_USEDEP}] ) )
+	mingw? ( !crossdev-mingw? (
+		>=dev-util/mingw64-toolchain-10.0.0_p1-r2[${MULTILIB_USEDEP}]
+	) )
 	nls? ( sys-devel/gettext )"
-IDEPEND="app-eselect/eselect-wine"
+IDEPEND=">=app-eselect/eselect-wine-2"
 
 QA_TEXTRELS="usr/lib/*/wine/i386-unix/*.so" # uses -fno-PIC -Wl,-z,notext
 
@@ -219,11 +219,9 @@ src_configure() {
 		$(use_with gstreamer)
 		$(use_with kerberos gssapi)
 		$(use_with kerberos krb5)
-		$(use_with ldap)
 		$(use_with mingw)
 		$(use_with netapi)
 		$(use_with nls gettext)
-		$(use_with openal)
 		$(use_with opencl)
 		$(use_with opengl)
 		$(use_with osmesa)
@@ -249,6 +247,11 @@ src_configure() {
 	use custom-cflags || strip-flags # can break in obscure ways, also no lto
 	use crossdev-mingw || PATH=${BROOT}/usr/lib/mingw64-toolchain/bin:${PATH}
 
+	# temporary workaround for tc-ld-force-bfd not yet enforcing with mold
+	# https://github.com/gentoo/gentoo/pull/28355
+	[[ $($(tc-getCC) ${LDFLAGS} -Wl,--version 2>/dev/null) == mold* ]] &&
+		append-ldflags -fuse-ld=bfd
+
 	# build using upstream's way (--with-wine64)
 	# order matters: configure+compile 64->32, install 32->64
 	local -i bits
@@ -259,8 +262,9 @@ src_configure() {
 		mkdir ../build${bits} || die
 		cd ../build${bits} || die
 
-		# CROSSCC_amd64/x86 are unused by Wine, but recognized here for users
+		pe_arch=i386
 		if (( bits == 64 )); then
+			pe_arch=x86_64
 			: "${CROSSCC:=${CROSSCC_amd64:-x86_64-w64-mingw32-gcc}}"
 			conf+=( --enable-win64 )
 		elif use amd64; then
@@ -273,9 +277,15 @@ src_configure() {
 		fi
 		: "${CROSSCC:=${CROSSCC_x86:-i686-w64-mingw32-gcc}}"
 
-		# use *FLAGS for mingw, but strip unsupported (e.g. --hash-style=gnu)
 		if use mingw; then
+			# CROSSCC is no longer recognized by Wine, but still use for now
+			# (future handling for CROSS* variables is subject to changes)
+			conf+=( ac_cv_prog_${pe_arch}_CC="${CROSSCC}" )
+
+			# use *FLAGS for mingw, but strip unsupported
 			: "${CROSSCFLAGS:=$(
+				# >=wine-7.21 configure.ac no longer adds -fno-strict by mistake
+				append-cflags '-fno-strict-aliasing'
 				filter-flags '-fstack-clash-protection' #758914
 				filter-flags '-fstack-protector*' #870136
 				filter-flags '-mfunction-return=thunk*' #878849
@@ -283,7 +293,7 @@ src_configure() {
 			: "${CROSSLDFLAGS:=$(
 				filter-flags '-fuse-ld=*'
 				CC=${CROSSCC} test-flags-CCLD ${LDFLAGS})}"
-			export CROSS{CC,{C,LD}FLAGS}
+			export CROSS{C,LD}FLAGS
 		fi
 
 		ECONF_SOURCE=${S} econf "${conf[@]}"
@@ -334,19 +344,10 @@ src_install() {
 	dodoc ANNOUNCE AUTHORS README* documentation/README*
 }
 
-wine-eselect() {
-	ebegin "${1^}ing ${P} using eselect-wine"
-	eselect wine ${1} ${P} &&
-		eselect wine ${1} --${PN#wine-} ${P} &&
-		eselect wine update --if-unset &&
-		eselect wine update --${PN#wine-} --if-unset
-	eend ${?} || die -n "eselect failed, may need to manually handle ${P}"
-}
-
 pkg_postinst() {
-	wine-eselect register
+	eselect wine update --if-unset || die
 }
 
-pkg_prerm() {
-	nonfatal wine-eselect deregister
+pkg_postrm() {
+	eselect wine update --if-unset || die
 }

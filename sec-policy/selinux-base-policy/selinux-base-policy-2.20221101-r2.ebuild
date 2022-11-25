@@ -12,7 +12,7 @@ if [[ ${PV} == 9999* ]]; then
 else
 	SRC_URI="https://github.com/SELinuxProject/refpolicy/releases/download/RELEASE_${PV/./_}/refpolicy-${PV}.tar.bz2
 			https://dev.gentoo.org/~perfinion/patches/${PN}/patchbundle-${PN}-${PVR}.tar.bz2"
-	KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
+	KEYWORDS="amd64 arm arm64 ~mips x86"
 fi
 
 HOMEPAGE="https://wiki.gentoo.org/wiki/Project:SELinux"
@@ -57,8 +57,8 @@ src_prepare() {
 
 	# Collect only those files needed for this particular module
 	for i in ${MODS}; do
-		modfiles="$(find ${S}/refpolicy/policy/modules -iname $i.te) $modfiles"
-		modfiles="$(find ${S}/refpolicy/policy/modules -iname $i.fc) $modfiles"
+		modfiles="$(find "${S}"/refpolicy/policy/modules -iname $i.te) $modfiles"
+		modfiles="$(find "${S}"/refpolicy/policy/modules -iname $i.fc) $modfiles"
 	done
 
 	for i in ${DEL_MODS}; do
