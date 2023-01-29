@@ -1,10 +1,10 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 LUA_COMPAT=( lua5-{1..4} luajit )
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 DISTUTILS_USE_PEP517="setuptools"
 DISTUTILS_OPTIONAL="true"
 DISTUTILS_SINGLE_IMPL="true"
@@ -20,7 +20,7 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="GPL-2"
 SLOT="0/8.0.0"
-KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux ~x86-solaris"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~loong ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux ~x86-solaris"
 IUSE="dbi doc examples graph lua perl python rados rrdcached rrdcgi ruby static-libs tcl tcpd test"
 
 RESTRICT="!test? ( test )"
@@ -62,7 +62,7 @@ BDEPEND="
 	${DISTUTILS_DEPS}
 	sys-apps/groff
 	virtual/pkgconfig
-	virtual/awk
+	app-alternatives/awk
 	python? ( $(python_gen_cond_dep 'dev-python/setuptools[${PYTHON_USEDEP}]') )
 	test? (
 		sys-devel/bc

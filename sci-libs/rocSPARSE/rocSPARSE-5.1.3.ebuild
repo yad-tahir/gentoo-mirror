@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 ROCM_VERSION=${PV}
 
 inherit cmake edo python-any-r1 toolchain-funcs rocm
@@ -91,7 +91,7 @@ src_prepare() {
 		mkdir -p "${BUILD_DIR}"/clients/matrices
 		# compile and use the mtx2csr converter. Do not use any optimization flags, because it causes error!
 		edo $(tc-getCXX) deps/convert.cpp -o deps/convert
-		find "${WORKDIR}" -maxdepth 2 -regextype egrep -regex ".*/(.*)/\1\.mtx" -print0 |
+		find "${WORKDIR}" -maxdepth 2 -regextype grep -E -regex ".*/(.*)/\1\.mtx" -print0 |
 			while IFS= read -r -d '' mtxfile; do
 				destination=${BUILD_DIR}/clients/matrices/$(basename -s '.mtx' ${mtxfile}).csr
 				ebegin "Converting ${mtxfile} to ${destination}"

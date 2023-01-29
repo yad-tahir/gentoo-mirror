@@ -4,11 +4,11 @@
 EAPI=8
 
 DESCRIPTION="kdemultimedia - merge this to pull in all kdemultimedia-derived packages"
-HOMEPAGE="https://apps.kde.org/multimedia/ https://multimedia.kde.org/"
+HOMEPAGE="https://apps.kde.org/categories/multimedia/"
 
 LICENSE="metapackage"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 x86"
 IUSE="+cdrom +ffmpeg gstreamer"
 
 RDEPEND="

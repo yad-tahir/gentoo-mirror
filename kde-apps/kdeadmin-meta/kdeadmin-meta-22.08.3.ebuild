@@ -4,11 +4,11 @@
 EAPI=8
 
 DESCRIPTION="KDE administration tools - merge this to pull in all kdeadmin-derived packages"
-HOMEPAGE="https://kde.org/"
+HOMEPAGE="https://apps.kde.org/"
 
 LICENSE="metapackage"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv x86"
 IUSE="+cron"
 
 RDEPEND="

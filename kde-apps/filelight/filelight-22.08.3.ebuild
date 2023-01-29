@@ -10,12 +10,11 @@ QTMIN=5.15.5
 inherit ecm gear.kde.org
 
 DESCRIPTION="Visualise disk usage with interactive map of concentric, segmented rings"
-HOMEPAGE="https://apps.kde.org/filelight/
-https://utils.kde.org/projects/filelight/"
+HOMEPAGE="https://apps.kde.org/filelight/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~loong ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~loong ~ppc64 ~riscv x86"
 IUSE=""
 
 DEPEND="

@@ -11,11 +11,11 @@ QTMIN=5.15.5
 inherit ecm gear.kde.org
 
 DESCRIPTION="Frontend for GnuPG, a powerful encryption utility by KDE"
-HOMEPAGE="https://apps.kde.org/kgpg/ https://utils.kde.org/projects/kgpg/"
+HOMEPAGE="https://apps.kde.org/kgpg/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~loong ~ppc64 x86"
 IUSE=""
 
 COMMON_DEPEND="

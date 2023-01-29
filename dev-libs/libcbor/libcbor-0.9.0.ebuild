@@ -1,10 +1,10 @@
-# Copyright 2020-2022 Gentoo Authors
+# Copyright 2020-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 CMAKE_MAKEFILE_GENERATOR="emake"
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..10} )
 inherit python-any-r1 cmake
 
 DESCRIPTION="CBOR protocol implementation for C and others"
@@ -40,7 +40,7 @@ pkg_setup() {
 }
 
 src_configure() {
-	local -a mycmakeargs=(
+	local mycmakeargs=(
 		-DCMAKE_BUILD_TYPE=Release
 		-DCBOR_CUSTOM_ALLOC=$(usex custom-alloc 'ON' 'OFF')
 		-DWITH_TESTS=$(usex test 'ON' 'OFF')

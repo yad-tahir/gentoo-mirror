@@ -10,7 +10,8 @@ if [[ ${PV} == *9999* ]]; then
 	[[ ${PV%9999} != "" ]] && EGIT_BRANCH="release/${PV%.9999}"
 	inherit autotools git-r3
 else
-	KEYWORDS="amd64 arm arm64 ppc ppc64 ~riscv x86 ~x64-macos"
+	inherit libtool
+	KEYWORDS="amd64 arm arm64 ~loong ppc ppc64 ~riscv x86 ~x64-macos"
 	if [[ ${PV%_p*} != ${PV} ]]; then # Gentoo snapshot
 		SRC_URI="mirror://gentoo/${P}.tar.xz"
 	else # Official release
@@ -30,7 +31,12 @@ PATCHES=( "${FILESDIR}"/${P}-always_inline.patch )
 
 src_prepare() {
 	default
-	[[ ${PV} == *9999* ]] && eautoreconf
+
+	if [[ ${PV} == *9999* ]] ; then
+		eautoreconf
+	else
+		elibtoolize
+	fi
 }
 
 multilib_src_configure() {

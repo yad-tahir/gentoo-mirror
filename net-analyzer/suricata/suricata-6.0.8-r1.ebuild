@@ -1,10 +1,10 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 LUA_COMPAT=( lua5-1 luajit )
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit autotools flag-o-matic linux-info lua-single python-single-r1 systemd tmpfiles verify-sig
 
@@ -203,11 +203,7 @@ pkg_postinst() {
 	fi
 
 	elog
-	if [[ -n "${REPLACING_VERSIONS}" ]]; then
-		ewarn "Since version 6.0.0 Suricata no longer supports the unified2 output format commonly used"
-		ewarn "in legacy, Snort-compatible IDS solutions, e.g. ones based on net-analyzer/barnyard2."
-		ewarn "If you need unified2 support, please continue to use suricata-5."
-	else
+	if [[ -z "${REPLACING_VERSIONS}" ]]; then
 		elog "To download and install an initial set of rules, run:"
 		elog "    emerge --config =${CATEGORY}/${PF}"
 	fi

@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -13,7 +13,7 @@ S="${S}"/src
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~amd64"  # Additionally arm64 is officially supported.
+KEYWORDS="amd64"  # Additionally arm64 is officially supported.
 IUSE="blowfish gdbm gui postgres"
 
 RDEPEND="
@@ -41,6 +41,9 @@ src_configure() {
 }
 
 src_compile() {
+	# Compile the "microcode" first, bug #879901
+	emake -C microcode
+
 	# Fails with multiple make-jobs, at least it compiles relatively fast.
 	emake -j1
 }
@@ -53,7 +56,7 @@ src_compile() {
 # runtime/test-flonum.com
 
 src_test() {
-	FAST=y emake check
+	FAST=y emake check -j1
 }
 
 src_install() {

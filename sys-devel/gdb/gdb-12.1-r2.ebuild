@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 inherit flag-o-matic python-single-r1 strip-linguas toolchain-funcs
 
 export CTARGET=${CTARGET:-${CHOST}}
@@ -47,7 +47,7 @@ LICENSE="GPL-3+ LGPL-2.1+"
 SLOT="0"
 
 if [[ ${PV} != 9999* ]] ; then
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~x64-cygwin ~amd64-linux ~x86-linux ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
+	KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~x64-cygwin ~amd64-linux ~x86-linux ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 fi
 
 IUSE="cet guile lzma multitarget nls +python +server source-highlight test vanilla xml xxhash"
@@ -56,10 +56,7 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 # In fact, gdb's test suite needs some work to get passing.
 # See e.g. https://sourceware.org/gdb/wiki/TestingGDB.
 # As of 11.2, on amd64: "# of unexpected failures    8600"
-# ia64 kernel crashes when gdb testsuite is running
-# in fact, gdb's test suite needs some work to get passing.
-# See e.g. https://sourceware.org/gdb/wiki/TestingGDB.
-# As of 11.2, on amd64: "# of unexpected failures    8600"
+# Also, ia64 kernel crashes when gdb testsuite is running.
 RESTRICT="
 	ia64? ( test )
 	!test? ( test )
@@ -88,7 +85,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	app-arch/xz-utils
 	sys-apps/texinfo
-	virtual/yacc
+	app-alternatives/yacc
 	nls? ( sys-devel/gettext )
 	source-highlight? ( virtual/pkgconfig )
 	test? ( dev-util/dejagnu )

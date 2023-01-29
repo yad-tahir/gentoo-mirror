@@ -15,10 +15,6 @@
       <name>Dennis Lamm</name>
     </member>
     <member>
-      <email>matthew@gentoo.org</email>
-      <name>Matthew Smith</name>
-    </member>
-    <member>
       <email>mva@gentoo.org</email>
       <name>Vadim Misbakh-Soloviov</name>
     </member>
@@ -236,10 +232,6 @@
     <member>
       <email>alicef@gentoo.org</email>
       <name>Alice Ferrazzi</name>
-    </member>
-    <member>
-      <email>arzano@gentoo.org</email>
-      <name>Max Magorsch</name>
     </member>
     <member>
       <email>dabbott@gentoo.org</email>
@@ -580,10 +572,6 @@
     <member>
       <email>ajak@gentoo.org</email>
       <name>John Helmert III</name>
-    </member>
-    <member>
-      <email>arzano@gentoo.org</email>
-      <name>Max Magorsch</name>
     </member>
     <member>
       <email>ultrabug@gentoo.org</email>
@@ -1043,11 +1031,6 @@
       <role>2022 Mentor</role>
     </member>
     <member>
-      <email>arzano@gentoo.org</email>
-      <name>Max Magorsch</name>
-      <role>2022 Mentor</role>
-    </member>
-    <member>
       <email>blueknight@gentoo.org</email>
       <name>Yury German</name>
       <role>2022 Administrator</role>
@@ -1091,6 +1074,10 @@
     <member>
       <email>arthurzam@gentoo.org</email>
       <name>Arthur Zamarin</name>
+    </member>
+    <member>
+      <email>ceamac@gentoo.org</email>
+      <name>Viorel Munteanu</name>
     </member>
     <member is-lead="1">
       <email>mgorny@gentoo.org</email>
@@ -1201,10 +1188,6 @@
       <email>gokturk@gentoo.org</email>
       <name>Göktürk Yüksek</name>
       <role>Lead</role>
-    </member>
-    <member>
-      <email>NP-Hardass@gentoo.org</email>
-      <name>Adam Feldman</name>
     </member>
   </project>
   <project>
@@ -1435,11 +1418,6 @@
       <role>General wrangling, packages site</role>
     </member>
     <member>
-      <email>arzano@gentoo.org</email>
-      <name>Max Magorsch</name>
-      <role>General wrangling, packages site</role>
-    </member>
-    <member>
       <email>blueknight@gentoo.org</email>
       <name>Yury German</name>
       <role>General system administration, Blogs, Planet</role>
@@ -1602,20 +1580,6 @@
     </member>
   </project>
   <project>
-    <email>security-kernel@gentoo.org</email>
-    <name>Linux Kernel Security Project</name>
-    <url>https://wiki.gentoo.org/wiki/Project:Kernel_Security</url>
-    <description>The Linux Kernel Security Project handles patching our many kernel sources and informing our users about global kernel security status.</description>
-    <member>
-      <email>alicef@gentoo.org</email>
-      <name>Alice Ferrazzi</name>
-    </member>
-    <member>
-      <email>zx2c4@gentoo.org</email>
-      <name>Jason A. Donenfeld</name>
-    </member>
-  </project>
-  <project>
     <email>ldap-bugs@gentoo.org</email>
     <name>LDAP Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:LDAP</url>
@@ -1756,10 +1720,6 @@
     <name>MATE Desktop</name>
     <url>https://wiki.gentoo.org/wiki/Project:MATE</url>
     <description>The MATE Project aims to bring the current and complete MATE Desktop Environment to Gentoo.</description>
-    <member is-lead="1">
-      <email>NP-Hardass@gentoo.org</email>
-      <name>Adam Feldman</name>
-    </member>
   </project>
   <project>
     <email>mips@gentoo.org</email>
@@ -1917,11 +1877,6 @@
     <url>https://wiki.gentoo.org/wiki/Project:Netmon</url>
     <description>Maintaining network monitoring and analysis libraries and programs</description>
     <member>
-      <email>jstein@gentoo.org</email>
-      <name>Jonas Stein</name>
-      <role>liquidator</role>
-    </member>
-    <member>
       <email>sam@gentoo.org</email>
       <name>Sam James</name>
     </member>
@@ -2043,11 +1998,6 @@
       <role>Git</role>
     </member>
     <member>
-      <email>NP-Hardass@gentoo.org</email>
-      <name>Adam Feldman</name>
-      <role>Hosted Overlays for Developers and Projects</role>
-    </member>
-    <member>
       <email>sping@gentoo.org</email>
       <name>Sebastian Pipping</name>
       <role>Git</role>
@@ -2096,10 +2046,6 @@
       <email>sam@gentoo.org</email>
       <name>Sam James</name>
       <role>Minor Perl helper</role>
-    </member>
-    <member>
-      <email>titanofold@gentoo.org</email>
-      <name>Aaron W. Swenson</name>
     </member>
     <member>
       <email>zlogene@gentoo.org</email>
@@ -2180,6 +2126,10 @@
     <description>The Portage Development Project is devoted to maintaining and updating Portages core functionality and utilities.</description>
     <subproject ref="tools-portage@gentoo.org"/>
     <subproject ref="sandbox@gentoo.org"/>
+    <member>
+      <email>ajak@gentoo.org</email>
+      <name>John Helmert III</name>
+    </member>
     <member>
       <email>floppym@gentoo.org</email>
       <name>Mike Gilbert</name>
@@ -2424,6 +2374,10 @@
       <name>Craig Andrews</name>
     </member>
     <member>
+      <email>ceamac@gentoo.org</email>
+      <name>Viorel Munteanu</name>
+    </member>
+    <member>
       <email>conikost@gentoo.org</email>
       <name>Conrad Kostecki</name>
     </member>
@@ -2473,10 +2427,6 @@
       <name>Matthias Maier</name>
     </member>
     <member>
-      <email>titanofold@gentoo.org</email>
-      <name>Aaron W. Swenson</name>
-    </member>
-    <member>
       <email>zlogene@gentoo.org</email>
       <name>Mikle Kolyada</name>
     </member>
@@ -2492,11 +2442,6 @@
       <email>alicef@gentoo.org</email>
       <name>Alice Ferrazzi</name>
       <role>Mastodon (Admin), Twitter (Admin), Events, Telegram (admin)</role>
-    </member>
-    <member>
-      <email>arzano@gentoo.org</email>
-      <name>Max Magorsch</name>
-      <role>Creative marketing specialist</role>
     </member>
     <member>
       <email>dabbott@gentoo.org</email>
@@ -2693,11 +2638,6 @@
       <name>Alexis Ballier</name>
       <role>Almost everything</role>
     </member>
-    <member>
-      <email>arthurzam@gentoo.org</email>
-      <name>Arthur Zamarin</name>
-      <role>Python coordinator</role>
-    </member>
   </project>
   <project>
     <email>rsbac@gentoo.org</email>
@@ -2768,7 +2708,7 @@
     <member>
       <email>blueness@gentoo.org</email>
       <name>Anthony G. Basile</name>
-      <role>Hardened/UCLIBC Release Coordinator</role>
+      <role>hardened / musl</role>
     </member>
     <member>
       <email>dilfridge@gentoo.org</email>
@@ -2927,6 +2867,7 @@
     <member>
       <email>arthurzam@gentoo.org</email>
       <name>Arthur Zamarin</name>
+      <role>sparc keywording/stabilization</role>
     </member>
     <member>
       <email>mattst88@gentoo.org</email>
@@ -2965,6 +2906,11 @@
     <name>Sandbox Team</name>
     <url>https://wiki.gentoo.org/wiki/Project:Sandbox</url>
     <description>The Sandbox Team maintains sandbox-related tools and libraries</description>
+    <member>
+      <email>floppym@gentoo.org</email>
+      <name>Mike Gilbert</name>
+      <role>Stable branch</role>
+    </member>
     <member>
       <email>grobian@gentoo.org</email>
       <name>Fabian Groffen</name>
@@ -3089,7 +3035,6 @@
     <name>Security Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Security</url>
     <description>The Security Project's mission is to ensure that vulnerabilities in software accessible through the Portage tree are found and fixed in a timely manner, so that our users remain protected against known vulnerabilities.</description>
-    <subproject ref="security-kernel@gentoo.org"/>
     <member is-lead="1">
       <email>ajak@gentoo.org</email>
       <name>John Helmert III</name>
@@ -3242,6 +3187,10 @@
     <url>https://wiki.gentoo.org/wiki/Project:Toolchain</url>
     <description>Manages gcc/binutils/glibc and other toolchain-related packages</description>
     <subproject ref="crossdev@gentoo.org"/>
+    <member>
+      <email>arsen@gentoo.org</email>
+      <name>Arsen Arsenović</name>
+    </member>
     <member is-lead="1">
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
@@ -3283,10 +3232,6 @@
     <member>
       <email>jsmolic@gentoo.org</email>
       <name>Jakov Smolić</name>
-    </member>
-    <member>
-      <email>matthew@gentoo.org</email>
-      <name>Matthew Smith</name>
     </member>
     <member>
       <email>mgorny@gentoo.org</email>
@@ -3384,6 +3329,10 @@
       <name>John Helmert III</name>
     </member>
     <member>
+      <email>ceamac@gentoo.org</email>
+      <name>Viorel Munteanu</name>
+    </member>
+    <member>
       <email>dlan@gentoo.org</email>
       <name>Yixun Lan</name>
     </member>
@@ -3417,11 +3366,6 @@
     <name>Website maintainers</name>
     <url>https://wiki.gentoo.org/wiki/Project:Website</url>
     <description>The website project maintains www.g.o and develops new sites for the community.</description>
-    <member>
-      <email>arzano@gentoo.org</email>
-      <name>Max Magorsch</name>
-      <role>Maintainer: Tyrian</role>
-    </member>
     <member>
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
@@ -3468,10 +3412,6 @@
       <email>ionen@gentoo.org</email>
       <name>Ionen Wolkens</name>
     </member>
-    <member>
-      <email>NP-Hardass@gentoo.org</email>
-      <name>Adam Feldman</name>
-    </member>
     <member is-lead="1">
       <email>sarnex@gentoo.org</email>
       <name>Nick Sarnie</name>
@@ -3486,6 +3426,10 @@
     <name>wxWidgets Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:WxWidgets</url>
     <description>The wxWidgets Project maintains wxGTK and wxPython related packages and applications.</description>
+    <member>
+      <email>arsen@gentoo.org</email>
+      <name>Arsen Arsenović</name>
+    </member>
     <member>
       <email>leio@gentoo.org</email>
       <name>Mart Raudsepp</name>

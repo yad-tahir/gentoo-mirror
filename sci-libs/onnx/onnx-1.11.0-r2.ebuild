@@ -1,8 +1,8 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2022-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 inherit python-any-r1 cmake
 
 DESCRIPTION="Open Neural Network Exchange (ONNX)"
@@ -33,8 +33,8 @@ src_configure() {
 src_install() {
 	cmake_src_install
 
-	patchelf --set-soname libonnxifi.so "${D}"/usr/lib/libonnxifi.so \
+	patchelf --set-soname libonnxifi.so "${ED}"/usr/lib/libonnxifi.so \
 		|| die
-	mv "${D}"/usr/lib/libonnxifi.so "${D}"/usr/$(get_libdir)/libonnxifi.so \
+	mv "${ED}"/usr/lib/libonnxifi.so "${ED}"/usr/$(get_libdir)/libonnxifi.so \
 		|| die
 }

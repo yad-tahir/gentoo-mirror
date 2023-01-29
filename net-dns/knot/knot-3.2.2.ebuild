@@ -9,12 +9,12 @@ inherit flag-o-matic systemd
 KNOT_SUBSLOT="13.9.4"
 
 DESCRIPTION="High-performance authoritative-only DNS server"
-HOMEPAGE="https://www.knot-dns.cz/"
+HOMEPAGE="https://www.knot-dns.cz/ https://gitlab.nic.cz/knot/knot-dns"
 SRC_URI="https://secure.nic.cz/files/knot-dns/${P/_/-}.tar.xz"
 
 LICENSE="GPL-3+"
 SLOT="0/${KNOT_SUBSLOT}"
-KEYWORDS="~amd64 ~riscv"
+KEYWORDS="~amd64 ~riscv ~x86"
 
 KNOT_MODULES=(
 	"+cookies"

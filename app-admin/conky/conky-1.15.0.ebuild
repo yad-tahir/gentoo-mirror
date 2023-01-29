@@ -1,11 +1,12 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 LUA_COMPAT=( lua5-3 )
+PYTHON_COMPAT=( python{3_9,3_10,3_11} )
 
-inherit cmake linux-info lua-single readme.gentoo-r1 xdg
+inherit cmake linux-info lua-single python-any-r1 readme.gentoo-r1 xdg
 
 DESCRIPTION="An advanced, highly configurable system monitor for X"
 HOMEPAGE="https://github.com/brndnmtthws/conky"
@@ -20,7 +21,6 @@ IUSE="apcupsd bundled-toluapp cmus curl doc extras hddtemp ical iconv imlib
 	webserver wifi X xinerama xmms2"
 
 COMMON_DEPEND="
-	cmus? ( media-sound/cmus )
 	curl? ( net-misc/curl )
 	ical? ( dev-libs/libical:= )
 	iconv? ( virtual/libiconv )
@@ -51,6 +51,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	apcupsd? ( sys-power/apcupsd )
+	cmus? ( media-sound/cmus )
 	hddtemp? ( app-admin/hddtemp )
 	moc? ( media-sound/moc )
 	extras? (
@@ -60,9 +61,28 @@ RDEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
-	doc? ( virtual/pandoc dev-python/pyyaml dev-python/jinja )
-	extras? ( dev-python/pyyaml dev-python/jinja )
 "
+BDEPEND="
+	doc? (
+		virtual/pandoc
+		$(python_gen_any_dep '
+			dev-python/pyyaml[${PYTHON_USEDEP}]
+			dev-python/jinja[${PYTHON_USEDEP}]
+		')
+	)
+	extras? (
+		$(python_gen_any_dep '
+			dev-python/pyyaml[${PYTHON_USEDEP}]
+			dev-python/jinja[${PYTHON_USEDEP}]
+		')
+	)
+"
+
+python_check_deps() {
+	use doc || use extras || return 0
+	python_has_version -b "dev-python/pyyaml[${PYTHON_USEDEP}]" &&
+	python_has_version -b "dev-python/jinja[${PYTHON_USEDEP}]"
+}
 
 REQUIRED_USE="
 	imlib? ( X )
@@ -88,21 +108,22 @@ Also see https://github.com/brndnmtthws/conky/wiki or https://wiki.gentoo.org/wi
 
 pkg_setup() {
 	linux-info_pkg_setup
-
 	lua-single_pkg_setup
+	if use doc || use extras; then
+		python-any-r1_pkg_setup
+	fi
 }
 
 src_prepare() {
 	cmake_src_prepare
-
 	xdg_environment_reset
 }
 
 src_configure() {
-	local mycmakeargs
+	local mycmakeargs=()
 
 	if use X; then
-		mycmakeargs=(
+		mycmakeargs+=(
 			-DBUILD_ARGB=yes
 			-DBUILD_X11=yes
 			-DBUILD_XDAMAGE=yes
@@ -111,7 +132,7 @@ src_configure() {
 			-DOWN_WINDOW=yes
 		)
 	else
-		mycmakeargs=(
+		mycmakeargs+=(
 			-DBUILD_X11=no
 		)
 	fi
@@ -157,6 +178,10 @@ src_configure() {
 		-DMAINTAINER_MODE=no
 		-DRELEASE=yes
 	)
+
+	if use doc || use extras; then
+		mycmakeargs+=( -DPython3_EXECUTABLE="${PYTHON}" )
+	fi
 
 	cmake_src_configure
 }

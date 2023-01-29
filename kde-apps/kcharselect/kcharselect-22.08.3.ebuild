@@ -9,12 +9,11 @@ QTMIN=5.15.5
 inherit ecm gear.kde.org
 
 DESCRIPTION="KDE character selection utility"
-HOMEPAGE="https://apps.kde.org/kcharselect/
-https://utils.kde.org/projects/kcharselect/"
+HOMEPAGE="https://apps.kde.org/kcharselect/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~loong ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~loong ~ppc64 ~riscv x86"
 IUSE=""
 
 DEPEND="

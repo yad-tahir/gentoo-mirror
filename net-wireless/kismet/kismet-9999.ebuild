@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -43,6 +43,7 @@ CDEPEND="
 	networkmanager? ( net-misc/networkmanager:= )
 	dev-libs/glib:=
 	dev-libs/elfutils:=
+	dev-libs/openssl:=
 	sys-libs/zlib:=
 	dev-db/sqlite:=
 	net-libs/libmicrohttpd:=
@@ -59,10 +60,10 @@ CDEPEND="
 		dev-python/websockets[${PYTHON_USEDEP}]
 	')
 	sys-libs/ncurses:=
-	lm-sensors? ( sys-apps/lm-sensors )
+	lm-sensors? ( sys-apps/lm-sensors:= )
 	pcre? ( dev-libs/libpcre )
 	suid? ( sys-libs/libcap )
-	ubertooth? ( net-wireless/ubertooth:= )
+	ubertooth? ( net-wireless/ubertooth )
 	"
 RDEPEND="${CDEPEND}
 	$(python_gen_cond_dep '
@@ -103,18 +104,13 @@ src_prepare() {
 	#	log_tools/kismetdb_to_wiglecsv.cc trackedcomponent.h \
 	#	trackedelement.h trackedelement_workers.h
 
-	# Don't strip and set correct mangrp
-	sed -i -e 's| -s||g' \
-		-e 's|@mangrp@|root|g' Makefile.in || die
-
 	eapply_user
 
-	#just use set to fix setup.py
-	find . -name "Makefile.in" -exec sed -i 's#setup.py install#setup.py install --root=$(DESTDIR)#' {} + || die
-	find . -name "Makefile" -exec sed -i 's#setup.py install#setup.py install --root=$(DESTDIR)#' {} + || die
-
 	if [ "${PV}" = "9999" ]; then
+		sed -i -e 's|@mangrp@|root|g' Makefile.inc.in || die
 		eautoreconf
+	else
+		sed -i -e 's|@mangrp@|root|g' Makefile.inc || die
 	fi
 	# VERSION was incorrectly removed in 4e490cf0b49a287e964df9c5e5c4067f6918909e upstream
 	# https://github.com/kismetwireless/kismet/issues/427

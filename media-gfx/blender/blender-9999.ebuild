@@ -99,7 +99,7 @@ RDEPEND="${PYTHON_DEPS}
 	sdl? ( media-libs/libsdl2[sound,joystick] )
 	sndfile? ( media-libs/libsndfile )
 	tbb? ( dev-cpp/tbb:= )
-	tiff? ( media-libs/tiff )
+	tiff? ( media-libs/tiff:= )
 	valgrind? ( dev-util/valgrind )
 	wayland? (
 		>=dev-libs/wayland-1.12
@@ -215,6 +215,7 @@ src_prepare() {
 
 src_configure() {
 	append-lfs-flags
+	blender_get_version
 
 	local mycmakeargs=(
 		-DBUILD_SHARED_LIBS=OFF
@@ -238,6 +239,7 @@ src_configure() {
 		-DWITH_DOC_MANPAGE=$(usex man)
 		-DWITH_FFTW3=$(usex fftw)
 		-DWITH_GHOST_WAYLAND=$(usex wayland)
+		-DWITH_GHOST_WAYLAND_APP_ID=blender-${BV}
 		-DWITH_GHOST_WAYLAND_DBUS=$(usex wayland)
 		-DWITH_GHOST_WAYLAND_DYNLOAD=OFF
 		-DWITH_GHOST_WAYLAND_LIBDECOR=OFF

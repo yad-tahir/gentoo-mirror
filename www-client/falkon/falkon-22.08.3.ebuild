@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -6,7 +6,7 @@ EAPI=8
 ECM_TEST="true"
 KFMIN=5.96.0
 QTMIN=5.15.5
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 VIRTUALX_REQUIRED="test"
 inherit ecm gear.kde.org python-single-r1
 
@@ -15,7 +15,7 @@ HOMEPAGE="https://www.falkon.org/ https://apps.kde.org/falkon/"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~x86"
 IUSE="dbus kde python +X"
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"

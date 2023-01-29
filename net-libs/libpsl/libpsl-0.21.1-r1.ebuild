@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 inherit flag-o-matic multilib-minimal python-any-r1
 
 DESCRIPTION="C library for the Public Suffix List"
@@ -12,7 +12,7 @@ SRC_URI="https://github.com/rockdaboot/${PN}/releases/download/${PV}/${P}.tar.gz
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86"
 IUSE="icu +idn +man"
 
 RDEPEND="
@@ -32,8 +32,7 @@ BDEPEND="${PYTHON_DEPS}
 
 pkg_pretend() {
 	if use icu && use idn ; then
-		ewarn "\"icu\" and \"idn\" USE flags are enabled."
-		ewarn "Using \"idn\"."
+		ewarn "\"icu\" and \"idn\" USE flags are enabled. Using \"idn\"."
 	fi
 }
 

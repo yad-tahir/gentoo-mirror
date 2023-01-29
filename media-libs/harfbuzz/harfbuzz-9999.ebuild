@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit flag-o-matic meson-multilib python-any-r1 xdg-utils
 
@@ -21,7 +21,8 @@ fi
 LICENSE="Old-MIT ISC icu"
 # 0.9.18 introduced the harfbuzz-icu split; bug #472416
 # 3.0.0 dropped some unstable APIs; bug #813705
-SLOT="0/4.0.0"
+# 6.0.0 changed libharfbuzz-subset.so ABI
+SLOT="0/6.0.0"
 
 IUSE="+cairo debug doc experimental +glib +graphite icu +introspection test +truetype"
 RESTRICT="!test? ( test )"
@@ -62,9 +63,6 @@ src_prepare() {
 		-e '/tests\/macos\.tests/d' \
 		test/shape/data/in-house/Makefile.sources \
 		|| die
-
-	# bug #618772
-	append-cxxflags -std=c++14
 
 	# bug #790359
 	filter-flags -fexceptions -fthreadsafe-statics

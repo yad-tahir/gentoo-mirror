@@ -1,8 +1,8 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 inherit gnome.org meson python-any-r1 xdg
 
 DESCRIPTION="Bluetooth graphical utilities integrated with GNOME"
@@ -12,7 +12,7 @@ LICENSE="GPL-2+ LGPL-2.1+ FDL-1.1+"
 SLOT="3/13" # subslot = libgnome-bluetooth-3 soname version
 IUSE="gtk-doc +introspection sendto test"
 RESTRICT="!test? ( test )"
-KEYWORDS="amd64 ~arm arm64 ~ppc ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm arm64 ~ppc ~ppc64 ~riscv x86"
 
 DEPEND="
 	>=dev-libs/glib-2.44:2

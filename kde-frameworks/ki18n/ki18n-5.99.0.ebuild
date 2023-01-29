@@ -1,15 +1,15 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 QTMIN=5.15.5
 inherit ecm frameworks.kde.org python-single-r1
 
 DESCRIPTION="Framework based on Gettext for internationalizing user interface text"
 LICENSE="LGPL-2+"
-KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm arm64 ~loong ~ppc64 ~riscv x86"
 IUSE=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -41,7 +41,7 @@ src_configure() {
 }
 
 src_test() {
-	# requires LANG fr_CH. bug 823816
-	local myctestargs=( -E "(kcountrytest|kcountrysubdivisiontest)" )
+	# requires LANG fr_CH. bugs 823816, 879223
+	local myctestargs=( -E "(kcatalogtest|kcountrytest|kcountrysubdivisiontest)" )
 	ecm_src_test
 }

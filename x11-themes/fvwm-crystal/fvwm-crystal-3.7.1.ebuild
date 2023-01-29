@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..10} )
 inherit readme.gentoo-r1 python-single-r1 optfeature
 
 DESCRIPTION="Configurable FVWM theme with transparency and freedesktop compatible menu"
@@ -29,7 +29,7 @@ RDEPEND="${PYTHON_DEPS}
 	|| ( x11-misc/hsetroot media-gfx/feh )
 	sys-apps/sed
 	sys-devel/bc
-	virtual/awk
+	app-alternatives/awk
 	x11-apps/xwd
 	media-sound/alsa-utils"
 

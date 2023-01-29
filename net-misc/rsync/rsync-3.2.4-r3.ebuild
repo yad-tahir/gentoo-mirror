@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,7 +10,7 @@ fi
 
 WANT_LIBTOOL=none
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..10} )
 inherit autotools flag-o-matic prefix python-single-r1 systemd
 
 DESCRIPTION="File transfer program to keep remote files into sync"
@@ -70,6 +70,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-unsigned-char-checksum.patch
 	# https://github.com/WayneD/rsync/issues/324
 	"${FILESDIR}"/${P}-strlcpy.patch
+	"${FILESDIR}"/${P}-notpedantic.patch
 )
 
 pkg_setup() {

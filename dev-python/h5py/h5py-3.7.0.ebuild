@@ -1,10 +1,10 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit distutils-r1
 
@@ -52,6 +52,10 @@ distutils_enable_sphinx docs \
 #}
 
 python_prepare_all() {
+	local PATCHES=(
+		"${FILESDIR}"/${P}-types.patch
+	)
+
 	# avoid pytest-mpi dep, we do not use mpi anyway
 	sed -i -e 's:pytest-mpi::' pytest.ini || die
 	distutils-r1_python_prepare_all

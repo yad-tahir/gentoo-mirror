@@ -1,9 +1,9 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2022-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-PYTHON_COMPAT=( python3_{8..11} )
-VALA_MIN_API_VERSION="0.52"
+
+PYTHON_COMPAT=( python3_{9..11} )
 inherit gnome.org meson python-any-r1 vala virtualx
 
 DESCRIPTION="Building blocks for modern adaptive GNOME applications"
@@ -14,7 +14,7 @@ SLOT="1"
 IUSE="+introspection test +vala"
 REQUIRED_USE="vala? ( introspection )"
 
-KEYWORDS="amd64 ~arm arm64 ~ia64 ~loong ppc ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="amd64 ~arm arm64 ~ia64 ~loong ppc ppc64 ~riscv ~sparc x86"
 
 RDEPEND="
 	>=dev-libs/glib-2.66:2

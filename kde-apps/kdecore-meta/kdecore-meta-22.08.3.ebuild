@@ -4,11 +4,11 @@
 EAPI=8
 
 DESCRIPTION="kdecore - merge this to pull in the most basic applications"
-HOMEPAGE="https://kde.org/"
+HOMEPAGE="https://apps.kde.org/"
 
 LICENSE="metapackage"
 SLOT="5"
-KEYWORDS="~amd64 ~arm64 ~loong ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~loong ~ppc64 x86"
 IUSE="+handbook +share +thumbnail +webengine"
 
 RDEPEND="

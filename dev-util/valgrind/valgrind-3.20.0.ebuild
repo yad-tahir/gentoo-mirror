@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -6,13 +6,13 @@ EAPI=8
 inherit autotools flag-o-matic toolchain-funcs multilib pax-utils
 
 DESCRIPTION="An open-source memory debugger for GNU/Linux"
-HOMEPAGE="https://www.valgrind.org"
+HOMEPAGE="https://valgrind.org"
 if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://sourceware.org/git/${PN}.git"
 	inherit git-r3
 else
 	SRC_URI="https://sourceware.org/pub/valgrind/${P}.tar.bz2"
-	KEYWORDS="-* ~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
+	KEYWORDS="-* amd64 arm arm64 ~ppc ppc64 x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
 fi
 
 LICENSE="GPL-2"
@@ -26,6 +26,7 @@ PATCHES=(
 	# Respect CFLAGS, LDFLAGS
 	"${FILESDIR}"/${PN}-3.7.0-respect-flags.patch
 	"${FILESDIR}"/${PN}-3.15.0-Build-ldst_multiple-test-with-fno-pie.patch
+	"${FILESDIR}"/${P}-tests-clang16.patch
 )
 
 src_prepare() {

@@ -3,15 +3,15 @@
 
 EAPI=7
 
-ADA_COMPAT=( gnat_202{0,1} gcc_12_2_0 )
-inherit ada multiprocessing
+ADA_COMPAT=( gnat_2021 gcc_12_2_0 )
+inherit ada multiprocessing toolchain-funcs
 
 DESCRIPTION="an implementation of the Microsoft Language Server Protocol for Ada/SPARK"
 HOMEPAGE="https://github.com/AdaCore/ada_language_server"
 SRC_URI="https://github.com/AdaCore/${PN}/archive/refs/tags/v${PV}.tar.gz
 	-> ${P}.tar.gz"
 IUSE="test"
-RESTRICT="!test? ( test )"
+RESTRICT="test" # Tests do not work
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -21,7 +21,7 @@ RDEPEND="${ADA_DEPS}
 	dev-ada/ada_libfswatch[${ADA_USEDEP}]
 	dev-ada/gnatcoll-core[${ADA_USEDEP},shared]
 	dev-ada/libadalang[${ADA_USEDEP}]
-	dev-ada/libadalang-tools[${ADA_USEDEP},shared]
+	~dev-ada/libadalang-tools-${PV}[${ADA_USEDEP},shared]
 	dev-ada/spawn[${ADA_USEDEP},shared,glib]
 	dev-ada/VSS[${ADA_USEDEP}]"
 DEPEND="${RDEPEND}"
@@ -29,6 +29,14 @@ BDEPEND="dev-ada/gprbuild[${ADA_USEDEP}]
 	test? ( dev-ada/e3-testsuite )"
 
 REQUIRED_USE="${ADA_REQUIRED_USE}"
+
+src_prepare() {
+	sed -i \
+		-e "s:g++:$(tc-getCXX):" \
+		gnat/lsp_server.gpr \
+		|| die
+	default
+}
 
 src_compile() {
 	gprbuild -v -j$(makeopts_jobs) -P gnat/tester.gpr -p \

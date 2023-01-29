@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 PYTHON_REQ_USE="threads(+)"
 inherit flag-o-matic python-single-r1 waf-utils multilib-minimal
 
@@ -20,7 +20,7 @@ HOMEPAGE="https://jackaudio.org/"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="2"
-IUSE="+alsa +classic dbus doc ieee1394 libsamplerate metadata opus pam +tools"
+IUSE="+alsa +classic dbus doc ieee1394 libsamplerate metadata opus pam +tools systemd"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	|| ( classic dbus )"
@@ -34,7 +34,8 @@ DEPEND="
 	libsamplerate? ( media-libs/libsamplerate[${MULTILIB_USEDEP}] )
 	ieee1394? ( media-libs/libffado[${MULTILIB_USEDEP}] )
 	metadata? ( sys-libs/db:=[${MULTILIB_USEDEP}] )
-	opus? ( media-libs/opus[custom-modes,${MULTILIB_USEDEP}] )"
+	opus? ( media-libs/opus[custom-modes,${MULTILIB_USEDEP}] )
+	systemd? ( classic? ( sys-apps/systemd:= ) )"
 RDEPEND="
 	${DEPEND}
 	dbus? (
@@ -55,10 +56,6 @@ PDEPEND="tools? ( media-sound/jack-example-tools )"
 
 DOCS=( AUTHORS.rst ChangeLog.rst README.rst README_NETJACK2 )
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-1.9.21-python3.11.patch
-)
-
 src_prepare() {
 	default
 
@@ -72,6 +69,8 @@ multilib_src_configure() {
 	filter-lto
 
 	local wafargs=(
+		--mandir="${EPREFIX}"/usr/share/man/man1 # override eclass' for man1
+
 		--alsa=$(usex alsa)
 		--celt=no
 		$(usev classic --classic)
@@ -83,6 +82,7 @@ multilib_src_configure() {
 		--opus=$(usex opus)
 		--portaudio=no
 		--samplerate=$(usex libsamplerate)
+		--systemd=$(multilib_native_usex systemd $(usex classic))
 		--winmme=no
 	)
 

@@ -1,9 +1,9 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2022-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..10} )
 inherit cmake python-any-r1
 
 CommitId=c07e3a0400713d546e0dea2d5466dd22ea389c73
@@ -41,7 +41,12 @@ S="${WORKDIR}"/${PN}-${CommitId}
 PATCHES=( "${FILESDIR}"/${P}-gentoo.patch )
 
 python_check_deps() {
-	has_version -b "dev-python/PeachPy[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/PeachPy[${PYTHON_USEDEP}]"
+}
+
+src_prepare() {
+	sed -i -e "/-O/d" CMakeLists.txt || die
+	cmake_src_prepare
 }
 
 src_configure() {

@@ -1,11 +1,11 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
-inherit linux-info meson python-single-r1 vala udev xdg
+inherit meson python-single-r1 vala udev xdg
 
 DESCRIPTION="Aims to make updating firmware on Linux automatic, safe and reliable"
 HOMEPAGE="https://fwupd.org"
@@ -63,7 +63,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	>=net-libs/libsoup-2.51.92:2.4[introspection?]
 	net-misc/curl
 	archive? ( app-arch/libarchive:= )
-	cbor? ( dev-libs/libcbor )
+	cbor? ( dev-libs/libcbor:= )
 	dell? (
 		>=app-crypt/tpm2-tss-2.0
 		>=sys-libs/libsmbios-2.4.0
@@ -99,14 +99,6 @@ DEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.8.4-installed_tests.patch
 )
-
-pkg_setup() {
-	python-single-r1_pkg_setup
-
-	if use nvme ; then
-		kernel_is -ge 4 4 || die "NVMe support requires kernel >= 4.4"
-	fi
-}
 
 src_prepare() {
 	default

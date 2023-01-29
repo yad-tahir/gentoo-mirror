@@ -12,10 +12,10 @@ inherit ecm frameworks.kde.org
 DESCRIPTION="Framework providing additional format plugins for Qt's image I/O system"
 
 LICENSE="LGPL-2+"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm arm64 ~ppc64 ~riscv x86"
 IUSE="avif eps heif jpegxl openexr raw"
 
-DEPEND="
+RDEPEND="
 	>=dev-qt/qtgui-${QTMIN}:5
 	=kde-frameworks/karchive-${PVCUT}*:5
 	avif? ( >=media-libs/libavif-0.8.2:= )
@@ -25,7 +25,9 @@ DEPEND="
 	openexr? ( >=media-libs/openexr-3:= )
 	raw? ( media-libs/libraw:= )
 "
-RDEPEND="${DEPEND}"
+DEPEND="${RDEPEND}
+	test? ( heif? ( media-libs/libheif[x265] ) )
+"
 
 DOCS=( src/imageformats/AUTHORS )
 

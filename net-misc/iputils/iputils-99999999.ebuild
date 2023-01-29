@@ -8,26 +8,34 @@
 # EGIT_COMMIT set to release tag, all USE flags enabled and
 # tar ${S}/doc folder.
 
-EAPI="7"
+EAPI=8
 
 PLOCALES="de fr ja pt_BR tr uk zh_CN"
 
 inherit fcaps meson plocale systemd toolchain-funcs
 
-if [[ ${PV} == 99999999 ]] ; then
+if [[ ${PV} == *9999 ]] ; then
 	EGIT_REPO_URI="https://github.com/iputils/iputils.git"
 	inherit git-r3
 else
-	SRC_URI="https://github.com/iputils/iputils/archive/${PV}.tar.gz -> ${P}.tar.gz
-		https://dev.gentoo.org/~sam/distfiles/${CATEGORY}/${PN}/${PN}-manpages-${PV}.tar.xz
-		https://dev.gentoo.org/~whissi/dist/iputils/${PN}-manpages-${PV}.tar.xz"
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux"
+	SRC_URI="
+		https://github.com/iputils/iputils/archive/${PV}.tar.gz -> ${P}.tar.gz
+		https://dev.gentoo.org/~sam/distfiles/${CATEGORY}/${PN}/${P}-docs.tar.xz
+	"
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux"
 fi
 
 DESCRIPTION="Network monitoring tools including ping and ping6"
 HOMEPAGE="https://wiki.linuxfoundation.org/networking/iputils"
 
-LICENSE="BSD GPL-2+ rdisc"
+# We install ping unconditionally so BSD is listed by itself
+# See LICENSE on each release, it summaries per-component
+LICENSE="
+	BSD
+	arping? ( GPL-2+ )
+	clockdiff? ( BSD )
+	tracepath? ( GPL-2+ )
+"
 SLOT="0"
 IUSE="+arping caps clockdiff doc idn nls test tracepath"
 RESTRICT="!test? ( test )"
@@ -47,7 +55,7 @@ BDEPEND="
 	nls? ( sys-devel/gettext )
 "
 
-if [[ ${PV} == 99999999 ]] ; then
+if [[ ${PV} == *9999 ]] ; then
 	BDEPEND+="
 		app-text/docbook-xml-dtd:4.2
 		app-text/docbook-xml-dtd:4.5
@@ -77,7 +85,7 @@ src_configure() {
 		$(meson_use !test SKIP_TESTS)
 	)
 
-	if [[ ${PV} == 99999999 ]] ; then
+	if [[ ${PV} == *9999 ]] ; then
 		emesonargs+=(
 			-DBUILD_HTML_MANS=$(usex doc true false)
 			-DBUILD_MANS=true
@@ -123,28 +131,26 @@ src_install() {
 		dosym tracepath.8 /usr/share/man/man8/tracepath6.8
 	fi
 
-	if [[ ${PV} != 99999999 ]] ; then
+	if [[ ${PV} != *9999 ]] ; then
 		local -a man_pages
 		local -a html_man_pages
 
-		while IFS= read -r -u 3 -d $'\0' my_bin
-		do
+		while IFS= read -r -u 3 -d $'\0' my_bin; do
 			my_bin=$(basename "${my_bin}")
 			[[ -z "${my_bin}" ]] && continue
 
-			if [[ -f "${S}/doc/${my_bin}.8" ]] ; then
+			if [[ -f "${WORKDIR}/${PN}-99999999-docs/doc/${my_bin}.8" ]] ; then
 				man_pages+=( ${my_bin}.8 )
 			fi
 
-			if [[ -f "${S}/doc/${my_bin}.html" ]] ; then
+			if [[ -f "${WORKDIR}/${PN}-99999999-docs/doc/${my_bin}.html" ]] ; then
 				html_man_pages+=( ${my_bin}.html )
 			fi
 		done 3< <(find "${ED}"/{bin,usr/bin,usr/sbin} -type f -perm -a+x -print0 2>/dev/null)
 
-		pushd doc &>/dev/null || die
+		pushd "${WORKDIR}"/${PN}-99999999-docs/doc &>/dev/null || die
 		doman "${man_pages[@]}"
 		if use doc ; then
-			docinto html
 			dodoc "${html_man_pages[@]}"
 		fi
 		popd &>/dev/null || die

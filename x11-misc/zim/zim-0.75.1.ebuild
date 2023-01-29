@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 PYTHON_REQ_USE="sqlite"
 DISTUTILS_USE_PEP517=setuptools
 DISTUTILS_SINGLE_IMPL=1
@@ -69,8 +69,8 @@ src_install() {
 pkg_postinst() {
 	xdg_pkg_postinst
 
+	optfeature "Spell checker" app-text/gtkspell[introspection]
 	optfeature "GNU R Plot Editor" dev-lang/R
-	optfeature "Spell checker" dev-python/gtkspell-python
 	optfeature "Version control Bazaar support" dev-vcs/bzr
 	optfeature "Diagram Editor" media-gfx/graphviz
 	optfeature "Insert Screenshot" "media-gfx/imagemagick media-gfx/scrot"

@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 DISTUTILS_SINGLE_IMPL=1
 DISTUTILS_USE_PEP517=setuptools
 PYTHON_REQ_USE="sqlite"
@@ -16,7 +16,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~hppa ~ppc ~ppc64 ~x86"
+KEYWORDS="amd64 ~hppa ~ppc ~ppc64 x86"
 
 RDEPEND="dev-vcs/git
 	$(python_gen_cond_dep '
@@ -26,15 +26,18 @@ RDEPEND="dev-vcs/git
 		>=dev-python/pyyaml-5.1[${PYTHON_USEDEP}]
 		>=dev-python/virtualenv-20.0.8[${PYTHON_USEDEP}]
 	')"
+# coreutils requirement: see Bug #885559
 BDEPEND="test? (
 	$(python_gen_cond_dep '
 		dev-python/pytest-env[${PYTHON_USEDEP}]
 		dev-python/re-assert[${PYTHON_USEDEP}]
 	')
+	sys-apps/coreutils[-multicall]
 )"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.20.0-no_toml.patch
+	"${FILESDIR}"/${PN}-2.20.0-tests_git_file_transport.patch
 )
 
 DOCS=( CHANGELOG.md CONTRIBUTING.md README.md )

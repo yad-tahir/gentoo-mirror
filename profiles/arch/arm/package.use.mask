@@ -1,5 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
+
+# Florian Schmaus <flow@gentoo.org> (2022-11-23)
+# avoid larger deptree, bug #882593
+dev-python/bracex doc
 
 # Sam James <sam@gentoo.org> (2022-10-29)
 # pandoc not keyworded here, bug #878355
@@ -34,11 +38,6 @@ kde-frameworks/kfilemetadata mobi
 # Boost has support for ARM32
 # https://www.boost.org/doc/libs/1_78_0/libs/context/doc/html/context/architectures.html
 dev-libs/boost -context
-
-# Adel Kara Slimane <adel.ks@zegrapher.com> (2022-01-17)
-# Mask AMF keyword on non-amd64 arches
-# It is unusable, for now, in other arches
-media-video/ffmpeg amf
 
 # Sam James <sam@gentoo.org> (2022-01-15)
 # Deps not yet stable:
@@ -139,6 +138,7 @@ kde-plasma/kdeplasma-addons webengine
 # Sam James <sam@gentoo.org> (2020-06-27)
 # Tests require Valgrind, not available on <armv7a
 dev-libs/rapidjson test
+sys-apps/proot test
 
 # Jimi Huotari <chiitoo@gentoo.org> (2020-05-17)
 # Mask until 'app-arch/lxqt-archiver' is keyworded.
@@ -176,7 +176,6 @@ sys-cluster/ceph babeltrace lttng
 # Patrick McLean <chutzpah@gentoo.org> (2019-04-15)
 # pending re-keyword request, bug 615400
 net-analyzer/rrdtool rados
-sys-fs/multipath-tools rbd
 www-servers/uwsgi uwsgi_plugins_rados
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2019-02-25)
