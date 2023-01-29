@@ -1,8 +1,8 @@
-# Copyright 2020-2022 Gentoo Authors
+# Copyright 2020-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python3_{8,9,10} )
+PYTHON_COMPAT=( python3_{9,10} )
 
 inherit linux-info python-any-r1
 
@@ -99,4 +99,10 @@ src_configure() {
 	)
 
 	econf "${myeconfargs[@]}"
+}
+
+src_install() {
+	default
+	# resolve conflict with acct-user/flatpak for #856706
+	rm -rf "${ED}/usr/lib/sysusers.d"
 }

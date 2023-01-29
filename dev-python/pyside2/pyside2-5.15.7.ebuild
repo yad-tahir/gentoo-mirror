@@ -1,11 +1,11 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 # TODO: Add PyPy once officially supported. See also:
 #     https://bugreports.qt.io/browse/PYSIDE-535
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit cmake python-r1 virtualx
 
@@ -37,7 +37,7 @@ S="${WORKDIR}/${MY_P}/sources/pyside2"
 # x11extras (for X)
 LICENSE="|| ( GPL-2 GPL-3+ LGPL-3 )"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="amd64 ~arm arm64 x86"
 IUSE="
 	3d charts +concurrent datavis designer gles2-only +gui help location
 	multimedia +network positioning +printsupport qml quick script scripttools

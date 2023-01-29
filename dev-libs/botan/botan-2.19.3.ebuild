@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}"/usr/share/openpgp-keys/botan.asc
 inherit edo python-r1 toolchain-funcs verify-sig
 
@@ -16,7 +16,7 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="BSD-2"
 SLOT="2/$(ver_cut 1-2)" # soname version
-KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ia64 ~ppc ~ppc64 ~riscv ~sparc ~x86 ~ppc-macos"
+KEYWORDS="amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ppc ppc64 ~riscv ~sparc x86 ~ppc-macos"
 IUSE="doc boost bzip2 lzma python static-libs sqlite test tools zlib"
 RESTRICT="!test? ( test )"
 

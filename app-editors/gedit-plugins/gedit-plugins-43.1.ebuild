@@ -1,8 +1,8 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 PYTHON_REQ_USE="xml(+)"
 
 inherit gnome.org gnome2-utils meson python-single-r1 vala xdg
@@ -11,7 +11,7 @@ DESCRIPTION="Collection of extra plugins for the gedit Text Editor"
 HOMEPAGE="https://wiki.gnome.org/Apps/Gedit/ThirdPartyPlugins"
 
 LICENSE="GPL-2+"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm64 ~ppc64 ~riscv x86"
 SLOT="0"
 
 IUSE="charmap git +python terminal vala"

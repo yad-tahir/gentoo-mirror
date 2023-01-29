@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 PYTHON_REQ_USE="xml(+)"
 inherit gnome.org meson python-single-r1 xdg
 
@@ -31,7 +31,7 @@ RDEPEND="
 	virtual/pkgconfig
 	${PYTHON_DEPS}
 "
-# Wants real bison, not virtual/yacc
+# Wants real bison, not app-alternatives/yacc
 DEPEND="${RDEPEND}"
 BDEPEND="
 	gtk-doc? (

@@ -1,17 +1,17 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 # This ebuild uses 3 special global variables:
 # GRUB_BOOTSTRAP: Depend on python and invoke bootstrap (gnulib).
-# GRUB_AUTOGEN: Depend on python and invoke the autogen.sh.
+# GRUB_AUTOGEN: Depend on python and invoke autogen.sh.
 # GRUB_AUTORECONF: Inherit autotools and invoke eautoreconf.
 #
 # When applying patches:
 # If gnulib is updated, set GRUB_BOOTSTRAP=1
-# If *.def is updated, set GRUB_AUTOGEN=1
-# If gnulib, *.def, or any autotools files are updated, set GRUB_AUTORECONF=1
+# If gentpl.py or *.def is updated, set GRUB_AUTOGEN=1
+# If gnulib, gentpl.py, *.def, or any autotools files are updated, set GRUB_AUTORECONF=1
 #
 # If any of the above applies to a user patch, the user should set the
 # corresponding variable in make.conf or the environment.
@@ -21,7 +21,7 @@ if [[ ${PV} == 9999  ]]; then
 	GRUB_BOOTSTRAP=1
 fi
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 WANT_LIBTOOL=none
 
 if [[ -n ${GRUB_AUTOGEN} || -n ${GRUB_BOOTSTRAP} ]]; then
@@ -82,7 +82,7 @@ REQUIRED_USE="
 
 BDEPEND="
 	${PYTHON_DEPS}
-	sys-devel/flex
+	>=sys-devel/flex-2.5.35
 	sys-devel/bison
 	sys-apps/help2man
 	sys-apps/texinfo
@@ -156,8 +156,6 @@ src_unpack() {
 src_prepare() {
 	default
 
-	sed -i -e /autoreconf/d autogen.sh || die
-
 	if [[ -n ${GRUB_AUTOGEN} || -n ${GRUB_BOOTSTRAP} ]]; then
 		python_setup
 	else
@@ -168,7 +166,7 @@ src_prepare() {
 		eautopoint --force
 		AUTOPOINT=: AUTORECONF=: ./bootstrap || die
 	elif [[ -n ${GRUB_AUTOGEN} ]]; then
-		./autogen.sh || die
+		FROM_BOOTSTRAP=1 ./autogen.sh || die
 	fi
 
 	if [[ -n ${GRUB_AUTORECONF} ]]; then
@@ -258,6 +256,10 @@ src_configure() {
 	tc-export CC NM OBJCOPY RANLIB STRIP
 	tc-export BUILD_CC BUILD_PKG_CONFIG
 
+	# Force configure to use flex & bison, bug 887211.
+	export LEX=flex
+	unset YACC
+
 	MULTIBUILD_VARIANTS=()
 	local p
 	for p in "${GRUB_ALL_PLATFORMS[@]}"; do
@@ -288,7 +290,7 @@ src_install() {
 	einstalldocs
 
 	insinto /etc/default
-	newins "${FILESDIR}"/grub.default-3 grub
+	newins "${FILESDIR}"/grub.default-4 grub
 
 	# https://bugs.gentoo.org/231935
 	dostrip -x /usr/lib/grub

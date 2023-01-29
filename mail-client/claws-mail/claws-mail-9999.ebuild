@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit autotools desktop python-any-r1 xdg
 
@@ -142,6 +142,8 @@ src_configure() {
 		$(use_enable clamav clamd-plugin)
 		$(use_enable dbus)
 		$(use_enable debug crash-dialog)
+		$(use_enable debug more-addressbook-debug)
+		$(use_enable debug more-ldap-debug)
 		$(use_enable dillo dillo-plugin)
 		$(use_enable doc manual)
 		$(use_enable gdata gdata-plugin)

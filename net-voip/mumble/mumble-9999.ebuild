@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..10} )
 inherit cmake flag-o-matic python-any-r1 xdg
 
 DESCRIPTION="Mumble is an open source, low-latency, high quality voice chat software"
@@ -16,14 +16,13 @@ if [[ "${PV}" == 9999 ]] ; then
 	# even if these components may not be compiled in
 	EGIT_SUBMODULES=(
 		'-*'
-		themes/Mumble
 		3rdparty/FindPythonInterpreter
 		3rdparty/gsl
 		3rdparty/minhook
+		3rdparty/opus
 		3rdparty/rnnoise-src
 		3rdparty/speexdsp
 		3rdparty/tracy
-		opus
 	)
 else
 	if [[ "${PV}" == *_pre* ]] ; then
@@ -123,11 +122,6 @@ src_configure() {
 	if [[ "${PV}" != 9999 ]] ; then
 		mycmakeargs+=( -DBUILD_NUMBER="$(ver_cut 3)" )
 	fi
-
-	# https://bugs.gentoo.org/879569
-	# convert absolute install paths to relative paths to satisfy path assertions
-	mycmakeargs+=( -DCMAKE_INSTALL_MANDIR="$(realpath --relative-to="${S}" "${ED}"/usr/share/man)" )
-	mycmakeargs+=( -DCMAKE_INSTALL_DOCDIR="$(realpath --relative-to="${S}" "${ED}"/usr/share/doc/"${PF}")" )
 
 	# https://bugs.gentoo.org/832978
 	# fix tests (and possibly runtime issues) on arches with unsigned chars

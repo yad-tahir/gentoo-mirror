@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="8"
@@ -9,7 +9,7 @@ SPIDERMONKEY_PATCHSET="spidermonkey-91-patches-05j.tar.xz"
 
 LLVM_MAX_SLOT=15
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 PYTHON_REQ_USE="ssl,xml(+)"
 
 WANT_AUTOCONF="2.1"
@@ -67,24 +67,22 @@ SLOT="91"
 LICENSE="MPL-2.0"
 IUSE="clang cpu_flags_arm_neon debug +jit lto test"
 
-#RESTRICT="test"
 RESTRICT="!test? ( test )"
 
 BDEPEND="${PYTHON_DEPS}
-
 	|| (
 		(
-			sys-devel/clang:15
 			sys-devel/llvm:15
 			clang? (
+				sys-devel/clang:15
 				virtual/rust:0/llvm-15
 				lto? ( sys-devel/lld:15 )
 			)
 		)
 		(
-			sys-devel/clang:14
 			sys-devel/llvm:14
 			clang? (
+				sys-devel/clang:14
 				virtual/rust:0/llvm-14
 				lto? ( sys-devel/lld:14 )
 			)

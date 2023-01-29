@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -15,7 +15,7 @@ S="${WORKDIR}"/${P}-source
 
 LICENSE="AGPL-3"
 SLOT="0/${PV}"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~ppc ~ppc64 ~riscv ~s390 ~x86"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~loong ppc ppc64 ~riscv ~s390 x86"
 IUSE="+javascript opengl ssl X"
 REQUIRED_USE="opengl? ( javascript )"
 
@@ -30,7 +30,7 @@ RDEPEND="
 	media-libs/libpng:0=
 	>=media-libs/openjpeg-2.1:2=
 	>=media-libs/libjpeg-turbo-1.5.3-r2:0=
-	javascript? ( >=dev-lang/mujs-1.0.7:= )
+	javascript? ( >=dev-lang/mujs-1.2.0:= )
 	opengl? ( >=media-libs/freeglut-3.0.0 )
 	ssl? ( >=dev-libs/openssl-1.1:0= )
 	sys-libs/zlib
@@ -46,7 +46,7 @@ BDEPEND="X? ( x11-base/xorg-proto )
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.15-CFLAGS.patch
 	"${FILESDIR}"/${PN}-1.19.0-Makefile.patch
-	"${FILESDIR}"/${PN}-1.10a-add-desktop-pc-xpm-files.patch
+	"${FILESDIR}"/${P}-add-desktop-pc-files.patch
 	"${FILESDIR}"/${PN}-1.19.0-darwin.patch
 	# See bugs #662352
 	"${FILESDIR}"/${PN}-1.15-openssl-x11.patch
@@ -126,7 +126,7 @@ src_compile() {
 src_install() {
 	if use opengl || use X ; then
 		domenu platform/debian/${PN}.desktop
-		doicon platform/debian/${PN}.xpm
+		doicon -s scalable docs/logo/new-${PN}-icon.svg
 	else
 		rm docs/man/${PN}.1 || die "Failed to remove man page in src_install()"
 	fi

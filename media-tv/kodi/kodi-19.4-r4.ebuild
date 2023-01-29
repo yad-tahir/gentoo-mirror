@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,7 +10,7 @@ LIBDVDNAV_VERSION="6.0.0-Leia-Alpha-3"
 FFMPEG_VERSION="4.3.2"
 CODENAME="Matrix"
 FFMPEG_KODI_VERSION="19.1"
-PYTHON_COMPAT=( python3_{8,9,10} )
+PYTHON_COMPAT=( python3_{9,10} )
 SRC_URI="https://github.com/xbmc/libdvdcss/archive/${LIBDVDCSS_VERSION}.tar.gz -> libdvdcss-${LIBDVDCSS_VERSION}.tar.gz
 	https://github.com/xbmc/libdvdread/archive/${LIBDVDREAD_VERSION}.tar.gz -> libdvdread-${LIBDVDREAD_VERSION}.tar.gz
 	https://github.com/xbmc/libdvdnav/archive/${LIBDVDNAV_VERSION}.tar.gz -> libdvdnav-${LIBDVDNAV_VERSION}.tar.gz
@@ -84,7 +84,7 @@ COMMON_TARGET_DEPEND="${PYTHON_DEPS}
 	caps? ( sys-libs/libcap )
 	dbus? ( sys-apps/dbus )
 	dev-db/sqlite
-	dev-libs/crossguid
+	<dev-libs/crossguid-0.2.2_p20190529
 	>=dev-libs/fribidi-1.0.5
 	cec? ( >=dev-libs/libcec-4.0[raspberry-pi?] )
 	dev-libs/libpcre[cxx]
@@ -209,6 +209,11 @@ src_unpack() {
 }
 
 src_prepare() {
+	# https://bugs.gentoo.org/885419
+	if has_version ">=media-libs/mesa-22.3.0"; then
+		PATCHES+=( "${FILESDIR}/${P}-fix-mesa-22.3.0-build.patch" )
+	fi
+
 	cmake_src_prepare
 
 	# avoid long delays when powerkit isn't running #348580

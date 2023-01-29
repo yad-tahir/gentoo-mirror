@@ -13,7 +13,7 @@ SRC_URI="https://www-fourier.ujf-grenoble.fr/~parisse/debian/dists/stable/main/s
 LICENSE="GPL-2"
 
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~x86"
 LANGS="el en es pt"
 IUSE="ao doc +ecm examples gc +glpk gui test"
 for X in ${LANGS} ; do
@@ -44,7 +44,7 @@ DEPEND="${RDEPEND}"
 
 BDEPEND="dev-tex/hevea
 	virtual/pkgconfig
-	virtual/yacc"
+	app-alternatives/yacc"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-1.7.0.1-gsl_lapack.patch"

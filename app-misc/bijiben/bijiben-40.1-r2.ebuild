@@ -1,8 +1,8 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 inherit gnome.org gnome2-utils meson python-any-r1 xdg
 
 DESCRIPTION="Note editor designed to remain simple to use"
@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Notes"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 
 DEPEND="
 	>=app-misc/tracker-3.4.0-r1:3=

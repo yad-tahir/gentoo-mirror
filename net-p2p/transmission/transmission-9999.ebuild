@@ -1,4 +1,4 @@
-# Copyright 2006-2022 Gentoo Authors
+# Copyright 2006-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,10 +10,10 @@ if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/transmission/transmission"
 else
 	MY_PV="${PV/_beta/-beta.}"
-	MY_P="${PN}-${MY_PV}+r98cf7d9b3c"
+	MY_P="${PN}-${MY_PV}+r634b1e8fc1"
 	S="${WORKDIR}/${MY_P}"
 	SRC_URI="https://github.com/transmission/transmission/releases/download/${MY_PV}/${MY_P}.tar.xz"
-	#KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86"
+	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~riscv ~x86"
 fi
 
 DESCRIPTION="A fast, easy, and free BitTorrent client"
@@ -24,7 +24,7 @@ HOMEPAGE="https://transmissionbt.com/"
 # MIT is in several libtransmission/ headers
 LICENSE="|| ( GPL-2 GPL-3 Transmission-OpenSSL-exception ) GPL-2 MIT"
 SLOT="0"
-IUSE="appindicator cli gtk lightweight nls mbedtls qt5 systemd test"
+IUSE="appindicator cli gtk nls mbedtls qt5 systemd test"
 RESTRICT="!test? ( test )"
 
 ACCT_DEPEND="
@@ -51,7 +51,7 @@ COMMON_DEPEND="
 	gtk? (
 		>=dev-cpp/gtkmm-3.24.0:3.0
 		>=dev-cpp/glibmm-2.60.0:2
-		appindicator? ( >=dev-libs/libappindicator-0.4.90:3 )
+		appindicator? ( dev-libs/libayatana-appindicator )
 	)
 	qt5? (
 		dev-qt/qtcore:5
@@ -85,11 +85,11 @@ src_configure() {
 		-DENABLE_WEB=OFF
 		-DENABLE_CLI=$(usex cli ON OFF)
 		-DENABLE_TESTS=$(usex test ON OFF)
-		-DENABLE_LIGHTWEIGHT=$(usex lightweight ON OFF)
 		-DENABLE_NLS=$(usex nls ON OFF)
 
 		-DRUN_CLANG_TIDY=OFF
 
+		-DUSE_GTK_VERSION=3
 		-DUSE_SYSTEM_EVENT2=ON
 		-DUSE_SYSTEM_DEFLATE=OFF
 		-DUSE_SYSTEM_DHT=OFF
@@ -100,9 +100,9 @@ src_configure() {
 		-DUSE_SYSTEM_PSL=ON
 		-DUSE_QT_VERSION=5
 
-		-DWITH_CRYPTO=$(usex mbedtls polarssl openssl)
+		-DWITH_CRYPTO=$(usex mbedtls mbedtls openssl)
 		-DWITH_INOTIFY=ON
-		-DWITH_LIBAPPINDICATOR=$(usex appindicator ON OFF)
+		-DWITH_APPINDICATOR=$(usex appindicator ON OFF)
 		-DWITH_SYSTEMD=$(usex systemd ON OFF)
 	)
 

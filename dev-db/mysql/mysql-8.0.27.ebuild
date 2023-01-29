@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="8"
@@ -70,7 +70,7 @@ COMMON_DEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	|| ( >=sys-devel/gcc-3.4.6 >=sys-devel/gcc-apple-4.0 )
-	virtual/yacc
+	app-alternatives/yacc
 	server? ( net-libs/rpcsvc-proto )
 	test? (
 		acct-group/mysql acct-user/mysql
@@ -202,7 +202,7 @@ src_configure() {
 	CMAKE_BUILD_TYPE="RelWithDebInfo"
 
 	# debug hack wrt #497532
-	mycmakeargs=(
+	local mycmakeargs=(
 		-DCMAKE_C_FLAGS_RELWITHDEBINFO="$(usex debug '' '-DNDEBUG')"
 		-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="$(usex debug '' '-DNDEBUG')"
 		-DMYSQL_DATADIR="${EPREFIX}/var/lib/mysql"

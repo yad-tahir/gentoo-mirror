@@ -4,11 +4,11 @@
 EAPI=8
 
 DESCRIPTION="kdeutils - merge this to pull in all kdeutils-derived packages"
-HOMEPAGE="https://apps.kde.org/utilities/ https://utils.kde.org"
+HOMEPAGE="https://apps.kde.org/categories/utilities/"
 
 LICENSE="metapackage"
 SLOT="5"
-KEYWORDS="~amd64 arm64 ~loong ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~loong ~ppc64 x86"
 IUSE="7zip cups floppy gpg lrz rar +webengine"
 
 RDEPEND="

@@ -1,10 +1,81 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # New entries go on top.
 
 # This file is only for generic masks. For arch-specific masks (i.e.
 # mask everywhere, unmask on arch/*) use arch/base.
+
+# Bernd Waibel <waebbl-gentoo@posteo.net> (2023-01-28)
+# Has some issues building and needs some love first.
+# Bug #891829
+# https://github.com/gentoo/gentoo/pull/29236#issuecomment-1407373536
+sci-libs/vtk debug
+
+# Michał Górny <mgorny@gentoo.org> (2023-01-21)
+# media-libs/libextractor is masked for removal.
+media-plugins/vdr-xineliboutput libextractor
+
+# Michał Górny <mgorny@gentoo.org> (2023-01-21)
+# media-libs/qtav is masked for removal.
+media-gfx/digikam mediaplayer
+media-gfx/kphotoalbum qtav
+
+# Sam James <sam@gentoo.org> (2023-01-21)
+# Fails to compile: https://github.com/libffi/libffi/issues/760
+dev-libs/libffi exec-static-trampoline
+
+# Sam James <sam@gentoo.org> (2023-01-10)
+# Needs last-rited www-client/dillo, bug #890244
+mail-client/claws-mail dillo
+
+# Joonas Niilola <juippis@gentoo.org> (2023-01-08)
+# Doesn't compile currently, bug #853094.
+>=net-dialup/freeradius-3.2.0 oracle
+
+# David Seifert <soap@gentoo.org> (2023-01-04)
+# Out of date patchset, warns on latest version about being "expired",
+# unofficial and maintainer discourages people upgrading to latest (non-packaged)
+# versions of knots too. The upstream maintainer was recently compromised
+# and there is no explanation as to how, so continuing to provide these patches
+# would be irresponsible. Bug #889326
+dev-util/bitcoin-tx knots
+net-libs/libbitcoinconsensus knots
+net-p2p/bitcoin-cli knots
+net-p2p/bitcoin-qt knots
+net-p2p/bitcoind knots
+
+# Matt Turner <mattst88@gentoo.org> (2023-01-01)
+# Depends on nautilus < 43
+>=app-text/evince-43.0 nautilus
+
+# Sam James <sam@gentoo.org> (2022-12-31)
+# seccomp cannot be disabled via a runtime toggle which introduces substantial
+# fragility to Portage which relies on pax-utils' scanelf heavily. bug #815877.
+app-misc/pax-utils seccomp
+
+# Ionen Wolkens <ionen@gentoo.org> (2022-12-29)
+# Blocks eventual cleanup of <dev-util/glslang-1.3.231, and the same
+# functionality can be got through USE=shaderc without direct usage.
+# Use newer libplacebo if really want to use this.
+~media-libs/libplacebo-4.192.1 glslang
+
+# Michał Górny <mgorny@gentoo.org> (2022-12-20)
+# sys-cluster/ganglia is masked for removal.
+app-metrics/collectd collectd_plugins_gmond
+
+# Sam James <sam@gentoo.org> (2022-12-17)
+# Broken when trying to use sys-libs/binutils-libs header, bug #879067
+>=x11-libs/cairo-1.17.6 debug
+
+# Joonas Niilola <juippis@gentoo.org> (2022-11-25)
+# x11-wm/stumpwm-22.05_p20220818[doc] is totally broken. Bug #882935
+x11-wm/stumpwm doc
+
+# Bernd Waibel <waebbl-gentoo@posteo.net> (2022-11-25)
+# USE=tbb is broken in 7.7.0
+# https://tracker.dev.opencascade.org/view.php?id=33152
+~sci-libs/opencascade-7.7.0 tbb
 
 # Sam James <sam@gentoo.org> (2022-11-24)
 # Depends on old dev-lang/spidermonkey:68, bug #807772
@@ -19,12 +90,6 @@ app-text/crm114 mimencode
 # app-text/pandoc is not keyworded on most architectures
 net-libs/gssdp man
 
-# Matt Turner <mattst88@gentoo.org> (2022-09-26)
-# Requires nautilus-43.0 which is keyworded everywhere
->=app-arch/file-roller-43.0 nautilus
->=app-text/evince-43.0 nautilus
->=x11-terms/gnome-terminal-3.46 nautilus
-
 # Sam James <sam@gentoo.org> (2022-11-19)
 # Needs long-EOL dev-lang/spidermonkey:60 (which also needs python:2.7).
 media-libs/coin javascript
@@ -32,22 +97,6 @@ media-libs/coin javascript
 # Michał Górny <mgorny@gentoo.org> (2022-11-19)
 # Requires packages masked for removal.
 mail-mta/netqmail authcram
-mail-mta/notqmail authcram
-
-# Michał Górny <mgorny@gentoo.org> (2022-11-17)
-# Require packages masked for removal.
-net-analyzer/netdata kinesis
-
-# Michał Górny <mgorny@gentoo.org> (2022-11-17)
-# Requires dev-python/gevent that is masked for removal.
-x11-misc/py3status gevent
-dev-python/rpyc gevent
-mail-filter/pyzor gevent
-www-servers/uwsgi python-gevent
-
-# Michał Górny <mgorny@gentoo.org> (2022-11-17)
-# Requires net-misc/pyhoca-cli that is masked for removal.
-net-misc/remmina x2go
 
 # Matt Turner <mattst88@gentoo.org> (2022-11-16)
 # gnome-music and gnome-photos have not been ported to libsoup:3.0, while
@@ -63,10 +112,6 @@ gnome-base/gnome-extra-apps tracker
 # Incomplete dependency tree, no qmake6 instrumentation in either
 # qmake-utils.eclass nor the ebuilds yet.
 dev-python/pyotherside qt6
-
-# Sam James <sam@gentoo.org> (2022-10-08)
-# Older versions of libvirt need a vulnerable version of wireshark
-<app-emulation/libvirt-8.0.0 wireshark-plugins
 
 # Viorel Munteanu <ceamac.paragon@gmail.com> (2022-10-07)
 # Cannot test and fix pax-kernel related bugs on a current grsec kernel
@@ -92,7 +137,7 @@ sys-libs/minizip-ng compat
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2022-09-17)
 # po4a crashes while translating
 # mask for now
-=dev-util/schroot-1.6.13_p2 nls
+dev-util/schroot nls
 
 # Sam James <sam@gentoo.org> (2022-09-15)
 # Doesn't work on e.g. glibc systems. Unmasked on the LLVM profiles.
@@ -107,29 +152,9 @@ dev-lang/rust llvm-libunwind
 # ebuild support is there but currently failing to link
 app-antivirus/clamav jit
 
-# Sam James <sam@gentoo.org> (2022-09-06)
-# Incompatible with merged-usr and is a fundamentally flaky approach.
-# - app-arch/lbzip2: bug #868318 (possible solution in bug #868651)
-# - app-arch/pigz: bug #868312 (possible solution in bug #868648)
-# It's suggested that users who want this feature use a wrapper
-# script in /usr/local (or otherwise on PATH), or configure tools
-# like tar to use lbzip2 & pigz respectively using EXTRA_ECONF.
-app-arch/lbzip2 symlink
-app-arch/pbzip2 symlink
-app-arch/pigz symlink
-
 # Sam James <sam@gentoo.org> (2022-08-26)
 # Broken at runtime for now (bug #865113).
 sys-devel/binutils gprofng
-
-# Matthew Smith <matthew@gentoo.org> (2022-08-19)
-# Upstream recommends that tbb be built with a patch to avoid bugs.
-# https://github.com/rui314/mold/releases/tag/v1.4.1
-sys-devel/mold system-tbb
-
-# John Helmert III <ajak@gentoo.org> (2022-08-14)
-# libaacplus is last rited
-media-sound/darkice aacplus
 
 # John Helmert III <ajak@gentoo.org> (2022-08-14)
 # slurm is last rited
@@ -218,13 +243,6 @@ media-video/wireplumber system-service
 sys-libs/glibc custom-cflags
 sys-devel/gcc custom-cflags
 
-# Sam James <sam@gentoo.org> (2022-01-12)
-# Unmask PCH for now for GCC to avoid unnecessary rebuilds
-# (USE=pch is now use.mask-ed globally)
-<sys-devel/gcc-10.4:10 -pch
-=sys-devel/gcc-9* -pch
-=sys-devel/gcc-8* -pch
-
 # John Helmert III <ajak@gentoo.org> (2021-12-31)
 # Rizin tests require a tarball of binaries of ambiguous license.
 # As such, we cannot properly test it, so mask the flag until this
@@ -260,10 +278,6 @@ app-text/texlive pdfannotextractor
 # openjfx for openjdk17 is not yet available
 dev-java/openjdk:17 javafx
 
-# Sam James <sam@gentoo.org> (2021-10-16)
-# Fails to compile, bug #787134
-=sys-fs/dd-rescue-1.99.11 cpu_flags_x86_avx2
-
 # Marek Szuba <marecki@gentoo.org> (2021-10-10)
 # Legacy interface that depends on dev-libs/libx86 and specific kernel
 # headers, both of which are only available on certain arches.
@@ -297,14 +311,6 @@ dev-lang/rust parallel-compiler
 # Matt Turner <mattst88@gentoo.org> (2021-08-28)
 # Mask experimental options.
 gui-libs/gtk ffmpeg vulkan
-
-# Sam James <sam@gentoo.org> (2021-07-24)
-# USE=exec-static-trampoline can break consumers due to
-# faulty assumptions. Masked for now due to the possibility
-# of breaking systems.
-# https://archives.gentoo.org/gentoo-dev/message/576259af17d008d4ec935f69a9049af7
-# bug #801109
-dev-libs/libffi exec-static-trampoline
 
 # Marek Szuba <marecki@gentoo.org> (2021-07-14)
 # Makes two tests fail (when linked against openmpi, at least) due to
@@ -377,10 +383,8 @@ www-servers/apache apache2_modules_lua
 # Old phpunit does not work with new PHP and last is vulnerable
 <dev-php/PEAR-Crypt_GPG-1.6.4 test
 dev-php/PEAR-Text_Wiki_Mediawiki test
-dev-php/PEAR-VersionControl_SVN test
 dev-php/PHP_CodeSniffer test
 dev-php/php-redmine-api test
-dev-php/phptal test
 dev-php/recaptcha test
 dev-php/symfony-config test
 dev-php/symfony-event-dispatcher test
@@ -476,12 +480,6 @@ dev-util/meson test
 # Alfredo Tupone <tupone@gentoo.org> (2020-04-04)
 # Ada support is not yet ready for sys-devel/gcc
 sys-devel/gcc ada
-
-# Michał Górny <mgorny@gentoo.org> (2020-03-28)
-# Requires masked dev-vcs/bzr.  Remove the mask if breezy is packaged
-# and the package is confirmed to work with it.
-<=dev-util/rosinstall-0.7.8 test
-<=dev-util/wstool-0.1.18 test
 
 # Guilherme Amadio <amadio@gentoo.org> (2020-03-16)
 # Requires dev-libs/cudnn which is only available on amd64
@@ -752,10 +750,6 @@ net-analyzer/nmap system-lua
 # Mike Frysinger <vapier@gentoo.org> (2014-10-21)
 # Most targets do not support ASAN/etc... #504200.
 sys-devel/gcc sanitize
-
-# Mike Frysinger <vapier@gentoo.org> (2014-02-03)
-# Upstream says to not use this for now.
-dev-libs/elfutils threads
 
 # Gilles Dartiguelongue <eva@gentoo.org> (2013-12-23)
 # Gstreamer support fails to build due to libtool shortcomings when using

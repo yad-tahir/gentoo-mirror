@@ -1,8 +1,7 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-VALA_MIN_API_VERSION="0.54" # requires gio-2.0.vapi generated from glib-2.70+
 
 inherit gnome.org meson-multilib vala xdg
 
@@ -16,7 +15,7 @@ IUSE="+brotli gssapi gtk-doc +introspection samba ssl sysprof test +vala"
 RESTRICT="!test? ( test )"
 REQUIRED_USE="vala? ( introspection )"
 
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~loong ~mips ppc ppc64 ~riscv ~s390 sparc x86"
 
 DEPEND="
 	>=dev-libs/glib-2.69.1:2[${MULTILIB_USEDEP}]

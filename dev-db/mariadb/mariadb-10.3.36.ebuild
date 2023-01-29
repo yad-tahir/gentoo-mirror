@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -32,7 +32,7 @@ REQUIRED_USE="jdbc? ( extraengine server !static )
 	?? ( tcmalloc jemalloc )
 	static? ( yassl !extraengine !pam )"
 
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris ~x86-solaris"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~mips ppc ppc64 ~s390 sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris ~x86-solaris"
 
 # Shorten the path because the socket path length must be shorter than 107 chars
 # and we will run a mysql server during test phase
@@ -45,7 +45,6 @@ COMMON_DEPEND="
 		sys-process/procps:0=
 		dev-libs/libaio:0=
 	)
-	>=sys-apps/sed-4
 	>=sys-apps/texinfo-4.7-r1
 	jemalloc? ( dev-libs/jemalloc:0= )
 	tcmalloc? ( dev-util/google-perftools:0= )
@@ -84,7 +83,7 @@ COMMON_DEPEND="
 	>=dev-libs/libpcre-8.41-r1:3=
 	virtual/libcrypt:=
 "
-BDEPEND="virtual/yacc"
+BDEPEND="app-alternatives/yacc"
 DEPEND="static? ( sys-libs/ncurses[static-libs] )
 	server? (
 		extraengine? ( jdbc? ( >=virtual/jdk-1.8 ) )
@@ -274,7 +273,7 @@ src_configure() {
 	CMAKE_BUILD_TYPE="RelWithDebInfo"
 
 	# debug hack wrt #497532
-	mycmakeargs=(
+	local mycmakeargs=(
 		-DCMAKE_C_FLAGS_RELWITHDEBINFO="$(usex debug '' '-DNDEBUG')"
 		-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="$(usex debug '' '-DNDEBUG')"
 		-DMYSQL_DATADIR="${EPREFIX}/var/lib/mysql"

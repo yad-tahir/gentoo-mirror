@@ -1,8 +1,8 @@
-# Copyright 2021-2022 Gentoo Authors
+# Copyright 2021-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit meson python-any-r1
 
@@ -14,7 +14,7 @@ LICENSE="GPL-3"
 SLOT="0"
 IUSE="gtk-doc test"
 
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 
 RDEPEND="
 	>=dev-libs/glib-2.56.0:2

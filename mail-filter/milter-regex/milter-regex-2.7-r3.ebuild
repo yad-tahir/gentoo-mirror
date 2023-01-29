@@ -10,13 +10,13 @@ HOMEPAGE="https://www.benzedrine.ch/milter-regex.html"
 SRC_URI="https://www.benzedrine.ch/${P}.tar.gz"
 LICENSE="BSD GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE=""
 
 RDEPEND="acct-user/milter-regex
 	>=mail-filter/libmilter-1.0.2_p2:="
 DEPEND="${RDEPEND}
-	virtual/yacc"
+	app-alternatives/yacc"
 
 src_prepare() {
 	eapply "${FILESDIR}/${PN}-2.6-gentoo.patch"

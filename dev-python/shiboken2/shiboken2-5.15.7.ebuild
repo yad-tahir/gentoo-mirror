@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,7 +12,7 @@ EAPI=8
 # "/usr/bin/shiboken2" at build time and "libshiboken2-*.so" at runtime.
 # TODO: Add PyPy once officially supported. See also:
 #     https://bugreports.qt.io/browse/PYSIDE-535
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit cmake llvm python-r1 toolchain-funcs
 
@@ -29,7 +29,7 @@ S="${WORKDIR}/${MY_P}/sources/shiboken2"
 # arbitrarily relicensed. (TODO)
 LICENSE="|| ( GPL-2 GPL-3+ LGPL-3 ) GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="amd64 ~arm arm64 x86"
 IUSE="+docstrings numpy test vulkan"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 

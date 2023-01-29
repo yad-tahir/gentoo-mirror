@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit toolchain-funcs
+inherit toolchain-funcs flag-o-matic
 
 HOMEPAGE="https://www.sdaoden.eu/code.html"
 DESCRIPTION="Enhanced mailx-compatible mail client based on Heirloom mailx (nail)"
@@ -12,7 +12,7 @@ LICENSE="BSD BSD-4 ISC RSA"
 SRC_URI="https://ftp.sdaoden.eu/${P}.tar.xz"
 SLOT="0"
 KEYWORDS="~amd64 ~loong ~ppc64 ~riscv ~x86 ~amd64-linux ~x86-linux"
-IUSE="idn kerberos net ssl"
+IUSE="idn kerberos net +split-usr ssl"
 
 RDEPEND="
 	sys-libs/ncurses:0=
@@ -29,13 +29,25 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	app-arch/xz-utils[extra-filters(-)]
-	virtual/awk
+	app-alternatives/awk
 "
 
 src_configure() {
+	has_cflag() {
+		local x var="CFLAGS[*]"
+		for x in ${!var} ; do
+			[[ ${x} == $1 ]] && return 0
+		done
+		return 1
+	}
+
+	# Fails to build without replace Bug 860357
+	replace-flags -O[0gs] -O1
+	# A valid -O option is necessary Bug 888613
+	has_cflag -O* || append-cflags -O1
+	append-cflags -std=c99
 	local confopts=(
 		CC="$(tc-getCC)"
-		EXTRA_CFLAGS=-std=c99
 		strip=/bin/true
 		OPT_AUTOCC=no
 		VAL_PREFIX="${EPREFIX}"/usr
@@ -81,8 +93,10 @@ src_install() {
 
 	dodoc INSTALL NEWS README THANKS
 
-	dodir /bin
-	dosym ../usr/bin/mailx /bin/mail
+	if use split-usr ; then
+		dodir /bin
+		dosym ../usr/bin/mailx /bin/mail
+	fi
 	dosym s-nail /usr/bin/mailx
 	dosym mailx /usr/bin/mail
 	dosym mailx /usr/bin/Mail

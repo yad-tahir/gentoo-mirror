@@ -1,11 +1,11 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DISTUTILS_SINGLE_IMPL=1
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 inherit distutils-r1 xdg
 
 if [[ ${PV} == 9999 ]]; then
@@ -26,7 +26,6 @@ IUSE="+adblock pdf widevine"
 RDEPEND="
 	dev-qt/qtcore:5[icu]
 	dev-qt/qtgui:5[png]
-	$(python_gen_cond_dep 'dev-python/importlib_resources[${PYTHON_USEDEP}]' 3.8)
 	$(python_gen_cond_dep '
 		dev-python/colorama[${PYTHON_USEDEP}]
 		>=dev-python/jinja-3.0.2[${PYTHON_USEDEP}]
@@ -74,7 +73,13 @@ src_prepare() {
 	# let eclass handle python
 	sed -i '/setup.py/d' misc/Makefile || die
 
-	[[ ${PV} != 9999 ]] || ${EPYTHON} scripts/asciidoc2html.py || die
+	if [[ ${PV} == 9999 ]]; then
+		# call asciidoc(1) rather than the single target python module
+		sed '/cmdline = /s/= .*/= ["asciidoc"]/' \
+			-i scripts/asciidoc2html.py || die
+
+		"${EPYTHON}" scripts/asciidoc2html.py || die
+	fi
 
 	# these plugins/tests are unnecessary here and have extra dependencies
 	sed -e '/pytest-benchmark/d;s/--benchmark[^ ]*//' \

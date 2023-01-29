@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -44,7 +44,7 @@ if [[ ${PV} != 9999 ]]; then
 		SRC_URI="mirror://gnu/${PN}/${P}.tar.xz"
 		S=${WORKDIR}/${P%_*}
 	fi
-	KEYWORDS="amd64 arm arm64 ~ia64 ppc ppc64 ~riscv sparc ~x86"
+	KEYWORDS="amd64 arm arm64 ~ia64 ppc ppc64 ~riscv sparc x86"
 else
 	inherit git-r3
 	EGIT_REPO_URI="https://git.savannah.gnu.org/git/grub.git"
@@ -86,7 +86,7 @@ REQUIRED_USE="
 
 BDEPEND="
 	${PYTHON_DEPS}
-	sys-devel/flex
+	>=sys-devel/flex-2.5.35
 	sys-devel/bison
 	sys-apps/help2man
 	sys-apps/texinfo
@@ -261,6 +261,10 @@ src_configure() {
 
 	tc-export CC NM OBJCOPY RANLIB STRIP
 	tc-export BUILD_CC BUILD_PKG_CONFIG
+
+	# Force configure to use flex & bison, bug 887211.
+	export LEX=flex
+	unset YACC
 
 	MULTIBUILD_VARIANTS=()
 	local p

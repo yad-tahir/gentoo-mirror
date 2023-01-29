@@ -7,7 +7,7 @@ MODULES_OPTIONAL_USE="driver"
 inherit desktop flag-o-matic linux-mod multilib readme.gentoo-r1 \
 	systemd toolchain-funcs unpacker user-info
 
-NV_KERNEL_MAX="6.0"
+NV_KERNEL_MAX="6.1"
 NV_URI="https://download.nvidia.com/XFree86/"
 
 DESCRIPTION="NVIDIA Accelerated Graphics Driver"
@@ -22,7 +22,7 @@ S="${WORKDIR}"
 
 LICENSE="NVIDIA-r2 BSD BSD-2 GPL-2 MIT"
 SLOT="0/${PV%%.*}"
-KEYWORDS="-* ~amd64 ~x86"
+KEYWORDS="-* amd64 x86"
 IUSE="+X abi_x86_32 abi_x86_64 +driver persistenced +static-libs +tools"
 
 COMMON_DEPEND="
@@ -154,12 +154,12 @@ pkg_setup() {
 	fi
 
 	if kernel_is -ge 5 18 13; then
-		# https://github.com/NVIDIA/open-gpu-kernel-modules/issues/341
 		if linux_chkconfig_present FB_SIMPLE; then
 			warn+=(
-				"  CONFIG_FB_SIMPLE: is set, recommended to disable and switch to FB_EFI"
-				"    as it is currently known broken with >=kernel-5.18.13 + NVIDIA."
+				"  CONFIG_FB_SIMPLE: is set, recommended to disable and switch to FB_EFI or"
+				"    FB_VESA as it currently may be broken with >=kernel-5.18.13 + NVIDIA:"
 				"    https://github.com/NVIDIA/open-gpu-kernel-modules/issues/341"
+				"    (feel free to ignore this if it works for you)"
 			)
 		fi
 
@@ -180,20 +180,58 @@ pkg_setup() {
 	use x86 && BUILD_PARAMS+=' ARCH=i386'
 	BUILD_TARGETS="modules"
 
-	if linux_chkconfig_present CC_IS_CLANG; then
-		ewarn "Warning: clang-built kernel detected, using clang for modules (experimental)"
-		ewarn "Can use KERNEL_CC and KERNEL_LD environment variables to override if needed."
+	# Try to match toolchain with kernel only for modules
+	# (experimental, ideally this should be handled in linux-mod.eclass)
+	nvidia-tc-set() {
+		local -n var=KERNEL_${1}
+		if [[ ! -v var ]]; then
+			read -r var < <(type -P "${@:2}") ||
+				die "failed to find in PATH at least one of: ${*:2}"
+			einfo "Forcing '${var}' for modules (set ${!var} to override)"
+		fi
+	}
 
-		tc-is-clang || : "${KERNEL_CC:=${CHOST}-clang}"
-		if linux_chkconfig_present LD_IS_LLD; then
-			: "${KERNEL_LD:=ld.lld}"
-			if linux_chkconfig_present LTO_CLANG_THIN; then
-				# kernel enables cache by default leading to sandbox violations
-				BUILD_PARAMS+=' ldflags-y=--thinlto-cache-dir= LDFLAGS_MODULE=--thinlto-cache-dir='
-			fi
+	local tool switch
+	if linux_chkconfig_present CC_IS_GCC; then
+		if ! tc-is-gcc; then
+			switch=
+			nvidia-tc-set CC {${CHOST}-,}gcc
+		fi
+	elif linux_chkconfig_present CC_IS_CLANG; then
+		ewarn "Warning: using ${PN} with a clang-built kernel is largely untested"
+		if ! tc-is-clang; then
+			switch=llvm-
+			nvidia-tc-set CC {${CHOST}-,}clang
 		fi
 	fi
-	BUILD_PARAMS+=' ${KERNEL_CC:+CC="${KERNEL_CC}"} ${KERNEL_LD:+LD="${KERNEL_LD}"}'
+
+	if linux_chkconfig_present LD_IS_BFD; then
+		# tc-ld-is-bfd needs https://github.com/gentoo/gentoo/pull/28355
+		[[ $(LC_ALL=C $(tc-getLD) --version 2>/dev/null) == "GNU ld"* ]] ||
+			nvidia-tc-set LD {${CHOST}-,}{ld.bfd,ld}
+	elif linux_chkconfig_present LD_IS_LLD; then
+		tc-ld-is-lld || nvidia-tc-set LD {${CHOST}-,}{ld.lld,lld}
+	fi
+
+	if [[ -v switch ]]; then
+		# only need llvm-nm for lto, but use complete set to be safe
+		for tool in AR NM OBJCOPY OBJDUMP READELF STRIP; do
+			case $(LC_ALL=C $(tc-get${tool}) --version 2>/dev/null) in
+				LLVM*|llvm*) [[ ! ${switch} ]];;
+				*) [[ ${switch} ]];;
+			esac && nvidia-tc-set ${tool} {${CHOST}-,}${switch}${tool,,}
+		done
+	fi
+
+	# pass unconditionally given exports are semi-ignored except CC/LD
+	for tool in CC LD AR NM OBJCOPY OBJDUMP READELF STRIP; do
+		BUILD_PARAMS+=" ${tool}=\"\${KERNEL_${tool}:-\$(tc-get${tool})}\""
+	done
+
+	if linux_chkconfig_present LTO_CLANG_THIN; then
+		# kernel enables cache by default leading to sandbox violations
+		BUILD_PARAMS+=' ldflags-y=--thinlto-cache-dir= LDFLAGS_MODULE=--thinlto-cache-dir='
+	fi
 
 	if kernel_is -gt ${NV_KERNEL_MAX/./ }; then
 		ewarn "Kernel ${KV_MAJOR}.${KV_MINOR} is either known to break this version of ${PN}"
@@ -239,6 +277,7 @@ src_prepare() {
 
 src_compile() {
 	tc-export AR CC CXX LD OBJCOPY OBJDUMP
+	local -x RAW_LDFLAGS="$(get_abi_LDFLAGS) $(raw-ldflags)" # raw-ldflags.patch
 
 	NV_ARGS=(
 		PREFIX="${EPREFIX}"/usr
@@ -254,12 +293,13 @@ src_compile() {
 			echo "obj-m += test.o" > "${T}"/plugin-test/Kbuild || die
 			:> "${T}"/plugin-test/test.c || die
 			if [[ $(LC_ALL=C make -C "${KV_OUT_DIR}" ARCH="$(tc-arch-kernel)" \
-				HOSTCC="$(tc-getBUILD_CC)" M="${T}"/plugin-test 2>&1) \
+				HOSTCC="$(tc-getBUILD_CC)" CC="${CC}" M="${T}"/plugin-test 2>&1) \
 				=~ "error: incompatible gcc/plugin version" ]]
 			then
-				ewarn "Warning: detected kernel was built with different gcc/plugin versions,"
-				ewarn "you may need to 'make clean' and rebuild your kernel with the current"
-				ewarn "gcc version (or re-emerge for distribution kernels, including kernel-bin)."
+				eerror "Detected kernel was built with a different gcc/plugin version,"
+				eerror "Please 'make clean' and rebuild your kernel with the current"
+				eerror "gcc (or re-emerge for distribution kernels, including kernel-bin)."
+				die "kernel ${KV_FULL} needs to be rebuilt"
 			fi
 		fi
 
@@ -278,9 +318,7 @@ src_compile() {
 
 	if use tools; then
 		# cflags: avoid noisy logs, only use here and set first to let override
-		# ldflags: abi currently needed if LD=ld.lld
 		CFLAGS="-Wno-deprecated-declarations ${CFLAGS}" \
-			RAW_LDFLAGS="$(get_abi_LDFLAGS) $(raw-ldflags)" \
 			emake "${NV_ARGS[@]}" -C nvidia-settings
 	elif use static-libs; then
 		emake "${NV_ARGS[@]}" -C nvidia-settings/src build-xnvctrl

@@ -17,10 +17,13 @@ else
 	HASH_SPIRV=0bcc624926a25a2a273d07877fd25a6ff5ba1cfb
 	HASH_VULKAN=98f440ce6868c94f5ec6e198cc1adda4760e8849
 	SRC_URI="
-		https://github.com/doitsujin/dxvk/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz
-		https://github.com/KhronosGroup/SPIRV-Headers/archive/${HASH_SPIRV}.tar.gz -> ${PN}-spirv-headers-${HASH_SPIRV::10}.tar.gz
-		https://github.com/KhronosGroup/Vulkan-Headers/archive/${HASH_VULKAN}.tar.gz -> ${PN}-vulkan-headers-${HASH_VULKAN::10}.tar.gz"
-	KEYWORDS="-* ~amd64 ~x86"
+		https://github.com/doitsujin/dxvk/archive/refs/tags/v${PV}.tar.gz
+			-> ${P}.tar.gz
+		https://github.com/KhronosGroup/SPIRV-Headers/archive/${HASH_SPIRV}.tar.gz
+			-> ${PN}-spirv-headers-${HASH_SPIRV::10}.tar.gz
+		https://github.com/KhronosGroup/Vulkan-Headers/archive/${HASH_VULKAN}.tar.gz
+			-> ${PN}-vulkan-headers-${HASH_VULKAN::10}.tar.gz"
+	KEYWORDS="-* amd64 x86"
 fi
 
 DESCRIPTION="Vulkan-based implementation of D3D9, D3D10 and D3D11 for Linux / Wine"
@@ -32,6 +35,7 @@ IUSE="+abi_x86_32 crossdev-mingw +d3d9 +d3d10 +d3d11 debug +dxgi"
 REQUIRED_USE="
 	|| ( d3d9 d3d10 d3d11 dxgi )
 	d3d10? ( d3d11 )
+	d3d11? ( dxgi )
 	dxgi? ( d3d11 )"
 
 BDEPEND="

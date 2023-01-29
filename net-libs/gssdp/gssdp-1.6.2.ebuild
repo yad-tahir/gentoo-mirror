@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP https://gitlab.gnome.org/GNOME/g
 
 LICENSE="LGPL-2+"
 SLOT="1.6/1.6-0" # <API version>-<soname>
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~alpha amd64 ~arm arm64 ~hppa ~ia64 ~loong ~ppc ppc64 ~riscv ~sparc x86"
 IUSE="gtk gtk-doc +introspection man +vala"
 REQUIRED_USE="
 	gtk-doc? ( introspection )
@@ -65,5 +65,8 @@ multilib_src_install_all() {
 		mkdir "${ED}"/usr/share/gtk-doc || die
 		mv "${ED}"/usr/share/{doc,gtk-doc}/gssdp-1.6 || die
 	fi
-	rm "${ED}"/usr/bin/gssdp-device-sniffer || die # because of file collision with slot 0
+
+	if use gtk; then
+		rm "${ED}"/usr/bin/gssdp-device-sniffer || die # because of file collision with slot 0
+	fi
 }

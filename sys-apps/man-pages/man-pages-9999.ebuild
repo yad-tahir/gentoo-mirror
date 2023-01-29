@@ -92,7 +92,7 @@ src_compile() { :; }
 
 src_install() {
 	emake install prefix="${EPREFIX}"/usr DESTDIR="${D}"
-	dodoc man-pages-*.Announce README Changes*
+	dodoc README Changes*
 
 	# Override with Gentoo specific or additional Gentoo pages
 	cd "${WORKDIR}"/man-pages-gentoo || die

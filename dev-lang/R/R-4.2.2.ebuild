@@ -76,6 +76,8 @@ PATCHES=(
 	"${FILESDIR}"/R-3.6.2-no-LDFLAGS-in-libR-pkg-config.patch
 	"${FILESDIR}"/R-3.6.2-no-gzip-doc.patch
 	"${FILESDIR}"/R-4.2.2-browser-pdf-prefs.patch
+	"${FILESDIR}"/R-4.2.2-isspace-without-readline.patch
+	"${FILESDIR}/"R-4.2.2-parallel-rmath-h-install.patch
 )
 
 pkg_pretend() {
@@ -177,7 +179,7 @@ src_compile() {
 
 src_install() {
 	default
-	emake -j1 -C src/nmath/standalone DESTDIR="${D}" install
+	emake -C src/nmath/standalone DESTDIR="${D}" install
 
 	if use doc; then
 		emake DESTDIR="${D}" install-info install-pdf

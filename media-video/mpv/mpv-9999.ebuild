@@ -1,10 +1,10 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 LUA_COMPAT=( lua5-1 luajit )
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 inherit edo flag-o-matic lua-single meson optfeature pax-utils python-single-r1 xdg
 
 if [[ ${PV} == 9999 ]]; then
@@ -24,7 +24,7 @@ IUSE="
 	+X +alsa aqua archive bluray cdda +cli coreaudio debug +drm dvb
 	dvd +egl gamepad +iconv jack javascript jpeg lcms libcaca +libmpv
 	+libplacebo +lua mmal nvenc openal opengl pipewire pulseaudio
-	raspberry-pi rubberband sdl selinux sndio test tools +uchardet
+	raspberry-pi rubberband sdl selinux sixel sndio test tools +uchardet
 	vaapi vdpau vulkan wayland +xv zimg zlib"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
@@ -37,7 +37,10 @@ REQUIRED_USE="
 	test? ( cli )
 	tools? ( cli )
 	uchardet? ( iconv )
-	vaapi? ( || ( X egl libplacebo wayland ) )
+	vaapi? (
+		|| ( X egl libplacebo wayland )
+		wayland? ( drm )
+	)
 	vdpau? ( X )
 	vulkan? ( || ( X wayland ) libplacebo )
 	xv? ( X )"
@@ -45,7 +48,7 @@ RESTRICT="!test? ( test )"
 
 COMMON_DEPEND="
 	media-libs/libass:=[fontconfig]
-	media-video/ffmpeg:=[encode,threads,vaapi?,vdpau?]
+	>=media-video/ffmpeg-4.4:=[encode,threads,vaapi?,vdpau?]
 	X? (
 		x11-libs/libX11
 		x11-libs/libXScrnSaver
@@ -93,6 +96,7 @@ COMMON_DEPEND="
 	raspberry-pi? ( media-libs/raspberrypi-userland )
 	rubberband? ( media-libs/rubberband )
 	sdl? ( media-libs/libsdl2[sound,threads,video] )
+	sixel? ( media-libs/libsixel )
 	sndio? ( media-sound/sndio:= )
 	vaapi? ( media-libs/libva:=[X?,drm(+)?,wayland?] )
 	vdpau? ( x11-libs/libvdpau )
@@ -126,12 +130,6 @@ BDEPEND="
 pkg_setup() {
 	use lua && lua-single_pkg_setup
 	python-single-r1_pkg_setup
-}
-
-src_prepare() {
-	default
-
-	sed -i "s/'rst2html/&.py/" meson.build || die
 }
 
 src_configure() {
@@ -207,7 +205,7 @@ src_configure() {
 		$(meson_feature libplacebo)
 		$(meson_feature mmal rpi-mmal)
 		$(meson_feature sdl sdl2-video)
-		-Dsixel=disabled # TODO? needs keywording/testing
+		$(meson_feature sixel)
 		$(meson_feature wayland)
 		$(meson_feature xv)
 
@@ -246,7 +244,25 @@ src_configure() {
 
 src_test() {
 	# https://github.com/mpv-player/mpv/blob/master/DOCS/man/options.rst#debugging
-	edo "${BUILD_DIR}"/mpv --no-config -v --unittest=all-simple
+	local tests=($("${BUILD_DIR}"/mpv --no-config --unittest=help | tail -n +2; assert))
+	(( ${#tests[@]} )) || die "failed to gather any tests"
+
+	local skip=(
+		all-simple
+
+		# fails on non-issue minor inconsistencies (bug #888639)
+		img_format
+		repack_sws
+	)
+
+	local test
+	for test in "${tests[@]}"; do
+		[[ ${test} == @($(IFS='|'; echo "${skip[*]}")) ]] ||
+			edo "${BUILD_DIR}"/mpv -v --no-config --unittest="${test}"
+	done
+
+	# currently only does basic libmpv testing, do in addition to --unittest
+	meson_src_test
 }
 
 src_install() {
@@ -280,5 +296,5 @@ src_install() {
 pkg_postinst() {
 	xdg_pkg_postinst
 
-	optfeature "URL support" net-misc/yt-dlp
+	optfeature "URL support with USE=lua" net-misc/yt-dlp
 }

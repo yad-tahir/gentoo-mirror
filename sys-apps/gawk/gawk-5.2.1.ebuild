@@ -29,11 +29,14 @@ else
 	SRC_URI="mirror://gnu/gawk/${P}.tar.xz"
 	SRC_URI+=" verify-sig? ( mirror://gnu/gawk/${P}.tar.xz.sig )"
 
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
+	KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 fi
 
 LICENSE="GPL-3+"
 SLOT="0"
+# While tempting to enable mpfr by default as e.g. Fedora do, as of 5.2.x,
+# MPFR support is "on parole" and may be removed:
+# https://www.gnu.org/software/gawk/manual/html_node/MPFR-On-Parole.html.
 IUSE="mpfr pma nls readline"
 
 RDEPEND="
@@ -78,6 +81,11 @@ src_prepare() {
 src_configure() {
 	# Avoid automagic dependency on libsigsegv
 	export ac_cv_libsigsegv=no
+
+	# README says gawk may not work properly if built with non-Bison.
+	# We already BDEPEND on Bison, so just unset YACC rather than
+	# guessing if we need to do yacc.bison or bison -y.
+	unset YACC
 
 	local myeconfargs=(
 		--cache-file="${S}"/config.cache

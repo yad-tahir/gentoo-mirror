@@ -4,11 +4,11 @@
 EAPI=8
 
 DESCRIPTION="Meta package for the KDE Release Service collection"
-HOMEPAGE="https://kde.org/"
+HOMEPAGE="https://apps.kde.org/"
 
 LICENSE="metapackage"
 SLOT="5"
-KEYWORDS="~amd64 arm64 ~x86"
+KEYWORDS="amd64 arm64 x86"
 IUSE="accessibility +admin +education +games +graphics +multimedia +network pim sdk +utils"
 
 RDEPEND="

@@ -1,8 +1,8 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit gstreamer-meson python-any-r1
 
@@ -13,7 +13,7 @@ SRC_URI="https://gstreamer.freedesktop.org/src/${MY_PN}/${MY_PN}-${PV}.tar.xz"
 
 LICENSE="LGPL-2.1+"
 SLOT="1.0"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~loong ppc64 ~riscv x86"
 IUSE="+drm +egl gles2 +opengl wayland +X" # Keep default enabled IUSE in sync with gst-plugins-base and libva
 
 # gst-vaapi configure is based around GL platform mainly, unlike gst-plugins-bad that goes by GL API mainly; for less surprises,

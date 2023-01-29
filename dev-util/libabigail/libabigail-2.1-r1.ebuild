@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -13,7 +13,7 @@ LIBABIGAIL_DOCS_VERSION="${PV}"
 # bug #830088
 LIBABIGAIL_DOCS_USEFLAG="+doc"
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit autotools bash-completion-r1 python-any-r1 out-of-source
 
@@ -27,7 +27,7 @@ fi
 
 LICENSE="Apache-2.0-with-LLVM-exceptions"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv"
+KEYWORDS="amd64 ~arm ~arm64 ~loong ~ppc64 ~riscv"
 IUSE="${LIBABIGAIL_DOCS_USEFLAG} test"
 RESTRICT="!test? ( test )"
 
@@ -39,7 +39,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
 	doc? (
-		app-doc/doxygen
+		app-doc/doxygen[dot]
 		dev-python/sphinx
 		sys-apps/texinfo
 	)

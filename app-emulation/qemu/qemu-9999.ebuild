@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -14,7 +14,7 @@ QEMU_DOCS_VERSION=$(ver_cut 1-3)
 # bug #830088
 QEMU_DOC_USEFLAG="+doc"
 
-PYTHON_COMPAT=( python3_{8,9,10,11} )
+PYTHON_COMPAT=( python3_{9,10,11} )
 PYTHON_REQ_USE="ncurses,readline"
 
 FIRMWARE_ABI_VERSION="7.2.0"
@@ -58,7 +58,7 @@ IUSE="accessibility +aio alsa bpf bzip2 capstone +curl debug ${QEMU_DOC_USEFLAG}
 	jack jemalloc +jpeg
 	lzo multipath
 	ncurses nfs nls numa opengl +oss pam +pin-upstream-blobs
-	plugins +png pulseaudio python rbd sasl sdl sdl-image selinux
+	plugins +png pulseaudio python rbd sasl +seccomp sdl sdl-image selinux
 	+slirp
 	smartcard snappy spice ssh static static-user systemtap test udev usb
 	usbredir vde +vhost-net virgl virtfs +vnc vte xattr xen
@@ -116,6 +116,7 @@ use_user_targets=$(printf ' qemu_user_targets_%s' ${IUSE_USER_TARGETS})
 IUSE+=" ${use_softmmu_targets} ${use_user_targets}"
 
 RESTRICT="!test? ( test )"
+
 # Allow no targets to be built so that people can get a tools-only build.
 # Block USE flag configurations known to not work.
 REQUIRED_USE="
@@ -138,6 +139,9 @@ REQUIRED_USE="
 	multipath? ( udev )
 	plugins? ( !static !static-user )
 "
+for smname in ${IUSE_SOFTMMU_TARGETS} ; do
+	REQUIRED_USE+=" qemu_softmmu_targets_${smname}? ( seccomp ) "
+done
 
 # Dependencies required for qemu tools (qemu-nbd, qemu-img, qemu-io, ...)
 # and user/softmmu targets (qemu-*, qemu-system-*).
@@ -158,7 +162,6 @@ ALL_DEPEND="
 # softmmu targets (qemu-system-*).
 SOFTMMU_TOOLS_DEPEND="
 	sys-libs/libcap-ng[static-libs(+)]
-	>=sys-libs/libseccomp-2.1.0[static-libs(+)]
 	>=x11-libs/pixman-0.28.0[static-libs(+)]
 	accessibility? (
 		app-accessibility/brltty[api]
@@ -202,7 +205,7 @@ SOFTMMU_TOOLS_DEPEND="
 		media-libs/mesa[egl(+),gbm(+)]
 	)
 	pam? ( sys-libs/pam )
-	png? ( media-libs/libpng:0=[static-libs(+)] )
+	png? ( >=media-libs/libpng-1.6.34:=[static-libs(+)] )
 	pulseaudio? ( media-sound/pulseaudio )
 	rbd? ( sys-cluster/ceph )
 	sasl? ( dev-libs/cyrus-sasl[static-libs(+)] )
@@ -211,12 +214,13 @@ SOFTMMU_TOOLS_DEPEND="
 		media-libs/libsdl2[static-libs(+)]
 	)
 	sdl-image? ( media-libs/sdl2-image[static-libs(+)] )
+	seccomp? ( >=sys-libs/libseccomp-2.1.0[static-libs(+)] )
 	slirp? ( net-libs/libslirp[static-libs(+)] )
 	smartcard? ( >=app-emulation/libcacard-2.5.0[static-libs(+)] )
 	snappy? ( app-arch/snappy:= )
 	spice? (
-		>=app-emulation/spice-protocol-0.12.3
-		>=app-emulation/spice-0.12.0[static-libs(+)]
+		>=app-emulation/spice-protocol-0.14.0
+		>=app-emulation/spice-0.14.0[static-libs(+)]
 	)
 	ssh? ( >=net-libs/libssh-0.8.6[static-libs(+)] )
 	udev? ( virtual/libudev:= )
@@ -308,9 +312,6 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-6.0.0-make.patch
 	"${FILESDIR}"/${PN}-7.1.0-also-build-virtfs-proxy-helper.patch
 	"${FILESDIR}"/${PN}-7.1.0-capstone-include-path.patch
-	#"${FILESDIR}"/${PN}-7.1.0-mips-n32-syscalls.patch
-	#"${FILESDIR}"/${PN}-7.1.0-loong-stat.patch
-	#"${FILESDIR}"/${PN}-7.1.0-faccessat2.patch
 )
 
 QA_PREBUILT="
@@ -581,6 +582,7 @@ qemu_src_configure() {
 		$(conf_notuser sasl vnc-sasl)
 		$(conf_notuser sdl)
 		$(conf_softmmu sdl-image)
+		$(conf_notuser seccomp)
 		$(conf_notuser slirp)
 		$(conf_notuser smartcard)
 		$(conf_notuser snappy)
@@ -647,7 +649,6 @@ qemu_src_configure() {
 			--disable-blobs
 			--enable-tools
 			--enable-cap-ng
-			--enable-seccomp
 		)
 		local static_flag="static"
 		;;

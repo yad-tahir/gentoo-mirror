@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit cmake desktop ninja-utils python-any-r1 toolchain-funcs xdg-utils
 
@@ -20,7 +20,7 @@ SRC_URI="https://github.com/aseprite/aseprite/releases/download/v${PV}/Aseprite-
 # See https://github.com/aseprite/aseprite#license
 LICENSE="Aseprite-EULA"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 
 IUSE="kde test webp"
 RESTRICT="bindist mirror !test? ( test )"
@@ -48,7 +48,9 @@ RDEPEND="
 		kde-frameworks/kio:5
 	)
 	webp? ( media-libs/libwebp:= )"
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	x11-base/xorg-proto"
 BDEPEND="
 	${PYTHON_DEPS}
 	test? ( dev-cpp/gtest )

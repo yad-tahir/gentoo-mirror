@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Gentoo Authors
+# Copyright 2019-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: llvm.org.eclass
@@ -60,13 +60,13 @@ LLVM_VERSION=$(ver_cut 1-3)
 # @DESCRIPTION:
 # The major version of current LLVM trunk.  Used to determine
 # the correct branch to use.
-_LLVM_MASTER_MAJOR=16
+_LLVM_MASTER_MAJOR=17
 
 # @ECLASS_VARIABLE: _LLVM_NEWEST_MANPAGE_RELEASE
 # @INTERNAL
 # @DESCRIPTION:
 # The newest release of LLVM for which manpages were generated.
-_LLVM_NEWEST_MANPAGE_RELEASE=15.0.5
+_LLVM_NEWEST_MANPAGE_RELEASE=15.0.7
 
 # @ECLASS_VARIABLE: _LLVM_SOURCE_TYPE
 # @INTERNAL
@@ -81,11 +81,11 @@ if [[ -z ${_LLVM_SOURCE_TYPE+1} ]]; then
 			_LLVM_SOURCE_TYPE=snapshot
 
 			case ${PV} in
-				16.0.0_pre20221113)
-					EGIT_COMMIT=f6f1fd443f48f417de9dfe23353055f1b20d87ef
+				16.0.0_pre20230107)
+					EGIT_COMMIT=6dc85bd3fde7df2999fda07e9e9f2e83d52c6125
 					;;
-				16.0.0_pre20221120)
-					EGIT_COMMIT=7b91798a5d3a8432b296778da4efe169012fb7b4
+				16.0.0_pre20230127)
+					EGIT_COMMIT=46d5a57801bc37e5ebb1a4d6b2acc0fa99c01e8d
 					;;
 				*)
 					die "Unknown snapshot: ${PV}"
@@ -194,13 +194,23 @@ case ${LLVM_MAJOR} in
 			PowerPC RISCV Sparc SystemZ VE WebAssembly X86 XCore
 		)
 		;;
-	*)
+	15)
 		ALL_LLVM_EXPERIMENTAL_TARGETS=(
 			ARC CSKY DirectX LoongArch M68k SPIRV
 		)
 		ALL_LLVM_PRODUCTION_TARGETS=(
 			AArch64 AMDGPU ARM AVR BPF Hexagon Lanai Mips MSP430 NVPTX
 			PowerPC RISCV Sparc SystemZ VE WebAssembly X86 XCore
+		)
+		;;
+	*)
+		ALL_LLVM_EXPERIMENTAL_TARGETS=(
+			ARC CSKY DirectX M68k SPIRV Xtensa
+		)
+		ALL_LLVM_PRODUCTION_TARGETS=(
+			AArch64 AMDGPU ARM AVR BPF Hexagon Lanai LoongArch Mips
+			MSP430 NVPTX PowerPC RISCV Sparc SystemZ VE WebAssembly X86
+			XCore
 		)
 		;;
 esac
@@ -483,7 +493,7 @@ llvm_install_manpages() {
 	# install pre-generated manpages
 	if ! llvm_are_manpages_built; then
 		# (doman does not support custom paths)
-		insinto "/usr/lib/llvm/${SLOT}/share/man/man1"
+		insinto "/usr/lib/llvm/${LLVM_MAJOR}/share/man/man1"
 		doins "${WORKDIR}/llvm-${PV}-manpages/${LLVM_COMPONENTS[0]}"/*.1
 	fi
 }

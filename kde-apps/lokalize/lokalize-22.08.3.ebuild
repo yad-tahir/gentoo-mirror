@@ -1,10 +1,10 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 ECM_HANDBOOK="forceoptional"
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..10} )
 KFMIN=5.96.0
 QTMIN=5.15.5
 inherit python-single-r1 ecm gear.kde.org optfeature
@@ -14,7 +14,7 @@ HOMEPAGE="https://apps.kde.org/lokalize/ https://l10n.kde.org/tools/"
 
 LICENSE="GPL-2" # TODO: CHECK
 SLOT="5"
-KEYWORDS="~amd64 arm64 ~x86"
+KEYWORDS="amd64 arm64 x86"
 IUSE=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

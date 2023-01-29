@@ -1,10 +1,10 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2022-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 inherit autotools flag-o-matic multilib multilib-build \
 	python-any-r1 readme.gentoo-r1 toolchain-funcs wrapper
 
@@ -19,7 +19,7 @@ if [[ ${PV} == *9999 ]]; then
 else
 	SRC_URI="https://github.com/ValveSoftware/wine/archive/refs/tags/proton-wine-${WINE_PV}.tar.gz"
 	S="${WORKDIR}/${PN}-wine-${WINE_PV}"
-	KEYWORDS="-* ~amd64 ~x86"
+	KEYWORDS="-* amd64 ~x86"
 fi
 
 DESCRIPTION="Valve Software's fork of Wine"
@@ -214,8 +214,9 @@ src_configure() {
 		$(use_with xinerama)
 	)
 
-	tc-ld-force-bfd #867097
-	use custom-cflags || strip-flags # can break in obscure ways, also no lto
+	tc-ld-force-bfd # builds with non-bfd but broken at runtime (bug #867097)
+	filter-lto # build failure
+	use custom-cflags || strip-flags # can break in obscure ways at runtime
 	use crossdev-mingw || PATH=${BROOT}/usr/lib/mingw64-toolchain/bin:${PATH}
 
 	# temporary workaround for tc-ld-force-bfd not yet enforcing with mold

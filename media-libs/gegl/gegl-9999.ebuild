@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..11} )
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
@@ -57,7 +57,7 @@ RDEPEND="
 	sdl? ( >=media-libs/libsdl-1.2.0 )
 	sdl2? ( >=media-libs/libsdl2-2.0.20 )
 	svg? ( >=gnome-base/librsvg-2.40.6:2 )
-	tiff? ( >=media-libs/tiff-4:0 )
+	tiff? ( >=media-libs/tiff-4:= )
 	umfpack? ( sci-libs/umfpack )
 	v4l? ( >=media-libs/libv4l-1.0.1 )
 	webp? ( >=media-libs/libwebp-0.5.0:= )

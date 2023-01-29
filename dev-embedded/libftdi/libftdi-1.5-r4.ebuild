@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..10} )
 inherit cmake python-single-r1
 
 MY_P="${PN}1-${PV}"
@@ -14,7 +14,7 @@ else
 	SRC_URI="https://www.intra2net.com/en/developer/${PN}/download/${MY_P}.tar.bz2"
 	S="${WORKDIR}/${MY_P}"
 
-	KEYWORDS="amd64 arm arm64 ~mips ppc ppc64 ~riscv sparc x86"
+	KEYWORDS="amd64 arm arm64 ~loong ~mips ppc ppc64 ~riscv sparc x86"
 fi
 
 DESCRIPTION="Userspace access to FTDI USB interface chips"
