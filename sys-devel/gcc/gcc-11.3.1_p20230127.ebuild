@@ -7,11 +7,7 @@ TOOLCHAIN_PATCH_SUFFIX="xz"
 TOOLCHAIN_PATCH_DEV="sam"
 PATCH_VER="8"
 PATCH_GCC_VER="11.4.0"
-<<<<<<< HEAD
-MUSL_VER="1"
-=======
 MUSL_VER="2"
->>>>>>> without-manifest
 MUSL_GCC_VER="11.4.0"
 
 if [[ $(ver_cut 3) == 9999 ]] ; then

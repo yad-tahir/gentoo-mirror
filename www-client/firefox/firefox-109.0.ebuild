@@ -88,14 +88,10 @@ BDEPEND="${PYTHON_DEPS}
 			sys-devel/clang:15
 			sys-devel/llvm:15
 			clang? (
-<<<<<<< HEAD
-				sys-devel/lld:15
-=======
 				|| (
 					sys-devel/lld:15
 					sys-devel/mold
 				)
->>>>>>> without-manifest
 				virtual/rust:0/llvm-15
 				pgo? ( =sys-libs/compiler-rt-sanitizers-15*[profile] )
 			)
@@ -104,14 +100,10 @@ BDEPEND="${PYTHON_DEPS}
 			sys-devel/clang:14
 			sys-devel/llvm:14
 			clang? (
-<<<<<<< HEAD
-				sys-devel/lld:14
-=======
 				|| (
 					sys-devel/lld:14
 					sys-devel/mold
 				)
->>>>>>> without-manifest
 				virtual/rust:0/llvm-14
 				pgo? ( =sys-libs/compiler-rt-sanitizers-14*[profile] )
 			)
@@ -241,11 +233,7 @@ llvm_check_deps() {
 		return 1
 	fi
 
-<<<<<<< HEAD
-	if use clang ; then
-=======
 	if use clang && tc-ld-is-lld ; then
->>>>>>> without-manifest
 		if ! has_version -b "sys-devel/lld:${LLVM_SLOT}" ; then
 			einfo "sys-devel/lld:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
 			return 1
@@ -445,8 +433,6 @@ mozconfig_use_with() {
 	mozconfig_add_options_ac "$(use ${1} && echo +${1} || echo -${1})" "${flag}"
 }
 
-<<<<<<< HEAD
-=======
 # This is a straight copypaste from toolchain-funcs.eclass's 'tc-ld-is-lld', and is temporarily
 # placed here until toolchain-funcs.eclass gets an official support for mold linker.
 # Please see:
@@ -481,7 +467,6 @@ tc-ld-is-mold() {
 	return 1
 }
 
->>>>>>> without-manifest
 virtwl() {
 	debug-print-function ${FUNCNAME} "$@"
 
@@ -541,11 +526,7 @@ pkg_setup() {
 
 		llvm_pkg_setup
 
-<<<<<<< HEAD
-		if use clang && use lto ; then
-=======
 		if use clang && use lto && tc-ld-is-lld ; then
->>>>>>> without-manifest
 			local version_lld=$(ld.lld --version 2>/dev/null | awk '{ print $2 }')
 			[[ -n ${version_lld} ]] && version_lld=$(ver_cut 1 "${version_lld}")
 			[[ -z ${version_lld} ]] && die "Failed to read ld.lld version!"
@@ -915,27 +896,18 @@ src_configure() {
 
 	if use lto ; then
 		if use clang ; then
-<<<<<<< HEAD
-			# Upstream only supports lld when using clang
-			mozconfig_add_options_ac "forcing ld=lld due to USE=clang and USE=lto" --enable-linker=lld
-=======
 			# Upstream only supports lld or mold when using clang.
 			if tc-ld-is-mold ; then
 				mozconfig_add_options_ac "using ld=mold due to system selection" --enable-linker=mold
 			else
 				mozconfig_add_options_ac "forcing ld=lld due to USE=clang and USE=lto" --enable-linker=lld
 			fi
->>>>>>> without-manifest
 
 			mozconfig_add_options_ac '+lto' --enable-lto=cross
 
 		else
-<<<<<<< HEAD
-			# ThinLTO is currently broken, see bmo#1644409
-=======
 			# ThinLTO is currently broken, see bmo#1644409.
 			# mold does not support gcc+lto combination.
->>>>>>> without-manifest
 			mozconfig_add_options_ac '+lto' --enable-lto=full
 			mozconfig_add_options_ac "linker is set to bfd" --enable-linker=bfd
 		fi
@@ -951,12 +923,6 @@ src_configure() {
 	else
 		# Avoid auto-magic on linker
 		if use clang ; then
-<<<<<<< HEAD
-			# This is upstream's default
-			mozconfig_add_options_ac "forcing ld=lld due to USE=clang" --enable-linker=lld
-		else
-			mozconfig_add_options_ac "linker is set to bfd" --enable-linker=bfd
-=======
 			# lld is upstream's default
 			if tc-ld-is-mold ; then
 				mozconfig_add_options_ac "using ld=mold due to system selection" --enable-linker=mold
@@ -970,7 +936,6 @@ src_configure() {
 			else
 				mozconfig_add_options_ac "linker is set to bfd due to USE=-clang" --enable-linker=bfd
 			fi
->>>>>>> without-manifest
 		fi
 	fi
 
