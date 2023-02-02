@@ -158,6 +158,7 @@ src_prepare() {
 	gnome2_src_prepare
 
 	eapply "${FILESDIR}"/2.38.2-GTK-Fix-build-failure-in-ClipboardGtk4.cpp.patch
+	eapply "${FILESDIR}"/2.38.3-gcc-13.patch
 }
 
 src_configure() {
@@ -253,4 +254,7 @@ src_configure() {
 
 pkg_postinst() {
 	optfeature "geolocation service (used at runtime if available)" "app-misc/geoclue"
+	optfeature "Common Multimedia codecs" "media-plugins/gst-plugins-meta"
+	optfeature "(MPEG-)DASH support" "media-plugins/gst-plugins-dash"
+	optfeature "HTTP-Live-Streaming support" "media-plugins/gst-plugins-hls"
 }

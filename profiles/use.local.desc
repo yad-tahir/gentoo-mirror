@@ -642,7 +642,6 @@ app-emulation/runv:xen - Enable support for the Xen Hypervisor
 app-emulation/ski:debug - enable extra binary emulation debugging via sys-libs/binutils-libs
 app-emulation/spice:smartcard - Enable smartcard remoting using app-emulation/libcacard
 app-emulation/uade:fuse - Enable sys-fs/fuse uadefs frontend for on-the-fly WAV conversion
-app-emulation/vice:cpuhistory - Enable 65xx CPU history support (may decrease performance)
 app-emulation/vice:ethernet - Enable ethernet emulation
 app-emulation/vice:headless - Include the headless variant of the emulator
 app-emulation/vice:mpg123 - Enable mp3@64 cartridge support
@@ -907,6 +906,15 @@ app-misc/mosquitto:srv - Include SRV lookup support.
 app-misc/mosquitto:websockets - Support the WebSocket protocol.
 app-misc/muttprint:doc - Builds documentation
 app-misc/neofetch:X - Enable support for detecting DEs, WMs, screen resolutions, and showing images from an X terminal
+app-misc/nnn:8contexts - Enable 8 contexts (instead of 4)
+app-misc/nnn:colemak - Key bindings for Colemak-DH keyboard layout
+app-misc/nnn:emoji - Display icons using emoji
+app-misc/nnn:gitstatus - Add git status column to the detail view
+app-misc/nnn:icons - Display icons using icons-in-terminal
+app-misc/nnn:namefirst - Print filenames first in the detail view
+app-misc/nnn:nerdfonts - Display icons using nerdfonts icons
+app-misc/nnn:qsort - Use Alexey Tourbin's quick sort implementation
+app-misc/nnn:restorepreview - Add pipe to close and restore preview-tui for internal undetached edits
 app-misc/note:general - Add support for ascii flatfile backend
 app-misc/note:text - Add support for text backend
 app-misc/ola:ftdi - Support FTDI devices
@@ -1070,7 +1078,7 @@ app-shells/bash:pgo - Optimize the build using Profile Guided Optimization (PGO)
 app-shells/bash:plugins - Add support for loading builtins at runtime via 'enable'
 app-shells/bash-completion:eselect - Support blacklisting of completions via 'eselect bashcomp'. This enables custom Gentoo patching of upstream completion loader.
 app-shells/mksh:lksh - variant that uses POSIX-compliant arithmetics with the host “long” data type and is automatically in POSIX mode when called as /bin/sh
-app-shells/nushell:extra - Install extra plugins: binaryview, tree, clipboard-cli, trash-support and others
+app-shells/nushell:dataframe - Dataframe feature for nushell
 app-shells/pdsh:rsh - This allows the use of rsh (remote shell) and rcp (remote copy) for authoring websites. sftp is a much more secure protocol and is preferred.
 app-shells/pwsh-bin:pwsh-symlink - Install a pwsh symlink that points to pwsh-bin.
 app-shells/shish:diet - Use dev-libs/dietlibc
@@ -1445,14 +1453,15 @@ dev-games/ode:double-precision - more precise calculations at the expense of spe
 dev-games/ode:gyroscopic - enable gyroscopic term (may cause instability)
 dev-games/ogre:assimp - Use media-libs/assimp to import assets from 3D files
 dev-games/ogre:boost - Enable boost support
+dev-games/ogre:bullet - Use sci-physics/bullet for physics plugin
 dev-games/ogre:cache - Enable GL state cache support
 dev-games/ogre:cg - NVIDIA toolkit plugin
-dev-games/ogre:deprecated - Build deprecated component 'HLMS' and nodeless positioning of Lights and Cameras.
+dev-games/ogre:deprecated - Build deprecated nodeless positioning of Lights and Cameras.
 dev-games/ogre:double-precision - More precise calculations at the expense of speed
 dev-games/ogre:egl - Use egl instead of glx
 dev-games/ogre:fine-granularity - Enable fine light mask granularity. This impacts on performance and should not be enabled unless an application really needs it.
 dev-games/ogre:freeimage - Support images via media-libs/freeimage
-dev-games/ogre:gl3plus - Build OpenGL 3+ RenderSystem (EXPERIMENTAL)
+dev-games/ogre:gl3plus - Build OpenGL 3+ RenderSystem
 dev-games/ogre:gles2 - Build OpenGL ES 2.x RenderSystem
 dev-games/ogre:gles3 - Enable OpenGL ES 3.x Features
 dev-games/ogre:json - Use dev-libs/rapidjson (needed by Hlms JSON materials)
@@ -2051,6 +2060,7 @@ dev-libs/openobex:irda - Enable IrDA support
 dev-libs/opensc:ctapi - Use CT-API for accessing Smartcard hardware
 dev-libs/opensc:notify - Enable notifications
 dev-libs/opensc:openct - Use dev-libs/openct (and CT-API) for accessing Smartcard hardware
+dev-libs/opensc:pace - Use dev-libs/openpace for EAC version 2 support
 dev-libs/opensc:pcsc-lite - Use sys-apps/pcsc-lite (and PC/SC API) for accessing Smartcard hardware
 dev-libs/opensc:secure-messaging - Enable secure messaging
 dev-libs/openssl:asm - Support assembly hand optimized crypto functions (i.e. faster run time)
@@ -4009,8 +4019,6 @@ media-gfx/openscad:gamepad - Add support for gamepads through dev-qt/qtgamepad
 media-gfx/openscad:headless - Build a binary without GUI
 media-gfx/openscad:spacenav - Add support for space navigator devices through dev-libs/libspnav
 media-gfx/openvdb:abi10-compat - Disables newer features to maintain compatibility with ABI10
-media-gfx/openvdb:abi6-compat - Disables newer features to maintain compatibility with ABI6
-media-gfx/openvdb:abi7-compat - Disables newer features to maintain compatibility with ABI7
 media-gfx/openvdb:abi8-compat - Disables newer features to maintain compatibility with ABI8
 media-gfx/openvdb:abi9-compat - Disables newer features to maintain compatibility with ABI9
 media-gfx/openvdb:ax - Build the OpenVDB AX module to perform custom manipulation of OpenVDB data via an expression language: AX
@@ -5370,8 +5378,6 @@ net-analyzer/tcpreplay:tcpdump - Use net-analyzer/tcpdump for packet decoding fe
 net-analyzer/testssl:bundled-openssl - Install precompiled versions of OpenSSL for greater testing coverage
 net-analyzer/tracebox:curl - Build the curl component for uploading capture files using net-misc/curl
 net-analyzer/tracebox:sniffer - Build the sniffer component using net-libs/libnetfilter_queue
-net-analyzer/wapiti:kerberos - Support Kerberos authentication
-net-analyzer/wapiti:ntlm - Support NTLM authentication
 net-analyzer/wireshark:androiddump - Install androiddump, an extcap interface to capture from Android devices
 net-analyzer/wireshark:bcg729 - Use media-libs/bcg729 for G.729 codec support in RTP Player
 net-analyzer/wireshark:brotli - Use app-arch/brotli for compression/decompression
@@ -7271,7 +7277,6 @@ sci-libs/gsl:deprecated - Enable deprecated functions
 sci-libs/hdf5:hl - Enable high level API (https://support.hdfgroup.org/HDF5/doc/HL/index.html)
 sci-libs/hdf5:unsupported - Enable unsupported combinations of configuration options
 sci-libs/hipCUB:benchmark - Build and install benchmark binaries.
-sci-libs/hipFFT:benchmark - Build and install benchmark programs hipfft-rider.
 sci-libs/hypre:int64 - Build the 64 bits integer library
 sci-libs/indilib:rtlsdr - Enable support for devices supported by net-wireless/rtl-sdr
 sci-libs/indilib:websocket - Enable support for WebSocket protocol
@@ -7294,7 +7299,6 @@ sci-libs/libghemical:mopac7 - Use sci-chemistry/mopac7 for semi-empirical calcul
 sci-libs/libghemical:mpqc - Use sci-chemistry/mpqc for quantum-mechanical calculations
 sci-libs/liborigin:tools - Install opj2dat command line util
 sci-libs/libqalculate:hardened - Disable unsafe functions like 'command' and variables like 'uptime'.
-sci-libs/libsc:romio - Build with support for the ROMIO MPI-IO component
 sci-libs/libsigrok:ftdi - Enable drivers that need dev-embedded/libftdi
 sci-libs/libsigrok:hidapi - Enable drivers that need dev-libs/hidapi
 sci-libs/libsigrok:nettle - Enable drivers that need dev-libs/nettle
@@ -7333,7 +7337,6 @@ sci-libs/opencascade:optimize - Don't clear allocated memory. Use optimized memo
 sci-libs/opencascade:tbb - Enable multithreading with the Intel Threads Building Block dev-cpp/tbb
 sci-libs/opencascade:vtk - Enable Visualization Toolkit support via sci-libs/vtk
 sci-libs/orocos_kdl:models - Build models for some well known robots.
-sci-libs/p4est:romio - Build with support for the ROMIO MPI-IO component
 sci-libs/p4est:vtk-binary - Enable binary vtk output. If disabled vtk files will be written in ASCII text format.
 sci-libs/pastix:cuda - Enable GPU support using CUDA kernels
 sci-libs/pastix:fortran - Install the Fortran interface
@@ -7444,7 +7447,6 @@ sci-mathematics/boolector:picosat - Enable support for sci-mathematics/picosat
 sci-mathematics/cadabra:jupyter - Build the Cadabra Jupyter kernel
 sci-mathematics/cvc4:cln - Use sci-libs/cln
 sci-mathematics/cvc4:proofs - Support for proof generation
-sci-mathematics/cvc4:replay - Turn on the replay feature
 sci-mathematics/cvc4:statistics - Include statistics
 sci-mathematics/eclib:boost - Add parallel capabilities using dev-libs/boost.
 sci-mathematics/eclib:flint - Enable the use of sci-mathematics/flint for certain operations.
@@ -7554,19 +7556,15 @@ sci-physics/espresso:cuda - Enable cuda support
 sci-physics/espresso:examples - Installs the examples
 sci-physics/fastjet:cgal - Use sci-mathematics/cgal instead of bundled algorithms
 sci-physics/fastjet:plugins - Build all standard and C++ plugins
-sci-physics/geant:c++11 - Build using the C++11 standard
-sci-physics/geant:c++14 - Build using the C++14 standard
 sci-physics/geant:c++17 - Build using the C++17 standard
 sci-physics/geant:c++20 - Build using the C++20 standard
 sci-physics/geant:data - Add a lot of standard physics data files for geant4
-sci-physics/geant:dawn - Add support for media-gfx/dawn (3D postscript rendering)
 sci-physics/geant:freetype - Add support for media-libs/freetype
 sci-physics/geant:gdml - Enable geometry markup language for xml
 sci-physics/geant:geant3 - Add compatibility for geant321 to geant4
 sci-physics/geant:inventor - Add support for Open Inventor SGI toolkit via Coin3D
 sci-physics/geant:raytracerx - Enable raytracing for physics events
 sci-physics/geant:tbb - Enable support for dev-cpp/tbb
-sci-physics/geant:vrml - Enable output of geant4 in vrml formats
 sci-physics/geant:vtk - Use sci-libs/vtk for visualization (experimental)
 sci-physics/geant4_vmc:g4root - Build G4Root (interface for GEANT4 simulation with a ROOT geometry)
 sci-physics/geant4_vmc:geant3 - Build with Geant4 G3toG4 library
