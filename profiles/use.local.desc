@@ -631,7 +631,6 @@ app-emulation/qemu:usb - Enable USB passthrough via dev-libs/libusb
 app-emulation/qemu:usbredir - Use sys-apps/usbredir to redirect USB devices to another machine over TCP
 app-emulation/qemu:vde - Enable VDE-based networking
 app-emulation/qemu:vhost-net - Enable accelerated networking using vhost-net, see https://www.linux-kvm.org/page/VhostNet
-app-emulation/qemu:vhost-user-fs - Enable shared file system access using the FUSE protocol carried over virtio.
 app-emulation/qemu:virgl - Enable experimental Virgil 3d (virtual software GPU)
 app-emulation/qemu:virtfs - Enable VirtFS via virtio-9p-pci / fsdev. See https://wiki.qemu.org/Documentation/9psetup
 app-emulation/qemu:vte - Enable terminal support (x11-libs/vte) in the GTK+ interface
@@ -1299,6 +1298,7 @@ dev-cpp/libjson-rpc-cpp:http-server - Build support for HTTP server using net-li
 dev-cpp/libjson-rpc-cpp:redis-client - Build support for Redis client using dev-libs/hiredis
 dev-cpp/libjson-rpc-cpp:redis-server - Build support for Redis server using dev-libs/hiredis
 dev-cpp/libjson-rpc-cpp:stubgen - Build header stub code generator (needed for development and when pregenerated headers are not bundled)
+dev-cpp/msgpack-cxx:boost - Enable boost support
 dev-cpp/opentelemetry-cpp:jaeger - Include the jaeger exporter
 dev-cpp/opentelemetry-cpp:prometheus - include the Prometheus Client in the SDK
 dev-cpp/sdbus-c++:systemd - Use external libsystemd instead of statically-linked build
@@ -2443,6 +2443,7 @@ dev-python/shiboken2:vulkan - Generate "QSurface::VulkanSurface" bindings
 dev-python/shiboken6:docstrings - Expose documentation as Python docstrings (recommended)
 dev-python/shiboken6:numpy - Implicitly convert passed NumPy arrays to Qt lists
 dev-python/shiboken6:vulkan - Generate "QSurface::VulkanSurface" bindings
+dev-python/simplejson:native-extensions - Compiles native "C" extensions (speedups, instead of using Python fallback code).
 dev-python/subprocess-tee:test-full - Enable full test mode. Pulls in many additional dependencies, and requires having been emerged without this flag first in order to avoid a circular dependency.
 dev-python/sympy:aesara - Add support for dev-python/aesara
 dev-python/sympy:imaging - Add support for dev-python/pillow
@@ -4224,7 +4225,6 @@ media-libs/libsdl2:sound - Control audio support (disable at your own risk)
 media-libs/libsdl2:video - Control video support (disable at your own risk)
 media-libs/libsdl2:vulkan - Enable Vulkan support
 media-libs/libtgvoip:dsp - Enable signal processing (echo cancellation, noise suppression, and automatic gain control)
-media-libs/libva:drm - Enables VA/DRM API support.
 media-libs/libva-compat:drm - Enables VA/DRM API support.
 media-libs/libva-compat:egl - Enables EGL support.
 media-libs/libva-intel-driver:hybrid - Enable support for hybrid vaapi hardware acceleration on Intel Haswell and newer architectures
@@ -8537,6 +8537,7 @@ www-apache/mod_security:geoip - Pull in dev-libs/geoip for use by the SecGeoLook
 www-apache/mod_security:jit - Add support for the PCRE Just-in-Time optimisation, as enabled by dev-libs/libpcre with jit USE flag enabled. Might not be available on hardened systems.
 www-apache/mod_security:json - Suppose JSON in the request body parser through dev-libs/yajl.
 www-apache/mod_security:mlogc - Build and install the ModSecurity Audit Log Collector (mlogc).
+www-apache/mod_security:pcre2 - Use dev-libs/libpcre2 as regex implementation
 www-apache/pwauth:domain-aware - Ignore leading domain names in username (Windows compat)
 www-apache/pwauth:faillog - Log failed login attempts
 www-apache/pwauth:ignore-case - Ignore string case in username (mostly Windows compat)
@@ -8769,6 +8770,7 @@ x11-libs/cairo:opengl - Build the OpenGL backend
 x11-libs/fltk:games - Builds and installs some extra games
 x11-libs/fox:tools - Install adie, calculator, shutterbug, and pathfinder apps.
 x11-libs/gtk+:broadway - Enable the GDK Broadway backend
+x11-libs/gtk+:cloudproviders - Enable GtkPlacesSidebar to access cloud services
 x11-libs/gtk+:colord - Use x11-misc/colord for color management in printing
 x11-libs/gtk+:sysprof - Enable profiling data capture support using dev-util/sysprof-capture
 x11-libs/gtkdatabox:glade - Build with libglade and glade-3 supports, which includes a glade's module for GtkDataBox widget
@@ -8888,7 +8890,7 @@ x11-misc/xscreensaver:locking - Compile in support for locking the display
 x11-misc/xscreensaver:new-login - Enable user switching support using gdmflexiserver (x11-misc/lightdm)
 x11-misc/xsr:cursor - Capture mouse cursor using x11-misc/xdotool, and place them on the screenshots using media-gfx/imagemagick
 x11-misc/yabar:playerctl - Uses media-sound/playerctl to retrieve the name of the currently played song
-x11-plugins/bfm:gkrellm - Enable building of app-admin/gkrellm module
+x11-plugins/bfm:gkrellm - Enable building of app-admin/gkrellmmodule
 x11-plugins/e16-epplets:cdaudio - Enable CD Audio support using media-libs/libcdaudio
 x11-plugins/e16-epplets:libgtop - Use gnome-base/libgtop to obtain system load information
 x11-plugins/pidgin-mbpurple:twitgin - Enable graphical plugin for Gtk+ interface of Pidgin.
