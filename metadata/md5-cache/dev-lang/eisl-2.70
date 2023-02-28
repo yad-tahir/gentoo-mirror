@@ -4,11 +4,11 @@ DESCRIPTION=Interpreter and compiler compatible with the ISLisp standard
 EAPI=8
 HOMEPAGE=https://github.com/sasagawa888/eisl/
 INHERIT=toolchain-funcs
-KEYWORDS=~amd64 ~x86
+KEYWORDS=amd64 ~x86
 LICENSE=BSD-2
 RDEPEND=sys-libs/ncurses:=
 RESTRICT=test
 SLOT=0
 SRC_URI=https://github.com/sasagawa888/eisl/archive/v2.70.tar.gz -> eisl-2.70.tar.gz
-_eclasses_=multilib	5ca4e49abed8e3a2f7b56920eadee157	toolchain-funcs	9a610728b9bcca1919234cceb35a1027
-_md5_=ac2a27153cdb9e0425e32938ded1e8a0
+_eclasses_=multilib	5ca4e49abed8e3a2f7b56920eadee157	toolchain-funcs	6001248ef162a5fa2a21ce132a212f6b
+_md5_=f83f238245e8fc7b2f7002d44a858d3b

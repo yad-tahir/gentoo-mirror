@@ -29,7 +29,7 @@ REQUIRED_USE="
 	?? ( syslog systemd )
 "
 
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~ia64 ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 ~ia64 ~loong ppc ppc64 ~riscv ~sparc x86"
 
 COMMON_DEPEND="
 	sys-apps/util-linux[${MULTILIB_USEDEP}]
@@ -127,31 +127,6 @@ python_check_deps() {
 	if use test; then
 		python_has_version "dev-python/dbus-python[${PYTHON_USEDEP}]" &&
 		python_has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]"
-	fi
-}
-
-sysfs_deprecated_check() {
-	ebegin "Checking for SYSFS_DEPRECATED support"
-
-	if { linux_chkconfig_present SYSFS_DEPRECATED_V2; }; then
-		eerror "Please disable SYSFS_DEPRECATED_V2 support in your kernel config and recompile your kernel"
-		eerror "or NetworkManager will not work correctly."
-		eerror "See https://bugs.gentoo.org/333639 for more info."
-		die "CONFIG_SYSFS_DEPRECATED_V2 support detected!"
-	fi
-	eend $?
-}
-
-pkg_pretend() {
-	if use kernel_linux; then
-		get_version
-		if linux_config_exists; then
-			sysfs_deprecated_check
-		else
-			ewarn "Was unable to determine your kernel .config"
-			ewarn "Please note that if CONFIG_SYSFS_DEPRECATED_V2 is set in your kernel .config, NetworkManager will not work correctly."
-			ewarn "See https://bugs.gentoo.org/333639 for more info."
-		fi
 	fi
 }
 
