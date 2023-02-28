@@ -32,8 +32,8 @@ SLOT="${PV}"
 IUSE="
 	+X +abi_x86_32 +abi_x86_64 +alsa capi crossdev-mingw cups dos
 	llvm-libunwind debug custom-cflags +fontconfig +gecko gphoto2
-	+gstreamer kerberos +mingw +mono netapi nls odbc opencl +opengl
-	osmesa pcap perl pulseaudio samba scanner +sdl selinux +ssl
+	+gstreamer kerberos +mingw +mono netapi nls opencl +opengl osmesa
+	pcap perl pulseaudio samba scanner +sdl selinux smartcard +ssl
 	+truetype udev udisks +unwind usb v4l +vulkan +xcomposite xinerama"
 REQUIRED_USE="
 	X? ( truetype )
@@ -63,7 +63,6 @@ WINE_DLOPEN_DEPEND="
 	fontconfig? ( media-libs/fontconfig[${MULTILIB_USEDEP}] )
 	kerberos? ( virtual/krb5[${MULTILIB_USEDEP}] )
 	netapi? ( net-fs/samba[${MULTILIB_USEDEP}] )
-	odbc? ( dev-db/unixODBC[${MULTILIB_USEDEP}] )
 	sdl? ( media-libs/libsdl2[haptic,joystick,${MULTILIB_USEDEP}] )
 	ssl? ( net-libs/gnutls:=[${MULTILIB_USEDEP}] )
 	truetype? ( media-libs/freetype[${MULTILIB_USEDEP}] )
@@ -88,6 +87,7 @@ WINE_COMMON_DEPEND="
 	pcap? ( net-libs/libpcap[${MULTILIB_USEDEP}] )
 	pulseaudio? ( media-libs/libpulse[${MULTILIB_USEDEP}] )
 	scanner? ( media-gfx/sane-backends[${MULTILIB_USEDEP}] )
+	smartcard? ( sys-apps/pcsc-lite[${MULTILIB_USEDEP}] )
 	udev? ( virtual/libudev:=[${MULTILIB_USEDEP}] )
 	unwind? (
 		llvm-libunwind? ( sys-libs/llvm-libunwind[${MULTILIB_USEDEP}] )
@@ -133,6 +133,7 @@ BDEPEND="
 	nls? ( sys-devel/gettext )"
 IDEPEND=">=app-eselect/eselect-wine-2"
 
+QA_FLAGS_IGNORED="usr/lib/.*/wine/.*-unix/odbc32.so" # has no compiled objects
 QA_TEXTRELS="usr/lib/*/wine/i386-unix/*.so" # uses -fno-PIC -Wl,-z,notext
 
 PATCHES=(
@@ -236,6 +237,7 @@ src_configure() {
 		$(use_with pulseaudio pulse)
 		$(use_with scanner sane)
 		$(use_with sdl)
+		$(use_with smartcard pcsclite)
 		$(use_with ssl gnutls)
 		$(use_with truetype freetype)
 		$(use_with udev)
@@ -246,7 +248,6 @@ src_configure() {
 		$(use_with vulkan)
 		$(use_with xcomposite)
 		$(use_with xinerama)
-		$(usev !odbc ac_cv_lib_soname_odbc=)
 	)
 
 	tc-ld-force-bfd # builds with non-bfd but broken at runtime (bug #867097)

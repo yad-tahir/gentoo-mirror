@@ -30,6 +30,11 @@ BDEPEND="
 distutils_enable_tests unittest
 
 python_prepare_all() {
+	local PATCHES=(
+		# https://github.com/eliben/pycparser/pull/494
+		"${FILESDIR}"/${P}-lextab-cache.patch
+	)
+
 	# remove the original files to guarantee their regen
 	rm pycparser/{c_ast,lextab,yacctab}.py || die
 
@@ -42,9 +47,6 @@ python_prepare_all() {
 	ln -s "${S}"/examples tests/examples || die
 
 	rm tests/test_examples.py || die
-
-	# bug #701878
-	MAKEOPTS+=" -j1"
 
 	distutils-r1_python_prepare_all
 }
