@@ -18,13 +18,13 @@ S=${WORKDIR}/${P/-/.}
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86"
 
 RDEPEND="
 	dev-python/python-dateutil[${PYTHON_USEDEP}]
 "
 BDEPEND="
-	>=dev-python/setuptools_scm-3.4.1[${PYTHON_USEDEP}]
+	>=dev-python/setuptools-scm-3.4.1[${PYTHON_USEDEP}]
 	test? (
 		dev-python/path[${PYTHON_USEDEP}]
 	)

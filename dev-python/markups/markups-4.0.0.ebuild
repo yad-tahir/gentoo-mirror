@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{9..10} )
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit distutils-r1 pypi
 
@@ -19,7 +19,7 @@ S=${WORKDIR}/${P^}
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~riscv ~x86"
+KEYWORDS="amd64 ~riscv x86"
 
 RDEPEND="
 	dev-python/markdown[${PYTHON_USEDEP}]
@@ -28,7 +28,7 @@ RDEPEND="
 "
 BDEPEND="
 	test? (
-		app-text/pytextile[${PYTHON_USEDEP}]
+		dev-python/textile[${PYTHON_USEDEP}]
 		dev-python/docutils[${PYTHON_USEDEP}]
 		dev-python/pygments[${PYTHON_USEDEP}]
 		dev-python/pymdown-extensions[${PYTHON_USEDEP}]

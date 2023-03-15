@@ -20,7 +20,7 @@ SRC_URI="
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86"
 
 # check inside src/poetry/core/_vendor/vendor.txt
 # (note that some are indirect deps)
@@ -31,6 +31,7 @@ RDEPEND="
 	dev-python/tomlkit[${PYTHON_USEDEP}]
 "
 BDEPEND="
+	${RDEPEND}
 	test? (
 		dev-python/build[${PYTHON_USEDEP}]
 		dev-python/pep517[${PYTHON_USEDEP}]
