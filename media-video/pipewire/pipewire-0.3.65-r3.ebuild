@@ -29,7 +29,7 @@ else
 		SRC_URI="https://gitlab.freedesktop.org/${PN}/${PN}/-/archive/${PV}/${P}.tar.bz2"
 	fi
 
-	KEYWORDS="amd64 arm arm64 ~loong ~ppc ppc64 ~riscv ~sparc x86"
+	KEYWORDS="amd64 arm arm64 ~loong ppc ppc64 ~riscv ~sparc x86"
 fi
 
 DESCRIPTION="Multimedia processing graphs"
@@ -273,6 +273,10 @@ multilib_src_configure() {
 	)
 
 	meson_src_configure
+}
+
+multilib_src_test() {
+	meson_src_test --timeout-multiplier 10
 }
 
 multilib_src_install() {

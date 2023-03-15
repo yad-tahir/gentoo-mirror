@@ -29,7 +29,7 @@ else
 		SRC_URI="https://gitlab.freedesktop.org/${PN}/${PN}/-/archive/${PV}/${P}.tar.bz2"
 	fi
 
-	KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
+	KEYWORDS="amd64 arm arm64 ~loong ~ppc ppc64 ~riscv ~sparc x86"
 fi
 
 DESCRIPTION="Multimedia processing graphs"
@@ -262,6 +262,10 @@ multilib_src_configure() {
 	meson_src_configure
 }
 
+multilib_src_test() {
+	meson_src_test --timeout-multiplier 10
+}
+
 multilib_src_install() {
 	# Our custom DOCS do not exist in multilib source directory
 	DOCS= meson_src_install
@@ -324,7 +328,7 @@ pkg_preinst() {
 	HAD_SYSTEM_SERVICE=0
 
 	if has_version "media-video/pipewire[sound-server(-)]" ; then
-		HAD_SOUND_SERVER=0
+		HAD_SOUND_SERVER=1
 	fi
 
 	if has_version "media-video/pipewire[system-service(-)]" ; then

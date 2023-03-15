@@ -16,7 +16,7 @@ HOMEPAGE="
 
 LICENSE="MPL-2.0"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ppc ppc64 ~riscv ~s390 sparc x86"
 
 DEPEND="
 	>=app-text/qpdf-11.1.1:0=
@@ -30,7 +30,7 @@ RDEPEND="
 "
 BDEPEND="
 	>=dev-python/pybind11-2.10.1[${PYTHON_USEDEP}]
-	>=dev-python/setuptools_scm-7.0.5[${PYTHON_USEDEP}]
+	>=dev-python/setuptools-scm-7.0.5[${PYTHON_USEDEP}]
 	test? (
 		>=dev-python/attrs-20.2.0[${PYTHON_USEDEP}]
 		>=dev-python/hypothesis-6.36[${PYTHON_USEDEP}]

@@ -13,7 +13,7 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~riscv"
 
 RDEPEND="
 	dev-python/coverage[${PYTHON_USEDEP}]
@@ -44,3 +44,7 @@ distutils_enable_sphinx docs/source \
 	dev-python/numpy \
 	dev-python/nbsphinx \
 	dev-python/matplotlib
+
+python_test() {
+	PYTHONPATH=. epytest # 895258
+}

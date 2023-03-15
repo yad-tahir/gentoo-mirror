@@ -6,7 +6,7 @@ EAPI=8
 PYTHON_COMPAT=( python3_{9..11} )
 DISTUTILS_USE_PEP517=jupyter
 
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="JupyterLab computational environment"
 HOMEPAGE="
@@ -14,7 +14,6 @@ HOMEPAGE="
 	https://github.com/jupyterlab/jupyterlab/
 	https://pypi.org/project/jupyterlab/
 "
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="BSD MIT GPL-3 Apache-2.0"
 SLOT="0"
@@ -24,11 +23,11 @@ RDEPEND="
 	dev-python/ipython[${PYTHON_USEDEP}]
 	dev-python/packaging[${PYTHON_USEDEP}]
 	dev-python/jupyter_core[${PYTHON_USEDEP}]
-	>=dev-python/jupyterlab_server-2.19[${PYTHON_USEDEP}]
+	>=dev-python/jupyterlab-server-2.19[${PYTHON_USEDEP}]
 	>=dev-python/jupyter_server-1.16[${PYTHON_USEDEP}]
 	~dev-python/jupyter_ydoc-0.2.2[${PYTHON_USEDEP}]
-	>=dev-python/jupyter_server_ydoc-0.6.0[${PYTHON_USEDEP}]
-	<dev-python/jupyter_server_ydoc-0.7.0[${PYTHON_USEDEP}]
+	>=dev-python/jupyter-server-ydoc-0.6.0[${PYTHON_USEDEP}]
+	<dev-python/jupyter-server-ydoc-0.7.0[${PYTHON_USEDEP}]
 	>=dev-python/nbclassic-0.2[${PYTHON_USEDEP}]
 	<dev-python/notebook-7[${PYTHON_USEDEP}]
 	>=dev-python/jinja-2.1[${PYTHON_USEDEP}]
@@ -41,7 +40,6 @@ BDEPEND="
 	test? (
 		dev-python/check-manifest[${PYTHON_USEDEP}]
 		dev-python/ipykernel[${PYTHON_USEDEP}]
-		dev-python/jupyterlab_server[${PYTHON_USEDEP}]
 		dev-python/openapi-core[${PYTHON_USEDEP}]
 		dev-python/openapi-spec-validator[${PYTHON_USEDEP}]
 		dev-python/pytest-console-scripts[${PYTHON_USEDEP}]
@@ -75,7 +73,7 @@ EPYTEST_IGNORE=(
 
 distutils_enable_tests pytest
 # TODO: package sphinx_copybutton
-#distutils_enable_sphinx docs/source dev-python/sphinx-rtd-theme dev-python/myst_parser
+#distutils_enable_sphinx docs/source dev-python/sphinx-rtd-theme dev-python/myst-parser
 
 python_install_all() {
 	distutils-r1_python_install_all
