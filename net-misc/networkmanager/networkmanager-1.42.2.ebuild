@@ -29,7 +29,7 @@ REQUIRED_USE="
 	?? ( syslog systemd )
 "
 
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~ia64 ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 ~ia64 ~loong ppc ppc64 ~riscv ~sparc x86"
 
 COMMON_DEPEND="
 	sys-apps/util-linux[${MULTILIB_USEDEP}]
@@ -57,7 +57,7 @@ COMMON_DEPEND="
 	gnutls? (
 		>=net-libs/gnutls-2.12:=[${MULTILIB_USEDEP}]
 	)
-	ppp? ( >=net-dialup/ppp-2.4.5:=[ipv6] )
+	ppp? ( >=net-dialup/ppp-2.4.5:=[ipv6(+)] )
 	modemmanager? (
 		net-misc/mobile-broadband-provider-info
 		>=net-misc/modemmanager-0.7.991:0=

@@ -5,14 +5,13 @@ EAPI=8
 
 PYTHON_COMPAT=( python3_{9..11} )
 DISTUTILS_USE_PEP517=jupyter
-inherit distutils-r1 virtualx
+inherit distutils-r1 virtualx pypi
 
 DESCRIPTION="Jupyter kernel for octave"
 HOMEPAGE="
 	https://github.com/Calysto/octave_kernel/
 	https://pypi.org/project/octave-kernel/
 "
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
@@ -23,7 +22,7 @@ RESTRICT="test"
 
 RDEPEND="
 	dev-python/ipykernel[${PYTHON_USEDEP}]
-	>=dev-python/jupyter_client-4.3.0[${PYTHON_USEDEP}]
+	>=dev-python/jupyter-client-4.3.0[${PYTHON_USEDEP}]
 	>=dev-python/jupyter_packaging-0.9[${PYTHON_USEDEP}]
 	>=dev-python/metakernel-0.24.0[${PYTHON_USEDEP}]
 	sci-mathematics/octave"

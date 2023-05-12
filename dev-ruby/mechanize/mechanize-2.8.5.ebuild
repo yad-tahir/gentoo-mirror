@@ -1,9 +1,9 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-USE_RUBY="ruby26 ruby27 ruby30"
+USE_RUBY="ruby27 ruby30 ruby31"
 
 RUBY_FAKEGEM_EXTRADOC="CHANGELOG.md EXAMPLES.rdoc GUIDE.rdoc README.md"
 
@@ -26,7 +26,7 @@ ruby_add_rdepend "
 	>=dev-ruby/http-cookie-1.0.3:0
 	dev-ruby/mime-types:3
 	>=dev-ruby/net-http-digest_auth-1.4.1:0
-	|| ( dev-ruby/net-http-persistent:4 dev-ruby/net-http-persistent:3 )
+	dev-ruby/net-http-persistent:4
 	>=dev-ruby/nokogiri-1.11.2:0
 	>=dev-ruby/rubyntlm-0.6.3:0
 	>=dev-ruby/webrick-1.7:0

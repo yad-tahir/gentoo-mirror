@@ -6,7 +6,7 @@ EAPI=8
 PYTHON_COMPAT=( python3_{9..11} )
 DISTUTILS_USE_PEP517=setuptools
 
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="MathJax resources as a Jupyter Server Extension"
 HOMEPAGE="
@@ -14,20 +14,19 @@ HOMEPAGE="
 	https://github.com/jupyter-server/jupyter_server_mathjax/
 	https://pypi.org/project/jupyter-server-mathjax/
 "
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~riscv"
+KEYWORDS="amd64 arm arm64 hppa ~loong ppc ppc64 ~riscv ~s390 sparc x86"
 
 RDEPEND="
-	>=dev-python/jupyter_server-1.1[${PYTHON_USEDEP}]
+	>=dev-python/jupyter-server-1.1[${PYTHON_USEDEP}]
 "
 BDEPEND="
 	dev-python/jupyter_packaging[${PYTHON_USEDEP}]
 	test? (
 		dev-python/pytest-tornasync[${PYTHON_USEDEP}]
-		dev-python/pytest_jupyter[${PYTHON_USEDEP}]
+		dev-python/pytest-jupyter[${PYTHON_USEDEP}]
 	)
 "
 

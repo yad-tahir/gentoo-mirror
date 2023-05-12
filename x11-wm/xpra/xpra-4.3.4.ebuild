@@ -7,9 +7,11 @@ if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/Xpra-org/xpra.git"
 	inherit git-r3
 else
-	SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz
-		https://dev.gentoo.org/~chewi/distfiles/${PN}-4.3.1-tests.patch"
-	KEYWORDS="~amd64 ~x86"
+	inherit pypi
+	SRC_URI+="
+		https://dev.gentoo.org/~chewi/distfiles/${PN}-4.3.1-tests.patch
+	"
+	KEYWORDS="amd64 x86"
 fi
 
 PYTHON_COMPAT=( python3_{9..11} )
