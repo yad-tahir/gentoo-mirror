@@ -23,7 +23,7 @@ IUSE="+hwdata +seatd tinywl +udev vulkan x11-backend X"
 
 DEPEND="
 	>=dev-libs/libinput-1.14.0:0=
-	>=dev-libs/wayland-1.21.0
+	>=dev-libs/wayland-1.22.0
 	>=dev-libs/wayland-protocols-1.28
 	media-libs/mesa[egl(+),gles2]
 	media-libs/libdisplay-info:=
@@ -43,6 +43,7 @@ DEPEND="
 		x11-base/xwayland
 		x11-libs/libxcb:0=
 		x11-libs/xcb-util-image
+		x11-libs/xcb-util-renderutil
 		x11-libs/xcb-util-wm
 	)
 "

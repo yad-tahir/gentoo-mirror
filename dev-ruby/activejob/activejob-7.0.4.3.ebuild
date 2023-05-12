@@ -21,7 +21,7 @@ SRC_URI="https://github.com/rails/rails/archive/v${PV}.tar.gz -> rails-${PV}.tgz
 
 LICENSE="MIT"
 SLOT="$(ver_cut 1-2)"
-KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ppc ~ppc64 ~riscv ~sparc ~x86"
 IUSE=""
 
 RUBY_S="rails-${PV}/${PN}"
@@ -34,6 +34,7 @@ ruby_add_rdepend "
 ruby_add_bdepend "
 	test? (
 		dev-ruby/mocha
+		dev-ruby/zeitwerk
 	)"
 
 all_ruby_prepare() {
