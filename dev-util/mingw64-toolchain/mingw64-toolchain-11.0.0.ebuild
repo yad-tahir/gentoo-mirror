@@ -36,7 +36,7 @@ LICENSE="
 	LGPL-3+ || ( GPL-3+ libgcc libstdc++ gcc-runtime-library-exception-3.1 )
 	ZPL BSD BSD-2 ISC LGPL-2+ LGPL-2.1+ MIT public-domain"
 SLOT="0"
-KEYWORDS="-* ~amd64 ~x86"
+KEYWORDS="-* amd64 x86"
 IUSE="+abi_x86_32 custom-cflags debug"
 
 RDEPEND="
@@ -228,7 +228,8 @@ src_compile() {
 
 		edo "${conf[@]}"
 		emake
-		emake DESTDIR="${MWT_D}" install
+		# -j1 to match bug #906155, other packages may be fragile too
+		emake -j1 DESTDIR="${MWT_D}" install
 
 		declare -f mwt-${id} >/dev/null && edo mwt-${id}
 		declare -f mwt-${id}_${2} >/dev/null && edo mwt-${id}_${2}

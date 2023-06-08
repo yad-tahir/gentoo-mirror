@@ -17,8 +17,8 @@ HOMEPAGE="https://www.ruby-lang.org/"
 SRC_URI="https://cache.ruby-lang.org/pub/ruby/${SLOT}/${MY_P}.tar.xz"
 
 LICENSE="|| ( Ruby-BSD BSD-2 )"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
-IUSE="berkdb debug doc examples gdbm ipv6 jemalloc jit +rdoc socks5 +ssl static-libs systemtap tk xemacs"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
+IUSE="berkdb debug doc examples gdbm ipv6 jemalloc jit +rdoc socks5 +ssl static-libs systemtap tk valgrind xemacs"
 
 RDEPEND="
 	berkdb? ( sys-libs/db:= )
@@ -42,7 +42,10 @@ RDEPEND="
 	>=app-eselect/eselect-ruby-20221225
 "
 
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	valgrind? ( dev-util/valgrind )
+"
 
 BUNDLED_GEMS="
 	>=dev-ruby/debug-1.7.1[ruby_targets_ruby32(-)]
@@ -69,7 +72,8 @@ PDEPEND="
 	>=dev-ruby/did_you_mean-1.6.1[ruby_targets_ruby32(-)]
 	>=dev-ruby/json-2.6.1[ruby_targets_ruby32(-)]
 	rdoc? ( >=dev-ruby/rdoc-6.3.3[ruby_targets_ruby32(-)] )
-	xemacs? ( app-xemacs/ruby-modes )"
+	xemacs? ( app-xemacs/ruby-modes )
+"
 
 src_prepare() {
 	eapply "${FILESDIR}"/"${SLOT}"/010*.patch
@@ -207,6 +211,7 @@ src_configure() {
 		$(use_with static-libs static-linked-ext) \
 		$(use_enable debug) \
 		${myconf} \
+		$(use_with valgrind) \
 		--enable-option-checking=no
 
 	# Makefile is broken because it lacks -ldl
@@ -279,7 +284,7 @@ pkg_postinst() {
 
 	elog
 	elog "To switch between available Ruby profiles, execute as root:"
-	elog "\teselect ruby set ruby(23|24|...)"
+	elog "\teselect ruby set ruby(30|31|...)"
 	elog
 }
 

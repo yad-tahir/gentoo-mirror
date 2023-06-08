@@ -5,7 +5,7 @@ EAPI=8
 
 CARGO_OPTIONAL=yes
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{9..11} pypy3 )
+PYTHON_COMPAT=( python3_{10..12} pypy3 )
 
 CRATES="
 	autocfg-1.1.0
@@ -101,14 +101,14 @@ SRC_URI="
 # crates are used at test time only, update via pycargoebuild -L -i ...
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+KEYWORDS="amd64 arm arm64 ppc ppc64 ~riscv ~s390 sparc x86"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
 	virtual/rust
-	<dev-python/semantic_version-3[${PYTHON_USEDEP}]
-	>=dev-python/semantic_version-2.8.2[${PYTHON_USEDEP}]
+	<dev-python/semantic-version-3[${PYTHON_USEDEP}]
+	>=dev-python/semantic-version-2.8.2[${PYTHON_USEDEP}]
 	>=dev-python/setuptools-62.4[${PYTHON_USEDEP}]
 	>=dev-python/typing-extensions-3.7.4.3[${PYTHON_USEDEP}]
 "

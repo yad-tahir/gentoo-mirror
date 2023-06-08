@@ -4,36 +4,39 @@
 EAPI=8
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
-PYTHON_COMPAT=( python3_{9..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 inherit autotools edo flag-o-matic multilib multilib-build
 inherit python-any-r1 toolchain-funcs wrapper
 
 WINE_GECKO=2.47.4
-WINE_MONO=7.4.0
+WINE_MONO=8.0.0
+WINE_P=wine-$(ver_cut 1-2)
 
 if [[ ${PV} == *9999 ]]; then
 	inherit git-r3
-	EGIT_REPO_URI="https://github.com/wine-staging/wine-staging.git"
+	EGIT_REPO_URI="https://gitlab.winehq.org/wine/wine-staging.git"
 	WINE_EGIT_REPO_URI="https://gitlab.winehq.org/wine/wine.git"
 else
 	(( $(ver_cut 2) )) && WINE_SDIR=$(ver_cut 1).x || WINE_SDIR=$(ver_cut 1).0
 	SRC_URI="
-		https://dl.winehq.org/wine/source/${WINE_SDIR}/wine-${PV}.tar.xz
+		https://dl.winehq.org/wine/source/${WINE_SDIR}/${WINE_P}.tar.xz
 		https://github.com/wine-staging/wine-staging/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="-* ~amd64 ~x86"
 fi
-S="${WORKDIR}/wine-${PV}"
+S="${WORKDIR}/${WINE_P}"
 
 DESCRIPTION="Free implementation of Windows(tm) on Unix, with Wine-Staging patchset"
-HOMEPAGE="https://wiki.winehq.org/Wine-Staging"
+HOMEPAGE="
+	https://wiki.winehq.org/Wine-Staging
+	https://gitlab.winehq.org/wine/wine-staging/"
 
 LICENSE="LGPL-2.1+ BSD-2 IJG MIT OPENLDAP ZLIB gsm libpng2 libtiff"
 SLOT="${PV}"
 IUSE="
 	+X +abi_x86_32 +abi_x86_64 +alsa capi crossdev-mingw cups dos
-	llvm-libunwind debug custom-cflags +fontconfig +gecko gphoto2
-	+gstreamer kerberos +mingw +mono netapi nls opencl +opengl osmesa
-	pcap perl pulseaudio samba scanner +sdl selinux smartcard +ssl
+	llvm-libunwind custom-cflags +fontconfig +gecko gphoto2 +gstreamer
+	kerberos +mingw +mono netapi nls opencl +opengl osmesa pcap perl
+	pulseaudio samba scanner +sdl selinux smartcard +ssl +strip
 	+truetype udev udisks +unwind usb v4l +vulkan wayland +xcomposite
 	xinerama"
 REQUIRED_USE="
@@ -353,13 +356,17 @@ src_install() {
 		make_wrapper "${bin##*/}-${P#wine-}" "${bin#"${ED}"}"
 	done
 
-	# don't let portage try to strip PE files with the wrong
-	# strip executable and instead handle it here (saves ~120MB)
 	if use mingw; then
+		# don't let portage try to strip PE files with the wrong
+		# strip executable and instead handle it here (saves ~120MB)
 		dostrip -x ${WINE_PREFIX}/wine/{i386,x86_64}-windows
-		use debug ||
+
+		if use strip; then
+			ebegin "Stripping Windows (PE) binaries"
 			find "${ED}"${WINE_PREFIX}/wine/*-windows -regex '.*\.\(a\|dll\|exe\)' \
-				-exec $(usex abi_x86_64 x86_64 i686)-w64-mingw32-strip --strip-unneeded {} + || die
+				-exec $(usex abi_x86_64 x86_64 i686)-w64-mingw32-strip --strip-unneeded {} +
+			eend ${?} || die
+		fi
 	fi
 
 	dodoc ANNOUNCE AUTHORS README* documentation/README*

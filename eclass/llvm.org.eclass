@@ -59,12 +59,6 @@ LLVM_VERSION=$(ver_cut 1-3)
 # the correct branch to use.
 _LLVM_MASTER_MAJOR=17
 
-# @ECLASS_VARIABLE: _LLVM_NEWEST_MANPAGE_RELEASE
-# @INTERNAL
-# @DESCRIPTION:
-# The newest release of LLVM for which manpages were generated.
-_LLVM_NEWEST_MANPAGE_RELEASE=16.0.3
-
 # @ECLASS_VARIABLE: _LLVM_SOURCE_TYPE
 # @INTERNAL
 # @DESCRIPTION:
@@ -78,8 +72,14 @@ if [[ -z ${_LLVM_SOURCE_TYPE+1} ]]; then
 			_LLVM_SOURCE_TYPE=snapshot
 
 			case ${PV} in
-				17.0.0_pre20230502)
-					EGIT_COMMIT=52882de0e641487329c9e093a90ea3dad01842c8
+				17.0.0_pre20230602)
+					EGIT_COMMIT=f9753ef1893c3d953a0244e7935d3997499b079a
+					;;
+				17.0.0_pre20230526)
+					EGIT_COMMIT=a2684acfb61d40f441e240035d7f1ba50da637c8
+					;;
+				17.0.0_pre20230520)
+					EGIT_COMMIT=abbb22cc0c9c33dedb8d53c2bd3e703f92baace7
 					;;
 				*)
 					die "Unknown snapshot: ${PV}"
@@ -245,7 +245,7 @@ llvm.org_set_globals() {
 			"
 			BDEPEND+="
 				verify-sig? (
-					>=sec-keys/openpgp-keys-llvm-15
+					>=sec-keys/openpgp-keys-llvm-16.0.4
 				)
 			"
 			VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/llvm.asc
@@ -268,17 +268,17 @@ llvm.org_set_globals() {
 	fi
 
 	if [[ ${LLVM_MANPAGES} ]]; then
-		# use pregenerated tarball for releases
-		# up to _LLVM_NEWEST_MANPAGE_RELEASE
-		if llvm_manpage_dist_available; then
+		# use pregenerated tarball if available
+		local manpage_dist=$(llvm_manpage_get_dist)
+		if [[ -n ${manpage_dist} ]]; then
 			IUSE+=" doc"
 			SRC_URI+="
 				!doc? (
-					https://dev.gentoo.org/~mgorny/dist/llvm/llvm-${PV}-manpages.tar.bz2
+					https://dev.gentoo.org/~mgorny/dist/llvm/${manpage_dist}
 				)
 			"
 		else
-			IUSE+=" doc"
+			IUSE+=" +doc"
 			# NB: this is not always the correct dep but it does no harm
 			BDEPEND+=" dev-python/sphinx"
 		fi
@@ -436,13 +436,21 @@ get_lit_flags() {
 	echo "-vv;-j;${LIT_JOBS:-$(makeopts_jobs)}"
 }
 
-# @FUNCTION: llvm_manpage_dist_available
+# @FUNCTION: llvm_manpage_get_dist
 # @DESCRIPTION:
-# Return true (0) if this LLVM version features prebuilt manpage
-# tarball, false (1) otherwise.
-llvm_manpage_dist_available() {
-	[[ ${_LLVM_SOURCE_TYPE} == tar && ${PV} != *_rc* ]] &&
-		ver_test "${PV}" -le "${_LLVM_NEWEST_MANPAGE_RELEASE}"
+# Output the filename of the manpage dist for this version,
+# if available.  Otherwise returns without output.
+llvm_manpage_get_dist() {
+	if [[ ${_LLVM_SOURCE_TYPE} == tar && ${PV} != *_rc* ]]; then
+		case ${PV} in
+			14*|15*|16.0.[0-3])
+				echo "llvm-${PV}-manpages.tar.bz2"
+				;;
+			16*)
+				echo "llvm-16.0.4-manpages.tar.bz2"
+				;;
+		esac
+	fi
 }
 
 # @FUNCTION: llvm_are_manpages_built
@@ -450,7 +458,7 @@ llvm_manpage_dist_available() {
 # Return true (0) if manpages are going to be built from source,
 # false (1) if preinstalled manpages will be used.
 llvm_are_manpages_built() {
-	use doc || ! llvm_manpage_dist_available
+	use doc || [[ -z $(llvm_manpage_get_dist) ]]
 }
 
 # @FUNCTION: llvm_install_manpages
@@ -461,7 +469,7 @@ llvm_install_manpages() {
 	if ! llvm_are_manpages_built; then
 		# (doman does not support custom paths)
 		insinto "/usr/lib/llvm/${LLVM_MAJOR}/share/man/man1"
-		doins "${WORKDIR}/llvm-${PV}-manpages/${LLVM_COMPONENTS[0]}"/*.1
+		doins "${WORKDIR}"/llvm-*-manpages/"${LLVM_COMPONENTS[0]}"/*.1
 	fi
 }
 

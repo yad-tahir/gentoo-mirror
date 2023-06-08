@@ -4,7 +4,7 @@
 EAPI=8
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
-PYTHON_COMPAT=( python3_{9..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 inherit autotools edo flag-o-matic multilib multilib-build
 inherit python-any-r1 toolchain-funcs wrapper
 
@@ -25,7 +25,9 @@ fi
 S="${WORKDIR}/wine-${PV}"
 
 DESCRIPTION="Free implementation of Windows(tm) on Unix, with Wine-Staging patchset"
-HOMEPAGE="https://wiki.winehq.org/Wine-Staging"
+HOMEPAGE="
+	https://wiki.winehq.org/Wine-Staging
+	https://gitlab.winehq.org/wine/wine-staging/"
 
 LICENSE="LGPL-2.1+ BSD-2 IJG MIT OPENLDAP ZLIB gsm libpng2 libtiff"
 SLOT="${PV}"
