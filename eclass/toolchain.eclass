@@ -288,6 +288,9 @@ if [[ ${PN} != kgcc64 && ${PN} != gcc-* ]] ; then
 	tc_version_is_at_least 12.2.1_p20221203 ${PV} && IUSE+=" default-znow"
 	tc_version_is_at_least 12.2.1_p20221203 ${PV} && IUSE+=" default-stack-clash-protection"
 	tc_version_is_at_least 13.0.0_pre20221218 ${PV} && IUSE+=" modula2"
+	# See https://gcc.gnu.org/pipermail/gcc-patches/2023-April/615944.html
+	# and https://rust-gcc.github.io/2023/04/24/gccrs-and-gcc13-release.html for why
+	# it was disabled in 13.
 	tc_version_is_at_least 14.0.0_pre20230423 ${PV} && IUSE+=" rust"
 fi
 
@@ -423,15 +426,17 @@ fi
 # Set the source directory depending on whether we're using
 # a live git tree, snapshot, or release tarball.
 if [[ ${TOOLCHAIN_SET_S} == yes ]] ; then
-	S=$(
-		if tc_is_live ; then
-			echo ${EGIT_CHECKOUT_DIR}
-		elif [[ -n ${SNAPSHOT} ]] ; then
-			echo ${WORKDIR}/gcc-${SNAPSHOT}
-		else
-			echo ${WORKDIR}/gcc-${GCC_RELEASE_VER}
-		fi
-	)
+	s_path=
+	if tc_is_live ; then
+		s_path=${EGIT_CHECKOUT_DIR}
+	elif [[ -n ${SNAPSHOT} ]] ; then
+		s_path=${WORKDIR}/gcc-${SNAPSHOT}
+	else
+		s_path=${WORKDIR}/gcc-${GCC_RELEASE_VER}
+	fi
+
+	S="${s_path}"
+	unset s_path
 fi
 
 gentoo_urls() {
@@ -523,13 +528,6 @@ gentoo_urls() {
 #			The resulting filename of this tarball will be:
 #			gcc-${SPECS_GCC_VER:-${GCC_RELEASE_VER}}-specs-${SPECS_VER}.tar.xz
 #
-#	CYGWINPORTS_GITREV
-#			If set, this variable signals that we should apply additional patches
-#			maintained by upstream Cygwin developers at github/cygwinports/gcc,
-#			using the specified git commit id there.  The list of patches to
-#			apply is extracted from gcc.cygport, maintained there as well.
-#			This is done for compilers running on Cygwin, not for cross compilers
-#			with a Cygwin target.
 get_gcc_src_uri() {
 	export PATCH_GCC_VER=${PATCH_GCC_VER:-${GCC_RELEASE_VER}}
 	export MUSL_GCC_VER=${MUSL_GCC_VER:-${PATCH_GCC_VER}}
@@ -580,11 +578,6 @@ get_gcc_src_uri() {
 			GCC_SRC_URI+=" gcj? ( ftp://sourceware.org/pub/java/ecj-4.3.jar )"
 		fi
 	fi
-
-	# Cygwin patches from https://github.com/cygwinports/gcc
-	[[ -n ${CYGWINPORTS_GITREV} ]] && \
-		GCC_SRC_URI+=" elibc_Cygwin? ( https://github.com/cygwinports/gcc/archive/${CYGWINPORTS_GITREV}.tar.gz
-			-> gcc-cygwinports-${CYGWINPORTS_GITREV}.tar.gz )"
 
 	echo "${GCC_SRC_URI}"
 }
@@ -672,7 +665,6 @@ toolchain_src_prepare() {
 
 	do_gcc_gentoo_patches
 	do_gcc_PIE_patches
-	do_gcc_CYGWINPORTS_patches
 
 	if tc_is_live ; then
 		BRANDING_GCC_PKGVERSION="${BRANDING_GCC_PKGVERSION}, commit ${EGIT_VERSION}"
@@ -796,23 +788,6 @@ do_gcc_PIE_patches() {
 	eapply "${WORKDIR}"/piepatch/*.patch
 
 	BRANDING_GCC_PKGVERSION="${BRANDING_GCC_PKGVERSION}, pie-${PIE_VER}"
-}
-
-do_gcc_CYGWINPORTS_patches() {
-	[[ -n ${CYGWINPORTS_GITREV} ]] || return 0
-	use elibc_Cygwin || return 0
-
-	local p d="${WORKDIR}/gcc-${CYGWINPORTS_GITREV}"
-	# readarray -t is available since bash-4.4 only, bug #690686
-	local patches=( $(
-		for p in $(
-			sed -e '1,/PATCH_URI="/d;/"/,$d' < "${d}"/gcc.cygport
-		); do
-			echo "${d}/${p}"
-		done
-	) )
-	einfo "Applying cygwin port patches ..."
-	eapply -- "${patches[@]}"
 }
 
 # configure to build with the hardened GCC specs as the default
@@ -1193,9 +1168,6 @@ toolchain_src_configure() {
 				;;
 			*-musl*)
 				needed_libc=musl
-				;;
-			*-cygwin)
-				needed_libc=cygwin
 				;;
 			x86_64-*-mingw*|*-w64-mingw*)
 				needed_libc=mingw64-runtime
@@ -2113,7 +2085,7 @@ toolchain_src_install() {
 		#
 		# Do the 'make install' from the build directory
 		pushd "${WORKDIR}"/build-jit > /dev/null || die
-		S="${WORKDIR}"/build-jit emake DESTDIR="${D}" install
+		S="${WORKDIR}"/build-jit emake DESTDIR="${D}" -j1 install
 
 		# Punt some tools which are really only useful while building gcc
 		find "${ED}" -name install-tools -prune -type d -exec rm -rf "{}" \;
@@ -2127,7 +2099,17 @@ toolchain_src_install() {
 	fi
 
 	# Do the 'make install' from the build directory
-	S="${WORKDIR}"/build emake DESTDIR="${D}" install
+	#
+	# Unfortunately, we have to use -j1 for make install. Upstream
+	# don't really test it and there's not much appetite for fixing bugs
+	# with it. Several reported bugs exist where the resulting image
+	# was wrong, rather than a simple compile/install failure:
+	# - bug #906155
+	# - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=42980
+	# - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=51814
+	# - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=103656
+	# - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=109898
+	S="${WORKDIR}"/build emake DESTDIR="${D}" -j1 install
 
 	# Punt some tools which are really only useful while building gcc
 	find "${ED}" -name install-tools -prune -type d -exec rm -rf "{}" \;

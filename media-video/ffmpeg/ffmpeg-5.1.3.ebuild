@@ -286,8 +286,8 @@ RDEPEND="
 "
 
 RDEPEND="${RDEPEND}
-		openssl? ( >=dev-libs/openssl-1.0.1h-r2:0=[${MULTILIB_USEDEP}] )
-		!openssl? ( gnutls? ( >=net-libs/gnutls-2.12.23-r6:=[${MULTILIB_USEDEP}] ) )
+	openssl? ( >=dev-libs/openssl-1.0.1h-r2:0=[${MULTILIB_USEDEP}] )
+	!openssl? ( gnutls? ( >=net-libs/gnutls-2.12.23-r6:=[${MULTILIB_USEDEP}] ) )
 "
 
 DEPEND="${RDEPEND}
@@ -337,6 +337,7 @@ S=${WORKDIR}/${P/_/-}
 PATCHES=(
 	"${FILESDIR}"/chromium-r1.patch
 	"${FILESDIR}"/${PN}-5.1.2-get_cabac_inline_x86-32-bit.patch
+	"${FILESDIR}"/${P}-fix-build-svt-av1-1.5.0.patch
 )
 
 MULTILIB_WRAPPED_HEADERS=(

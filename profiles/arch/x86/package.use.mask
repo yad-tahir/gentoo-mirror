@@ -1,6 +1,22 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Matt Turner <mattst88@gentoo.org> (2023-05-30)
+# sys-apps/dbus-broker is not keyworded
+app-accessibility/at-spi2-core dbus-broker
+
+# Anna Vyalkova <cyber+gentoo@sysrq.in> (2023-05-20)
+# net-libs/libomemo-c is not keyworded for ~x86.
+net-libs/qxmpp omemo
+
+# Joonas Niilola <juippis@gentoo.org> (2023-05-16)
+# Doesn't work on x86. #878445
+net-libs/pjproject webrtc
+
+# Matt Turner <mattst88@gentoo.org> (2023-05-12)
+# Likely untested upstream. Not worth the hassle.
+>=media-libs/mesa-23.1 opencl
+
 # Ionen Wolkens <ionen@gentoo.org> (2023-03-30)
 # Needs x11-drivers/nvidia-drivers which is no longer available here.
 media-tv/mythtv nvdec
@@ -155,7 +171,7 @@ net-misc/asterisk -blocks
 
 # Nils Freydank <holgersson@posteo.de> (2021-01-18)
 # Depends on media-plugins/gst-plugins-cairo, which isn't keyworded on x86.
-app-misc/pdfpc gstreamer
+app-text/pdfpc gstreamer
 
 # Michał Górny <mgorny@gentoo.org> (2020-12-21)
 # Sanitizers supported on this architecture.
@@ -371,7 +387,7 @@ app-emulation/libvirt xen
 
 # Mike Gilbert <floppym@gentoo.org> (2015-09-05)
 # sys-boot/gnu-efi is not supported on all archs.
-sys-apps/systemd -gnuefi
+sys-apps/systemd -boot -gnuefi
 sys-apps/systemd-utils -boot
 
 # Ben de Groot <yngwin@gentoo.org> (2015-03-15)

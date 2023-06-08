@@ -19,7 +19,7 @@ S="${WORKDIR}/${PARCH}"
 
 LICENSE="BSD GPL-2"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux ~arm64-macos ~ppc-macos ~x64-macos ~x64-solaris"
 # Probably want to drop ssl defaulting to on in a future version.
 IUSE="abi_mips_n32 audit debug kerberos ldns libedit livecd pam +pie security-key selinux +ssl static test X xmss"
 
@@ -81,14 +81,12 @@ BDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}/${PN}-7.9_p1-include-stdlib.patch"
-	"${FILESDIR}/${PN}-8.7_p1-GSSAPI-dns.patch" #165444 integrated into gsskex
-	"${FILESDIR}/${PN}-6.7_p1-openssl-ignore-status.patch"
-	"${FILESDIR}/${PN}-7.5_p1-disable-conch-interop-tests.patch"
-	"${FILESDIR}/${PN}-8.0_p1-fix-putty-tests.patch"
+	"${FILESDIR}/${PN}-9.3_p1-GSSAPI-dns.patch" #165444 integrated into gsskex
+	"${FILESDIR}/${PN}-9.3_p1-openssl-ignore-status.patch"
+	"${FILESDIR}/${PN}-9.3_p1-disable-conch-interop-tests.patch"
+	"${FILESDIR}/${PN}-9.3_p1-fix-putty-tests.patch"
 	"${FILESDIR}/${PN}-9.3_p1-deny-shmget-shmat-shmdt-in-preauth-privsep-child.patch"
-	"${FILESDIR}/${PN}-8.9_p1-allow-ppoll_time64.patch" #834019
-	"${FILESDIR}/${PN}-8.9_p1-gss-use-HOST_NAME_MAX.patch" #834044
+	"${FILESDIR}/${PN}-9.3_p1-gss-use-HOST_NAME_MAX.patch" #834044
 	"${FILESDIR}/${PN}-9.3_p1-openssl-version-compat-check.patch"
 )
 

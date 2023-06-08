@@ -6,7 +6,7 @@ EAPI=8
 # Be careful with packaging odd-version-number branches.
 # See https://www.freedesktop.org/wiki/Software/dbus/#download.
 
-PYTHON_COMPAT=( python3_{9..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 TMPFILES_OPTIONAL=1
 
 # From 1.15.0 release notes:
@@ -24,8 +24,8 @@ SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.xz"
 
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
-IUSE="debug doc elogind selinux static-libs systemd test X"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
+IUSE="debug doc elogind selinux static-libs systemd test valgrind X"
 RESTRICT="!test? ( test )"
 
 REQUIRED_USE="?? ( elogind systemd )"
@@ -57,6 +57,7 @@ DEPEND="${COMMON_DEPEND}
 		${PYTHON_DEPS}
 		>=dev-libs/glib-2.40:2
 	)
+	valgrind? ( >=dev-util/valgrind-3.6 )
 	X? ( x11-base/xorg-proto )
 "
 RDEPEND="${COMMON_DEPEND}
@@ -149,6 +150,7 @@ multilib_src_configure() {
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-systemduserunitdir="$(systemd_get_userunitdir)"
 		--with-dbus-user=messagebus
+		$(multilib_native_use_with valgrind)
 		$(use_with X x)
 	)
 

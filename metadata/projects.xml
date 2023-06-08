@@ -355,6 +355,10 @@
     <name>Bug Wranglers</name>
     <url>https://wiki.gentoo.org/wiki/Project:Bug-wranglers</url>
     <description>Bug Wranglers elaborate how to proceed with bugs on the Gentoo bug tracker.</description>
+    <member>
+      <email>floppym@gentoo.org</email>
+      <name>Mike Gilbert</name>
+    </member>
     <member is-lead="1">
       <email>jstein@gentoo.org</email>
       <name>Jonas Stein</name>
@@ -648,10 +652,6 @@
     <member>
       <email>gokturk@gentoo.org</email>
       <name>Göktürk Yüksek</name>
-    </member>
-    <member>
-      <email>grknight@gentoo.org</email>
-      <name>Brian Evans</name>
     </member>
     <member>
       <email>kensington@gentoo.org</email>
@@ -1433,13 +1433,13 @@
       <role>General wrangling, packages site</role>
     </member>
     <member>
+      <email>arthurzam@gentoo.org</email>
+      <name>Arthur Zamarin</name>
+    </member>
+    <member>
       <email>blueknight@gentoo.org</email>
       <name>Yury German</name>
       <role>General system administration, Blogs, Planet</role>
-    </member>
-    <member>
-      <email>grknight@gentoo.org</email>
-      <name>Brian Evans</name>
     </member>
     <member>
       <email>jmbsvicetto@gentoo.org</email>
@@ -2035,10 +2035,6 @@
     <name>PHP</name>
     <url>https://wiki.gentoo.org/wiki/Project:PHP</url>
     <description>This project maintains PHP itself as well as the PHP extensions and libraries</description>
-    <member>
-      <email>grknight@gentoo.org</email>
-      <name>Brian Evans</name>
-    </member>
   </project>
   <project>
     <email>pms@gentoo.org</email>
@@ -2183,11 +2179,6 @@
     <member>
       <email>sam@gentoo.org</email>
       <name>Sam James</name>
-    </member>
-    <member>
-      <email>tommy@gentoo.org</email>
-      <name>Thomas Sachau</name>
-      <role>Mutlilib liaison</role>
     </member>
     <member is-lead="1">
       <email>zmedico@gentoo.org</email>
@@ -2511,10 +2502,6 @@
     <member>
       <email>chutzpah@gentoo.org</email>
       <name>Patrick McLean</name>
-    </member>
-    <member>
-      <email>floppym@gentoo.org</email>
-      <name>Mike Gilbert</name>
     </member>
     <member is-lead="1">
       <email>mgorny@gentoo.org</email>
@@ -3428,11 +3415,6 @@
     <url>https://wiki.gentoo.org/wiki/Project:Wiki</url>
     <description>The wiki project oversees the community and the content surrounding wiki.gentoo.org</description>
     <subproject ref="handbook@gentoo.org" inherit-members="1"/>
-    <member>
-      <email>grknight@gentoo.org</email>
-      <name>Brian Evans</name>
-      <role>Administrator / Contributor</role>
-    </member>
     <member is-lead="1">
       <email>maffblaster@gentoo.org</email>
       <name>Matthew Marchese</name>
