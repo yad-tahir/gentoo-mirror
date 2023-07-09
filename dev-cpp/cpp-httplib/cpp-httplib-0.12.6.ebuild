@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 
 inherit cmake-multilib python-any-r1 toolchain-funcs
 
@@ -44,7 +44,7 @@ src_configure() {
 }
 
 multilib_src_test() {
-	cp -p -R --reflink=auto "${S}/test" ./test || die
+	cp -p -R "${S}/test" ./test || die
 
 	GTEST_FILTER='-*.*_Online' emake -C test "CXX=$(tc-getCXX)" CXXFLAGS="${CXXFLAGS} -I."
 }

@@ -22,7 +22,7 @@ DESCRIPTION="X Persistent Remote Apps (xpra) and Partitioning WM (parti) based o
 HOMEPAGE="https://xpra.org/"
 LICENSE="GPL-2 BSD"
 SLOT="0"
-IUSE="brotli +client +clipboard crypt csc cups dbus doc ffmpeg jpeg html ibus +lz4 lzo minimal oauth opengl pillow pinentry pulseaudio +server sound systemd test +trayicon udev vpx webcam webp xdg xinerama"
+IUSE="brotli +client +clipboard crypt csc cups dbus doc ffmpeg jpeg html ibus +lz4 lzo minimal oauth opengl pinentry pulseaudio +server sound systemd test +trayicon udev vpx webcam webp xdg xinerama"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	|| ( client server )
@@ -195,11 +195,13 @@ python_test() {
 python_install_all() {
 	distutils-r1_python_prepare_all
 
-	# Move udev dir to the right place.
+	# Move udev dir to the right place if necessary.
 	if use udev; then
 		local dir=$(get_udevdir)
-		dodir "${dir%/*}"
-		mv -vnT "${ED}"/usr/lib/udev "${ED}${dir}" || die
+		if [[ ! ${ED}/usr/lib/udev -ef ${ED}${dir} ]]; then
+			dodir "${dir%/*}"
+			mv -vnT "${ED}"/usr/lib/udev "${ED}${dir}" || die
+		fi
 	else
 		rm -vr "${ED}"/usr/lib/udev || die
 		rm -v "${ED}"/usr/libexec/xpra/xpra_udev_product_version || die
