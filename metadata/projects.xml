@@ -1173,22 +1173,6 @@
     </member>
   </project>
   <project>
-    <email>gkeys@gentoo.org</email>
-    <name>Keys</name>
-    <url>https://wiki.gentoo.org/wiki/Project:Gentoo-keys</url>
-    <description>Gentoo Keys is a Python based project that aims to manage the OpenPGP keys used for validation on users and Gentoo's infrastructure servers.</description>
-    <member is-lead="1">
-      <email>dolsen@gentoo.org</email>
-      <name>Brian Dolbec</name>
-      <role>Lead, developer, tester,...</role>
-    </member>
-    <member>
-      <email>robbat2@gentoo.org</email>
-      <name>Robin Johnson</name>
-      <role>Project overview, infrastructure liaison, Gleps</role>
-    </member>
-  </project>
-  <project>
     <email>gentoostats@gentoo.org</email>
     <name>Gentoostats</name>
     <url>https://wiki.gentoo.org/wiki/Project:Gentoostats</url>
@@ -1249,10 +1233,14 @@
     <url>https://wiki.gentoo.org/wiki/Project:Group_Contacts</url>
     <description>Group Contacts for libera.chat administration</description>
     <member>
+      <email>bkohler@gentoo.org</email>
+      <name>Ben Kohler</name>
+    </member>
+    <member>
       <email>jmbsvicetto@gentoo.org</email>
       <name>Jorge Manuel B. S. Vicetto</name>
     </member>
-    <member>
+    <member is-lead="1">
       <email>juippis@gentoo.org</email>
       <name>Joonas Niilola</name>
     </member>
@@ -1260,7 +1248,7 @@
       <email>sam@gentoo.org</email>
       <name>Sam James</name>
     </member>
-    <member is-lead="1">
+    <member>
       <email>zlogene@gentoo.org</email>
       <name>Mikle Kolyada</name>
     </member>
@@ -2593,10 +2581,6 @@
     <member>
       <email>ulm@gentoo.org</email>
       <name>Ulrich Müller</name>
-    </member>
-    <member>
-      <email>zlogene@gentoo.org</email>
-      <name>Mikle Kolyada</name>
     </member>
   </project>
   <project>

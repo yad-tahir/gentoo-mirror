@@ -57,7 +57,7 @@ SRC_URI="${MOZ_SRC_BASE_URI}/source/${MOZ_P}.source.tar.xz -> ${MOZ_P_DISTFILES}
 DESCRIPTION="Firefox Web Browser"
 HOMEPAGE="https://www.mozilla.com/firefox"
 
-KEYWORDS="~amd64 ~arm64 ~riscv ~x86"
+KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
 
 SLOT="rapid"
 LICENSE="MPL-2.0 GPL-2 LGPL-2.1"
@@ -647,7 +647,15 @@ src_unpack() {
 
 src_prepare() {
 	use lto && rm -v "${WORKDIR}"/firefox-patches/*-LTO-Only-enable-LTO-*.patch
-	! use ppc64 && rm -v "${WORKDIR}"/firefox-patches/*bmo-1775202-ppc64*.patch
+	#! use ppc64 && rm -v "${WORKDIR}"/firefox-patches/*bmo-1775202-ppc64*.patch
+
+	# temp workaround for https://bugs.gentoo.org/908297 until patch added to tarball
+	rm -v "${WORKDIR}"/firefox-patches/*bmo-1775202-ppc64*.patch
+	if use ppc64; then
+		eapply "${FILESDIR}"/firefox-114-ppc64-webrtc.patch
+		eapply "${FILESDIR}"/firefox-114-ppc64-profiler.patch
+	fi
+	# end temp workaround
 
 	eapply "${WORKDIR}/firefox-patches"
 
@@ -966,7 +974,7 @@ src_configure() {
 	fi
 
 	# LTO flag was handled via configure
-	filter-flags '-flto*'
+	filter-lto
 
 	mozconfig_use_enable debug
 	if use debug ; then

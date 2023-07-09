@@ -6,7 +6,7 @@ EAPI=8
 inherit cmake xdg
 
 DESCRIPTION="Advanced drum machine"
-HOMEPAGE="http://www.hydrogen-music.org/"
+HOMEPAGE="http://hydrogen-music.org/"
 
 if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
@@ -14,7 +14,7 @@ if [[ ${PV} == 9999 ]]; then
 else
 	MY_PV=${PV/_/-}
 	SRC_URI="https://github.com/${PN}-music/${PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+	KEYWORDS="amd64 ~ppc ppc64 x86"
 	S="${WORKDIR}"/${PN}-${MY_PV}
 fi
 

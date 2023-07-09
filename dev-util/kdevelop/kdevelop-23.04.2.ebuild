@@ -17,7 +17,7 @@ HOMEPAGE="https://www.kdevelop.org/"
 
 LICENSE="GPL-2 LGPL-2"
 SLOT="5/$(ver_cut 1-2)"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
+KEYWORDS="amd64 arm64 ~ppc64 ~x86"
 IUSE="+gdbui hex +plasma +qmake reviewboard subversion"
 
 # see bug 366471
@@ -94,6 +94,8 @@ RDEPEND="${COMMON_DEPEND}
 	>=sys-devel/gdb-7.0[python]
 	reviewboard? ( kde-apps/ktp-accounts-kcm:5 )
 "
+
+PATCHES=( "${FILESDIR}/${P}-astyle-3.4.patch" ) # bug 908977
 
 llvm_check_deps() {
 	has_version -d "sys-devel/clang:${LLVM_SLOT}"

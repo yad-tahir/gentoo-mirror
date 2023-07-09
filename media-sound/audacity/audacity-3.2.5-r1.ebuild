@@ -10,7 +10,7 @@ inherit cmake wxwidgets xdg
 MY_P="Audacity-${PV}"
 DOC_PV="${PV}"
 DESCRIPTION="Free crossplatform audio editor"
-HOMEPAGE="https://web.audacityteam.org/"
+HOMEPAGE="https://www.audacityteam.org/"
 
 # A header-only thread pool library, without a build system, about 100
 # lines of code.  Probably not worth packaging individually.  Check
@@ -125,6 +125,9 @@ PATCHES=(
 
 	# GCC 13
 	"${FILESDIR}/${PN}-3.2.5-gcc13-deux.patch"
+
+	# gettext 0.22
+	"${FILESDIR}/${PN}-3.2.5-gettext-0.22.patch"
 )
 
 src_prepare() {
