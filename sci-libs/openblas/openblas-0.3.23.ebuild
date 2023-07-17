@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit fortran-2 toolchain-funcs
+inherit flag-o-matic fortran-2 toolchain-funcs
 
 DESCRIPTION="Optimized BLAS library based on GotoBLAS2"
 HOMEPAGE="https://github.com/xianyi/OpenBLAS"
@@ -28,6 +28,7 @@ BDEPEND="virtual/pkgconfig"
 PATCHES=(
 	"${FILESDIR}/${PN}-0.3.23-shared-blas-lapack.patch"
 	"${FILESDIR}/${PN}-0.3.21-fix-loong.patch"
+	"${FILESDIR}/${PN}-0.3.23-parallel-make.patch"
 )
 
 pkg_pretend() {
@@ -52,6 +53,9 @@ pkg_setup() {
 	fortran-2_pkg_setup
 
 	# List of most configurable options - Makefile.rule
+
+	# not an easy fix, https://github.com/xianyi/OpenBLAS/issues/4128
+	filter-lto
 
 	# https://github.com/xianyi/OpenBLAS/pull/2663
 	tc-export CC FC LD AR AS RANLIB
@@ -118,9 +122,8 @@ src_prepare() {
 }
 
 src_compile() {
-	default
-	cd interface || die
-	emake shared-blas-lapack
+	emake shared
+	use eselect-ldso && emake -C interface shared-blas-lapack
 
 	if use index-64bit; then
 		emake -C"${S}-index-64bit" \
