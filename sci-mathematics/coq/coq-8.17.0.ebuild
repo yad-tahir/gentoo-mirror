@@ -17,7 +17,7 @@ S="${WORKDIR}"/${MY_P}
 
 LICENSE="LGPL-2.1"
 SLOT="0/${PV}"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~x86"
 IUSE="debug doc gui +ocamlopt test"
 RESTRICT="!test? ( test )"
 
@@ -109,4 +109,13 @@ src_install() {
 	done
 
 	einstalldocs
+}
+
+pkg_preinst() {
+	# bug https://bugs.gentoo.org/910236
+	if has_version "sci-mathematics/coq:0/8.12.0" && [[ ! -L /usr/lib64/coq ]]
+	then
+		einfo "Removing colliding directory from version 8.12: /usr/lib64/coq"
+		rm -rf /usr/lib64/coq
+	fi
 }
