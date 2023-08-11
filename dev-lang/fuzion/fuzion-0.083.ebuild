@@ -15,7 +15,7 @@ if [[ ${PV} == *9999* ]] ; then
 else
 	SRC_URI="https://github.com/tokiwa-software/${PN}/archive/v${PV}.tar.gz
 		-> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 ~x86"
 fi
 
 LICENSE="GPL-3"
@@ -48,7 +48,7 @@ src_install() {
 		torm_path="${S}"/build/${torm}
 
 		if [[ -e "${torm_path}" ]] ; then
-			rm -r "${torm_path}" || die "failed to remove ${toremove_path}"
+			rm -r "${torm_path}" || die "failed to remove ${torm_path}"
 		fi
 	done
 

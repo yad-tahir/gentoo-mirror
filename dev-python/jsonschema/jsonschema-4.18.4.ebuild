@@ -16,7 +16,7 @@ HOMEPAGE="
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~riscv ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~loong ~riscv ~x86"
 
 RDEPEND="
 	>=dev-python/attrs-22.2.0[${PYTHON_USEDEP}]
@@ -38,7 +38,7 @@ RDEPEND+="
 	dev-python/rfc3339-validator[${PYTHON_USEDEP}]
 	dev-python/rfc3986-validator[${PYTHON_USEDEP}]
 	dev-python/rfc3987[${PYTHON_USEDEP}]
-	dev-python/uri_template[${PYTHON_USEDEP}]
+	dev-python/uri-template[${PYTHON_USEDEP}]
 	>=dev-python/webcolors-1.11[${PYTHON_USEDEP}]
 "
 
