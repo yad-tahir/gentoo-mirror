@@ -20,7 +20,7 @@ SRC_URI="
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="amd64 arm arm64 ~hppa ~ia64 ~loong ppc ppc64 ~riscv ~s390 ~sparc x86"
+KEYWORDS="amd64 arm arm64 hppa ~ia64 ~loong ppc ppc64 ~riscv ~s390 ~sparc x86"
 
 RDEPEND="
 	>=dev-python/pyproject-metadata-0.7.1[${PYTHON_USEDEP}]
@@ -28,15 +28,12 @@ RDEPEND="
 	dev-util/patchelf
 	$(python_gen_cond_dep '
 		>=dev-python/tomli-1.0.0[${PYTHON_USEDEP}]
-	' 3.9 3.10)
+	' 3.10)
 "
 BDEPEND="
 	>=dev-python/cython-0.29.34[${PYTHON_USEDEP}]
 	test? (
 		dev-python/pytest-mock[${PYTHON_USEDEP}]
-		$(python_gen_cond_dep '
-			>=dev-python/typing-extensions-3.7.4[${PYTHON_USEDEP}]
-		' 3.9)
 	)
 "
 
