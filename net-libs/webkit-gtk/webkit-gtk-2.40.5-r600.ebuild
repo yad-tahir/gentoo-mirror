@@ -15,7 +15,7 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="6/0" # soname version of libwebkit2gtk-6.0
-KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="amd64 arm arm64 ~loong ppc ppc64 ~riscv ~sparc x86"
 
 IUSE="aqua avif examples gamepad gles2-only keyring +gstreamer +introspection pdf +jpeg2k +jumbo-build lcms seccomp spell systemd wayland X"
 REQUIRED_USE="|| ( aqua wayland X )"
@@ -37,7 +37,7 @@ RDEPEND="
 	>=media-libs/freetype-2.9.0:2
 	>=dev-libs/libgcrypt-1.7.0:0=
 	>=x11-libs/gtk+-3.22.0:3[aqua?,introspection?,wayland?,X?]
-	gui-libs/gtk:4
+	gui-libs/gtk:4[introspection?]
 	>=media-libs/harfbuzz-1.4.2:=[icu(+)]
 	>=dev-libs/icu-61.2:=
 	media-libs/libjpeg-turbo:0=

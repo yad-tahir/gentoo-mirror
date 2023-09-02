@@ -71,8 +71,12 @@ dist-kernel_get_image_path() {
 		amd64|x86)
 			echo arch/x86/boot/bzImage
 			;;
-		arm64)
-			echo arch/arm64/boot/Image.gz
+		arm64|riscv)
+			if [[ ${KERNEL_IUSE_SECUREBOOT} ]] && use secureboot; then
+				echo arch/${ARCH}/boot/vmlinuz.efi
+			else
+				echo arch/${ARCH}/boot/Image.gz
+			fi
 			;;
 		arm)
 			echo arch/arm/boot/zImage
@@ -82,9 +86,6 @@ dist-kernel_get_image_path() {
 			# ./ is required because of ${image_path%/*}
 			# substitutions in the code
 			echo ./vmlinux
-			;;
-		riscv)
-			echo arch/riscv/boot/Image.gz
 			;;
 		*)
 			die "${FUNCNAME}: unsupported ARCH=${ARCH}"
@@ -131,11 +132,11 @@ dist-kernel_install_kernel() {
 		done
 		shopt -u nullglob
 		export KERNEL_INSTALL_PLUGINS="${KERNEL_INSTALL_PLUGINS} ${plugins[@]}"
-	fi
 
-	if [[ ${KERNEL_IUSE_SECUREBOOT} ]]; then
-		# Kernel-install requires uki's are named uki.efi, sign in-place
-		secureboot_sign_efi_file "${image}" "${image}"
+		if [[ ${KERNEL_IUSE_SECUREBOOT} ]]; then
+			# Ensure the uki is signed if dracut hasn't already done so.
+			secureboot_sign_efi_file "${image}"
+		fi
 	fi
 
 	ebegin "Installing the kernel via installkernel"

@@ -52,7 +52,7 @@ BDEPEND="secureboot? ( app-crypt/sbsigntools )"
 # @DESCRIPTION:
 # Used with USE=secureboot.  Should be set to the path of the private
 # key in PEM format to use, or a PKCS#11 URI.
-#
+
 # @ECLASS_VARIABLE: SECUREBOOT_SIGN_CERT
 # @USER_VARIABLE
 # @DEFAULT_UNSET
@@ -75,11 +75,11 @@ _secureboot_die_if_unset() {
 	if [[ -z ${SECUREBOOT_SIGN_KEY} || -z ${SECUREBOOT_SIGN_CERT} ]]; then
 		die "USE=secureboot enabled but SECUREBOOT_SIGN_KEY and/or SECUREBOOT_SIGN_CERT not set."
 	fi
-	if [[ ! ${SECUREBOOT_SIGN_KEY} == pkcs11:* && ! -f ${SECUREBOOT_SIGN_KEY} ]]; then
-		die "SECUREBOOT_SIGN_KEY=${SECUREBOOT_SIGN_KEY} not found"
+	if [[ ! ${SECUREBOOT_SIGN_KEY} == pkcs11:* && ! -r ${SECUREBOOT_SIGN_KEY} ]]; then
+		die "SECUREBOOT_SIGN_KEY=${SECUREBOOT_SIGN_KEY} not found or not readable!"
 	fi
-	if [[ ! -f ${SECUREBOOT_SIGN_CERT} ]];then
-		die "SECUREBOOT_SIGN_CERT=${SECUREBOOT_SIGN_CERT} not found"
+	if [[ ! -r ${SECUREBOOT_SIGN_CERT} ]]; then
+		die "SECUREBOOT_SIGN_CERT=${SECUREBOOT_SIGN_CERT} not found or not readable!"
 	fi
 }
 
@@ -98,16 +98,18 @@ secureboot_pkg_setup() {
 }
 
 # @FUNCTION: secureboot_sign_efi_file
-# @USAGE: <input file> <output file>
+# @USAGE: <input file> [<output file>]
 # @DESCRIPTION:
 # Sign a file using sbsign and the requested key/certificate.
-# If the file is already signed with our key then skip.
+# If the file is already signed with our key then the file is skipped.
+# If no output file is specified the output file will be the same
+# as the input file, i.e. the file will be overwritten.
 secureboot_sign_efi_file() {
 	debug-print-function ${FUNCNAME[0]} "${@}"
 	use secureboot || return
 
 	local input_file=${1}
-	local output_file=${2}
+	local output_file=${2:-${1}}
 
 	_secureboot_die_if_unset
 

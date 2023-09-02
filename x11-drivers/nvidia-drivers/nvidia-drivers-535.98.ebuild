@@ -7,7 +7,7 @@ MODULES_OPTIONAL_IUSE=+modules
 inherit desktop flag-o-matic linux-mod-r1 multilib readme.gentoo-r1
 inherit systemd toolchain-funcs unpacker user-info
 
-MODULES_KERNEL_MAX=6.4
+MODULES_KERNEL_MAX=6.5
 NV_URI="https://download.nvidia.com/XFree86/"
 
 DESCRIPTION="NVIDIA Accelerated Graphics Driver"
@@ -23,7 +23,7 @@ S="${WORKDIR}"
 
 LICENSE="NVIDIA-r2 Apache-2.0 BSD BSD-2 GPL-2 MIT ZLIB curl openssl"
 SLOT="0/${PV%%.*}"
-KEYWORDS="-* ~amd64 ~arm64"
+KEYWORDS="-* amd64 ~arm64"
 IUSE="+X abi_x86_32 abi_x86_64 kernel-open persistenced +static-libs +tools wayland"
 REQUIRED_USE="kernel-open? ( modules )"
 
@@ -191,6 +191,7 @@ src_compile() {
 
 			# environment flags are normally unused for modules, but nvidia
 			# uses it for building the "blob" and it is a bit fragile
+			filter-flags -fno-plt #912949
 			filter-lto
 			CC=${KERNEL_CC} CXX=${KERNEL_CXX} strip-unsupported-flags
 		fi

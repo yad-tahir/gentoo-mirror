@@ -15,11 +15,10 @@ if [[ "${PV}" == *9999 ]] ; then
 	EGIT_REPO_URI="https://git.claws-mail.org/readonly/claws.git"
 else
 	SRC_URI="https://www.claws-mail.org/download.php?file=releases/${P}.tar.xz"
-	KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ppc ~ppc64 ~riscv ~sparc x86"
+	KEYWORDS="~alpha amd64 arm ~arm64 ~hppa ~ppc ~ppc64 ~riscv ~sparc x86"
 fi
 
 SLOT="0"
-QA_PKGCONFIG_VERSION="${PV}.0"
 LICENSE="GPL-3"
 
 IUSE="archive bogofilter calendar clamav dbus debug doc gdata +gnutls +imap ldap +libcanberra +libnotify litehtml networkmanager nls nntp +notification +oauth pdf perl +pgp rss session sieve smime spamassassin spam-report spell startup-notification svg valgrind webkit xface"

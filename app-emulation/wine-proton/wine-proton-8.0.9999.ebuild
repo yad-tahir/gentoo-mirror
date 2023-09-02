@@ -9,7 +9,7 @@ inherit autotools flag-o-matic multilib multilib-build prefix
 inherit python-any-r1 readme.gentoo-r1 toolchain-funcs wrapper
 
 WINE_GECKO=2.47.3
-WINE_MONO=8.0.0
+WINE_MONO=8.0.1
 WINE_PV=$(ver_rs 2 -)
 
 if [[ ${PV} == *9999 ]]; then
@@ -190,6 +190,8 @@ src_configure() {
 		# upstream (Valve) doesn't really support misc configurations (e.g.
 		# adds vulkan code not always guarded by --with-vulkan), so force
 		# some major options that are typically needed by games either way
+		# TODO?: --without-mingw could make sense *if* using clang, assuming
+		# bug #912237 is resolved (consider when do USE=wow64 in proton-9)
 		--with-freetype
 		--with-mingw # needed by many, notably Blizzard titles
 		--with-opengl
@@ -275,14 +277,17 @@ src_configure() {
 		: "${CROSSCFLAGS:=$(
 			# >=wine-7.21 <8.10's configure.ac does not pass -fno-strict when
 			# it should (can be removed when proton is rebased on >=8.10)
-			append-cflags '-fno-strict-aliasing'
+			append-cflags -fno-strict-aliasing
+
 			filter-flags '-fstack-protector*' #870136
 			filter-flags '-mfunction-return=thunk*' #878849
+
 			# -mavx with mingw-gcc has a history of obscure issues and
 			# disabling is seen as safer, e.g. `WINEARCH=win32 winecfg`
 			# crashes with -march=skylake >=wine-8.10, similar issues with
 			# znver4: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110273
-			use custom-cflags || append-cflags -mno-avx
+			append-cflags -mno-avx #912268
+
 			CC=${CROSSCC} test-flags-CC ${CFLAGS:--O2})}"
 		: "${CROSSLDFLAGS:=$(
 			filter-flags '-fuse-ld=*'
@@ -346,6 +351,13 @@ pkg_preinst() {
 
 pkg_postinst() {
 	[[ -v WINE_HAD_ANY_SLOT ]] || readme.gentoo_print_elog
+
+	if use abi_x86_32 && has_version 'x11-drivers/nvidia-drivers[-abi_x86_32]'
+	then
+		ewarn "x11-drivers/nvidia-drivers is installed but is built without"
+		ewarn "USE=abi_x86_32 (ABI_X86=32), hardware acceleration with 32bit"
+		ewarn "applications under ${PN} will likely not be usable."
+	fi
 
 	eselect wine update --if-unset || die
 }
