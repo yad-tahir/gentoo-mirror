@@ -12,7 +12,7 @@ SRC_URI="https://www.kernel.org/pub/linux/bluetooth/${P}.tar.xz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/3"
-KEYWORDS="~amd64 arm arm64 ~hppa ~loong ~mips ppc ppc64 ~riscv x86"
+KEYWORDS="amd64 arm arm64 ~hppa ~loong ~mips ppc ppc64 ~riscv x86"
 IUSE="btpclient cups doc debug deprecated extra-tools experimental +mesh midi +obex +readline selinux systemd test test-programs +udev"
 
 # Since this release all remaining extra-tools need readline support, but this could
@@ -78,6 +78,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-bap-ebusy-fix.patch
 	"${FILESDIR}"/${P}-monitor-decoding.patch
 	"${FILESDIR}"/${P}-heap-use-after-free.patch
+	"${FILESDIR}"/${P}-clang-midi.patch
 )
 
 pkg_setup() {

@@ -33,6 +33,7 @@ if [[ ${KERNEL_IUSE_MODULES_SIGN} ]]; then
 	# If we have enabled module signing IUSE
 	# then we can also enable secureboot IUSE
 	KERNEL_IUSE_SECUREBOOT=1
+	inherit secureboot
 fi
 
 inherit multiprocessing python-any-r1 savedconfig toolchain-funcs kernel-install
@@ -57,7 +58,8 @@ IUSE="+strip"
 # @DESCRIPTION:
 # If set to a non-null value, adds IUSE=modules-sign and required
 # logic to manipulate the kernel config while respecting the
-# MODULES_SIGN_HASH and MODULES_SIGN_KEY user variables.
+# MODULES_SIGN_HASH, MODULES_SIGN_CERT, and MODULES_SIGN_KEY  user
+# variables.
 
 # @ECLASS_VARIABLE: MODULES_SIGN_HASH
 # @USER_VARIABLE
@@ -89,9 +91,20 @@ IUSE="+strip"
 #
 # Default if unset: certs/signing_key.pem
 
+# @ECLASS_VARIABLE: MODULES_SIGN_CERT
+# @USER_VARIABLE
+# @DEFAULT_UNSET
+# @DESCRIPTION:
+# Used with USE=modules-sign.  Can be set to the path of the public
+# key in PEM format to use. Must be specified if MODULES_SIGN_KEY
+# is set to a path of a file that only contains the private key.
+
 if [[ ${KERNEL_IUSE_MODULES_SIGN} ]]; then
 	IUSE+=" modules-sign"
 	REQUIRED_USE="secureboot? ( modules-sign )"
+	BDEPEND+="
+		modules-sign? ( dev-libs/openssl )
+	"
 fi
 
 # @FUNCTION: kernel-build_pkg_setup
@@ -291,10 +304,18 @@ kernel-build_src_install() {
 		')' -delete || die
 	rm modprep/source || die
 	cp -p -R modprep/. "${ED}${kernel_dir}"/ || die
+	# If CONFIG_MODULES=y, then kernel.release will be found in modprep as well, but not
+	# in case of CONFIG_MODULES is not set.
+	# The one in build is exactly the same as the one in modprep, but the one in build
+	# always exists, so it can just be copied unconditionally.
+	cp "${WORKDIR}/build/include/config/kernel.release" \
+		"${ED}${kernel_dir}/include/config/" || die
 
 	# install the kernel and files needed for module builds
 	insinto "${kernel_dir}"
-	doins build/{System.map,Module.symvers}
+	doins build/System.map
+	# build/Module.symvers does not exist if CONFIG_MODULES is not set.
+	[[ -f build/Module.symvers ]] && doins build/Module.symvers
 	local image_path=$(dist-kernel_get_image_path)
 	cp -p "build/${image_path}" "${ED}${kernel_dir}/${image_path}" || die
 
@@ -327,6 +348,10 @@ kernel-build_src_install() {
 	# fix source tree and build dir symlinks
 	dosym "../../../${kernel_dir}" "/lib/modules/${module_ver}/build"
 	dosym "../../../${kernel_dir}" "/lib/modules/${module_ver}/source"
+
+	if [[ ${KERNEL_IUSE_SECUREBOOT} ]]; then
+		secureboot_sign_efi_file "${ED}${kernel_dir}/${image_path}"
+	fi
 
 	# unset to at least be out of the environment file in, e.g. shared binpkgs
 	unset KBUILD_SIGN_PIN
@@ -394,13 +419,34 @@ kernel-build_merge_configs() {
 				CONFIG_MODULE_SIG_FORCE=y
 				CONFIG_MODULE_SIG_${MODULES_SIGN_HASH^^}=y
 			EOF
-			if [[ ${MODULES_SIGN_KEY} == pkcs11:* || -e ${MODULES_SIGN_KEY} ]]; then
+			if [[ -e ${MODULES_SIGN_KEY} && -e ${MODULES_SIGN_CERT} &&
+				${MODULES_SIGN_KEY} != ${MODULES_SIGN_CERT} &&
+				${MODULES_SIGN_KEY} != pkcs11:* ]]
+			then
+				cat "${MODULES_SIGN_CERT}" "${MODULES_SIGN_KEY}" > "${T}/kernel_key.pem" || die
+				MODULES_SIGN_KEY="${T}/kernel_key.pem"
+			fi
+			if [[ ${MODULES_SIGN_KEY} == pkcs11:* || -r ${MODULES_SIGN_KEY} ]]; then
 				echo "CONFIG_MODULE_SIG_KEY=\"${MODULES_SIGN_KEY}\"" \
 					>> "${WORKDIR}/modules-sign.config"
 			elif [[ -n ${MODULES_SIGN_KEY} ]]; then
-				die "MODULES_SIGN_KEY=${MODULES_SIGN_KEY} not found!"
+				die "MODULES_SIGN_KEY=${MODULES_SIGN_KEY} not found or not readable!"
 			fi
 			merge_configs+=( "${WORKDIR}/modules-sign.config" )
+		fi
+	fi
+
+	if [[ ${KERNEL_IUSE_SECUREBOOT} ]]; then
+		if use secureboot; then
+			# This only effects arm64 and riscv where the bootable image may
+			# contain its own decompressor (zboot). If enabled we get a
+			# sign-able efi file.
+			cat <<-EOF > "${WORKDIR}/secureboot.config" || die
+				## Enable zboot for signing
+				CONFIG_EFI_ZBOOT=y
+			EOF
+
+			merge_configs+=( "${WORKDIR}/secureboot.config" )
 		fi
 	fi
 

@@ -273,14 +273,17 @@ src_configure() {
 		: "${CROSSCFLAGS:=$(
 			# >=wine-7.21 <8.10's configure.ac does not pass -fno-strict when
 			# it should (can be removed when proton is rebased on >=8.10)
-			append-cflags '-fno-strict-aliasing'
+			append-cflags -fno-strict-aliasing
+
 			filter-flags '-fstack-protector*' #870136
 			filter-flags '-mfunction-return=thunk*' #878849
+
 			# -mavx with mingw-gcc has a history of obscure issues and
 			# disabling is seen as safer, e.g. `WINEARCH=win32 winecfg`
 			# crashes with -march=skylake >=wine-8.10, similar issues with
 			# znver4: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110273
-			use custom-cflags || append-cflags -mno-avx
+			append-cflags -mno-avx #912268
+
 			CC=${CROSSCC} test-flags-CC ${CFLAGS:--O2})}"
 		: "${CROSSLDFLAGS:=$(
 			filter-flags '-fuse-ld=*'
@@ -344,6 +347,13 @@ pkg_preinst() {
 
 pkg_postinst() {
 	[[ -v WINE_HAD_ANY_SLOT ]] || readme.gentoo_print_elog
+
+	if use abi_x86_32 && has_version 'x11-drivers/nvidia-drivers[-abi_x86_32]'
+	then
+		ewarn "x11-drivers/nvidia-drivers is installed but is built without"
+		ewarn "USE=abi_x86_32 (ABI_X86=32), hardware acceleration with 32bit"
+		ewarn "applications under ${PN} will likely not be usable."
+	fi
 
 	eselect wine update --if-unset || die
 }

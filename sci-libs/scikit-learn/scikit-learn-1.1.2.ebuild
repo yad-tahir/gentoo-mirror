@@ -15,7 +15,7 @@ SRC_URI="https://github.com/scikit-learn/scikit-learn/archive/${PV}.tar.gz -> ${
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm64 ~ppc64 ~riscv ~x86 ~arm64-macos ~x64-macos"
 IUSE="examples"
 
 # Fatal Python error: Segmentation fault
@@ -42,7 +42,7 @@ distutils_enable_tests pytest
 # For some reason this wants to use urllib to fetch things from the internet
 # distutils_enable_sphinx doc \
 # 	dev-python/matplotlib \
-# 	dev-python/memory_profiler \
+# 	dev-python/memory-profiler \
 # 	dev-python/numpydoc \
 # 	dev-python/pandas \
 # 	dev-python/pillow \
