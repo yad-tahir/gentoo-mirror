@@ -224,8 +224,16 @@ kernel-build_src_test() {
 		targets+=( dtbs_install )
 	fi
 
+	# Use the kernel build system to strip, this ensures the modules
+	# are stripped *before* they are signed or compressed.
+	local strip_args
+	if use strip; then
+		strip_args="--strip-unneeded"
+	fi
+
 	emake O="${WORKDIR}"/build "${MAKEARGS[@]}" \
-		INSTALL_MOD_PATH="${T}" "${targets[@]}"
+		INSTALL_MOD_PATH="${T}" INSTALL_MOD_STRIP="${strip_args}" \
+		"${targets[@]}"
 
 	local dir_ver=${PV}${KV_LOCALVERSION}
 	local relfile=${WORKDIR}/build/include/config/kernel.release
@@ -461,6 +469,12 @@ kernel-build_merge_configs() {
 
 	./scripts/kconfig/merge_config.sh -m -r \
 		.config "${merge_configs[@]}"  || die
+
+	# If this is set by USE=secureboot or user config this will have an effect
+	# on the name of the output image. Set this variable to track this setting.
+	if grep -q "CONFIG_EFI_ZBOOT=y" .config; then
+		KERNEL_EFI_ZBOOT=1
+	fi
 }
 
 fi
