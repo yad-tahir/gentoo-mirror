@@ -335,7 +335,6 @@ app-containers/skopeo:btrfs - Enables dependencies for the "btrfs" graph driver.
 app-containers/snapd:forced-devmode - Automatically disable application confinement if feature detection fails.
 app-crypt/aespipe:asm - Enable assembly modules
 app-crypt/aespipe:cpu_flags_x86_padlock - Use VIA padlock instructions, detected at run time, code still works on non-padlock processors
-app-crypt/ccid:kobil-midentity - Build and install Kobil_mIDentity_switch tool
 app-crypt/ccid:twinserial - Enable twinserial reader
 app-crypt/codecrypt:cryptopp - Build algorithms that need Crypto++ support dev-libs/crypto++
 app-crypt/dehydrated:cron - Install cron job to sign/renew non-existent/changed/expiring certificates
@@ -376,8 +375,6 @@ app-crypt/ophcrack:tables - Require the additional tables used to carry out crac
 app-crypt/ophcrack-tables:vistafree - Installs the free Vista ophcrack tables
 app-crypt/ophcrack-tables:xpfast - Installs the fast XP ophcrack tables
 app-crypt/ophcrack-tables:xpsmall - Installs the small free XP ophcrack tables
-app-crypt/p11-kit:asn1 - Enable ASN.1 certificate support
-app-crypt/p11-kit:trust - Build the trust policy module
 app-crypt/pinentry:efl - Build dev-libs/efl based pinentry
 app-crypt/qca:botan - Enable botan plugin
 app-crypt/qca:gcrypt - Enable gcrypt plugin
@@ -389,7 +386,7 @@ app-crypt/qca:sasl - Enable SASL plugin
 app-crypt/qca:softstore - Enable softstore plugin
 app-crypt/seahorse:ldap - Enable seahorse to manipulate GPG keys on a LDAP server.
 app-crypt/swtpm:fuse - Support sys-fs/fuse based /dev/tpm interface
-app-crypt/swtpm:gnutls - Use net-libs/gnutls as crypto engine
+app-crypt/swtpm:gnutls - Build the swtpm_cert binary which depends on net-libs/gnutls
 app-crypt/tpm-tools:pkcs11 - Build Token data management utilities based on OpenCryptoki's (dev-libs/opencryptoki) PKCS#11 implementation.
 app-crypt/tpm2-pkcs11:fapi - Enable feature API backend
 app-crypt/tpm2-tools:fapi - Enable feature API tools
@@ -1060,15 +1057,6 @@ app-portage/gemato:pretty-log - Pull dev-python/rich to enable pretty logs
 app-portage/gemato:tools - Install additional utilities (benchmarks, hash testing tools, fast Manifest generators) to /usr/share/gemato.
 app-portage/grs:server - Install all the tools building systems
 app-portage/kuroneko:scraper - Include the dependencies necessary for Bugzilla scraping.
-app-portage/layman:cvs - Support dev-vcs/cvs based overlays
-app-portage/layman:darcs - Support dev-vcs/darcs based overlays
-app-portage/layman:g-sorcery - Support app-portage/g-sorcery based overlays
-app-portage/layman:git - Support dev-vcs/git based overlays
-app-portage/layman:gpg - Support app-crypt/gnupg signed overlays lists and manifests
-app-portage/layman:mercurial - Support dev-vcs/mercurial based overlays
-app-portage/layman:squashfs - Support mounting squashfs image overlays locally read-only
-app-portage/layman:subversion - Support dev-vcs/subversion based overlays
-app-portage/layman:sync-plugin-portage - Install the sys-apps/portage sync module
 app-portage/nattka:depgraph-order - Process packages in depgraph order whenever possible.
 app-portage/pfl:network-cron - Adds a cron job which does a weekly submit of the package database
 app-portage/portage-utils:qmanifest - Build qmanifest applet, this adds additional dependencies for GPG, OpenSSL and BLAKE2B hashing
@@ -1367,6 +1355,7 @@ dev-db/psqlodbc:iodbc - Use dev-db/libiodbc. Disable to use dev-db/unixODBC.
 dev-db/redis:tcmalloc - Use tcmalloc from dev-util/google-perftools for allocations.
 dev-db/spatialite:geos - Add the sci-libs/geos library for exact topological tests
 dev-db/spatialite:proj - Add the sci-libs/proj library for reprojection features
+dev-db/spatialite:rttopo - Add the sci-geosciences/librttopo library for topology support
 dev-db/spatialite:xls - Add the dev-libs/freexl library for xls import support
 dev-db/sqldeveloper:sybase - Add support for the Sybase SQL Database Server
 dev-db/sqlite:secure-delete - Enable overwriting of deleted content with zeros by default (http://sqlite.org/pragma.html#pragma_secure_delete), causing some performance penalty
@@ -2177,8 +2166,8 @@ dev-lisp/clx:doc - Builds documentation
 dev-lisp/cmucl:X - Build CLX, CLM, or Hemlock
 dev-lisp/cmucl:doc - Installs package documentation
 dev-lisp/cmucl:source - Include source code for CMUCL in installation
-dev-lisp/ecls:gengc - Use generational garbage collection (experimental)
-dev-lisp/ecls:precisegc - Use type information during garbage collection (experimental)
+dev-lisp/ecl:gengc - Use generational garbage collection (experimental)
+dev-lisp/ecl:precisegc - Use type information during garbage collection (experimental)
 dev-lisp/gcl:ansi - Build a GCL with ANSI support (else build a traditional CLtL1 image)
 dev-lisp/gcl:athena - Build xgcl - an interface to x11-libs/libXaw
 dev-lisp/sbcl:system-bootstrap - Bootstrap SBCL using either system SBCL installation or dev-lisp/clisp
@@ -2291,20 +2280,24 @@ dev-python/PyQt5:websockets - Build bindings for the QtWebSockets module
 dev-python/PyQt5:widgets - Build bindings for the QtWidgets module
 dev-python/PyQt5:x11extras - Build bindings for the QtX11Extras module
 dev-python/PyQt5:xmlpatterns - Build bindings for the QtXmlPatterns module
+dev-python/PyQt6:bluetooth - Build bindings for the QtBluetooth module
 dev-python/PyQt6:dbus - Build bindings for the QtDBus module
 dev-python/PyQt6:designer - Build bindings for the QtDesigner module and enable the designer plugin
 dev-python/PyQt6:gui - Build bindings for the QtGui module
 dev-python/PyQt6:help - Build bindings for the QtHelp module
 dev-python/PyQt6:multimedia - Build bindings for the QtMultimedia module
 dev-python/PyQt6:network - Build bindings for the QtNetwork module
+dev-python/PyQt6:nfc - Build bindings for the QtNfc module
 dev-python/PyQt6:opengl - Build bindings for the QtOpenGL module
 dev-python/PyQt6:positioning - Build bindings for the QtPositioning module
 dev-python/PyQt6:printsupport - Build bindings for the QtPrintSupport module
 dev-python/PyQt6:qml - Build bindings for the QtQml module and enable the qml plugin
 dev-python/PyQt6:quick - Build bindings for the QtQuick module
 dev-python/PyQt6:quick3d - Build bindings for the QtQuick3D module
+dev-python/PyQt6:sensors - Build bindings for the QtSensors module
 dev-python/PyQt6:serialport - Build bindings for the QtSerialPort module
 dev-python/PyQt6:spatialaudio - Build bindings for the QtSpatialAudio module
+dev-python/PyQt6:speech - Build bindings for the QtTextToSpeech module
 dev-python/PyQt6:sql - Build bindings for the QtSql module
 dev-python/PyQt6:svg - Build bindings for the QtSvg module
 dev-python/PyQt6:testlib - Build bindings for the QtTest module
@@ -2499,7 +2492,7 @@ dev-qt/qt-creator:ctfvisualizer - Build the Chrome Trace Format visualizer plugi
 dev-qt/qt-creator:designer - Enable designer for QtWidgets-based UIs
 dev-qt/qt-creator:docker - Build plugin for Docker support
 dev-qt/qt-creator:glsl - Build the GLSL editor plugin
-dev-qt/qt-creator:help - Enable the integrated documentation viewer
+dev-qt/qt-creator:help - Enable the integrated dev-qt/qt-docs viewer (also needed for examples)
 dev-qt/qt-creator:imageviewer - Build plugin to open and view image files
 dev-qt/qt-creator:incredibuild - Enable integration with Incredibuild
 dev-qt/qt-creator:lsp - Add support for the Language Server Protocol (LSP)
@@ -2514,6 +2507,7 @@ dev-qt/qt-creator:python - Build plugin for Python language support
 dev-qt/qt-creator:qbs - Build plugin for Qbs-based projects
 dev-qt/qt-creator:qmake - Build plugin for qmake-based projects
 dev-qt/qt-creator:qml - Build plugins for QML-based development (designer, editor, project manager)
+dev-qt/qt-creator:qmldesigner - Build QmlDesigner and related plugins (Insight, StudioWelcome)
 dev-qt/qt-creator:qmlprofiler - Build the QML profiler plugin
 dev-qt/qt-creator:qnx - Build plugin for QNX devices
 dev-qt/qt-creator:remotelinux - Build plugin for deployment and execution on a remote Linux host
@@ -2521,25 +2515,31 @@ dev-qt/qt-creator:scxml - Build the graphical SCXML editor plugin
 dev-qt/qt-creator:serialterminal - Build the serial terminal plugin
 dev-qt/qt-creator:silversearcher - Enable integration with sys-apps/the_silver_searcher
 dev-qt/qt-creator:systemd - Add support for retrieving application output from journald
+dev-qt/qt-creator:tracing - Build plugins requiring tracing capabilities (CtfVisualizer, PerfProfiler, QmlProfiler)
 dev-qt/qt-creator:valgrind - Enable integration with dev-util/valgrind
 dev-qt/qt-creator:webassembly - Build WebAssembly plugin
-dev-qt/qt-creator:webengine - Use dev-qt/qtwebengine to view documentation
+dev-qt/qt-creator:webengine - Use dev-qt/qtwebengine with the help USE rather than bundled litehtml
 dev-qt/qt-docs:3d - Install documentation for dev-qt/qt3d
+dev-qt/qt-docs:activeqt - Install documentation for ActiveQt (unpackaged, Windows-only)
 dev-qt/qt-docs:assistant - Install documentation for dev-qt/assistant
 dev-qt/qt-docs:bluetooth - Install documentation for dev-qt/qtbluetooth
 dev-qt/qt-docs:charts - Install documentation for dev-qt/qtcharts
 dev-qt/qt-docs:concurrent - Install documentation for dev-qt/qtconcurrent
-dev-qt/qt-docs:datavis - Install documentation for dev-qt/qtdatavis3d
+dev-qt/qt-docs:connectivity - Install documentation for dev-qt/qtconnectivity
+dev-qt/qt-docs:datavis - Install documentation for dev-qt/qtdatavis3d (unpackaged for Qt6)
 dev-qt/qt-docs:declarative - Install documentation for dev-qt/qtdeclarative
 dev-qt/qt-docs:designer - Install documentation for dev-qt/designer
 dev-qt/qt-docs:gamepad - Install documentation for dev-qt/qtgamepad (available in qt overlay only)
 dev-qt/qt-docs:graphicaleffects - Install documentation for dev-qt/qtgraphicaleffects
+dev-qt/qt-docs:grpc - Install documentation for QtGRPC (unpackaged)
 dev-qt/qt-docs:gui - Install documentation for dev-qt/qtgui
 dev-qt/qt-docs:help - Install documentation for dev-qt/qthelp
 dev-qt/qt-docs:html - Install documentation in HTML format
+dev-qt/qt-docs:httpserver - Install documentation for QtHTTPServer (unpackaged)
 dev-qt/qt-docs:imageformats - Install documentation for dev-qt/qtimageformats
 dev-qt/qt-docs:linguist - Install documentation for dev-qt/linguist
 dev-qt/qt-docs:location - Install documentation for dev-qt/qtlocation
+dev-qt/qt-docs:lottie - Install documentation for QtLottie (unpackaged)
 dev-qt/qt-docs:multimedia - Install documentation for dev-qt/qtmultimedia
 dev-qt/qt-docs:network - Install documentation for dev-qt/qtnetwork
 dev-qt/qt-docs:networkauth - Install documentation for dev-qt/qtnetworkauth
@@ -2547,31 +2547,39 @@ dev-qt/qt-docs:positioning - Install documentation for dev-qt/qtpositioning
 dev-qt/qt-docs:printsupport - Install documentation for dev-qt/qtprintsupport
 dev-qt/qt-docs:qch - Install documentation in QCH format
 dev-qt/qt-docs:qdoc - Install documentation for dev-qt/qdoc
+dev-qt/qt-docs:qt5compat - Install documentation for dev-qt/qt5compat
+dev-qt/qt-docs:quick3d - Install documentation for dev-qt/qtquick3d
+dev-qt/qt-docs:quick3dphysics - Install documentation for QtQuick3DPhysics (unpackaged)
 dev-qt/qt-docs:quickcontrols - Install documentation for dev-qt/qtquickcontrols
 dev-qt/qt-docs:quickcontrols2 - Install documentation for dev-qt/qtquickcontrols2
+dev-qt/qt-docs:remoteobjects - Install documentation for QtRemoteObjects (unpackaged)
 dev-qt/qt-docs:script - Install documentation for dev-qt/qtscript
 dev-qt/qt-docs:scxml - Install documentation for dev-qt/qtscxml
 dev-qt/qt-docs:sensors - Install documentation for dev-qt/qtsensors
-dev-qt/qt-docs:serialbus - Install documentation for dev-qt/qtserialbus
+dev-qt/qt-docs:serialbus - Install documentation for dev-qt/qtserialbus (unpacakged for Qt6)
 dev-qt/qt-docs:serialport - Install documentation for dev-qt/qtserialport
+dev-qt/qt-docs:shadertools - Install documentation for dev-qt/qtshadertools
 dev-qt/qt-docs:speech - Install documentation for dev-qt/qtspeech
 dev-qt/qt-docs:sql - Install documentation for dev-qt/qtsql
+dev-qt/qt-docs:svg - Install documentation for dev-qt/qtsvg
 dev-qt/qt-docs:timeline - Install documentation for dev-qt/qtquicktimeline
+dev-qt/qt-docs:tools - Install documentation for dev-qt/qttools
 dev-qt/qt-docs:virtualkeyboard - Install documentation for dev-qt/qtvirtualkeyboard
+dev-qt/qt-docs:wayland - Install documentation for dev-qt/qtwayland
 dev-qt/qt-docs:webchannel - Install documentation for dev-qt/qtwebchannel
 dev-qt/qt-docs:webengine - Install documentation for dev-qt/qtwebengine
 dev-qt/qt-docs:websockets - Install documentation for dev-qt/qtwebsockets
-dev-qt/qt-docs:webview - Install documentation for dev-qt/qtwebview
+dev-qt/qt-docs:webview - Install documentation for dev-qt/qtwebview (unpackaged for Qt6)
 dev-qt/qt-docs:widgets - Install documentation for dev-qt/qtwidgets
 dev-qt/qt-docs:x11extras - Install documentation for dev-qt/qtx11extras
 dev-qt/qt-docs:xmlpatterns - Install documentation for dev-qt/qtxmlpatterns
 dev-qt/qt3d:gamepad - Add support for gamepad hardware via dev-qt/qtgamepad
 dev-qt/qt3d:qml - Build QML/QtQuick bindings
+dev-qt/qt5compat:qml - Build QML/QtQuick bindings and imports
 dev-qt/qtbase:X - Build the XCB platform plugin and enable X11 integration
 dev-qt/qtbase:brotli - Enable support for Brotli decompression
 dev-qt/qtbase:concurrent - Build Qt6Concurrent module
 dev-qt/qtbase:dbus - Build Qt6DBus module
-dev-qt/qtbase:egl - Enable EGL integration
 dev-qt/qtbase:eglfs - Build the EGL Full Screen/Single Surface platform plugin
 dev-qt/qtbase:evdev - Enable support for input devices via evdev
 dev-qt/qtbase:gssapi - Enable support for GSSAPI (virtual/krb5)
@@ -2580,13 +2588,13 @@ dev-qt/qtbase:gui - Build Qt6Gui module
 dev-qt/qtbase:libinput - Enable support for input devices via dev-libs/libinput
 dev-qt/qtbase:libproxy - Use net-libs/libproxy for automatic HTTP/SOCKS proxy configuration
 dev-qt/qtbase:network - Build Qt6Network module
+dev-qt/qtbase:renderdoc - Enable support for capturing graphic's API calls using media-gfx/renderdoc
 dev-qt/qtbase:sql - Build Qt6Sql module
-dev-qt/qtbase:systemd - Enable native journald logging support
 dev-qt/qtbase:tslib - Enable support for touchscreen devices via x11-libs/tslib
-dev-qt/qtbase:tuio - Build plugin to receive touch events over the TUIO protocol
 dev-qt/qtbase:widgets - Build Qt6Widgets module
 dev-qt/qtbluetooth:qml - Build QML/QtQuick bindings and imports
 dev-qt/qtcharts:qml - Build QML/QtQuick bindings and imports
+dev-qt/qtconnectivity:nfc - Enable support for the Near Field Communication protocol
 dev-qt/qtcore:old-kernel - Disable syscalls not available on Linux kernels older than 4.11
 dev-qt/qtcore:systemd - Enable native journald logging support
 dev-qt/qtdatavis3d:qml - Build QML/QtQuick bindings and imports
@@ -2614,28 +2622,38 @@ dev-qt/qtmultimedia:widgets - Build the QtMultimediaWidgets module
 dev-qt/qtnetwork:gssapi - Enable support for GSSAPI (virtual/krb5)
 dev-qt/qtnetwork:libproxy - Use net-libs/libproxy for automatic HTTP/SOCKS proxy configuration
 dev-qt/qtpositioning:geoclue - Use enhanced location information from app-misc/geoclue
+dev-qt/qtpositioning:nmea - Build plugin for parsing NMEA (National Marine Electronics Association) sentences
 dev-qt/qtpositioning:qml - Build QML bindings
 dev-qt/qtquickcontrols:widgets - Enable QtWidgets support
 dev-qt/qtquickcontrols2:widgets - Enable QtWidgets support
 dev-qt/qtscript:scripttools - Build the QtScriptTools module (requires QtWidgets)
+dev-qt/qtscxml:qml - Build QML/QtQuick bindings and imports
 dev-qt/qtsensors:qml - Build QML bindings
 dev-qt/qtspeech:flite - Enable text-to-speech synthesizer plugin using app-accessibility/flite engine
+dev-qt/qtspeech:qml - Build QML/QtQuick bindings and imports
+dev-qt/qtspeech:speechd - Enable text-to-speech synthesizer plugin using app-accessibility/speech-dispatcher engine
 dev-qt/qttools:assistant - Build Qt Assistant
+dev-qt/qttools:clang - Enable using libclang for code parsing (linguist/qdoc)
 dev-qt/qttools:designer - Build Qt Designer
 dev-qt/qttools:distancefieldgenerator - Build Qt Distance Field Generator
-dev-qt/qttools:linguist - Build Qt Linguist
+dev-qt/qttools:linguist - Build Qt Linguist (GUI requires USE=widgets)
 dev-qt/qttools:pixeltool - Build Qt Pixeltool
-dev-qt/qttools:qattributionsscanner - Build Qt Source Code Attribution Scanner
-dev-qt/qttools:qdbus - Build the Qt D-Bus Interface and D-Bus Viewer
-dev-qt/qttools:qdiag - Build Qt Diag
+dev-qt/qttools:qdbus - Build the Qt D-Bus Interface (D-Bus Viewer requires USE=widgets)
 dev-qt/qttools:qdoc - Build Qt Documentation Generator
-dev-qt/qttools:qplugininfo - Build Qt Plugin Info
+dev-qt/qttools:qml - Build QML/QtQuick bindings and imports
+dev-qt/qttools:qtattributionsscanner - Build Qt Source Code Attribution Scanner
+dev-qt/qttools:qtdiag - Build Qt Diag
+dev-qt/qttools:qtplugininfo - Build Qt Plugin Info
+dev-qt/qttools:widgets - Enable QtWidgets support
 dev-qt/qtvirtualkeyboard:handwriting - Adds handwriting recognition integration support
+dev-qt/qtwayland:compositor - Enable support for the wayland compositor / server APIs
+dev-qt/qtwayland:qml - Build QML/QtQuick bindings and imports
 dev-qt/qtwayland:vulkan - Enable support for Vulkan-based server buffer integration
 dev-qt/qtwebchannel:qml - Build QML/QtQuick bindings and imports
 dev-qt/qtwebengine:designer - Install the QWebEngineView plugin used to add widgets in dev-qt/designer forms that display web pages.
-dev-qt/qtwebengine:geolocation - Enable physical position determination via dev-qt/qtpositioning
 dev-qt/qtwebengine:jumbo-build - Combine source files to speed up build process.
+dev-qt/qtwebengine:pdfium - Build the QtPdf module based on chromium's PDFium library
+dev-qt/qtwebengine:qml - Build QML/QtQuick bindings and imports
 dev-qt/qtwebengine:system-icu - Use the system-wide dev-libs/icu instead of bundled.
 dev-qt/qtwebengine:widgets - Enable QtWidgets support
 dev-qt/qtwebsockets:qml - Build QML bindings
@@ -3281,7 +3299,6 @@ gnome-extra/evolution-data-server:weather - Enable optional weather calendar sup
 gnome-extra/gnome-commander:gsf - Add metadata support for OLE, OLE2 and ODF
 gnome-extra/gnome-commander:pdf - Add metadata support for PDF
 gnome-extra/gnome-commander:taglib - Add metadata support for ID3, Vorbis, FLAC and APE
-gnome-extra/gnome-commander:unique - Enable single instance support using dev-libs/libunique
 gnome-extra/gnome-contacts:gnome-online-accounts - Enable net-libs/gnome-online-accounts based Google authentication support
 gnome-extra/gnome-network-displays:firewalld - Install firewalld zones
 gnome-extra/gnome-shell-extension-gsconnect:nautilus - Install Nautilus extension for sending files via GSConnect
@@ -3298,7 +3315,6 @@ gnome-extra/libgsf:gtk - Enable use of gdk in thumbnailer
 gnome-extra/nemo:tracker - Add support for app-misc/tracker search
 gnome-extra/nm-applet:modemmanager - Enable support for mobile broadband devices using net-misc/modemmanager
 gnome-extra/nm-applet:teamd - Enable teamd configuration editor
-gnome-extra/synapse:plugins - Build support for plugins using net-libs/rest
 gnustep-apps/gemas:projectcenter - Build and install plugin for gnustep-apps/projectcenter
 gnustep-apps/gworkspace:gwmetadata - Enable the metadata indexing and searching system
 gnustep-apps/sogo:activesync - Build the ActiveSync support code
@@ -3589,6 +3605,7 @@ kde-plasma/plasma-meta:desktop-portal - Enable sys-apps/xdg-desktop-portal backe
 kde-plasma/plasma-meta:discover - Pull in resources management GUI; a centralised GHNS alternative and optional sys-apps/fwupd frontend
 kde-plasma/plasma-meta:display-manager - Pull in a graphical display manager
 kde-plasma/plasma-meta:firewall - Pull in kde-plasma/plasma-firewall for system firewall administration
+kde-plasma/plasma-meta:flatpak - Pull in kde-plasma/flatpak-kcm for flatpak permissions administration
 kde-plasma/plasma-meta:grub - Pull in Breeze theme for sys-boot/grub
 kde-plasma/plasma-meta:gtk - Enable Breeze widget style and system settings module for GTK+
 kde-plasma/plasma-meta:kwallet - Enable support for KWallet auto-unlocking via kde-plasma/kwallet-pam
@@ -4237,6 +4254,7 @@ media-libs/libpano13:suitesparse - Use Sparse Levenberg Marquardt algorithm inst
 media-libs/libplacebo:glslang - Use dev-util/glslang to compile GLSL
 media-libs/libplacebo:lcms - Add support for color management via media-libs/lcms
 media-libs/libplacebo:shaderc - Use media-libs/shaderc to compile GLSL
+media-libs/libplacebo:xxhash - Use dev-libs/xxhash to speed up internal hashing
 media-libs/libpng:apng - support unofficial APNG (Animated PNG) spec
 media-libs/libprojectm:gles2 - Provide support for OpenGL ES 2 and 3
 media-libs/libpulse:asyncns - Use libasyncns for asynchronous name resolution.
@@ -4359,6 +4377,7 @@ media-libs/quarter:designer - Install plugin for dev-qt/designer
 media-libs/quarter:qthelp - Build API documentation in QtHelp format
 media-libs/raptor:json - Enable support for JSON parsing
 media-libs/raspberrypi-userland-bin:hardfp - Use armv6 hardfp ABI
+media-libs/roc-toolkit:tools - Install helper tools like roc-conv, roc-recv, roc-send
 media-libs/rubberband:jni - Enables building of Java Native Interface library
 media-libs/rubberband:lv2 - Add support for Ladspa V2
 media-libs/rubberband:programs - Builds also executable applications
@@ -4763,6 +4782,7 @@ media-sound/qmmp:soxr - Use the SoX resampling library
 media-sound/qmmp:stereo - Enable stereo effect
 media-sound/qmmp:tray - Build tray icon
 media-sound/qmmp:xmp - Enable module files renderer (modplug replacement)
+media-sound/qpwgraph:trayicon - Build support for tray icon
 media-sound/qsampler:libgig - Enable libgig support for loading Gigasampler files and DLS (Downloadable Sounds) Level 1/2 files
 media-sound/qtractor:aubio - Enable media-libs/aubio support
 media-sound/qtractor:dssi - Enable support for DSSI Soft Synth Interface
@@ -5094,6 +5114,7 @@ media-video/pipewire:liblc3 - Allow loading LC3 plugins via media-sound/liblc3
 media-video/pipewire:lv2 - Allow loading LV2 plugins via media-libs/lv2
 media-video/pipewire:modemmanager - Combined with USE=bluetooth, allows PipeWire to perform telephony on mobile devices.
 media-video/pipewire:pipewire-alsa - Replace PulseAudio's ALSA plugin with PipeWire's plugin
+media-video/pipewire:roc - Enable roc support for real-time audio streaming over the network, using media-libs/roc-toolkit. See https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/Network#roc
 media-video/pipewire:sound-server - Provide sound server using ALSA and bluetooth devices
 media-video/pipewire:ssl - Enable raop-sink support (needs dev-libs/openssl)
 media-video/pipewire:system-service - Install systemd unit files for running as a system service. Not recommended.
@@ -6364,6 +6385,31 @@ net-misc/icaclient:hdx - Install and enable hdx-realtime-media-engine plugin
 net-misc/icaclient:usb - Allow connecting USB devices to virtual desktops
 net-misc/icecast:kate - Add karaoke and text encapsulation support for Ogg files
 net-misc/icecast:yp - Build support for yp public directory listings
+net-misc/inetutils:dnsdomainname - Enable domainname
+net-misc/inetutils:ftp - Enable ftp
+net-misc/inetutils:ftpd - Enable ftpd
+net-misc/inetutils:hostname - Enable hostname
+net-misc/inetutils:ifconfig - Enable ifconfig
+net-misc/inetutils:inetd - Enable inetd
+net-misc/inetutils:logger - Enable logger
+net-misc/inetutils:ping - Enable ping
+net-misc/inetutils:ping6 - Enable ping6
+net-misc/inetutils:rcp - Enable rcp
+net-misc/inetutils:rexec - Enable rexec
+net-misc/inetutils:rexecd - Enable rexecd
+net-misc/inetutils:rlogin - Enable rlogin
+net-misc/inetutils:rlogind - Enable rlogind
+net-misc/inetutils:rsh - Enable rsh
+net-misc/inetutils:rshd - Enable rshd
+net-misc/inetutils:syslogd - Enable syslogd
+net-misc/inetutils:talkd - Enable talkd
+net-misc/inetutils:telnet - Enable telnet
+net-misc/inetutils:telnetd - Enable telnetd
+net-misc/inetutils:tftp - Enable tftp
+net-misc/inetutils:tftpd - Enable tftpd
+net-misc/inetutils:traceroute - Enable traceroute
+net-misc/inetutils:uucpd - Enable uucpd
+net-misc/inetutils:whois - Enable whois
 net-misc/iputils:arping - Build and install arping -- tool for sending ARP requests to peers (see also net-analyzer/arping)
 net-misc/iputils:clockdiff - Build and install clockdiff -- tool for comparing clocks via ICMP packets
 net-misc/iputils:rarpd - Build and install rarpd -- server for handling RARP (reverse ARP) requests; generally only used by old systems
@@ -7437,7 +7483,7 @@ sci-mathematics/form:doxygen - Build and install API documentation
 sci-mathematics/fricas:clisp - Add support for GNU CLISP (dev-lisp/clisp)
 sci-mathematics/fricas:clozurecl - Add support for Clozure Common Lisp (dev-lisp/clozurecl)
 sci-mathematics/fricas:cmucl - Add support for CMU Common Lisp (dev-lisp/cmucl)
-sci-mathematics/fricas:ecls - Add support for Embeddable Common Lisp (dev-lisp/ecls)
+sci-mathematics/fricas:ecl - Add support for Embeddable Common Lisp (dev-lisp/ecl)
 sci-mathematics/fricas:gcl - Add support for GNU Common Lisp (dev-lisp/gcl)
 sci-mathematics/fricas:sbcl - Add support for Steel Bank Common Lisp (dev-lisp/sbcl)
 sci-mathematics/geomview:motionaveraging - Enable experimental motion averaging technique
@@ -7459,7 +7505,7 @@ sci-mathematics/maxima:clisp - Compile maxima with GNU CLISP (dev-lisp/clisp)
 sci-mathematics/maxima:clozurecl - Compile maxima with 32-bit Clozure Common Lisp (dev-lisp/clozurecl)
 sci-mathematics/maxima:clozurecl64 - Compile maxima with 64-bit Clozure Common Lisp (dev-lisp/clozurecl)
 sci-mathematics/maxima:cmucl - Compile maxima with CMU Common Lisp (dev-lisp/cmucl)
-sci-mathematics/maxima:ecls - Compile maxima with Embeddable Common Lisp (dev-lisp/ecls)
+sci-mathematics/maxima:ecl - Compile maxima with Embeddable Common Lisp (dev-lisp/ecl)
 sci-mathematics/maxima:gcl - Compile maxima with GNU Common Lisp (dev-lisp/gcl)
 sci-mathematics/maxima:sbcl - Compile maxima with Steel Bank Common Lisp (dev-lisp/sbcl)
 sci-mathematics/maxima:vtk - Support plotting with sci-libs/vtk
@@ -7920,6 +7966,8 @@ sys-auth/sssd:locator - Install sssd's Kerberos plugin
 sys-auth/sssd:netlink - Add support for netlink protocol via dev-libs/libnl
 sys-auth/sssd:nfsv4 - Add support for the nfsv4 idmapd plugin provided by net-fs/nfs-utils
 sys-auth/sssd:pac - Add Privileged Attribute Certificate Support for Kerberos
+sys-auth/sssd:samba - Add Privileged Attribute Certificate Support for Kerberos
+sys-auth/sssd:subid - Support subordinate uid and gid ranges in FreeIPA
 sys-auth/sssd:sudo - Build helper to let app-admin/sudo use sssd provided information
 sys-auth/sssd:systemtap - Enable SystemTAP/DTrace tracing
 sys-block/f3:extra - Build the additional f3probe, f3brew and f3fix utility (requires sys-block/parted and virtual/udev)
@@ -7961,6 +8009,7 @@ sys-block/tgt:fcoe - Add support for FCoE protocol
 sys-block/tgt:fcp - Add support for new FC protocol
 sys-block/tgt:ibmvio - Add support for IBM Virtual I/O
 sys-block/tgt:rbd - Add support for ceph block devices
+sys-block/thin-provisioning-tools:io-uring - Enable experimental support for io-uring.
 sys-boot/grub:device-mapper - Enable support for device-mapper from sys-fs/lvm2
 sys-boot/grub:efiemu - Build and install the efiemu runtimes
 sys-boot/grub:fonts - Build and install fonts for the gfxterm module
@@ -8708,8 +8757,6 @@ www-servers/nginx:pcre-jit - Enable JIT for pcre
 www-servers/nginx:pcre2 - Enable support for pcre2
 www-servers/nginx:rtmp - NGINX-based Media Streaming Server
 www-servers/nginx:ssl - Enable HTTPS module for http. Enable SSL/TLS support for POP3/IMAP/SMTP for mail.
-www-servers/nginx-unit:php7-4 - Support for PHP 7.4
-www-servers/nginx-unit:php8-0 - Support for PHP 8.0
 www-servers/nginx-unit:php8-1 - Support for PHP 8.1
 www-servers/nginx-unit:php8-2 - Support for PHP 8.2
 www-servers/pshs:magic - Enable automatic detection of Content-Type using libmagic (sys-apps/file)
