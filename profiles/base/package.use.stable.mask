@@ -8,10 +8,6 @@
 # xfce-base/libxfce4windowing is not ready to go stable (4.19 branch).
 xfce-extra/xfce4-pulseaudio-plugin libxfce4windowing
 
-# Mike Gilbert <floppym@gentoo.org> (2023-04-30)
-# Requires llvm-16.
-www-client/chromium libcxx lto pgo
-
 # Alfredo Tupone <tupone@gentoo.org> (2023-04-02)
 # For doc, dev-python/sphinxcontrib-bibtex is required
 sci-mathematics/why3-for-spark doc
@@ -164,10 +160,6 @@ media-plugins/grilo-plugins chromaprint
 # sssd is only stable for amd64 and x86
 app-admin/sudo sssd
 
-# Andreas Sturmlechner <asturm@gentoo.org> (2018-10-16)
-# app-misc/ddcutil is not yet stable.
-kde-plasma/powerdevil brightness-control
-
 # Thomas Deutschmann <whissi@gentoo.org> (2018-06-01)
 # Needs dev-ruby/asciidoctor which has a lot of unstable deps
 net-analyzer/wireshark doc
@@ -211,10 +203,6 @@ dev-util/rpmdevtools emacs
 # Andreas Sturmlechner <asturm@gentoo.org> (2017-03-23)
 # Requires dev-lang/julia stabilisation, bug #613576
 kde-apps/cantor julia
-
-# Brian Dolbec <dolsen@gentoo.org> (2017-02-14)
-# This is stable masked as g-sorcery is being not actively developed.
-app-portage/layman g-sorcery
 
 # Alon Bar-Lev <alonbl@gentoo.org> (2017-01-01)
 # Will always require unstable packages.

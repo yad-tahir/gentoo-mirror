@@ -17,7 +17,6 @@ else
 		https://github.com/qutebrowser/qutebrowser/releases/download/v${PV}/${P}.tar.gz
 		verify-sig? ( https://github.com/qutebrowser/qutebrowser/releases/download/v${PV}/${P}.tar.gz.asc )
 	"
-	VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}/usr/share/openpgp-keys/qutebrowser.gpg"
 	KEYWORDS="~amd64 ~arm64 ~x86"
 fi
 
@@ -81,6 +80,15 @@ fi
 
 distutils_enable_tests pytest
 
+src_unpack() {
+	if [[ ${PV} == 9999 ]]; then
+		git-r3_src_unpack
+	else
+		local VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/qutebrowser.gpg
+		verify-sig_src_unpack
+	fi
+}
+
 src_prepare() {
 	distutils-r1_src_prepare
 
@@ -142,6 +150,8 @@ python_test() {
 		# needs _WRAPPER_OVERRIDE = None, but we have changed it
 		tests/unit/test_qt_machinery.py::TestSelectWrapper::test_autoselect_by_default
 		tests/unit/test_qt_machinery.py::TestInit::test_none_available_{implicit,explicit}
+		# fails if chromium version is unrecognized (aka newer qtwebengine)
+		tests/unit/utils/test_version.py::TestWebEngineVersions::test_real_chromium_version
 	)
 
 	# tests known failing with Qt5 which is considered a 2nd class citizen

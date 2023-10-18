@@ -4,6 +4,40 @@
 # NOTE: When masking a USE flag due to missing keywords, please file a keyword
 # request bug for the hppa arch.
 
+# Violet Purcell <vimproved@inventati.org> (2023-10-12)
+# dev-util/samurai is not keyworded here.
+app-alternatives/ninja samurai
+
+# Ionen Wolkens <ionen@gentoo.org> (2023-10-09)
+# Vulkan is not available here, including packages for related USE.
+media-libs/libplacebo glslang shaderc vulkan
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2023-10-08)
+# Vulkan is not available on hppa.
+dev-qt/qtdeclarative vulkan
+dev-qt/qtgui vulkan
+<dev-qt/qtwayland-5.15.11:5 vulkan
+>=dev-qt/qtwayland-5.15.11:5 compositor
+# Patrick McLean <chutzpah@gentoo.org> (2023-10-03)
+# sys-apps/s6-linux-init has not been tested on this arch
+sys-apps/openrc s6
+
+# Sam James <sam@gentoo.org> (2023-09-24)
+# Qt not keyworded here.
+app-doc/doxygen gui
+
+# Sam James <sam@gentoo.org> (2023-09-22)
+# Qt 6 not keyworded here.
+dev-util/cmake gui
+
+# Andrew Ammerlaan <andrewammerlaan@gentoo.org> (2023-09-20)
+# Libei not keyworded here yet
+x11-base/xwayland libei
+
+# Sam James <sam@gentoo.org> (2023-09-18)
+# x11-libs/gtksourceview:4 not keyworded here
+media-gfx/inkscape sourceview
+
 # Rich Freeman <rich0@gentoo.org> (2023-09-13)
 # Tests require shellcheck which is not currently available on hppa
 sys-process/systemd-cron test

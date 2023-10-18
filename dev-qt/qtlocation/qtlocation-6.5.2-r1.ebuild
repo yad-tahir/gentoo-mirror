@@ -8,7 +8,7 @@ inherit qt6-build
 DESCRIPTION="Location (places, maps, navigation) library for the Qt6 framework"
 
 if [[ ${QT6_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~amd64"
+	KEYWORDS="amd64"
 fi
 
 RDEPEND="
@@ -33,7 +33,6 @@ src_install() {
 
 	if use test; then
 		local delete=( # sigh
-			"${D}${QT6_LIBDIR}"/cmake/Qt6Location/*TestGeoServicePlugin*.cmake
 			"${D}${QT6_LIBDIR}"/cmake/Qt6Location/*TestGeoServicePlugin*.cmake
 			"${D}${QT6_LIBDIR}"/cmake/Qt6Location/*UnsupportedPlacesGeoServicePlugin*.cmake
 			"${D}${QT6_LIBDIR}"/cmake/Qt6Qml/QmlPlugins/*declarative_location_test*.cmake

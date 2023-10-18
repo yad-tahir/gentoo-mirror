@@ -1,6 +1,26 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Violet Purcell <vimproved@inventati.org> (2023-10-12)
+# dev-util/samurai is not keyworded here.
+app-alternatives/ninja samurai
+
+# Patrick McLean <chutzpah@gentoo.org> (2023-10-03)
+# sys-apps/s6-linux-init has not been tested on this arch
+sys-apps/openrc s6
+
+# Sam James <sam@gentoo.org> (2023-09-24)
+# Qt not keyworded here.
+app-doc/doxygen gui
+
+# Sam James <sam@gentoo.org> (2023-09-22)
+# Qt 6 not keyworded here.
+dev-util/cmake gui
+
+# Andrew Ammerlaan <andrewammerlaan@gentoo.org> (2023-09-20)
+# Libei not keyworded here yet
+x11-base/xwayland libei
+
 # Rich Freeman <rich0@gentoo.org> (2023-09-13)
 # Tests require shellcheck which is not currently available
 sys-process/systemd-cron test
@@ -202,7 +222,7 @@ app-text/texlive l10n_ja context
 # - net-libs/webkit-gtk: ruby build system
 app-editors/emacs xwidgets
 dev-util/geany-plugins markdown
-gnome-extra/evolution-data-server oauth
+gnome-extra/evolution-data-server oauth oauth-gtk3 oauth-gtk4
 # - gnome-extra/sushi: depends on webkit-gtk
 gnome-base/nautilus previewer
 # - net-libs/gnome-online-accounts: depends on webkit-gtk

@@ -8,7 +8,7 @@ inherit flag-o-matic qt6-build
 DESCRIPTION="Multimedia (audio, video, radio, camera) library for the Qt6 framework"
 
 if [[ ${QT6_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~amd64"
+	KEYWORDS="amd64"
 fi
 
 IUSE="+X alsa +ffmpeg gstreamer opengl pulseaudio qml v4l vaapi vulkan"
@@ -62,8 +62,9 @@ CMAKE_SKIP_TESTS=(
 	tst_qmediacapturesession
 	tst_qmediaplayerbackend
 	tst_qsoundeffect
-	# may try to use hardware acceleration for encoding
+	# may try to use v4l2 or hardware acceleration depending on availability
 	tst_qscreencapture_integration
+	tst_qscreencapturebackend
 )
 
 src_configure() {

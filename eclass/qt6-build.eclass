@@ -162,9 +162,8 @@ qt6-build_src_configure() {
 # @DESCRIPTION:
 # Run cmake_src_test and handle anything else generic as-needed.
 qt6-build_src_test() {
-	# helps a few tests but is not always respected
 	local -x QML_IMPORT_PATH=${BUILD_DIR}${QT6_QMLDIR#"${QT6_PREFIX}"}
-
+	local -x QTEST_FUNCTION_TIMEOUT=900000 #914737
 	local -x QT_QPA_PLATFORM=offscreen
 
 	# TODO?: CMAKE_SKIP_TESTS skips a whole group of tests and, when
@@ -258,8 +257,8 @@ _qt6-build_match_cpu_flags() {
 				[[ ${intrin} ]] && flags+=( -mno-${intrin} )
 			done
 	done < <(
-		# TODO: drop ver_test and ${fma} when <6.5.3 is gone
-		ver_test ${PV} -ge 6.5.3 && fma= || fma=fma
+		# TODO: drop ver_test and ${fma} when <6.5.3 and 6.6.0 are gone
+		ver_test ${PV} -ge 6.5.3 && ver_test ${PV} -ne 6.6.0 && fma= || fma=fma
 		$(tc-getCXX) -E -P ${CXXFLAGS} ${CPPFLAGS} - <<-EOF | tail -n 2
 			#if defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
 			#include <x86intrin.h>

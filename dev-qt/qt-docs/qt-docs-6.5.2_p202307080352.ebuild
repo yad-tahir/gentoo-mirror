@@ -10,13 +10,13 @@ HOMEPAGE="https://doc.qt.io/"
 
 LICENSE="FDL-1.3"
 SLOT="6"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE="+examples +html +qch"
 REQUIRED_USE="|| ( examples html qch )"
 
 BDEPEND="
 	examples? (
-		app-arch/p7zip
+		$(unpacker_src_uri_depends .7z)
 		media-libs/libpng
 	)
 "

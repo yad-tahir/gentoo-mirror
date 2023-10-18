@@ -24,7 +24,7 @@ LICENSE="
 	ISC LGPL-2.1+ LGPL-3+ MIT OFL-1.1 ZLIB public-domain
 "
 SLOT="0"
-IUSE="alsa cpu_flags_x86_sse4_1 dbus jack pulseaudio sndio test vulkan wayland"
+IUSE="alsa cpu_flags_x86_sse4_1 jack pulseaudio sndio test vulkan wayland"
 REQUIRED_USE="cpu_flags_x86_sse4_1" # dies at runtime if no support
 RESTRICT="!test? ( test )"
 
@@ -32,19 +32,19 @@ RESTRICT="!test? ( test )"
 COMMON_DEPEND="
 	app-arch/xz-utils
 	dev-libs/libaio
-	dev-qt/qtbase:6[gui,network,widgets]
-	dev-qt/qtsvg:6
+	>=dev-qt/qtbase-6.5.3:6[gui,network,widgets]
+	>=dev-qt/qtsvg-6.5.3:6
 	media-libs/libglvnd
 	media-libs/libpng:=
-	>=media-libs/libsdl2-2.28.2[haptic,joystick]
+	>=media-libs/libsdl2-2.28.4[haptic,joystick]
 	media-video/ffmpeg:=
 	net-libs/libpcap
 	net-misc/curl
+	sys-apps/dbus
 	sys-libs/zlib:=
 	virtual/libudev:=
 	x11-libs/libXrandr
 	alsa? ( media-libs/alsa-lib )
-	dbus? ( sys-apps/dbus )
 	jack? ( virtual/jack )
 	pulseaudio? ( media-libs/libpulse )
 	sndio? ( media-sound/sndio:= )
@@ -55,23 +55,19 @@ COMMON_DEPEND="
 # is missing and it is fairly small (installs a ~1.5MB patches.zip)
 RDEPEND="
 	${COMMON_DEPEND}
-	games-emulation/pcsx2_patches
+	>=games-emulation/pcsx2_patches-0_p20230917
 "
 DEPEND="
 	${COMMON_DEPEND}
 	x11-base/xorg-proto
 "
 BDEPEND="
-	dev-qt/qttools:6[linguist]
+	>=dev-qt/qttools-6.5.3:6[linguist]
 	wayland? (
 		dev-util/wayland-scanner
 		kde-frameworks/extra-cmake-modules
 	)
 "
-
-FILECAPS=(
-	-m 0755 "CAP_NET_RAW+eip CAP_NET_ADMIN+eip" usr/bin/pcsx2
-)
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.7.3468-cubeb-automagic.patch
@@ -81,9 +77,6 @@ PATCHES=(
 
 src_prepare() {
 	cmake_src_prepare
-
-	sed -e "/AppRoot =/s|=.*|= \"${EPREFIX}/usr/share/${PN}\";|" \
-		-i pcsx2/Pcsx2Config.cpp || die
 
 	if [[ ${PV} != 9999 ]]; then
 		sed -e '/set(PCSX2_GIT_TAG "")/s/""/"v'${PV}-gentoo'"/' \
@@ -97,20 +90,18 @@ src_configure() {
 		append-flags -fno-strict-aliasing
 
 		# odr violations in pcsx2's vulkan code, disabling as a safety for now
-		# (vulkan support tend to receive major changes, is more on WIP side)
 		filter-lto
 	fi
 
 	local mycmakeargs=(
 		-DBUILD_SHARED_LIBS=no
-		-DDBUS_API=$(usex dbus)
 		-DDISABLE_BUILD_DATE=yes
 		-DENABLE_TESTS=$(usex test)
 		-DUSE_LINKED_FFMPEG=yes
 		-DUSE_VTUNE=no
 		-DUSE_VULKAN=$(usex vulkan)
 		-DWAYLAND_API=$(usex wayland)
-		-DX11_API=yes # fails if X libs are missing even if disabled
+		-DX11_API=yes # X libs are currently hard-required either way
 
 		# sse4.1 is the bare minimum required, -m is required at build time
 		# (see PCSX2Base.h) and it dies if no support at runtime (AppInit.cpp)
@@ -136,53 +127,29 @@ src_test() {
 }
 
 src_install() {
-	newbin "${BUILD_DIR}"/bin/pcsx2-qt ${PN}
+	insinto /usr/lib/${PN}
+	doins -r "${BUILD_DIR}"/bin/.
 
-	insinto /usr/share/${PN}
-	doins -r "${BUILD_DIR}"/bin/resources
-
-	dodoc README.md bin/docs/{Debugger.pdf,GameIndex.pdf,debugger.txt}
+	fperms +x /usr/lib/${PN}/pcsx2-qt
+	dosym -r /usr/lib/${PN}/pcsx2-qt /usr/bin/${PN}
 
 	newicon bin/resources/icons/AppIconLarge.png ${PN}.png
 	make_desktop_entry ${PN} ${PN^^}
+
+	dodoc README.md bin/docs/{Debugger.pdf,GameIndex.pdf,debugger.txt}
+
+	use !test || rm "${ED}"/usr/lib/${PN}/*_test || die
 }
 
 pkg_postinst() {
-	fcaps_pkg_postinst
+	fcaps -m 0755 cap_net_admin,cap_net_raw=eip usr/lib/${PN}/pcsx2-qt
 
-	local replacing=
-	if [[ ${REPLACING_VERSIONS##* } ]]; then
-		if ver_test ${REPLACING_VERSIONS##* } -lt 1.6.1; then
-			replacing=old
-		elif ver_test ${REPLACING_VERSIONS##* } -lt 1.7.3773; then
-			replacing=wx
-		else
-			replacing=any
-		fi
-	fi
-
-	if [[ ${replacing} == old ]]; then
+	if [[ ${REPLACING_VERSIONS##* } ]] &&
+		ver_test ${REPLACING_VERSIONS##* } -lt 1.7; then
+		elog ">=${PN}-1.7 has received several changes since <=${PN}-1.6.0, and is"
+		elog "notably now a 64bit build using Qt6. Just-in-case it is recommended"
+		elog "to backup configs, save states, and memory cards before using."
 		elog
-		elog ">=${PN}-1.7 has received several changes since <=${PN}-1.6.0, notably"
-		elog "it is now a 64bit build using Qt6. Just-in-case it is recommended to"
-		elog "backup your configs, save states, and memory cards before use."
 		elog "The executable was also renamed from 'PCSX2' to 'pcsx2'."
-	fi
-
-	if [[ ${replacing} == @(|old) && ${PV} != 9999 ]]; then
-		elog
-		elog "${PN}-1.7.x is a development branch where .x increments every changes."
-		elog "Stable 1.6.0 is getting old and lacks many notable features (e.g. native"
-		elog "64bit builds). Given it may be a long time before there is a new stable,"
-		elog "Gentoo will carry and update 1.7.x roughly every months."
-		elog
-		elog "Please report an issue if feel a picked version needs to be updated ahead"
-		elog "of time or masked (notably for handling regressions)."
-	fi
-
-	if [[ ${replacing} == wx ]]; then
-		ewarn
-		ewarn "Note that wxGTK support been dropped upstream since >=${PN}-1.7.3773,"
-		ewarn "and so USE=qt6 is gone and Qt6 is now always used."
 	fi
 }

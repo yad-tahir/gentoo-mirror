@@ -1,6 +1,14 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Maciej Barć <xgqt@gentoo.org> (2023-09-16)
+# Binary package, which is compiled against glibc
+dev-lang/dafny-bin
+
+# Maciej Barć <xgqt@gentoo.org> (2023-09-16)
+# Binary package, which is compiled against glibc
+app-shells/pwsh-bin
+
 # Maciej Barć <xgqt@gentoo.org> (2023-07-01)
 # Binary package, which is compiled against glibc
 games-util/heroic-bin
@@ -56,7 +64,6 @@ dev-util/rr
 # Sam James <sam@gentoo.org> (2022-10-04)
 # Packages with dubious sys-libs/glibc dependencies (non-binary) but
 # masking for now to allow musl profiles to graduate from exp->dev.
-dev-db/pgbouncer
 dev-libs/cgreen
 media-sound/xwax
 net-analyzer/gsad
@@ -81,10 +88,6 @@ net-analyzer/greenbone-feed-sync
 app-admin/clustershell
 app-shells/pdsh
 net-analyzer/ipcad
-
-# Sam James <sam@gentoo.org> (2022-09-17)
-# Fails to compile on musl: bug #832868
-sys-apps/uutils-coreutils
 
 # Sam James <sam@gentoo.org> (2022-09-12)
 # libxcrypt migration masks.
@@ -198,6 +201,7 @@ games-puzzle/world-of-goo-demo
 games-puzzle/world-of-goo-gog
 games-puzzle/world-of-goo-hb
 games-rpg/crosscode
+games-rpg/crosscode-a-new-home
 games-server/bedrock-server
 games-server/etqw-ded
 games-server/mtavc
@@ -356,7 +360,6 @@ sys-apps/dbus-broker
 sys-apps/gentoo-systemd-integration
 sys-apps/systemd
 sys-apps/systemd-readahead
-sys-boot/systemd-boot
 sys-process/systemd-cron
 >=www-misc/profile-sync-daemon-6
 

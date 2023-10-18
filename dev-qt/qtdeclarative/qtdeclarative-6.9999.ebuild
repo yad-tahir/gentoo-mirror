@@ -8,7 +8,7 @@ inherit qt6-build
 DESCRIPTION="Qt Declarative (Quick 2)"
 
 if [[ ${QT6_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~amd64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~loong ~x86"
 fi
 
 IUSE="opengl +sql vulkan +widgets"
@@ -23,9 +23,7 @@ BDEPEND="~dev-qt/qtshadertools-${PV}:6"
 
 src_configure() {
 	local mycmakeargs=(
-		$(qt_feature opengl)
-		$(qt_feature sql)
-		$(qt_feature widgets)
+		$(cmake_use_find_package sql Qt6Sql)
 	)
 
 	qt6-build_src_configure
