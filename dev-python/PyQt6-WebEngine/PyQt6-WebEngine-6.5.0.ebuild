@@ -17,13 +17,12 @@ HOMEPAGE="https://www.riverbankcomputing.com/software/pyqtwebengine/"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE="debug quick +widgets"
 
-# can use parts of the Qt private api and "sometimes" needs rebuilds wrt :=
 RDEPEND="
 	>=dev-python/PyQt6-${PV}[gui,ssl,${PYTHON_USEDEP}]
-	>=dev-qt/qtbase-${QT_PV}=
+	>=dev-qt/qtbase-${QT_PV}[gui,widgets?]
 	>=dev-qt/qtwebengine-${QT_PV}[widgets]
 	quick? ( dev-python/PyQt6[qml] )
 	widgets? ( dev-python/PyQt6[network,printsupport,webchannel,widgets] )

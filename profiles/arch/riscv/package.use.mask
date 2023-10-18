@@ -1,6 +1,22 @@
 # Copyright 2019-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Violet Purcell <vimproved@inventati.org> (2023-10-12)
+# dev-util/samurai is not keyworded here.
+app-alternatives/ninja samurai
+
+# Ionen Wolkens <ionen@gentoo.org> (2023-10-09)
+# media-libs/shaderc is keyworded here.
+media-libs/libplacebo -shaderc
+
+# Patrick McLean <chutzpah@gentoo.org> (2023-10-03)
+# sys-apps/s6-linux-init has not been tested on this arch
+sys-apps/openrc s6
+
+# Sam James <sam@gentoo.org> (2023-09-22)
+# Qt 6 not keyworded here.
+dev-util/cmake gui
+
 # Jon Janzen <jon@jonjanzen.com> (2023-09-11)
 # librttopo has not been tested on this arch
 dev-db/spatialite rttopo
@@ -135,8 +151,6 @@ dev-python/wcmatch doc
 
 # Alex Fan <alex.fan.q@gmail.com> (2022-05-16)
 # These depend on Haskell:
-#  - dev-vcs/darcs
-app-portage/layman darcs
 #  - app-text/pandoc
 sys-cluster/ceph pmdk
 app-text/nuspell doc

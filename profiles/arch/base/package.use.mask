@@ -1,6 +1,14 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Ionen Wolkens <ionen@gentoo.org> (2023-10-09)
+# media-libs/shaderc has very few keywords.
+media-libs/libplacebo shaderc
+
+# Michał Górny <mgorny@gentoo.org> (2023-09-19)
+# dev-cpp/cpp-httplib is barely keyworded anywhere.
+sys-devel/llvm debuginfod
+
 # Ionen Wolkens <ionen@gentoo.org> (2023-09-13)
 # media-gfx/renderdoc currently has few keywords
 dev-qt/qtbase renderdoc
@@ -32,7 +40,7 @@ kde-plasma/discover snap
 # Sam James <sam@gentoo.org> (2023-04-03)
 # Needs dev-python/py-cpuinfo which is not ported to all of our platforms
 # See bug #894078.
-dev-python/pytables cpudetection
+dev-python/tables cpudetection
 
 # Michał Górny <mgorny@gentoo.org> (2023-01-24)
 # libomptarget is only supported on 64-bit architectures.
@@ -191,14 +199,6 @@ app-text/texlive-core xindy
 # static-pie is not implemented on all arches, #719444
 # https://sourceware.org/glibc/wiki/PortStatus
 sys-libs/glibc static-pie
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2020-02-26)
-# Vulkan support is only available on few selected arches atm.
-# Mask everywhere, unmask where appropriate.
-dev-qt/qt3d vulkan
-dev-qt/qtdeclarative vulkan
-dev-qt/qtgui vulkan
-dev-qt/qtwayland vulkan
 
 # dev-python/pandas is only keyworded for amd64 & x86
 sys-block/fio python gnuplot

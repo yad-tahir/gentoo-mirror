@@ -17,7 +17,7 @@ HOMEPAGE="https://www.riverbankcomputing.com/software/pyqt/"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 # defaults match what is provided with qtbase by default (except testlib),
 # reduces the need to set flags but does increase build time a fair amount
 IUSE="
@@ -45,9 +45,8 @@ REQUIRED_USE="
 	widgets? ( gui )
 "
 
-# can use parts of the Qt private api and "sometimes" needs rebuilds wrt :=
 DEPEND="
-	>=dev-qt/qtbase-${QT_PV}=[dbus?,gles2-only=,gui?,network?,opengl?,sql?,ssl=,widgets?,xml?]
+	>=dev-qt/qtbase-${QT_PV}[dbus?,gles2-only=,gui?,network?,opengl?,sql?,ssl=,widgets?,xml?]
 	bluetooth? ( >=dev-qt/qtconnectivity-${QT_PV}[bluetooth] )
 	dbus? (
 		dev-python/dbus-python[${PYTHON_USEDEP}]
@@ -61,7 +60,7 @@ DEPEND="
 		gles2-only? ( media-libs/libglvnd )
 	)
 	positioning? ( >=dev-qt/qtpositioning-${QT_PV} )
-	qml? ( >=dev-qt/qtdeclarative-${QT_PV} )
+	qml? ( >=dev-qt/qtdeclarative-${QT_PV}[widgets?] )
 	quick3d? ( >=dev-qt/qtquick3d-${QT_PV} )
 	sensors? ( >=dev-qt/qtsensors-${QT_PV} )
 	serialport? ( >=dev-qt/qtserialport-${QT_PV} )
@@ -73,6 +72,10 @@ DEPEND="
 RDEPEND="
 	${DEPEND}
 	>=dev-python/PyQt6-sip-13.4[${PYTHON_USEDEP}]
+"
+DEPEND+="
+	bluetooth? ( <dev-qt/qtconnectivity-6.6 )
+	sql? ( <dev-qt/qtbase-6.6 )
 "
 BDEPEND="
 	>=dev-python/PyQt-builder-1.15[${PYTHON_USEDEP}]

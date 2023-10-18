@@ -1,6 +1,14 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Violet Purcell <vimproved@inventati.org> (2023-10-12)
+# dev-util/samurai is not keyworded here.
+app-alternatives/ninja samurai
+
+# Andrew Ammerlaan <andrewammerlaan@gentoo.org> (2023-09-20)
+# Libei not keyworded here yet
+x11-base/xwayland libei
+
 # matoro <matoro_gentoo@matoro.tk> (2023-06-29)
 # Test failures in dev-libs/weston, although not as bad as big-endian
 # (2 at the time of this writing)
@@ -218,7 +226,7 @@ media-libs/mesa vulkan vulkan-overlay zink
 # Sergei Trofimovich <slyfox@gentoo.org> (2020-07-18)
 # net-libs/webkit-gtk has no alpha keywords
 app-editors/emacs xwidgets
-gnome-extra/evolution-data-server oauth
+gnome-extra/evolution-data-server oauth oauth-gtk3 oauth-gtk4
 # needs gnome-extra/sushi, depends on net-libs/webkit-gtk
 gnome-base/nautilus previewer
 # needs libgdata[gnome-online-accounts], depends on net-libs/webkit-gtk

@@ -16,7 +16,6 @@ else
 		https://dev.gentoo.org/~ionen/distfiles/${P}-vendor.tar.xz
 		verify-sig? ( https://github.com/kovidgoyal/kitty/releases/download/v${PV}/${P}.tar.xz.sig )
 	"
-	VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}/usr/share/openpgp-keys/kovidgoyal.gpg"
 	KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
 fi
 
@@ -24,7 +23,7 @@ DESCRIPTION="Fast, feature-rich, GPU-based terminal"
 HOMEPAGE="https://sw.kovidgoyal.net/kitty/"
 
 LICENSE="GPL-3 ZLIB"
-LICENSE+=" Apache-2.0 BSD MIT MPL-2.0" # go
+LICENSE+=" Apache-2.0 BSD BSD-2 MIT MPL-2.0 " # go
 SLOT="0"
 IUSE="+X test wayland"
 REQUIRED_USE="
@@ -77,14 +76,20 @@ BDEPEND="
 
 QA_FLAGS_IGNORED="usr/bin/kitten" # written in Go
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.30.1-no-sudo.patch
+)
+
 src_unpack() {
 	if [[ ${PV} == 9999 ]]; then
 		git-r3_src_unpack
 		cd "${S}" || die
 		edo go mod vendor
 	else
-		use verify-sig &&
+		if use verify-sig; then
+			local VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/kovidgoyal.gpg
 			verify-sig_verify_detached "${DISTDIR}"/${P}.tar.xz{,.sig}
+		fi
 		default
 	fi
 }
@@ -130,7 +135,7 @@ src_compile() {
 		--disable-link-time-optimization
 		--ignore-compiler-warnings
 		--libdir-name=$(get_libdir)
-		--shell-integration="enabled no-rc"
+		--shell-integration="enabled no-rc no-sudo"
 		--update-check-interval=0
 		--verbose
 	)

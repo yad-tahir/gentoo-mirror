@@ -7,7 +7,7 @@ PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="yes"
 PHP_EXT_INIFILE="3.0-xdebug.ini"
 
-USE_PHP="php7-4 php8-0 php8-1"
+USE_PHP="php8-0 php8-1"
 PHP_EXT_NEEDED_USE="-threads(-)"
 
 MY_PV="${PV/_/}"
@@ -17,7 +17,7 @@ S="${WORKDIR}/${PN}-${MY_PV}"
 
 inherit php-ext-source-r3
 
-KEYWORDS="~amd64 ~hppa ~ppc ppc64 x86"
+KEYWORDS="amd64 ~hppa ~ppc ppc64 x86"
 
 DESCRIPTION="A PHP debugging and profiling extension"
 HOMEPAGE="https://xdebug.org/"

@@ -15,9 +15,10 @@ HOMEPAGE="https://www.nvidia.com/download/index.aspx"
 SRC_URI="
 	${NV_URI}Linux-x86_64/${PV}/NVIDIA-Linux-x86_64-${PV}.run
 	$(printf "${NV_URI}%s/%s-${PV}.tar.bz2 " \
-		nvidia-{installer,modprobe,persistenced,settings,xconfig}{,})"
+		nvidia-{installer,modprobe,persistenced,settings,xconfig}{,})
+"
 # nvidia-installer is unused but here for GPL-2's "distribute sources"
-S="${WORKDIR}"
+S=${WORKDIR}
 
 LICENSE="NVIDIA-r2 BSD BSD-2 GPL-2 MIT ZLIB curl openssl"
 SLOT="0/${PV%%.*}"
@@ -26,7 +27,6 @@ IUSE="+X abi_x86_32 abi_x86_64 persistenced +static-libs +tools wayland"
 
 COMMON_DEPEND="
 	acct-group/video
-	sys-libs/glibc
 	persistenced? (
 		acct-user/nvpd
 		net-libs/libtirpc:=
@@ -43,9 +43,11 @@ COMMON_DEPEND="
 		x11-libs/libXext
 		x11-libs/libXxf86vm
 		x11-libs/pango
-	)"
+	)
+"
 RDEPEND="
 	${COMMON_DEPEND}
+	sys-libs/glibc
 	X? (
 		media-libs/libglvnd[X,abi_x86_32(-)?]
 		x11-libs/libX11[abi_x86_32(-)?]
@@ -54,7 +56,8 @@ RDEPEND="
 	wayland? (
 		~gui-libs/egl-wayland-1.1.7
 		media-libs/libglvnd
-	)"
+	)
+"
 DEPEND="
 	${COMMON_DEPEND}
 	static-libs? (
@@ -68,10 +71,12 @@ DEPEND="
 		x11-libs/libXrandr
 		x11-libs/libXv
 		x11-libs/libvdpau
-	)"
+	)
+"
 BDEPEND="
 	sys-devel/m4
-	virtual/pkgconfig"
+	virtual/pkgconfig
+"
 
 QA_PREBUILT="lib/firmware/* opt/bin/* usr/lib*"
 
@@ -94,7 +99,8 @@ pkg_setup() {
 		~!LOCKDEP
 		~!SLUB_DEBUG_ON
 		~!X86_KERNEL_IBT
-		!DEBUG_MUTEXES"
+		!DEBUG_MUTEXES
+	"
 
 	local ERROR_DRM_KMS_HELPER="CONFIG_DRM_KMS_HELPER: is not set but needed for Xorg auto-detection
 	of drivers (no custom config), and for wayland / nvidia-drm.modeset=1.
@@ -160,13 +166,17 @@ src_compile() {
 		SYSOUT="${KV_OUT_DIR}" SYSSRC="${KV_DIR}"
 	)
 
+	# temporary workaround for bug #914468
+	use modules &&
+		CPP="${KERNEL_CC} -E" tc-is-clang && addpredict "${KV_OUT_DIR}"
+
 	linux-mod-r1_src_compile
 	emake "${NV_ARGS[@]}" -C nvidia-modprobe
 	use persistenced && emake "${NV_ARGS[@]}" -C nvidia-persistenced
 	use X && emake "${NV_ARGS[@]}" -C nvidia-xconfig
 
 	if use tools; then
-		# cflags: avoid noisy logs, only use here and set first to let override
+		# avoid noisy *very* noisy logs with deprecation warnings
 		CFLAGS="-Wno-deprecated-declarations ${CFLAGS}" \
 			emake "${NV_ARGS[@]}" -C nvidia-settings
 	elif use static-libs; then

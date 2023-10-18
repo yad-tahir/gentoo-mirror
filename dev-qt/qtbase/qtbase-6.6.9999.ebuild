@@ -8,7 +8,7 @@ inherit flag-o-matic qt6-build toolchain-funcs
 DESCRIPTION="Cross-platform application development framework"
 
 if [[ ${QT6_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~amd64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~loong ~x86"
 fi
 
 declare -A QT6_IUSE=(
@@ -34,8 +34,9 @@ REQUIRED_USE="
 		printf '%s? ( sql ) ' ${QT6_IUSE[sql]//+/}
 		printf '%s? ( gui widgets ) ' ${QT6_IUSE[widgets]//+/}
 	)
-	accessibility? ( X dbus )
+	accessibility? ( dbus )
 	eglfs? ( opengl )
+	gles2-only? ( opengl )
 	gui? ( || ( X eglfs wayland ) )
 	libinput? ( udev )
 	sql? ( || ( ${QT6_IUSE[sql]//+/} ) )
@@ -85,7 +86,10 @@ RDEPEND="
 		eglfs? ( media-libs/mesa[gbm(+)] )
 		evdev? ( sys-libs/mtdev )
 		libinput? ( dev-libs/libinput:= )
-		opengl? ( media-libs/libglvnd[X?] )
+		opengl? (
+			gles2-only? ( media-libs/libglvnd )
+			!gles2-only? ( media-libs/libglvnd[X?] )
+		)
 		tslib? ( x11-libs/tslib )
 		widgets? (
 			cups? ( net-print/cups )
@@ -129,6 +133,8 @@ PDEPEND="
 "
 
 PATCHES=(
+	"${FILESDIR}"/${PN}-6.5.2-hppa-forkfd-grow-stack.patch
+	"${FILESDIR}"/${PN}-6.5.2-no-glx.patch
 	"${FILESDIR}"/${PN}-6.5.2-no-symlink-check.patch
 )
 
@@ -190,16 +196,15 @@ src_configure() {
 		$(qt_feature eglfs)
 		$(qt_feature evdev)
 		$(qt_feature evdev mtdev)
-		$(qt_feature gles2-only opengles2)
 		$(qt_feature libinput)
-		$(qt_feature opengl)
-		$(usev !opengl -DINPUT_opengl=no) #913691
 		$(qt_feature tslib)
 		$(qt_feature vulkan)
 		$(qt_feature widgets)
+		-DINPUT_opengl=$(usex opengl $(usex gles2-only es2 desktop) no)
 		-DQT_FEATURE_system_textmarkdownreader=OFF # TODO?: package md4c
 	) && use widgets && mycmakeargs+=(
-		$(qt_feature cups) # qtprintsupport is enabled w/ gui+widgets
+		# note: qtprintsupport is enabled w/ gui+widgets regardless of USE=cups
+		$(qt_feature cups)
 		$(qt_feature gtk gtk3)
 	)
 
@@ -276,11 +281,13 @@ src_test() {
 		tst_qx11info
 		# fails with network sandbox
 		tst_qdnslookup
+		# fails with sandbox
+		tst_qsharedmemory
 		# typical to lack SCTP support on non-generic kernels
 		tst_qsctpsocket
 		# these can be flaky depending on the environment/toolchain
 		tst_qlogging # backtrace log test can easily vary
-		tst_qrawfont # can be affected by available fonts
+		tst_q{,raw}font # affected by available fonts / settings (bug #914737)
 		tst_qstorageinfo # checks mounted filesystems
 		# flaky due to using different test framework and fails with USE=-gui
 		tst_selftests
@@ -295,16 +302,25 @@ src_test() {
 		tst_qglyphrun
 		tst_qvectornd
 		tst_rcc
-		# similarly, but on armv7 (bug #914028)
+		# similarly, but on armv7 and potentially others (bug #914028)
 		tst_qlineedit
 		tst_qpainter
+		# likewise, known failing at least on BE arches (bug #914033,914371)
+		tst_qimagereader
+		tst_qimagewriter
+		tst_qpluginloader
 		# partially broken on llvm-musl, needs looking into but skip to have
-		# a baseline for regressions (like above, rest of dev-qt is fine)
+		# a baseline for regressions (rest of dev-qt still passes with musl)
 		$(usev elibc_musl '
 			tst_qfiledialog2
 			tst_qicoimageformat
 			tst_qimagereader
 			tst_qimage
+		')
+		# fails due to hppa's NaN handling, needs looking into (bug #914371)
+		$(usev hppa '
+			tst_qcborvalue
+			tst_qnumeric
 		')
 		# note: for linux, upstream only really runs+maintains tests for amd64
 		# https://doc.qt.io/qt-6/supported-platforms.html
