@@ -15,7 +15,7 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="6/0" # soname version of libwebkit2gtk-6.0
-KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="amd64 ~arm arm64 ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
 
 IUSE="aqua avif examples gamepad keyring +gstreamer +introspection pdf +jpeg2k jpegxl +jumbo-build lcms seccomp spell systemd wayland X"
 REQUIRED_USE="|| ( aqua wayland X )"
@@ -151,6 +151,9 @@ pkg_setup() {
 src_prepare() {
 	cmake_src_prepare
 	gnome2_src_prepare
+
+	# Fix USE=-jumbo-build compilation on arm64
+	eapply "${FILESDIR}"/2.42.1-arm64-non-jumbo-fix.patch
 }
 
 src_configure() {

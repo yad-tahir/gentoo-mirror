@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_TESTED=( python3_{10..11} )
+PYTHON_TESTED=( python3_{10..12} )
 PYTHON_COMPAT=( "${PYTHON_TESTED[@]}" )
 
 inherit distutils-r1 multiprocessing
@@ -23,7 +23,7 @@ S=${WORKDIR}/${MY_P}
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~loong ~riscv ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~loong ~riscv ~sparc ~x86"
 
 RDEPEND="
 	dev-libs/boost
@@ -52,11 +52,18 @@ BDEPEND="
 distutils_enable_tests pytest
 
 src_configure() {
-	cat >> setup.cfg <<-EOF
+	cat >> setup.cfg <<-EOF || die
 		[build_py]
 		no_boost = True
 		no_xsimd = True
 	EOF
+
+	if use test ; then
+		sed -i \
+			-e 's|blas=blas|blas=cblas|' \
+			-e 's|libs=|libs=cblas|' \
+			pythran/pythran-*.cfg || die
+	fi
 }
 
 python_test() {
@@ -68,6 +75,15 @@ python_test() {
 		pythran/tests/test_distutils.py::TestDistutils::test_setup_build
 		pythran/tests/test_distutils.py::TestDistutils::test_setup_build2
 	)
+
+	case ${EPYTHON} in
+		python3.12)
+			EPYTEST_DESELECT+=(
+				# requires numpy.distutils
+				pythran/tests/test_distutils.py::TestDistutils::test_setup_{b,s}dist_install3
+			)
+			;;
+	esac
 
 	local -x COLUMNS=80
 	local -x PYTEST_DISABLE_PLUGIN_AUTOLOAD=1

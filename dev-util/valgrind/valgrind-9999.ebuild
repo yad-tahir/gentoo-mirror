@@ -16,11 +16,17 @@ if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://sourceware.org/git/${PN}.git"
 	inherit git-r3
 else
-	VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}"/usr/share/openpgp-keys/valgrind.gpg
+	VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/valgrind.gpg
 	inherit verify-sig
-	SRC_URI="https://sourceware.org/pub/valgrind/${P}.tar.bz2"
-	SRC_URI+=" verify-sig? ( https://sourceware.org/pub/valgrind/${P}.tar.bz2.asc )"
-	KEYWORDS="-* ~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
+
+	MY_P="${P/_rc/.RC}"
+	SRC_URI="https://sourceware.org/pub/valgrind/${MY_P}.tar.bz2"
+	SRC_URI+=" verify-sig? ( https://sourceware.org/pub/valgrind/${MY_P}.tar.bz2.asc )"
+	S="${WORKDIR}"/${MY_P}
+
+	if [[ ${PV} != *_rc* ]] ; then
+		KEYWORDS="-* ~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
+	fi
 fi
 
 LICENSE="GPL-2"
@@ -79,7 +85,7 @@ src_configure() {
 	#                          Note: -fstack-protector-explicit is a no-op for Valgrind, no need to strip it
 	# -fstack-protector-strong See -fstack-protector (bug #620402)
 	# -m64 -mx32			for multilib-portage, bug #398825
-	# -ggdb3                segmentation fault on startup
+	# -fharden-control-flow-redundancy: breaks runtime ('jump to the invalid address stated on the next line')
 	# -flto*                fails to build, bug #858509
 	filter-flags -fomit-frame-pointer
 	filter-flags -fstack-protector
@@ -87,7 +93,8 @@ src_configure() {
 	filter-flags -fstack-protector-strong
 	filter-flags -m64 -mx32
 	filter-flags -fsanitize -fsanitize=*
-	replace-flags -ggdb3 -ggdb2
+	filter-flags -fharden-control-flow-redundancy
+	append-cflags $(test-flags-CC -fno-harden-control-flow-redundancy)
 	filter-lto
 
 	if use amd64 || use ppc64; then
@@ -103,6 +110,11 @@ src_configure() {
 	fi
 
 	econf "${myconf[@]}"
+}
+
+src_test() {
+	# fxsave.o, tronical.o have textrels
+	emake LDFLAGS="${LDFLAGS} -Wl,-z,notext" check
 }
 
 src_install() {
