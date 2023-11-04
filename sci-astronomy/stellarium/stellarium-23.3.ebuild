@@ -33,7 +33,7 @@ SRC_URI="
 
 LICENSE="GPL-2+ SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~ppc ~ppc64 ~riscv ~x86"
 IUSE="debug deep-sky doc gps media nls qt6 +scripting +show-my-sky stars telescope test webengine +xlsx"
 
 # Python interpreter is used while building RemoteControl plugin
@@ -103,7 +103,7 @@ PATCHES=(
 	"${FILESDIR}/stellarium-0.20.3-unbundle-zlib.patch"
 )
 
-VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/stellarium.asc
+VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/stellarium.asc
 src_unpack() {
 	# stars-2.0 are not signed
 	if use verify-sig; then
