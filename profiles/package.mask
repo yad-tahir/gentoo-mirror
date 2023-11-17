@@ -33,6 +33,18 @@
 
 #--- END OF EXAMPLES ---
 
+# Sam James <sam@gentoo.org> (2023-11-17)
+# Missing 'java-config' symlink to 'java-config-2', breaking Java eclasses
+# at least. See bug #917458.
+=dev-java/java-config-2.3.3
+
+# Arthur Zamarin <arthurzam@gentoo.org> (2023-11-10)
+# No reverse dependencies, no tests, no upstream activity. All ebuild
+# maintenance on this package was done randomly by @python project members,
+# at late stage of python porting, which is hard with no tests.
+# Removal on 2023-12-10.  Bug #917124.
+dev-python/empy
+
 # Michał Górny <mgorny@gentoo.org> (2023-11-06)
 # Unmaintained.  Last commit in 2017.  Distutils is deprecated.
 # No revdeps.
@@ -240,20 +252,6 @@ dev-python/ypy-websocket
 # a while. Removal on 2023-11-13. Bug #915190.
 media-libs/libofa
 
-# Mart Raudsepp <leio@gentoo.org> (2023-10-14)
-# GStreamer plugin removed upstream. MMS was deprecated in 2003 and no
-# streams using MMS are known to exist. Removal on 2023-11-13. Bug #915771.
-media-plugins/gst-plugins-libmms
-
-# Florian Schmaus <flow@gentoo.org> (2023-10-14)
-# Obsolete acct-* packages that became leaf packages.
-# Removal on 2023-11-14.
-acct-user/tpm
-acct-group/tpm
-acct-user/ultimaker
-acct-group/ultimaker
-acct-group/systemd-hostname
-
 # Michał Górny <mgorny@gentoo.org> (2023-10-14)
 # media-video/transcode is dead for many years.  We already piled up
 # a lot of downstream patches just to keep it working, and it's broken
@@ -265,13 +263,6 @@ media-plugins/vdr-burn-templates
 media-video/dvd9to5
 media-video/dvdrip
 media-video/transcode
-
-# Andrey Grozin <grozin@gentoo.org> (2023-10-12)
-# The last upstream tag in 2021
-# There is an active fork: app-text/crqt-ng and app-text/crwx-ng
-# Bug https://bugs.gentoo.org/915634
-# Removal on 2023-11-11
-app-text/coolreader
 
 # Sam James <sam@gentoo.org> (2023-10-06)
 # Breaks building scipy: https://github.com/cython/cython/issues/5748
@@ -389,12 +380,6 @@ net-misc/openr2
 =dev-db/mariadb-10.6.13
 =dev-db/mariadb-10.11.2
 =dev-db/mariadb-10.11.3
-
-# Sam James <sam@gentoo.org> (2023-05-19)
-# Breaks Portage's pid-sandbox at least with 5.10 kernels. Pending investigation.
-# If you're hitting this, try: FEATURES="-pid-sandbox" emerge -v1 sys-apps/util-linux
-# as a workaround. bug #906797.
-~sys-apps/util-linux-2.39
 
 # Sam James <sam@gentoo.org> (2023-05-10)
 # Lots of package breakage as usual for new versions. Masked until most/all
