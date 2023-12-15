@@ -1,6 +1,14 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# matoro <matoro_gentoo@matoro.tk> (2023-11-24)
+# dev-util/glslang not keyworded here.
+media-video/ffmpeg glslang
+
+# matoro <matoro_gentoo@matoro.tk> (2023-11-24)
+# media-libs/shaderc not keyworded here.
+>=media-video/ffmpeg-5 shaderc
+
 # matoro <matoro_gentoo@matoro.tk> (2023-11-14)
 # dev-db/mysql not keyworded here.
 dev-perl/DBD-mysql mysql
@@ -281,6 +289,7 @@ media-video/ffmpeg dav1d libaribb24 libtesseract
 
 # Andrey Utkin <andrey_utkin@gentoo.org> (2020-03-11)
 # USE=bpf depends on sys-devel/clang which is not keyworded on alpha.
+media-libs/libv4l bpf
 media-tv/v4l-utils bpf
 
 # Patrick McLean <chutzpah@gentoo.org> (2020-02-15)

@@ -18,13 +18,13 @@ if [[ ${PV} == *9999* ]]; then
 else
 	SRC_URI="https://doxygen.nl/files/${P}.src.tar.gz"
 	SRC_URI+=" mirror://sourceforge/doxygen/rel-${PV}/${P}.src.tar.gz"
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
+	KEYWORDS="~alpha ~amd64 arm ~arm64 ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
 fi
 
 # GPL-2 also for bundled libmscgen
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="clang debug doc dot doxysearch gui sqlite test"
+IUSE="clang debug doc dot doxysearch gui test"
 # - We need TeX for tests, bug #765472
 # - We keep the odd construct of noop USE=test because of
 #   the special relationship b/t RESTRICT & USE for tests.
