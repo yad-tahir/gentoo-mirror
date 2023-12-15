@@ -635,6 +635,10 @@
     <url>https://wiki.gentoo.org/wiki/Project:Distribution_Kernel</url>
     <description>Dist-kernel project maintains packages providing for zero-effort kernel install and upgrades</description>
     <member>
+      <email>andrewammerlaan@gentoo.org</email>
+      <name>Andrew Ammerlaan</name>
+    </member>
+    <member>
       <email>gyakovlev@gentoo.org</email>
       <name>Georgy Yakovlev</name>
       <role>ppc64 maintenance, testing</role>
@@ -1000,6 +1004,11 @@
       <role>2022 Mentor</role>
     </member>
     <member>
+      <email>mgorny@gentoo.org</email>
+      <name>Michał Górny</name>
+      <role>Potential mentor</role>
+    </member>
+    <member>
       <email>sam@gentoo.org</email>
       <name>Sam James</name>
       <role>2022 Administrator/Mentor</role>
@@ -1079,7 +1088,7 @@
     <email>genkernel@gentoo.org</email>
     <name>Genkernel</name>
     <url>https://wiki.gentoo.org/wiki/Project:Genkernel</url>
-    <description>The Genkernel project handles the maintenance and development of [https://packages.gentoo.org/packages/sys-kernel/genkernel sys-kernel/genkernel].</description>
+    <description>The Genkernel project handles the maintenance and development of &lt;span style="white-space: nowrap;" class="plainlinks" title="External link to https://packages.gentoo.org for the sys-kernel/genkernel package."&gt;[https://packages.gentoo.org/packages/sys-kernel/genkernel &lt;span style="font-family: monospace; font-size: 95%; color: MidnightBlue;"&gt;sys-kernel/genkernel&lt;/span&gt;]&lt;span style="color: grey; margin-left: 0.1em; font-size: 70% !important;" class="fa fa-hdd-o fa-fw"&gt;&lt;/span&gt;&lt;/span&gt;.</description>
     <member is-lead="1">
       <email>robbat2@gentoo.org</email>
       <name>Robin Johnson</name>
@@ -1221,6 +1230,11 @@
       <email>maffblaster@gentoo.org</email>
       <name>Matthew Marchese</name>
       <role>Maintainer</role>
+    </member>
+    <member>
+      <email>ris@gentoo.org</email>
+      <name>P.Fox</name>
+      <role>Docwrangler</role>
     </member>
     <member>
       <email>sam@gentoo.org</email>
@@ -1727,6 +1741,10 @@
       <email>anarchy@gentoo.org</email>
       <name>Jory A. Pratt</name>
     </member>
+    <member>
+      <email>arkamar@gentoo.org</email>
+      <name>Petr Vaněk</name>
+    </member>
     <member is-lead="1">
       <email>blueness@gentoo.org</email>
       <name>Anthony G. Basile</name>
@@ -1815,7 +1833,7 @@
     <email>openrc@gentoo.org</email>
     <name>OpenRC</name>
     <url>https://wiki.gentoo.org/wiki/Project:OpenRC</url>
-    <description>OpenRC is a dependency based init system that works with the system provided init program, normally &lt;span style="font-family: monospace; font-size: 95%"&gt;/sbin/init&lt;/span&gt;.</description>
+    <description>OpenRC is a dependency based init system that works with the system provided init program, normally &lt;span style="font-family: monospace; font-size: 95%; color: #3c763d; font-weight: 600;"&gt;/sbin/init&lt;/span&gt;.</description>
     <member>
       <email>blueness@gentoo.org</email>
       <name>Anthony G. Basile</name>
@@ -2224,6 +2242,10 @@
       <name>Amy Liffey</name>
     </member>
     <member>
+      <email>arkamar@gentoo.org</email>
+      <name>Petr Vaněk</name>
+    </member>
+    <member>
       <email>asturm@gentoo.org</email>
       <name>Andreas Sturmlechner</name>
     </member>
@@ -2330,6 +2352,10 @@
     <member>
       <email>andrewammerlaan@gentoo.org</email>
       <name>Andrew Ammerlaan</name>
+    </member>
+    <member>
+      <email>arkamar@gentoo.org</email>
+      <name>Petr Vaněk</name>
     </member>
     <member>
       <email>arthurzam@gentoo.org</email>
@@ -2971,7 +2997,7 @@
     <email>tex@gentoo.org</email>
     <name>TeX Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:TeX</url>
-    <description>The Gentoo TeX project maintains ebuilds for TeXLive and TeX related packages. This includes [https://packages.gentoo.org/packages/app-text/texlive app-text/texlive], the [https://packages.gentoo.org/categories/dev-texlive dev-texlive] category, most of [https://packages.gentoo.org/categories/dev-tex dev-tex] and a few others.</description>
+    <description>The Gentoo TeX project maintains ebuilds for TeXLive and TeX related packages. This includes &lt;span style="white-space: nowrap;" class="plainlinks" title="External link to https://packages.gentoo.org for the app-text/texlive package."&gt;[https://packages.gentoo.org/packages/app-text/texlive &lt;span style="font-family: monospace; font-size: 95%; color: MidnightBlue;"&gt;app-text/texlive&lt;/span&gt;]&lt;span style="color: grey; margin-left: 0.1em; font-size: 70% !important;" class="fa fa-hdd-o fa-fw"&gt;&lt;/span&gt;&lt;/span&gt;, the [https://packages.gentoo.org/categories/dev-texlive dev-texlive] category, most of [https://packages.gentoo.org/categories/dev-tex dev-tex] and a few others.</description>
     <member is-lead="1">
       <email>aballier@gentoo.org</email>
       <name>Alexis Ballier</name>
@@ -3251,7 +3277,7 @@
     <member>
       <email>ris@gentoo.org</email>
       <name>P.Fox</name>
-      <role>Administrator / Contributor</role>
+      <role>Administrator / Docwrangler</role>
     </member>
     <member>
       <email>ulm@gentoo.org</email>

@@ -1,6 +1,10 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Leonardo Hernández Hernández <leohdz172@proton.me> (2023-11-15)
+# Vulkan is not available here
+media-video/ffmpeg glslang shaderc vulkan
+
 # Michał Górny <mgorny@gentoo.org> (2023-10-22)
 # This is not ISDN CAPI, so unmask it.
 media-video/rav1e -capi
@@ -335,6 +339,7 @@ x11-libs/qwt designer
 
 # Rolf Eike Beer <eike@sf-mail.de> (2020-04-15)
 # USE=bpf depends on sys-devel/clang which is not keyworded on sparc
+media-libs/libv4l bpf
 media-tv/v4l-utils bpf
 
 # Rolf Eike Beer <eike@sf-mail.de> (2020-04-14)

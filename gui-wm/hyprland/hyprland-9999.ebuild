@@ -20,7 +20,7 @@ fi
 
 LICENSE="BSD"
 SLOT="0"
-IUSE="X legacy-renderer systemd video_cards_nvidia"
+IUSE="X legacy-renderer systemd"
 
 # bundled wlroots has the following dependency string according to included headers.
 # wlroots[drm,gles2-renderer,libinput,x11-backend?,X?]
@@ -34,7 +34,7 @@ WLROOTS_RDEPEND="
 	media-libs/mesa[egl(+),gles2]
 	sys-apps/hwdata:=
 	sys-auth/seatd:=
-	>=x11-libs/libdrm-2.4.114
+	>=x11-libs/libdrm-2.4.118
 	x11-libs/libxkbcommon
 	>=x11-libs/pixman-0.42.0
 	virtual/libudev:=
@@ -55,6 +55,7 @@ WLROOTS_BDEPEND="
 
 RDEPEND="
 	${WLROOTS_RDEPEND}
+	dev-cpp/tomlplusplus
 	dev-libs/glib:2
 	dev-libs/libinput
 	dev-libs/wayland
@@ -80,7 +81,6 @@ BDEPEND="
 	app-misc/jq
 	dev-util/cmake
 	dev-util/wayland-scanner
-	dev-vcs/git
 	virtual/pkgconfig
 "
 
@@ -98,16 +98,6 @@ pkg_setup() {
 	fi
 }
 
-src_prepare() {
-	if use video_cards_nvidia; then
-		cd "${S}/subprojects/wlroots" || die
-		eapply "${S}/nix/patches/wlroots-nvidia.patch"
-		cd "${S}" || die
-	fi
-
-	default
-}
-
 src_configure() {
 	local emesonargs=(
 		$(meson_feature legacy-renderer legacy_renderer)
@@ -122,7 +112,9 @@ src_configure() {
 }
 
 src_install() {
+	# First install everything except wlroots to avoid conflicts.
 	meson_src_install --skip-subprojects wlroots
+	# Then install development files (mainly wlroots) for bug #916760.
 	meson_src_install --tags devel
 
 	# Wlroots headers are required by hyprland-plugins and the pkgconfig file expects

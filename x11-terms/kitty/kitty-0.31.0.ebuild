@@ -4,7 +4,8 @@
 EAPI=8
 
 PYTHON_COMPAT=( python3_{10..12} )
-inherit edo optfeature multiprocessing python-single-r1 toolchain-funcs xdg
+inherit edo go-env optfeature multiprocessing
+inherit python-single-r1 toolchain-funcs xdg
 
 if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
@@ -17,7 +18,7 @@ else
 		verify-sig? ( https://github.com/kovidgoyal/kitty/releases/download/v${PV}/${P}.tar.xz.sig )
 	"
 	VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/kovidgoyal.gpg
-	KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+	KEYWORDS="amd64 ~arm64 ~ppc64 ~riscv x86"
 fi
 
 DESCRIPTION="Fast, feature-rich, GPU-based terminal"
@@ -124,9 +125,11 @@ src_prepare() {
 
 src_compile() {
 	tc-export CC
+	local -x PKGCONFIG_EXE=$(tc-getPKG_CONFIG)
+
+	go-env_set_compile_environment
 	local -x GOFLAGS="-p=$(makeopts_jobs) -v -x"
 	use ppc64 && [[ $(tc-endian) == big ]] || GOFLAGS+=" -buildmode=pie"
-	local -x PKGCONFIG_EXE=$(tc-getPKG_CONFIG)
 
 	local conf=(
 		--disable-link-time-optimization
