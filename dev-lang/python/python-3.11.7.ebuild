@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -10,7 +10,7 @@ inherit prefix python-utils-r1 toolchain-funcs verify-sig
 MY_PV=${PV/_rc/rc}
 MY_P="Python-${MY_PV%_p*}"
 PYVER=$(ver_cut 1-2)
-PATCHSET="python-gentoo-patches-${MY_PV}"
+PATCHSET="python-gentoo-patches-${MY_PV}_p1"
 
 DESCRIPTION="An interpreted, interactive, object-oriented programming language"
 HOMEPAGE="
@@ -28,9 +28,9 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="PSF-2"
 SLOT="${PYVER}"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86"
 IUSE="
-	bluetooth build debug +ensurepip examples gdbm libedit lto
+	bluetooth build debug +ensurepip examples gdbm libedit
 	+ncurses pgo +readline +sqlite +ssl test tk valgrind
 "
 RESTRICT="!test? ( test )"
@@ -71,12 +71,12 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	bluetooth? ( net-wireless/bluez )
-	test? ( app-arch/xz-utils[extra-filters(+)] )
-	valgrind? ( dev-util/valgrind )
+	test? ( app-arch/xz-utils )
+	valgrind? ( dev-debug/valgrind )
 "
 # autoconf-archive needed to eautoreconf
 BDEPEND="
-	sys-devel/autoconf-archive
+	dev-build/autoconf-archive
 	app-alternatives/awk
 	virtual/pkgconfig
 	verify-sig? ( sec-keys/openpgp-keys-python )
@@ -202,7 +202,6 @@ build_cbuild_python() {
 }
 
 src_configure() {
-	local disable
 	# disable automagic bluetooth headers detection
 	if ! use bluetooth; then
 		local -x ac_cv_header_bluetooth_bluetooth_h=no
@@ -210,11 +209,6 @@ src_configure() {
 
 	append-flags -fwrapv
 	filter-flags -malign-double
-
-	# https://bugs.gentoo.org/700012
-	if is-flagq -flto || is-flagq '-flto=*'; then
-		append-cflags $(test-flags-CC -ffat-lto-objects)
-	fi
 
 	# Export CXX so it ends up in /usr/lib/python3.X/config/Makefile.
 	# PKG_CONFIG needed for cross.
@@ -279,6 +273,7 @@ src_configure() {
 		--with-libc=
 		--enable-loadable-sqlite-extensions
 		--without-ensurepip
+		--without-lto
 		--with-system-expat
 		--with-system-ffi
 		--with-platlibdir=lib
@@ -286,7 +281,6 @@ src_configure() {
 		--with-wheel-pkg-dir="${EPREFIX}"/usr/lib/python/ensurepip
 
 		$(use_with debug assertions)
-		$(use_with lto)
 		$(use_enable pgo optimizations)
 		$(use_with readline readline "$(usex libedit editline readline)")
 		$(use_with valgrind)
@@ -294,6 +288,14 @@ src_configure() {
 
 	# disable implicit optimization/debugging flags
 	local -x OPT=
+
+	# https://bugs.gentoo.org/700012
+	if tc-is-lto; then
+		append-cflags $(test-flags-CC -ffat-lto-objects)
+		myeconfargs+=(
+			--with-lto
+		)
+	fi
 
 	if tc-is-cross-compiler ; then
 		build_cbuild_python

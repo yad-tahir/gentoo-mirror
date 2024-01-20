@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -37,12 +37,12 @@ RDEPEND="
 	>=dev-db/pg-gvm-22.4
 "
 BDEPEND="
-	sys-devel/bison
-	sys-devel/flex
+	app-alternatives/yacc
+	app-alternatives/lex
 	virtual/pkgconfig
 	doc? (
-		app-doc/doxygen[dot]
-		app-doc/xmltoman
+		app-text/doxygen[dot]
+		app-text/xmltoman
 		app-text/htmldoc
 		dev-libs/libxslt
 	)

@@ -1,4 +1,4 @@
-# Copyright 2021-2023 Gentoo Authors
+# Copyright 2021-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -11,7 +11,7 @@ inherit prefix python-any-r1 qt6-build toolchain-funcs
 
 DESCRIPTION="Library for rendering dynamic web content in Qt6 C++ and QML applications"
 SRC_URI+="
-	https://dev.gentoo.org/~ionen/distfiles/${PN}-6.7-patchset-1.tar.xz
+	https://dev.gentoo.org/~ionen/distfiles/${PN}-6.7-patchset-2.tar.xz
 "
 
 if [[ ${QT6_BUILD_TYPE} == release ]]; then
@@ -233,6 +233,12 @@ src_configure() {
 			replace-flags '-g?(gdb)?([2-9])' -g1
 			ewarn "-g2+/-ggdb* *FLAGS replaced with -g1 (enable USE=custom-cflags to keep)"
 		fi
+
+		# Built helpers segfault when using (at least) -march=armv8-a+pauth
+		# (bug #920555, #920568 -- suspected gcc bug). For now, filter all
+		# for simplicity. Override with USE=custom-cflags if wanted, please
+		# report if above -march works again so can cleanup.
+		use arm64 && tc-is-gcc && filter-flags '-march=*' '-mcpu=*'
 	fi
 
 	export NINJA NINJAFLAGS=$(get_NINJAOPTS)
@@ -242,6 +248,13 @@ src_configure() {
 	einfo "Extra Gn args: ${EXTRA_GN}"
 
 	qt6-build_src_configure
+}
+
+src_compile() {
+	# tentatively work around a possible (rare) race condition (bug #921680)
+	cmake_build WebEngineCore_sync_all_public_headers
+
+	cmake_src_compile
 }
 
 src_test() {
@@ -273,6 +286,13 @@ src_test() {
 
 	# random failures in several tests without -j1
 	qt6-build_src_test -j1
+}
+
+src_install() {
+	qt6-build_src_install
+
+	[[ -e ${D}${QT6_LIBDIR}/libQt6WebEngineCore.so ]] || #601472
+		die "${CATEGORY}/${PF} failed to build anything. Please report to https://bugs.gentoo.org/"
 }
 
 pkg_postinst() {

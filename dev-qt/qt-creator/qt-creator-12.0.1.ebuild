@@ -1,4 +1,4 @@
-# Copyright 2023 Gentoo Authors
+# Copyright 2023-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -23,7 +23,7 @@ else
 	[[ ${QTC_PV} == ${PV} ]] && QTC_REL=official || QTC_REL=development
 	SRC_URI="https://download.qt.io/${QTC_REL}_releases/qtcreator/$(ver_cut 1-2)/${PV/_/-}/${QTC_P}.tar.xz"
 	S=${WORKDIR}/${QTC_P}
-	KEYWORDS="~amd64"
+	KEYWORDS="amd64"
 fi
 
 DESCRIPTION="Lightweight IDE for C++/QML development centering around Qt"
@@ -195,8 +195,8 @@ dev-qt/qt-docs:6 with USE=\"examples qch\" is notably recommended, or
 else the example tab will be empty alongside missing documentation.
 
 Build Systems:
-- CMakeProjectManager (dev-util/cmake)
-- MesonProjectManager (dev-util/meson)
+- CMakeProjectManager (dev-build/cmake)
+- MesonProjectManager (dev-build/meson)
 - QbsProjectManager (dev-util/qbs)
 
 C++:
@@ -209,7 +209,7 @@ Code Analyzer:
 - Cppcheck (dev-util/cppcheck)
 - CtfVisualizer (USE=tracing)
 - PerfProfiler (USE=tracing)
-- Valgrind (dev-util/valgrind)
+- Valgrind (dev-debug/valgrind)
 
 Core:
 - Help (USE=help + dev-qt/qt-docs:6 with USE=\"examples qch\")
