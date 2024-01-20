@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -105,7 +105,7 @@ BDEPEND="
 	)
 	test? (
 		app-admin/genromfs
-		app-arch/cpio
+		app-alternatives/cpio
 		app-arch/lzop
 		app-emulation/qemu
 		dev-libs/libisoburn
@@ -287,7 +287,7 @@ src_configure() {
 
 src_compile() {
 	# Sandbox bug 404013.
-	use libzfs && addpredict /etc/dfs:/dev/zfs
+	use libzfs && { addpredict /etc/dfs; addpredict /dev/zfs; }
 
 	grub_do emake
 	use doc && grub_do_once emake -C docs html
@@ -310,6 +310,11 @@ src_install() {
 
 	# https://bugs.gentoo.org/231935
 	dostrip -x /usr/lib/grub
+
+	if use elibc_musl; then
+		# https://bugs.gentoo.org/900348
+		QA_CONFIG_IMPL_DECL_SKIP=( re_set_syntax re_compile_pattern re_search )
+	fi
 }
 
 pkg_postinst() {

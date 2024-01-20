@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit flag-o-matic
+inherit flag-o-matic toolchain-funcs
 
 DESCRIPTION="The libxdp library and various tools for use with XDP"
 HOMEPAGE="https://github.com/xdp-project/xdp-tools"
@@ -11,7 +11,7 @@ SRC_URI="https://github.com/xdp-project/${PN}/archive/refs/tags/v${PV}.tar.gz ->
 
 LICENSE="GPL-2 LGPL-2.1 BSD-2"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm ~arm64 ~riscv ~x86"
 IUSE="+tools"
 
 DEPEND="

@@ -1,4 +1,4 @@
-# Copyright 2009-2023 Gentoo Authors
+# Copyright 2009-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -195,14 +195,14 @@ BDEPEND="
 		>=dev-util/web_page_replay_go-20220314
 		$(depend_clang_llvm_versions ${LLVM_MIN_SLOT} ${LLVM_MAX_SLOT})
 	)
+	>=dev-build/gn-${GN_MIN_VER}
 	dev-lang/perl
-	>=dev-util/gn-${GN_MIN_VER}
 	>=dev-util/gperf-3.0.3
-	>=dev-util/ninja-1.7.2
+	app-alternatives/ninja
 	dev-vcs/git
 	>=net-libs/nodejs-7.6.0[inspector]
 	>=sys-devel/bison-2.4.3
-	sys-devel/flex
+	app-alternatives/lex
 	virtual/pkgconfig
 "
 
@@ -326,7 +326,7 @@ pkg_setup() {
 		fi
 		# Users should never hit this, it's purely a development convenience
 		if ver_test $(gn --version || die) -lt ${GN_MIN_VER}; then
-				die "dev-util/gn >= ${GN_MIN_VER} is required to build this Chromium"
+				die "dev-build/gn >= ${GN_MIN_VER} is required to build this Chromium"
 		fi
 	fi
 

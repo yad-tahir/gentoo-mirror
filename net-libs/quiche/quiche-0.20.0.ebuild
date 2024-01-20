@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -192,7 +192,7 @@ if [[ ${PV} == *9999 ]] ; then
 	CMAKE_USE_DIR="${S}/quiche/deps/boringssl"
 else
 	SRC_URI="${CARGO_CRATE_URIS}"
-	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~x86"
 	S="${WORKDIR}/${P//_/-}"
 	CMAKE_USE_DIR="${S}/deps/boringssl"
 fi
@@ -212,7 +212,7 @@ DOCS=( COPYING README.md )
 
 BDEPEND="
 	>=virtual/rust-1.66.0[${MULTILIB_USEDEP}]
-	dev-util/cmake
+	dev-build/cmake
 "
 DEPEND=""
 RDEPEND=""

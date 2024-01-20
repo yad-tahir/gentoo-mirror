@@ -224,6 +224,17 @@
     </member>
   </project>
   <project>
+    <email>asahi@gentoo.org</email>
+    <name>Gentoo Asahi Project</name>
+    <url>https://wiki.gentoo.org/wiki/Project:Asahi</url>
+    <description>The Gentoo Asahi Project brings Gentoo Linux to Apple Silicon Mac devices.</description>
+    <member is-lead="1">
+      <email>leio@gentoo.org</email>
+      <name>Mart Raudsepp</name>
+      <role>Creator</role>
+    </member>
+  </project>
+  <project>
     <email>sci-astronomy@gentoo.org</email>
     <name>Astronomy Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:Astronomy</url>
@@ -287,7 +298,7 @@
     <email>binhost@gentoo.org</email>
     <name>Binary (i.e., precompiled) package hosting</name>
     <url>https://wiki.gentoo.org/wiki/Project:Binhost</url>
-    <description>The Gentoo Binhost project aims to provide readily installable, precompiled packages for a subset of configurations. Currently we are still in the conceptual planning stage.</description>
+    <description>The Gentoo Binhost project aims to provide readily installable, precompiled packages for a subset of configurations.</description>
     <member>
       <email>blueknight@gentoo.org</email>
       <name>Yury German</name>
@@ -1220,7 +1231,7 @@
     <email>handbook@gentoo.org</email>
     <name>Handbook</name>
     <url>https://wiki.gentoo.org/wiki/Project:Handbook</url>
-    <description>The Handbook project is responsible for maintaining Gentoo's official Handbook.</description>
+    <description>The Handbook project is responsible for maintaining Gentoo's official handbook.</description>
     <member>
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
@@ -1229,7 +1240,7 @@
     <member>
       <email>maffblaster@gentoo.org</email>
       <name>Matthew Marchese</name>
-      <role>Maintainer</role>
+      <role>Lead maintainer</role>
     </member>
     <member>
       <email>ris@gentoo.org</email>
@@ -3267,7 +3278,7 @@
     <member is-lead="1">
       <email>maffblaster@gentoo.org</email>
       <name>Matthew Marchese</name>
-      <role>Administrator / Blaster / Contributor</role>
+      <role>King</role>
     </member>
     <member>
       <email>mgorny@gentoo.org</email>

@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -67,7 +67,7 @@ RDEPEND="app-emacs/emacs-common[games?,gui(-)?]
 	selinux? ( sys-libs/libselinux )
 	ssl? ( net-libs/gnutls:0= )
 	systemd? ( sys-apps/systemd )
-	valgrind? ( dev-util/valgrind )
+	valgrind? ( dev-debug/valgrind )
 	zlib? ( sys-libs/zlib )
 	gui? ( !aqua? (
 		x11-libs/libICE
@@ -173,6 +173,12 @@ src_prepare() {
 
 	# Fix filename reference in redirected man page
 	sed -i -e "/^\\.so/s/etags/&-${EMACS_SUFFIX}/" doc/man/ctags.1 || die
+
+	# Tests that use bubblewrap don't work in the sandbox:
+	# "bwrap: setting up uid map: Permission denied"
+	# So, disrupt the search for the bwrap executable.
+	sed -i -e 's/(executable-find "bwrap")/nil/' test/src/emacs-tests.el \
+		test/lisp/emacs-lisp/bytecomp-tests.el || die
 
 	AT_M4DIR=m4 eautoreconf
 }
@@ -368,12 +374,17 @@ src_test() {
 		%lisp/vc/vc-tests.el
 		%lisp/vc/vc-bzr-tests.el
 
-		# Reason: fails if bubblewrap (bwrap) is installed
-		# "bwrap: setting up uid map: Permission denied"
-		#
-		# bytecomp-tests--dest-mountpoint
-		%lisp/emacs-lisp/bytecomp-tests.el
+		# Reason: some copyright years differ
+		%lisp/emacs-lisp/copyright-tests.el
+
+		# Reason: quoting issues (fixed in Emacs 29)
+		%lib-src/emacsclient-tests.el
 	)
+	use threads || exclude_tests+=(
+			%src/emacs-module-tests.el
+			%src/keyboard-tests.el
+			%src/thread-tests.el
+		)
 
 	# See test/README for possible options
 	emake \

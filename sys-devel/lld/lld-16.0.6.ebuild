@@ -1,9 +1,9 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{9..12} )
+PYTHON_COMPAT=( python3_{10..12} )
 inherit cmake flag-o-matic llvm llvm.org python-any-r1 toolchain-funcs
 
 DESCRIPTION="The LLVM linker (link editor)"
@@ -27,7 +27,6 @@ RDEPEND="
 BDEPEND="
 	sys-devel/llvm:${LLVM_MAJOR}
 	test? (
-		>=dev-util/cmake-3.16
 		$(python_gen_any_dep ">=dev-python/lit-${PV}[\${PYTHON_USEDEP}]")
 	)
 "
@@ -70,6 +69,8 @@ src_configure() {
 		-DCMAKE_INSTALL_PREFIX="${EPREFIX}/usr/lib/llvm/${LLVM_MAJOR}"
 		-DBUILD_SHARED_LIBS=ON
 		-DLLVM_INCLUDE_TESTS=$(usex test)
+		-DLLVM_ENABLE_ZLIB=FORCE_ON
+		-DLLVM_ENABLE_ZSTD=$(usex zstd FORCE_ON OFF)
 	)
 
 	use test && mycmakeargs+=(

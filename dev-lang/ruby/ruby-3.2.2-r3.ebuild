@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -29,7 +29,7 @@ RDEPEND="
 		dev-libs/openssl:0=
 	)
 	socks5? ( >=net-proxy/dante-1.1.13 )
-	systemtap? ( dev-util/systemtap )
+	systemtap? ( dev-debug/systemtap )
 	tk? (
 		dev-lang/tcl:0=[threads]
 		dev-lang/tk:0=[threads]
@@ -44,7 +44,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
-	valgrind? ( dev-util/valgrind )
+	valgrind? ( dev-debug/valgrind )
 "
 
 BUNDLED_GEMS="

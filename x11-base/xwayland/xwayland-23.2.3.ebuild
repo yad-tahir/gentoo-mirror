@@ -1,4 +1,4 @@
-# Copyright 2021-2023 Gentoo Authors
+# Copyright 2021-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -10,7 +10,7 @@ if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
 else
 	SRC_URI="https://xorg.freedesktop.org/archive/individual/xserver/${P}.tar.xz"
-	KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ppc ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux"
+	KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~loong ~mips ppc ppc64 ~riscv ~s390 ~sparc x86 ~amd64-linux ~x86-linux"
 fi
 
 DESCRIPTION="Standalone X server running under Wayland"
@@ -57,7 +57,7 @@ RDEPEND="
 	selinux? ( sec-policy/selinux-xserver )
 "
 BDEPEND="
-	sys-devel/flex
+	app-alternatives/lex
 	dev-util/wayland-scanner
 "
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -14,7 +14,7 @@ SRC_URI="https://github.com/brndnmtthws/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 
 LICENSE="GPL-3 BSD LGPL-2.1 MIT"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~ppc ppc64 ~riscv sparc x86"
 IUSE="apcupsd bundled-toluapp cmus curl doc extras hddtemp ical iconv imlib
 	intel-backlight iostats irc lua-cairo lua-imlib lua-rsvg math moc mpd
 	mysql ncurses nvidia +portmon pulseaudio rss systemd thinkpad truetype
@@ -96,6 +96,7 @@ python_check_deps() {
 }
 
 REQUIRED_USE="
+	${LUA_REQUIRED_USE}
 	imlib? ( X )
 	lua-cairo? ( X  bundled-toluapp )
 	lua-imlib? ( X  bundled-toluapp )
