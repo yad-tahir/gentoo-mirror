@@ -25,9 +25,19 @@ RDEPEND="
 	>=dev-python/python-editor-0.3[${PYTHON_USEDEP}]
 	>=dev-python/typing-extensions-4[${PYTHON_USEDEP}]
 "
+BDEPEND="
+	test? (
+		sys-libs/timezone-data
+	)
+"
 
 EPYTEST_XDIST=1
 distutils_enable_tests pytest
+
+PATCHES=(
+	# https://github.com/sqlalchemy/alembic/commit/6bdb9043868d4bd04ebe3fe8a4991735d5f87ed3
+	"${FILESDIR}/${P}-pytest-8.patch"
+)
 
 python_test() {
 	local -x PYTEST_DISABLE_PLUGIN_AUTOLOAD=1

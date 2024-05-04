@@ -1,9 +1,9 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit elisp-common
+inherit elisp-common flag-o-matic
 
 MY_PN=Singular
 MY_PV=$(ver_rs 3 '')
@@ -21,7 +21,7 @@ S="${WORKDIR}/${PN}-${MY_DIR2}"
 # are no GPL-2-only files.
 LICENSE="BSD GPL-2 GPL-2+ GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~riscv ~x86 ~x86-linux"
+KEYWORDS="amd64 ~ppc ~riscv ~x86 ~x86-linux"
 IUSE="emacs examples polymake +readline"
 
 # The interactive help uses "info" from sys-apps/texinfo.
@@ -41,6 +41,14 @@ DEPEND="${RDEPEND}"
 SITEFILE=60${PN}-gentoo.el
 
 src_configure() {
+	# -Werror=strict-aliasing
+	# https://bugs.gentoo.org/927675
+	# https://github.com/Singular/Singular/issues/1212
+	#
+	# Do not trust with LTO either.
+	append-flags -fno-strict-aliasing
+	filter-lto
+
 	local myconf=(
 		--disable-debug
 		--disable-doc

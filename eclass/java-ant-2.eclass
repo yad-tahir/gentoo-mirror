@@ -1,4 +1,4 @@
-# Copyright 2004-2023 Gentoo Authors
+# Copyright 2004-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: java-ant-2.eclass
@@ -7,7 +7,7 @@
 # @AUTHOR:
 # kiorky <kiorky@cryptelium.net>
 # Petteri Räty <betelgeuse@gentoo.org>
-# @SUPPORTED_EAPIS: 6 7 8
+# @SUPPORTED_EAPIS: 7 8
 # @PROVIDES: java-utils-2
 # @BLURB: eclass for ant based Java packages
 # @DESCRIPTION:
@@ -16,7 +16,7 @@
 # or java-pkg-opt-2 eclass.
 
 case ${EAPI} in
-	6|7|8) ;;
+	7|8) ;;
 	*) die "${ECLASS}: EAPI ${EAPI:-0} not supported" ;;
 esac
 
@@ -48,14 +48,12 @@ inherit java-utils-2 multilib
 #The implementation of dependencies is handled by java-utils-2.eclass
 #WANT_ANT_TASKS
 
-# @ECLASS_VARIABLE: JAVA_ANT_DISABLE_ANT_CORE_DEP
-# @DEFAULT_UNSET
+# @VARIABLE: JAVA_ANT_E_DEPEND
+# @INTERNAL
 # @DESCRIPTION:
-# Setting this variable non-empty before inheriting java-ant-2 disables adding
-# dev-java/ant-core into DEPEND.
-if [[ -z "${JAVA_ANT_DISABLE_ANT_CORE_DEP}" ]]; then
-	JAVA_ANT_E_DEPEND+=" >=dev-java/ant-core-1.8.2:0"
-fi
+# Convenience variable adding packages to DEPEND so they need not be added
+# in the ebuild.
+JAVA_ANT_E_DEPEND+=" >=dev-java/ant-1.10.14-r2:0"
 
 # add ant tasks specified in WANT_ANT_TASKS to DEPEND
 ANT_TASKS_DEPEND="$(java-pkg_ant-tasks-depend)"

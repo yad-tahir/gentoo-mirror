@@ -4,7 +4,7 @@
 EAPI=8
 
 PYTHON_COMPAT=( python3_{10..11} )
-inherit cmake llvm.org multilib-minimal pax-utils python-any-r1 \
+inherit cmake flag-o-matic llvm.org multilib-minimal pax-utils python-any-r1 \
 	toolchain-funcs
 
 DESCRIPTION="Low Level Virtual Machine"
@@ -321,6 +321,16 @@ get_distribution_components() {
 }
 
 multilib_src_configure() {
+	if use ppc && tc-is-gcc && [[ $(gcc-major-version) -lt 14 ]]; then
+		# Workaround for bug #880677
+		append-flags $(test-flags-CXX -fno-ipa-sra -fno-ipa-modref -fno-ipa-icf)
+	fi
+
+	# ODR violations (bug #917536, bug #926529). Just do it for GCC for now
+	# to avoid people grumbling. GCC is, anecdotally, more likely to miscompile
+	# LLVM with LTO anyway (which is not necessarily its fault).
+	tc-is-gcc && filter-lto
+
 	local ffi_cflags ffi_ldflags
 	if use libffi; then
 		ffi_cflags=$($(tc-getPKG_CONFIG) --cflags-only-I libffi)
@@ -424,16 +434,6 @@ multilib_src_configure() {
 			-DCMAKE_CROSSCOMPILING=ON
 			-DLLVM_TABLEGEN="${tblgen}"
 		)
-	fi
-
-	# workaround BMI bug in gcc-7 (fixed in 7.4)
-	# https://bugs.gentoo.org/649880
-	# apply only to x86, https://bugs.gentoo.org/650506
-	if tc-is-gcc && [[ ${MULTILIB_ABI_FLAG} == abi_x86* ]] &&
-			[[ $(gcc-major-version) -eq 7 && $(gcc-minor-version) -lt 4 ]]
-	then
-		local CFLAGS="${CFLAGS} -mno-bmi"
-		local CXXFLAGS="${CXXFLAGS} -mno-bmi"
 	fi
 
 	# LLVM can have very high memory consumption while linking,

@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -8,6 +8,7 @@ inherit cmake flag-o-matic xdg
 DESCRIPTION="Environment and programming language for real time audio synthesis"
 HOMEPAGE="https://supercollider.github.io/"
 SRC_URI="https://github.com/supercollider/supercollider/releases/download/Version-${PV}/SuperCollider-${PV}-Source.tar.bz2"
+S="${WORKDIR}/SuperCollider-${PV}-Source"
 
 LICENSE="GPL-2 gpl3? ( GPL-3 )"
 SLOT="0"
@@ -60,14 +61,25 @@ DEPEND="${RDEPEND}
 	vim? ( app-editors/vim )
 "
 
-S="${WORKDIR}/SuperCollider-${PV}-Source"
+PATCHES=(
+	"${FILESDIR}/${P}-boost-1.84.patch" # bug 921595
+	"${FILESDIR}/${P}-gcc-13.patch" # bug 905127
+	"${FILESDIR}/${P}-no-ccache.patch" # bug 922095
+)
 
 src_configure() {
+	# -Werror=strict-aliasing
+	# https://bugs.gentoo.org/927071
+	# https://github.com/supercollider/supercollider/issues/6245
+	append-flags -fno-strict-aliasing
+	filter-lto
+
 	local mycmakeargs=(
 		-DSC_CLANG_USES_LIBSTDCPP=ON
 		-DINSTALL_HELP=ON
 		-DSYSTEM_BOOST=ON
 		-DSYSTEM_YAMLCPP=ON
+		-DUSE_CCACHE=OFF
 		-DSC_ABLETON_LINK=$(usex ableton-link)
 		-DSSE=$(usex cpu_flags_x86_sse)
 		-DSSE2=$(usex cpu_flags_x86_sse2)

@@ -7,15 +7,13 @@ if [[ ${PV} = *9999* ]]; then
 	GIT_ECLASS="git-r3"
 fi
 
-PYTHON_COMPAT=( python3_{10..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 inherit ${GIT_ECLASS} meson python-any-r1
 
 DESCRIPTION="Intel GPU userland tools"
 
 HOMEPAGE="https://gitlab.freedesktop.org/drm/igt-gpu-tools"
-if [[ ${PV} = *9999* ]]; then
-	SRC_URI=""
-else
+if [[ ${PV} != *9999* ]]; then
 	KEYWORDS="~amd64 ~x86"
 	SRC_URI="https://www.x.org/releases/individual/app/${P}.tar.xz"
 fi
@@ -36,7 +34,7 @@ RESTRICT="test"
 RDEPEND="
 	dev-libs/elfutils
 	dev-libs/glib:2
-	sys-apps/kmod:=
+	sys-apps/kmod
 	sys-libs/zlib:=
 	sys-process/procps:=
 	virtual/libudev:=
@@ -47,7 +45,7 @@ RDEPEND="
 	chamelium? (
 		dev-libs/xmlrpc-c:=[curl]
 		sci-libs/gsl:=
-		media-libs/alsa-lib:=
+		media-libs/alsa-lib
 	)
 	overlay? (
 		>=x11-libs/libXrandr-1.3
@@ -91,16 +89,19 @@ src_configure() {
 	use overlay && use X && overlay_backends+="x,"
 
 	local emesonargs=(
-		$(meson_feature chamelium)
-		$(meson_feature doc docs)
-		$(meson_feature man)
 		$(meson_feature overlay)
-		$(meson_feature runner)
-		$(meson_feature tests)
-		$(meson_feature valgrind)
-		$(meson_feature unwind libunwind)
 		-Doverlay_backends=${overlay_backends%?}
+		$(meson_feature chamelium)
+		$(meson_feature valgrind)
+		$(meson_feature man)
+		-Dtestplan=disabled
+		-Dsphinx=disabled
+		$(meson_feature doc docs)
+		$(meson_feature tests)
+		-Dxe_driver=disabled
 		-Dlibdrm_drivers=${gpus%?}
+		$(meson_feature unwind libunwind)
+		$(meson_feature runner)
 	)
 	meson_src_configure
 }

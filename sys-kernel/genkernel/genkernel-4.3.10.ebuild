@@ -6,7 +6,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 
 inherit bash-completion-r1 python-single-r1
 
@@ -94,7 +94,7 @@ if [[ ${PV} == 9999* ]] ; then
 else
 	SRC_URI="https://dev.gentoo.org/~bkohler/dist/${P}.tar.xz
 		${COMMON_URI}"
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+	KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~mips ppc ppc64 ~riscv ~s390 sparc x86"
 fi
 
 DESCRIPTION="Gentoo automatic kernel building scripts"
@@ -102,7 +102,6 @@ HOMEPAGE="https://wiki.gentoo.org/wiki/Genkernel https://gitweb.gentoo.org/proj/
 
 LICENSE="GPL-2"
 SLOT="0"
-RESTRICT=""
 IUSE="ibm +firmware"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
@@ -111,7 +110,6 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 # because genkernel will usually build things like LVM2, cryptsetup,
 # mdadm... during initramfs generation which will require these
 # things.
-DEPEND=""
 RDEPEND="${PYTHON_DEPS}
 	app-alternatives/cpio
 	>=app-misc/pax-utils-1.2.2

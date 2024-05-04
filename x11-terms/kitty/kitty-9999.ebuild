@@ -4,7 +4,7 @@
 EAPI=8
 
 PYTHON_COMPAT=( python3_{10..12} )
-inherit edo go-env optfeature multiprocessing
+inherit edo flag-o-matic go-env optfeature multiprocessing
 inherit python-single-r1 toolchain-funcs xdg
 
 if [[ ${PV} == 9999 ]]; then
@@ -18,6 +18,8 @@ else
 		verify-sig? ( https://github.com/kovidgoyal/kitty/releases/download/v${PV}/${P}.tar.xz.sig )
 	"
 	VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/kovidgoyal.gpg
+	# x86 currently still works but note that upstream has dropped support and
+	# may ignore issues: https://github.com/kovidgoyal/kitty/commit/29cb128fd
 	KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
 fi
 
@@ -60,6 +62,9 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
+	amd64? ( >=dev-libs/simde-0.8.0-r1 )
+	arm64? ( dev-libs/simde )
+	x86? ( dev-libs/simde )
 	X? (
 		x11-base/xorg-proto
 		x11-libs/libXi
@@ -71,7 +76,7 @@ DEPEND="
 # bug #919751 wrt go subslot
 BDEPEND="
 	${PYTHON_DEPS}
-	>=dev-lang/go-1.21:=
+	>=dev-lang/go-1.22:=
 	sys-libs/ncurses
 	virtual/pkgconfig
 	test? ( $(python_gen_cond_dep 'dev-python/pillow[${PYTHON_USEDEP}]') )
@@ -100,6 +105,7 @@ src_prepare() {
 	local sedargs=(
 		-e "/num_workers =/s/=.*/= $(makeopts_jobs)/"
 		-e "s/cflags.append.*-O3.*/pass/" -e 's/-O3//'
+		-e "s/cflags.append(fortify_source)/pass/" # use toolchain's _f_s
 		-e "s/ld_flags.append('-[sw]')/pass/"
 	)
 
@@ -129,8 +135,18 @@ src_compile() {
 	local -x PKGCONFIG_EXE=$(tc-getPKG_CONFIG)
 
 	go-env_set_compile_environment
-	local -x GOFLAGS="-p=$(makeopts_jobs) -v -x"
+	local -x GOFLAGS="-p=$(makeopts_jobs) -v -x -buildvcs=false"
 	use ppc64 && [[ $(tc-endian) == big ]] || GOFLAGS+=" -buildmode=pie"
+
+	# workaround link errors with Go + gcc + -g3 (bug #924436),
+	# retry now and then to see if can be dropped
+	tc-is-gcc &&
+		CGO_CFLAGS=$(
+			CFLAGS=${CGO_CFLAGS}
+			replace-flags -g3 -g
+			replace-flags -ggdb3 -ggdb
+			printf %s "${CFLAGS}"
+		)
 
 	local conf=(
 		--disable-link-time-optimization

@@ -1,4 +1,4 @@
-# Copyright 2021-2023 Gentoo Authors
+# Copyright 2021-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -8,13 +8,14 @@ inherit flag-o-matic qt6-build
 DESCRIPTION="Multimedia (audio, video, radio, camera) library for the Qt6 framework"
 
 if [[ ${QT6_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~amd64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~loong ~ppc ~ppc64 ~riscv ~x86"
 fi
 
-IUSE="+X alsa +ffmpeg gstreamer opengl pulseaudio qml v4l vaapi vulkan"
+IUSE="+X alsa eglfs +ffmpeg gstreamer opengl pulseaudio qml v4l vaapi vulkan"
 # tst_qmediaplayerbackend hard requires qml, review in case becomes optional
 REQUIRED_USE="
 	|| ( ffmpeg gstreamer )
+	eglfs? ( ffmpeg opengl )
 	vaapi? ( ffmpeg opengl )
 	test? ( qml )
 "
@@ -23,7 +24,7 @@ RDEPEND="
 	~dev-qt/qtbase-${PV}:6[gui,network,opengl=,vulkan=,widgets]
 	alsa? ( media-libs/alsa-lib )
 	ffmpeg? (
-		~dev-qt/qtbase-${PV}:6[X=]
+		~dev-qt/qtbase-${PV}:6[X=,concurrent,eglfs=]
 		media-video/ffmpeg:=[vaapi?]
 		X? (
 			x11-libs/libX11
@@ -53,6 +54,8 @@ DEPEND="
 BDEPEND="~dev-qt/qtshadertools-${PV}:6"
 
 CMAKE_SKIP_TESTS=(
+	# unimportant and expects all backends to be available (bug #928420)
+	tst_backends
 	# tries to use real alsa or pulseaudio and fails in sandbox
 	tst_qaudiosink
 	tst_qaudiosource
@@ -62,7 +65,9 @@ CMAKE_SKIP_TESTS=(
 	# may try to use v4l2 or hardware acceleration depending on availability
 	tst_qscreencapture_integration
 	tst_qscreencapturebackend
+	tst_qvideoframebackend
 	# fails with offscreen rendering
+	tst_qvideoframecolormanagement
 	tst_qwindowcapturebackend
 )
 
@@ -82,4 +87,19 @@ src_configure() {
 	)
 
 	qt6-build_src_configure
+}
+
+src_install() {
+	qt6-build_src_install
+
+	if use test; then
+		local delete=( # sigh
+			"${D}${QT6_LIBDIR}"/cmake/Qt6Multimedia/Qt6MockMultimediaPlugin*.cmake
+			"${D}${QT6_MKSPECSDIR}"/modules/qt_plugin_mockmultimediaplugin.pri
+			"${D}${QT6_PLUGINDIR}"/multimedia/libmockmultimediaplugin.*
+			"${D}${QT6_PLUGINDIR}"/multimedia/objects-*
+		)
+		# using -f given not tracking which tests may be skipped or not
+		rm -rf -- "${delete[@]}" || die
+	fi
 }

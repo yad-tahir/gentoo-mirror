@@ -8,7 +8,7 @@ EAPI=7
 # in general.
 QA_PKGCONFIG_VERSION=$(ver_cut 1-2)
 VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/chetramey.asc
-inherit flag-o-matic multilib multilib-minimal preserve-libs toolchain-funcs usr-ldscript verify-sig
+inherit flag-o-matic multilib multilib-minimal preserve-libs toolchain-funcs verify-sig
 
 # Official patches
 # See ftp://ftp.cwru.edu/pub/bash/readline-8.1-patches/
@@ -61,7 +61,7 @@ elif is_release ; then
 
 			# Add in the mirror URL too.
 			SRC_URI+=" ${patch_url/${upstream_url_base}/${mirror_url_base}}"
-			SRC_URI+=" verify-sig? ( ${patch_url/${upstream_url_base}/${mirror_url_base}} )"
+			SRC_URI+=" verify-sig? ( ${patch_url/${upstream_url_base}/${mirror_url_base}}.sig )"
 
 			MY_PATCHES+=( "${DISTDIR}"/${mangled_patch_ver} )
 		done
@@ -72,6 +72,8 @@ else
 	SRC_URI="mirror://gnu/${PN}/${MY_P}.tar.gz ftp://ftp.cwru.edu/pub/readline/${MY_P}.tar.gz"
 	SRC_URI+=" verify-sig? ( mirror://gnu/${PN}/${MY_P}.tar.gz.sig ftp://ftp.cwru.edu/pub/readline/${MY_P}.tar.gz.sig )"
 fi
+
+S="${WORKDIR}/${MY_P}"
 
 if ! is_release ; then
 	inherit autotools
@@ -88,8 +90,6 @@ RDEPEND=">=sys-libs/ncurses-5.9-r3:=[static-libs?,unicode(+)?,${MULTILIB_USEDEP}
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig
 	verify-sig? ( sec-keys/openpgp-keys-chetramey )"
-
-S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-5.0-no_rpath.patch
@@ -218,9 +218,6 @@ multilib_src_install() {
 	default
 
 	if multilib_is_native_abi ; then
-		# bug #4411
-		gen_usr_ldscript -a readline history
-
 		if use utils && ! tc-is-cross-compiler; then
 			dobin examples/rlfe/rlfe
 		fi

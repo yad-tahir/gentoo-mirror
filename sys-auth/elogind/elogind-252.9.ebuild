@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -55,6 +55,7 @@ DOCS=( README.md)
 PATCHES=(
 	"${FILESDIR}/${P}-nodocs.patch"
 	"${FILESDIR}/${PN}-252.9-musl-lfs.patch"
+	"${FILESDIR}/${PN}-252.9-musl-1.2.5.patch"
 )
 
 python_check_deps() {
@@ -97,6 +98,8 @@ src_configure() {
 
 	python_setup
 
+	EMESON_BUILDTYPE="$(usex debug debug release)"
+
 	local emesonargs=(
 		-Ddocdir="${EPREFIX}/usr/share/doc/${PF}"
 		-Dhtmldir="${EPREFIX}/usr/share/doc/${PF}/html"
@@ -114,7 +117,6 @@ src_configure() {
 		-Ddefault-kill-user-processes=false
 		-Dacl=$(usex acl true false)
 		-Daudit=$(usex audit true false)
-		--buildtype $(usex debug debug release)
 		-Dhtml=$(usex doc auto false)
 		-Dpam=$(usex pam true false)
 		-Dselinux=$(usex selinux true false)

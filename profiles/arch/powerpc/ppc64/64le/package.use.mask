@@ -1,5 +1,9 @@
-# Copyright 2019-2023 Gentoo Authors
+# Copyright 2019-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
+
+# James Le Cuirot <chewi@gentoo.org> (2024-04-26)
+# Temporary mask while we get dev-libs/weston keywords in order.
+gui-libs/gtk test
 
 # Marek Szuba <marecki@gentoo.org> (2023-12-05)
 # Needs USE=video_cards_amdgpu, which IS available on ppc64le.
@@ -35,10 +39,6 @@ dev-util/perf clang
 sys-libs/compiler-rt-sanitizers -xray
 
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2020-10-05)
-# dropbox requires binaries unavaliable for ppc64
-kde-apps/kdenetwork-meta webengine
-
-# Georgy Yakovlev <gyakovlev@gentoo.org> (2020-10-05)
 # criu is unmasked on little-endian ppc64
 app-containers/crun -criu
 
@@ -55,7 +55,7 @@ mail-client/thunderbird clang
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2020-02-26)
 # vulkan tested and works on ppc64le
 media-libs/mesa -vulkan -vulkan-overlay
-media-video/mpv -libplacebo -vulkan
+media-video/mpv -vulkan
 media-video/vlc -libplacebo
 
 # Robin H. Johnson <robbat2@gentoo.org> (2019-12-06)

@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,7 +12,6 @@ HOMEPAGE="https://dunst-project.org/ https://github.com/dunst-project/dunst"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS=""
 IUSE="wayland"
 
 DEPEND="
@@ -74,10 +73,6 @@ src_install() {
 	)
 
 	emake "${myemakeargs[@]}" install
-
-	insinto /usr/share/zsh/site-functions
-	newins contrib/_dunst.zshcomp _dunst
-	newins contrib/_dunstctl.zshcomp _dunstctl
 
 	systemd_newuserunit dunst.systemd.service.in dunst.service
 }

@@ -148,7 +148,7 @@ src_prepare() {
 }
 
 src_compile() {
-	tc-export AR CC CXX LD OBJCOPY OBJDUMP
+	tc-export AR CC CXX LD OBJCOPY OBJDUMP PKG_CONFIG
 	local -x RAW_LDFLAGS="$(get_abi_LDFLAGS) $(raw-ldflags)" # raw-ldflags.patch
 
 	# latest branches has proper fixes, but legacy have more issues and are
@@ -185,8 +185,8 @@ src_compile() {
 
 	if use persistenced; then
 		# 390.xx persistenced does not auto-detect libtirpc
-		LIBS=$($(tc-getPKG_CONFIG) --libs libtirpc || die) \
-			common_cflags=$($(tc-getPKG_CONFIG) --cflags libtirpc || die) \
+		LIBS=$(${PKG_CONFIG} --libs libtirpc || die) \
+			common_cflags=$(${PKG_CONFIG} --cflags libtirpc || die) \
 			emake "${NV_ARGS[@]}" -C nvidia-persistenced
 	fi
 
@@ -434,4 +434,7 @@ pkg_postinst() {
 	ewarn "using (for now) but it is recommended to either switch to nouveau or"
 	ewarn "replace hardware. Will be kept in-tree while possible, but expect it"
 	ewarn "to be removed likely in early 2027 or earlier if major issues arise."
+	ewarn
+	ewarn "Note that there is no plans to patch in support for kernels branches"
+	ewarn "newer than 6.1.x which will be supported upstream until December 2026."
 }

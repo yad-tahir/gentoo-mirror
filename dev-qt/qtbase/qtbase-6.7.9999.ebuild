@@ -8,7 +8,7 @@ inherit flag-o-matic qt6-build toolchain-funcs
 DESCRIPTION="Cross-platform application development framework"
 
 if [[ ${QT6_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~loong ~x86"
+	KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
 fi
 
 declare -A QT6_IUSE=(
@@ -23,8 +23,6 @@ declare -A QT6_IUSE=(
 	[network]="brotli gssapi libproxy sctp"
 	[sql]="mysql oci8 odbc postgres +sqlite"
 	[widgets]="cups gtk"
-
-	[cpuflags]="cpu_flags_x86_rdrand"
 
 	[optfeature]="nls" #810802
 )
@@ -140,6 +138,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-6.5.2-hppa-forkfd-grow-stack.patch
 	"${FILESDIR}"/${PN}-6.5.2-no-symlink-check.patch
 	"${FILESDIR}"/${PN}-6.6.1-forkfd-childstack-size.patch
+	"${FILESDIR}"/${PN}-6.6.3-gcc14-avx512fp16.patch
 )
 
 src_prepare() {
@@ -149,6 +148,13 @@ src_prepare() {
 		# test itself has -Werror=strict-aliasing issues, drop for simplicity
 		sed -e '/add_subdirectory(qsharedpointer)/d' \
 			-i tests/auto/corelib/tools/CMakeLists.txt || die
+
+		# workaround for __extendhfxf2 being used for tst_qfloat16.cpp
+		# which is unavailable with compiler-rt (assume used if clang)
+		if tc-is-clang; then
+			sed -e '/add_subdirectory(qfloat16)/d' \
+				-i tests/auto/corelib/global/CMakeLists.txt || die
+		fi
 	fi
 }
 
@@ -170,6 +176,9 @@ src_configure() {
 		-DINSTALL_SYSCONFDIR="${QT6_SYSCONFDIR}"
 		-DINSTALL_TRANSLATIONSDIR="${QT6_TRANSLATIONDIR}"
 
+		-DQT_UNITY_BUILD=ON # ~30% faster build, affects other dev-qt/* too
+
+		-DQT_FEATURE_relocatable=OFF #927691
 		$(qt_feature ssl openssl)
 		$(qt_feature ssl openssl_linked)
 		$(qt_feature udev libudev)
@@ -237,14 +246,7 @@ src_configure() {
 	)
 
 	if use amd64 || use x86; then
-		# see bug #922498, let detection do its thing if set
-		use cpu_flags_x86_rdrand ||
-			mycmakeargs+=(
-				-DQT_FEATURE_rdrnd=OFF
-				-DQT_FEATURE_rdseed=OFF
-			)
-
-		# see bug #913400 for explanations, mostly to handle -mno-*
+		# see bug #913400 for explanations
 		local cpufeats=(
 			# list of checked cpu features in configure.cmake
 			avx avx2 avx512{bw,cd,dq,er,f,ifma,pf,vbmi,vbmi2,vl}
@@ -285,6 +287,10 @@ src_test() {
 		# broken with out-of-source + if qtbase is not already installed
 		tst_moc
 		tst_qmake
+		# similarly broken when relocatable=OFF (bug #927691)
+		tst_qapplication
+		tst_qt_cmake_create
+		tst_uic
 		# needs x11/opengl, we *could* run these but tend to be flaky
 		# when opengl rendering is involved (even if software-only)
 		tst_qopengl{,config,widget,window}
@@ -325,13 +331,14 @@ src_test() {
 		tst_qimagereader
 		tst_qimagewriter
 		tst_qpluginloader
-		tst_quuid
+		tst_quuid # >=6.6.2 had related fixes, needs retesting
 		# partially broken on llvm-musl, needs looking into but skip to have
 		# a baseline for regressions (rest of dev-qt still passes with musl)
 		$(usev elibc_musl '
 			tst_qicoimageformat
 			tst_qimagereader
 			tst_qimage
+			tst_qprocess
 		')
 		# fails due to hppa's NaN handling, needs looking into (bug #914371)
 		$(usev hppa '

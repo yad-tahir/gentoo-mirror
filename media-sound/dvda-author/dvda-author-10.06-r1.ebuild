@@ -3,11 +3,11 @@
 
 EAPI=8
 
-inherit desktop toolchain-funcs
+inherit desktop flag-o-matic toolchain-funcs
 
 DESCRIPTION="Author a DVD-Audio DVD"
 HOMEPAGE="https://dvd-audio.sourceforge.net"
-SRC_URI="mirror://sourceforge/dvd-audio/${P}-300.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/dvd-audio/${P}-300.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -43,6 +43,12 @@ src_prepare() {
 }
 
 src_configure() {
+	# -Werror=lto-type-mismatch
+	# https://bugs.gentoo.org/860516
+	#
+	# Upstream on sourceforge is inactive for several years now. No bug filed.
+	filter-lto
+
 	econf \
 		--with-config="${EPREFIX}/etc" \
 		$(use_with debug debug full)

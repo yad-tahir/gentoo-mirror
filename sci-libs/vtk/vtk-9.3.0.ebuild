@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -38,12 +38,12 @@ S="${WORKDIR}/VTK-${MY_PV2}"
 
 LICENSE="BSD LGPL-2"
 SLOT="0/${MY_PV}"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 ~arm ~arm64 ~x86 ~amd64-linux ~x86-linux"
 
 # TODO: Like to simplifiy these. Mostly the flags related to Groups.
 IUSE="all-modules boost cuda debug doc examples ffmpeg +freetype gdal gles2-only imaging
 	java las +logging mpi mysql odbc opencascade openmp openvdb pdal postgres python qt5
-	qt6 +rendering sdl tbb test +threads tk video_cards_nvidia views vtkm web"
+	qt6 +rendering sdl tbb test +threads tk video_cards_nvidia +views vtkm web"
 
 RESTRICT="!test? ( test )"
 
@@ -60,7 +60,7 @@ REQUIRED_USE="
 	sdl? ( rendering )
 	tk? ( python rendering )
 	web? ( python )
-	rendering? ( freetype )
+	rendering? ( freetype views )
 "
 
 # eigen, nlohmann_json, pegtl and utfcpp are referenced in the cmake files
@@ -147,7 +147,7 @@ DEPEND="
 	dev-cpp/cli11
 	dev-cpp/eigen
 	dev-cpp/nlohmann_json
-	dev-libs/pegtl
+	>=dev-libs/pegtl-3
 	dev-libs/utfcpp
 	test? (
 		media-libs/glew
@@ -268,6 +268,10 @@ src_prepare() {
 			-i Utilities/Doxygen/CMakeLists.txt || die
 	fi
 
+	if use opencascade && has_version ">=sci-libs/opencascade-7.8.0"; then
+		eapply "${FILESDIR}/vtk-9.3.0-opencascade-7.8.0.patch"
+	fi
+
 	cmake_src_prepare
 
 	if use test; then
@@ -321,6 +325,7 @@ src_configure() {
 		-DVTK_MODULE_ENABLE_VTK_IOExportPDF="YES"
 		-DVTK_MODULE_ENABLE_VTK_IOLAS="$(usex las "YES" "NO")"
 		-DVTK_MODULE_ENABLE_VTK_IONetCDF="YES"
+		-DVTK_MODULE_ENABLE_VTK_IOOCCT="$(usex opencascade "YES" "NO")"
 		-DVTK_MODULE_ENABLE_VTK_IOOggTheora="YES"
 		-DVTK_MODULE_ENABLE_VTK_IOOpenVDB="$(usex openvdb "YES" "NO")"
 		-DVTK_MODULE_ENABLE_VTK_IOSQL="YES" # sqlite

@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 CMAKE_BUILD_TYPE=Release
 
 inherit cmake linux-info python-single-r1
@@ -42,6 +42,10 @@ QA_FLAGS_IGNORED="
 "
 
 RESTRICT="test" # toolchain and kernel version dependent
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-5.7.0-no-force-lto.patch
+)
 
 pkg_setup() {
 	if use kernel_linux; then

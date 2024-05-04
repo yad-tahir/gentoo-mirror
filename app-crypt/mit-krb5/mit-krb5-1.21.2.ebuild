@@ -1,20 +1,21 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 PYTHON_COMPAT=( python3_{10..12} )
-inherit autotools python-any-r1 systemd toolchain-funcs multilib-minimal
+inherit autotools flag-o-matic python-any-r1 systemd toolchain-funcs multilib-minimal
 
 MY_P="${P/mit-}"
 P_DIR=$(ver_cut 1-2)
 DESCRIPTION="MIT Kerberos V"
 HOMEPAGE="https://web.mit.edu/kerberos/www/"
 SRC_URI="https://web.mit.edu/kerberos/dist/krb5/${P_DIR}/${MY_P}.tar.gz"
+S=${WORKDIR}/${MY_P}/src
 
 LICENSE="openafs-krb5-a BSD MIT OPENLDAP BSD-2 HPND BSD-4 ISC RSA CC-BY-SA-3.0 || ( BSD-2 GPL-2+ )"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~mips ~ppc ppc64 ~riscv ~s390 sparc x86"
 IUSE="cpu_flags_x86_aes doc +keyutils lmdb nls openldap +pkinit selinux +threads test xinetd"
 
 RESTRICT="!test? ( test )"
@@ -46,8 +47,6 @@ BDEPEND="
 RDEPEND="${DEPEND}
 	selinux? ( sec-policy/selinux-kerberos )"
 
-S=${WORKDIR}/${MY_P}/src
-
 PATCHES=(
 	"${FILESDIR}/${PN}-1.12_warn_cflags.patch"
 	"${FILESDIR}/${PN}_dont_create_rundir.patch"
@@ -65,6 +64,13 @@ src_prepare() {
 	sed -i 's:^[[:space:]]*util/verto$::' configure.ac || die
 
 	eautoreconf
+}
+
+src_configure() {
+	# lto-type-mismatch (bug #854225)
+	filter-lto
+
+	multilib-minimal_src_configure
 }
 
 multilib_src_configure() {

@@ -1,15 +1,16 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit autotools linux-info systemd usr-ldscript multilib-minimal
+inherit autotools flag-o-matic linux-info systemd usr-ldscript multilib-minimal
 
 DESCRIPTION="Console-based mouse driver"
 HOMEPAGE="https://www.nico.schottelius.org/software/gpm/"
 SRC_URI="
 	https://www.nico.schottelius.org/software/${PN}/archives/${P}.tar.lzma
-	mirror://gentoo/${P}-docs.patch.xz"
+	https://dev.gentoo.org/~sam/distfiles/${CATEGORY}/${PN}/${P}-docs.patch.xz
+"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -71,6 +72,10 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# bug #885323
+	# src/headers/daemon.h:175:25: error: type of ‘cinfo’ does not match original declaration [-Werror=lto-type-mismatch]
+	filter-lto
+
 	# emacs support disabled due to bug #99533, bug #335900
 	econf \
 		--disable-static \

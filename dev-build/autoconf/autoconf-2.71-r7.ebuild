@@ -24,7 +24,7 @@ else
 	S="${WORKDIR}"/${MY_P}
 
 	if ! [[ ${PV} == *_beta* ]] ; then
-		KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~arm64-macos ~ppc-macos ~x64-macos ~x64-solaris"
+		KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux ~arm64-macos ~ppc-macos ~x64-macos ~x64-solaris"
 	fi
 
 	BDEPEND="verify-sig? ( sec-keys/openpgp-keys-zackweinberg )"
@@ -49,7 +49,7 @@ RDEPEND="
 	${BDEPEND}
 	>=dev-build/autoconf-wrapper-15
 	sys-devel/gnuconfig
-	!~sys-devel/${P}:2.5
+	!~${CATEGORY}/${P}:2.5
 "
 [[ ${PV} == 9999 ]] && BDEPEND+=" >=sys-apps/texinfo-4.3"
 PDEPEND="emacs? ( app-emacs/autoconf-mode )"

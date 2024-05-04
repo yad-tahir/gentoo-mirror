@@ -3,6 +3,9 @@
 
 EAPI=8
 
+# Please do not apply any patches which affect the generated output from
+# `autoconf`, as this package is used to submit patches upstream.
+
 if [[ ${PV} == 9999 ]] ; then
 	EGIT_REPO_URI="https://git.savannah.gnu.org/git/autoconf.git"
 	inherit git-r3
@@ -42,7 +45,7 @@ BDEPEND+="
 RDEPEND="
 	${BDEPEND}
 	>=dev-build/autoconf-wrapper-13
-	!~sys-devel/${P}:2.5
+	!~dev-build/${P}:2.5
 "
 
 [[ ${PV} == 9999 ]] && BDEPEND+=" >=sys-apps/texinfo-4.3"
