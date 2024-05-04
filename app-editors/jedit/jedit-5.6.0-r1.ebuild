@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -10,11 +10,11 @@ inherit desktop java-pkg-2 java-pkg-simple xdg-utils
 
 DESCRIPTION="Programmer's editor written in Java"
 HOMEPAGE="https://www.jedit.org"
-SRC_URI="mirror://sourceforge/project/jedit/jedit/${PV}/jedit${PV}source.tar.bz2"
+SRC_URI="https://downloads.sourceforge.net/project/jedit/jedit/${PV}/jedit${PV}source.tar.bz2"
 S="${WORKDIR}/jEdit"
 
 LICENSE="BSD GPL-2"
-KEYWORDS="~amd64 ~ppc64 ~x86"
+KEYWORDS="amd64 ppc64 x86"
 SLOT="0"
 
 BDEPEND="

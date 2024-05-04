@@ -3,20 +3,21 @@
 
 EAPI=8
 
-inherit cmake-multilib flag-o-matic git-r3 gnome2-utils
+inherit cmake-multilib git-r3 gnome2-utils
 
 DESCRIPTION="JPEG XL image format reference implementation"
-HOMEPAGE="https://github.com/libjxl/libjxl"
+HOMEPAGE="https://github.com/libjxl/libjxl/"
 
 EGIT_REPO_URI="https://github.com/libjxl/libjxl.git"
-EGIT_SUBMODULES=(third_party/libjpeg-turbo
+EGIT_SUBMODULES=(
+	third_party/libjpeg-turbo
 	third_party/skcms
 	third_party/testdata
 )
 
 LICENSE="BSD"
 SLOT="0"
-IUSE="gdk-pixbuf openexr test"
+IUSE="+gdk-pixbuf openexr test"
 RESTRICT="!test? ( test )"
 
 DEPEND="
@@ -26,19 +27,21 @@ DEPEND="
 	>=media-libs/lcms-2.13:2[${MULTILIB_USEDEP}]
 	media-libs/libjpeg-turbo:=[${MULTILIB_USEDEP}]
 	media-libs/libpng:=[${MULTILIB_USEDEP}]
-	>=x11-misc/shared-mime-info-2.2
 	gdk-pixbuf? (
 		dev-libs/glib:2
 		x11-libs/gdk-pixbuf:2
 	)
 	openexr? ( media-libs/openexr:= )
+"
+RDEPEND="
+	${DEPEND}
+	>=x11-misc/shared-mime-info-2.2
+"
+DEPEND+="
 	test? ( dev-cpp/gtest[${MULTILIB_USEDEP}] )
 "
-RDEPEND="${DEPEND}"
 
 multilib_src_configure() {
-	filter-lto
-
 	local mycmakeargs=(
 		-DJPEGXL_ENABLE_BENCHMARK=OFF
 		-DJPEGXL_ENABLE_COVERAGE=OFF
@@ -62,10 +65,11 @@ multilib_src_configure() {
 		-DBUILD_TESTING=$(usex test ON OFF)
 	)
 
-	use test &&
+	if use test; then
 		mycmakeargs+=(
 			-DJPEGXL_TEST_DATA_PATH="${WORKDIR}/testdata-${TESTDATA_COMMIT}"
 		)
+	fi
 
 	if multilib_is_native_abi; then
 		mycmakeargs+=(
@@ -93,14 +97,10 @@ multilib_src_install() {
 	find "${ED}" -name '*.a' -delete || die
 }
 
-pkg_preinst() {
-	gnome2_gdk_pixbuf_savelist
-}
-
 pkg_postinst() {
-	use gdk-pixbuf && gnome2_gdk_pixbuf_update
+	use gdk-pixbuf && multilib_foreach_abi gnome2_gdk_pixbuf_update
 }
 
 pkg_postrm() {
-	use gdk-pixbuf && gnome2_gdk_pixbuf_update
+	use gdk-pixbuf && multilib_foreach_abi gnome2_gdk_pixbuf_update
 }

@@ -3,13 +3,13 @@
 
 EAPI=8
 
-inherit autotools multilib-minimal
+inherit autotools flag-o-matic multilib-minimal
 
 MY_P=sidplay-libs-${PV}
 
 DESCRIPTION="C64 SID player library"
 HOMEPAGE="http://sidplay2.sourceforge.net/"
-SRC_URI="mirror://sourceforge/sidplay2/${MY_P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/sidplay2/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="2"
@@ -59,6 +59,7 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	filter-lto
 	local myeconfargs=(
 		--cache-file="${BUILD_DIR}"/config.cache
 		--enable-shared

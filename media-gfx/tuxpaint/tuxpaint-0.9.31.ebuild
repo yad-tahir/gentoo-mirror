@@ -7,12 +7,12 @@ inherit desktop optfeature toolchain-funcs xdg
 
 DESCRIPTION="Drawing program designed for young children"
 HOMEPAGE="https://www.tuxpaint.org/"
-SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${P}.tar.gz"
 S="${WORKDIR}"/${P}
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS="amd64 ppc x86"
 
 RDEPEND="
 	app-text/libpaper:=

@@ -7,11 +7,11 @@ inherit multibuild toolchain-funcs xdg
 
 DESCRIPTION="Versatile Commodore Emulator"
 HOMEPAGE="https://vice-emu.sourceforge.io/"
-SRC_URI="mirror://sourceforge/vice-emu/releases/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/vice-emu/releases/${P}.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="amd64 ~arm ~arm64 x86"
 IUSE="
 	alsa curl debug doc ethernet flac gif +gtk headless lame mpg123
 	ogg openmp oss parport pci png portaudio pulseaudio sdl
@@ -157,7 +157,8 @@ multibuild_src_configure() {
 }
 
 src_compile() {
-	multibuild_foreach_variant run_in_build_dir emake
+	# bug #924116 wrt SHELL
+	multibuild_foreach_variant run_in_build_dir emake SHELL="${BASH}"
 }
 
 src_install() {

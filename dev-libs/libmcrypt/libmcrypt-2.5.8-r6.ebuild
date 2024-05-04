@@ -1,13 +1,13 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit autotools
+inherit autotools flag-o-matic
 
 DESCRIPTION="Provides an uniform interface to access several encryption algorithms"
 HOMEPAGE="https://mcrypt.sourceforge.net"
-SRC_URI="mirror://sourceforge/mcrypt/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/mcrypt/${P}.tar.gz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
@@ -34,6 +34,14 @@ src_prepare() {
 	mv libltdl/configure.in libltdl/configure.ac
 	sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g' configure.ac libltdl/configure.ac || die
 	eautoreconf # update stale autotools
+}
+
+src_configure() {
+	# LTO type mismatch (bug #924867)
+	append-flags -fno-strict-aliasing
+	filter-lto
+
+	default
 }
 
 src_install() {

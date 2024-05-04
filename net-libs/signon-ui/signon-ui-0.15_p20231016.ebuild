@@ -12,7 +12,7 @@ else
 	COMMIT=eef943f0edf3beee8ecb85d4a9dae3656002fc24
 	SRC_URI="https://gitlab.com/accounts-sso/${PN}/-/archive/${COMMIT}/${PN}-${COMMIT}.tar.bz2 -> ${P}.tar.bz2"
 	S="${WORKDIR}/${PN}-${COMMIT}"
-	KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
+	KEYWORDS="~amd64"
 fi
 
 DESCRIPTION="Online accounts signon UI"
@@ -40,7 +40,7 @@ COMMON_DEPEND="
 	qt6? (
 		dev-qt/qtbase:6[dbus,gui,network,ssl,widgets]
 		dev-qt/qtdeclarative:6
-		dev-qt/qtwebengine:6
+		dev-qt/qtwebengine:6[qml]
 		>=net-libs/accounts-qt-1.16_p20220803[qt6]
 		>=net-libs/signond-8.61-r100[qt6]
 	)

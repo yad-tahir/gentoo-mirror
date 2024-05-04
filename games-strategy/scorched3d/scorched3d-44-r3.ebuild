@@ -1,14 +1,14 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 WX_GTK_VER="3.2-gtk3"
-inherit autotools desktop edos2unix wxwidgets
+inherit autotools desktop edos2unix flag-o-matic wxwidgets
 
 DESCRIPTION="Multi-player tank battle in 3D (OpenGL)"
 HOMEPAGE="http://www.scorched3d.co.uk/"
-SRC_URI="mirror://sourceforge/scorched3d/Scorched3D-${PV}-src.tar.gz
+SRC_URI="https://downloads.sourceforge.net/scorched3d/Scorched3D-${PV}-src.tar.gz
 	https://salsa.debian.org/games-team/scorched3d/-/raw/master/debian/scorched3d.png"
 S="${WORKDIR}/scorched"
 
@@ -69,6 +69,12 @@ src_prepare() {
 }
 
 src_configure() {
+	# -Werror=odr
+	# https://bugs.gentoo.org/859265
+	# Upstream is inactive, latest activity from 9 years ago, sourceforge
+	# project. Not filing a bug.
+	filter-lto
+
 	setup-wxwidgets
 	econf \
 		--datadir="${EPREFIX}"/usr/share/${PN} \

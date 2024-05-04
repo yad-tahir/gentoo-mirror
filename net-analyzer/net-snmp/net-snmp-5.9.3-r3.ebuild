@@ -9,7 +9,7 @@ GENTOO_DEPEND_ON_PERL=no
 PYTHON_COMPAT=( python3_{10..11} )
 WANT_AUTOMAKE=none
 
-inherit autotools distutils-r1 perl-module systemd
+inherit autotools distutils-r1 libtool perl-module systemd
 
 DESCRIPTION="Software for generating and retrieving SNMP data"
 HOMEPAGE="https://www.net-snmp.org/"
@@ -18,7 +18,7 @@ if [[ ${PV} == 9999 ]] ; then
 	inherit git-r3
 else
 	# https://github.com/net-snmp/net-snmp/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz
-	SRC_URI="mirror://sourceforge/${PN}/${PV}/${P}.tar.gz"
+	SRC_URI="https://downloads.sourceforge.net/${PN}/${PV}/${P}.tar.gz"
 
 	KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~loong ~mips ppc ppc64 ~riscv ~s390 sparc x86"
 fi
@@ -122,6 +122,7 @@ src_prepare() {
 	default
 
 	eautoconf
+	elibtoolize
 }
 
 src_configure() {

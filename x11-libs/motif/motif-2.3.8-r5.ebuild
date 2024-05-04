@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -8,7 +8,7 @@ inherit autotools flag-o-matic toolchain-funcs multilib-minimal
 DESCRIPTION="The Motif user interface component toolkit"
 HOMEPAGE="https://sourceforge.net/projects/motif/
 	https://motif.ics.com/"
-SRC_URI="mirror://sourceforge/project/motif/Motif%20${PV}%20Source%20Code/${P}.tar.gz
+SRC_URI="https://downloads.sourceforge.net/project/motif/Motif%20${PV}%20Source%20Code/${P}.tar.gz
 	https://dev.gentoo.org/~ulm/distfiles/${P}-patches-5.tar.xz"
 
 LICENSE="LGPL-2.1+ MIT"
@@ -68,6 +68,13 @@ src_prepare() {
 
 	# remember the name of the C compiler for the native ABI
 	MY_NATIVE_CC=$(tc-getCC)
+
+	# -Werror=lto-type-mismatch
+	#
+	# Helpfully, the motif bugtracker is entirely down. They are also
+	# on sourceforge but only for merge requests? The project is a
+	# fascinating kind of ghostly haunting. Punting on reporting... for now.
+	filter-lto
 }
 
 multilib_src_configure() {

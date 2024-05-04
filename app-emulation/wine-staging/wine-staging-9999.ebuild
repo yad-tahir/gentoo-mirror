@@ -5,11 +5,11 @@ EAPI=8
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
 PYTHON_COMPAT=( python3_{10..12} )
-inherit autotools edo flag-o-matic multilib multilib-build
+inherit autotools edo flag-o-matic multilib multilib-build optfeature
 inherit prefix python-any-r1 toolchain-funcs wrapper
 
 WINE_GECKO=2.47.4
-WINE_MONO=8.1.0
+WINE_MONO=9.1.0
 WINE_P=wine-$(ver_cut 1-2)
 
 if [[ ${PV} == *9999 ]]; then
@@ -23,13 +23,14 @@ else
 		https://github.com/wine-staging/wine-staging/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="-* ~amd64 ~x86"
 fi
-S="${WORKDIR}/${WINE_P}"
 
 DESCRIPTION="Free implementation of Windows(tm) on Unix, with Wine-Staging patchset"
 HOMEPAGE="
 	https://wiki.winehq.org/Wine-Staging
 	https://gitlab.winehq.org/wine/wine-staging/
 "
+
+S="${WORKDIR}/${WINE_P}"
 
 LICENSE="LGPL-2.1+ BSD-2 IJG MIT OPENLDAP ZLIB gsm libpng2 libtiff"
 SLOT="${PV}"
@@ -221,11 +222,6 @@ src_prepare() {
 	local patchinstallargs=(
 		--all
 		--no-autoconf
-		# patches known broken with USE=-mingw, retry occasionally (bug #921360)
-		$(usev !mingw '
-			-W winedevice-Default_Drivers
-			-W fltmgr.sys-FltBuildDefaultSecurityDescriptor
-		')
 		${MY_WINE_STAGING_CONF}
 	)
 
@@ -336,10 +332,13 @@ src_configure() {
 		strip-unsupported-flags
 	fi
 
+	# >=wine-vanilla-9 has proper fixes and builds with gcc-14, but
+	# staging patchset is messier and would rather not have to worry
+	# about it (try to remove on bump now and then, bug #919758)
+	append-cflags $(test-flags-CC -Wno-error=incompatible-pointer-types)
+
 	if use mingw; then
 		use crossdev-mingw || PATH=${BROOT}/usr/lib/mingw64-toolchain/bin:${PATH}
-
-		filter-flags -fno-plt # build failure
 
 		# CROSSCC was formerly recognized by wine, thus been using similar
 		# variables (subject to change, esp. if ever make a mingw.eclass).
@@ -354,6 +353,12 @@ src_configure() {
 			CROSSCFLAGS="${CROSSCFLAGS:-$(
 				filter-flags '-fstack-protector*' #870136
 				filter-flags '-mfunction-return=thunk*' #878849
+
+				# some bashrc-mv users tend to do CFLAGS="${LDFLAGS}" and then
+				# strip-unsupported-flags miss these during compile-only tests
+				# (primarily done for 23.0 profiles' -z, not full coverage)
+				filter-flags '-Wl,-z,*'
+
 				CC=${mingwcc} test-flags-CC ${CFLAGS:--O2}
 			)}"
 
@@ -460,6 +465,9 @@ pkg_postinst() {
 		ewarn "USE=abi_x86_32 (ABI_X86=32), hardware acceleration with 32bit"
 		ewarn "applications under ${PN} will likely not be usable."
 	fi
+
+	optfeature "/dev/hidraw* access used for *some* controllers (e.g. DualShock4)" \
+		games-util/game-device-udev-rules
 
 	eselect wine update --if-unset || die
 }

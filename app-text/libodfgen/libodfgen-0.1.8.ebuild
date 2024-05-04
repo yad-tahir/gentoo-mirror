@@ -9,8 +9,8 @@ if [[ ${PV} == *9999* ]]; then
 	EGIT_REPO_URI="https://git.code.sf.net/p/libwpd/libodfgen"
 	inherit autotools git-r3
 else
-	SRC_URI="mirror://sourceforge/libwpd/${P}.tar.xz"
-	KEYWORDS="amd64 ~arm arm64 ~loong ~ppc64 ~riscv x86 ~amd64-linux ~x86-linux"
+	SRC_URI="https://downloads.sourceforge.net/libwpd/${P}.tar.xz"
+	KEYWORDS="amd64 ~arm arm64 ~loong ppc64 ~riscv x86 ~amd64-linux ~x86-linux"
 fi
 
 DESCRIPTION="Library to generate ODF documents from libwpd and libwpg"

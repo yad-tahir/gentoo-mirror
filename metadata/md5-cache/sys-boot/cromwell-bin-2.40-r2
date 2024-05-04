@@ -1,0 +1,12 @@
+DEFINED_PHASES=install postinst postrm preinst prerm pretend
+DESCRIPTION=Xbox boot loader precompiled binaries from xbox-linux.org
+EAPI=8
+HOMEPAGE=https://sourceforge.net/projects/xbox-linux/
+INHERIT=mount-boot
+KEYWORDS=-* ~x86
+LICENSE=GPL-2
+RESTRICT=strip
+SLOT=0
+SRC_URI=https://downloads.sourceforge.net/xbox-linux/cromwell-2.40.tar.gz
+_eclasses_=mount-boot	3945d351ee3192381911f938f4ee527a
+_md5_=48b77c4e4ad0576584684c3b07e7e864

@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -13,14 +13,14 @@ SRC_URI="https://github.com/greenbone/notus-scanner/archive/refs/tags/v${PV}.tar
 
 SLOT="0"
 LICENSE="AGPL-3 AGPL-3+"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~x86"
 
 DEPEND="
 	acct-user/gvm
 	net-libs/paho-mqtt-c
 	>=dev-python/psutil-5.9[${PYTHON_USEDEP}]
 	>=dev-python/python-gnupg-0.5.1[${PYTHON_USEDEP}]
-	<dev-python/packaging-23.3[${PYTHON_USEDEP}]
+	<dev-python/packaging-24.1[${PYTHON_USEDEP}]
 	>=dev-python/paho-mqtt-1.5.1[${PYTHON_USEDEP}]
 	<dev-python/tomli-3[${PYTHON_USEDEP}]
 "
