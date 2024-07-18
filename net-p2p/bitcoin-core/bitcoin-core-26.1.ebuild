@@ -9,13 +9,16 @@ inherit autotools bash-completion-r1 check-reqs db-use desktop edo multiprocessi
 
 DESCRIPTION="Reference implementation of the Bitcoin cryptocurrency"
 HOMEPAGE="https://bitcoincore.org/"
-SRC_URI="https://github.com/bitcoin/bitcoin/archive/v${PV/_rc/rc}.tar.gz -> ${P}.tar.gz"
+SRC_URI="
+	https://github.com/bitcoin/bitcoin/archive/v${PV/_rc/rc}.tar.gz -> ${P}.tar.gz
+	https://github.com/bitcoin/bitcoin/commit/8acdf66540834b9f9cf28f16d389e8b6a48516d5.patch?full_index=1 -> ${PN}-miniupnpc-2.2.8-compat.patch
+"
 S="${WORKDIR}/${PN/-core}-${PV/_rc/rc}"
 
 LICENSE="MIT"
 SLOT="0"
 if [[ "${PV}" != *_rc* ]] ; then
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x86-linux"
+	KEYWORDS="amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x86-linux"
 fi
 IUSE="+asm +berkdb +cli +daemon dbus examples +external-signer gui kde libs +man nat-pmp +qrcode +sqlite system-leveldb +system-libsecp256k1 systemtap test upnp zeromq"
 RESTRICT="!test? ( test )"
@@ -92,6 +95,7 @@ DOCS=(
 )
 
 PATCHES=(
+	"${DISTDIR}/${PN}-miniupnpc-2.2.8-compat.patch"
 	"${FILESDIR}/26.0-syslibs.patch"
 	"${FILESDIR}/26.0-init.patch"
 )

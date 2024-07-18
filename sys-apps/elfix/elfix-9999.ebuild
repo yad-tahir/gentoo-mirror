@@ -1,7 +1,7 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=8
 
 if [[ ${PV} == *9999* ]] ; then
 	EGIT_REPO_URI="https://anongit.gentoo.org/git/proj/elfix.git"
@@ -11,18 +11,16 @@ else
 	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86"
 fi
 
-DESCRIPTION="A suite of tools to work with ELF objects on Hardened Gentoo"
+DESCRIPTION="Suite of tools to work with ELF objects on Hardened Gentoo"
 HOMEPAGE="https://www.gentoo.org/proj/en/hardened/pax-quickstart.xml
 	https://dev.gentoo.org/~blueness/elfix/"
 
-LICENSE="GPL-3"
+LICENSE="GPL-3+"
 SLOT="0"
 IUSE="+ptpax test +xtpax"
 REQUIRED_USE="|| ( ptpax xtpax )"
 # These only work with a properly configured PaX kernel
 RESTRICT="!test? ( test ) test"
-
-DOCS=( AUTHORS ChangeLog INSTALL README THANKS TODO )
 
 DEPEND="~dev-python/pypax-${PV}[ptpax=,xtpax=]
 	ptpax? ( dev-libs/elfutils )
@@ -39,7 +37,7 @@ src_prepare() {
 }
 
 src_configure() {
-	rm -f "${S}/scripts/setup.py"
+	rm -f "${S}/scripts/setup.py" || die
 	econf \
 		$(use_enable test tests) \
 		$(use_enable ptpax) \

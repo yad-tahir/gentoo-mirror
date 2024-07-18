@@ -24,7 +24,7 @@ else
 		https://github.com/eduvpn/python-eduvpn-client/releases/download/${PV}/${MY_P}.tar.xz
 		verify-sig? ( https://github.com/eduvpn/python-eduvpn-client/releases/download/${PV}/${MY_P}.tar.xz.asc )
 	"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 x86"
 	S="${WORKDIR}/${MY_P}"
 fi
 
@@ -50,7 +50,7 @@ if [[ ${PV} != *9999* ]] ; then
 fi
 
 PATCHES=(
-	"${FILESDIR}/${PN}-desktop.patch"
+	"${FILESDIR}/${PN}-4.2.1-desktop.patch"
 )
 
 pkg_postinst() {

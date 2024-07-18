@@ -8,7 +8,7 @@ EAPI=8
 #	properly before building.
 # - replace usex by usev where applicable
 
-PYTHON_COMPAT=( python3_{10..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 WEBAPP_OPTIONAL=yes
 WEBAPP_MANUAL_SLOT=yes
 
@@ -164,6 +164,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-9.3.0-java.patch"
 	"${FILESDIR}/${PN}-9.3.0-opencascade.patch"
 	"${FILESDIR}/${PN}-9.3.0-fix-Java-error-with-integer-enum-overloads.patch"
+	"${FILESDIR}/${PN}-9.3.0-ThrustPatches.patch"
 )
 
 DOCS=( CONTRIBUTING.md README.md )

@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{10..13} )
 
 inherit distutils-r1 optfeature pypi
 
@@ -32,7 +32,7 @@ BDEPEND="
 		>=dev-python/msgpack-0.3.0[${PYTHON_USEDEP}]
 		dev-python/pycurl[${PYTHON_USEDEP}]
 		>=dev-python/pymongo-4.1.1[${PYTHON_USEDEP}]
-		dev-python/pytest-freezegun[${PYTHON_USEDEP}]
+		dev-python/pytest-freezer[${PYTHON_USEDEP}]
 		dev-python/zstandard[${PYTHON_USEDEP}]
 		dev-python/pytz[${PYTHON_USEDEP}]
 		>=dev-python/pyyaml-3.10[${PYTHON_USEDEP}]
@@ -44,6 +44,11 @@ BDEPEND="
 distutils_enable_tests pytest
 distutils_enable_sphinx docs \
 	dev-python/sphinx-celery
+
+PATCHES=(
+	# https://github.com/celery/kombu/pull/2052
+	"${FILESDIR}/${P}-py313.patch"
+)
 
 python_test() {
 	local EPYTEST_DESELECT=(

@@ -12,8 +12,10 @@ if [[ ${PV} == 9999* ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/prometheus/node_exporter.git"
 else
-	SRC_URI="https://github.com/prometheus/node_exporter/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-	SRC_URI+=" https://github.com/rahilarious/gentoo-distfiles/releases/download/${P}/deps.tar.xz -> ${P}-deps.tar.xz"
+	SRC_URI="
+	https://github.com/prometheus/node_exporter/archive/v${PV}.tar.gz -> ${P}.tar.gz
+	https://github.com/rahilarious/gentoo-distfiles/releases/download/${P}/deps.tar.xz -> ${P}-deps.tar.xz
+	"
 	KEYWORDS="~amd64 ~arm64 ~loong ~riscv ~x86"
 fi
 
@@ -22,30 +24,29 @@ LICENSE="Apache-2.0"
 # deps
 LICENSE+=" BSD BSD-2 MIT"
 SLOT="0"
-IUSE="selinux systemd"
+IUSE="selinux"
 
 COMMON_DEPEND="
 	acct-group/node_exporter
 	acct-user/node_exporter
 	selinux? ( sec-policy/selinux-node_exporter )
-	systemd? ( sys-apps/systemd )
 "
 DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
-BDEPEND=">=dev-util/promu-0.3.0"
+BDEPEND=">=dev-util/promu-0.15.0"
 
 src_unpack() {
 	if [[ ${PV} == 9999* ]]; then
 		git-r3_src_unpack
 		go-module_live_vendor
 	else
-		go-module_src_unpack
+		default
 	fi
 }
 
 src_prepare() {
+	[[ ${PV} != 9999* ]] && { ln -sv ../vendor ./ || die ; }
 	default
-	use systemd && { sed -i -e "s|defaultDisabled|defaultEnabled|g;" collector/systemd_linux.go || die; }
 }
 
 src_compile() {

@@ -19,7 +19,7 @@ if [[ ${PV} = *9999* ]] ; then
 else
 	# If a development release, please don't keyword!
 	SRC_URI="https://github.com/AcademySoftwareFoundation/OpenShadingLanguage/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64"
+	KEYWORDS="amd64 ~arm ~arm64 ~ppc64"
 	S="${WORKDIR}/OpenShadingLanguage-${PV}"
 fi
 
@@ -32,7 +32,7 @@ X86_CPU_FEATURES=(
 )
 CPU_FEATURES=( "${X86_CPU_FEATURES[@]/#/cpu_flags_x86_}" )
 
-IUSE="doc gui libcxx nofma optix partio qt6 test ${CPU_FEATURES[*]%:*} python"
+IUSE="debug doc gui libcxx nofma optix partio qt6 test ${CPU_FEATURES[*]%:*} python"
 RESTRICT="!test? ( test )"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
@@ -185,10 +185,15 @@ src_configure() {
 		-DUSE_BATCHED="$(IFS=","; echo "${mybatched[*]}")"
 		-DUSE_LIBCPLUSPLUS="$(usex libcxx)"
 		-DOSL_USE_OPTIX="$(usex optix)"
-		-DVEC_REPORT="yes"
 
 		-DOpenImageIO_ROOT="${EPREFIX}/usr"
 	)
+
+	if use debug; then
+		mycmakeargs+=(
+			-DVEC_REPORT="yes"
+		)
+	fi
 
 	if use gui; then
 		mycmakeargs+=( -DUSE_QT="yes" )

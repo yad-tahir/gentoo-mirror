@@ -1,10 +1,10 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{10..13} )
 
 inherit distutils-r1
 
@@ -33,8 +33,21 @@ BDEPEND="
 	${RDEPEND}
 "
 
+src_prepare() {
+	local PATCHES=(
+		# https://github.com/candlepin/python-iniparse/pull/29
+		"${FILESDIR}/${P}-py3.11.7.patch"
+	)
+
+	distutils-r1_src_prepare
+
+	# https://src.fedoraproject.org/rpms/python-iniparse/blob/rawhide/f/python-iniparse.spec
+	sed -e "s/unittest.makeSuite(\(.*\), 'test')/unittest.defaultTestLoader.loadTestsFromTestCase(\1)/g" \
+		-i tests/test*.py || die
+}
+
 python_test() {
-	"${EPYTHON}" runtests.py || die
+	"${EPYTHON}" runtests.py -v || die
 }
 
 python_install_all() {

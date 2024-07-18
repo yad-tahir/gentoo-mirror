@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{10..13} )
 inherit cmake-multilib python-any-r1
 
 if [[ ${PV} == *9999* ]]; then
@@ -26,10 +26,10 @@ SLOT="0/14"
 RESTRICT="test"
 
 BDEPEND="${PYTHON_DEPS}
-	~dev-util/spirv-tools-${PV}:=[${MULTILIB_USEDEP}]
+	~dev-util/spirv-tools-${PV}[${MULTILIB_USEDEP}]
 "
 
-DEPEND="~dev-util/spirv-tools-${PV}:=[${MULTILIB_USEDEP}]"
+DEPEND="~dev-util/spirv-tools-${PV}[${MULTILIB_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 multilib_src_configure() {

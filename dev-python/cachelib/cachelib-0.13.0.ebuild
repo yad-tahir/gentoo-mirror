@@ -20,16 +20,18 @@ SRC_URI="
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~arm arm64 ~x86"
+KEYWORDS="amd64 ~arm arm64 x86"
 
 BDEPEND="
 	test? (
 		dev-db/redis
-		dev-python/pylibmc[${PYTHON_USEDEP}]
 		dev-python/pytest-xprocess[${PYTHON_USEDEP}]
 		dev-python/redis[${PYTHON_USEDEP}]
 		net-misc/memcached
 		www-servers/uwsgi[python,${PYTHON_USEDEP}]
+		!sparc? (
+			dev-python/pylibmc[${PYTHON_USEDEP}]
+		)
 	)
 "
 

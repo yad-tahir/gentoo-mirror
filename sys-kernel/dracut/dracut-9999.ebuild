@@ -63,6 +63,8 @@ QA_MULTILIB_PATHS="usr/lib/dracut/.*"
 
 PATCHES=(
 	"${FILESDIR}"/gentoo-ldconfig-paths-r1.patch
+	# Gentoo specific acct-user and acct-group conf adjustments
+	"${FILESDIR}"/${PN}-103-acct-user-group-gentoo.patch
 )
 
 src_configure() {
@@ -94,9 +96,10 @@ src_install() {
 		AUTHORS
 		NEWS.md
 		README.md
+		docs/HACKING.md
 		docs/README.cross
-		docs/README.generic
 		docs/README.kernel
+		docs/RELEASE.md
 		docs/SECURITY.md
 	)
 

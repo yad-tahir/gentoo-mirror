@@ -5,7 +5,7 @@ EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
 PYPI_NO_NORMALIZE=1
-PYTHON_COMPAT=( pypy3 python3_{10..12} )
+PYTHON_COMPAT=( pypy3 python3_{10..13} )
 
 inherit distutils-r1 pypi
 
@@ -22,10 +22,8 @@ KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~loong ~m68k ~mips ppc ppc64 ~riscv 
 BDEPEND="
 	test? (
 		>=dev-python/click-5[${PYTHON_USEDEP}]
+		dev-python/ipython[${PYTHON_USEDEP}]
 		>=dev-python/sh-2[${PYTHON_USEDEP}]
-		$(python_gen_cond_dep '
-			dev-python/ipython[${PYTHON_USEDEP}]
-		' python3_{10,11})
 	)
 "
 

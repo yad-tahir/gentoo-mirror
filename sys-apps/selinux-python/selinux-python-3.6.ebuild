@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python3_{10..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 PYTHON_REQ_USE="xml(+)"
 
 inherit python-r1 toolchain-funcs
@@ -97,10 +97,10 @@ src_install() {
 	done
 
 	# Create sepolgen.conf with different devel location definition
+	mkdir -p "${D}"/etc/selinux || die "Failed to create selinux directory";
 	if [[ -f /etc/selinux/config ]];
 	then
 		local selinuxtype=$(awk -F'=' '/^SELINUXTYPE/ {print $2}' /etc/selinux/config);
-		mkdir -p "${D}"/etc/selinux || die "Failed to create selinux directory";
 		echo "SELINUX_DEVEL_PATH=/usr/share/selinux/${selinuxtype}/include:/usr/share/selinux/${selinuxtype}" > "${D}"/etc/selinux/sepolgen.conf;
 	else
 		local selinuxtype="${POLICY_TYPES%% *}";

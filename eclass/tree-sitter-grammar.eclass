@@ -4,7 +4,6 @@
 # @ECLASS: tree-sitter-grammar.eclass
 # @MAINTAINER:
 # Matthew Smith <matthew@gentoo.org>
-# Nick Sarnie <sarnex@gentoo.org>
 # Arthur Zamarin <arthurzam@gentoo.org>
 # @AUTHOR:
 # Matthew Smith <matthew@gentoo.org>
@@ -48,7 +47,7 @@ for _BINDING in "${TS_BINDINGS[@]}"; do
 			DISTUTILS_EXT=1
 			DISTUTILS_OPTIONAL=1
 			DISTUTILS_USE_PEP517=setuptools
-			PYTHON_COMPAT=( python3_{10..12} )
+			PYTHON_COMPAT=( python3_{10..13} )
 			inherit distutils-r1
 
 			IUSE+=" python"
@@ -163,6 +162,8 @@ tree-sitter-grammar_src_compile() {
 	if [[ -f "${S}/pyproject.toml" ]]; then
 		sed -e "/SONAME_MINOR :=/s/:=.*$/:= $(_get_tsg_abi_ver)/" -i "${S}/Makefile" || die
 		emake \
+			CC="$(tc-getCC)" \
+			AR="$(tc-getAR)" \
 			STRIP="" \
 			PREFIX="${EPREFIX}/usr" \
 			LIBDIR="${EPREFIX}/usr/$(get_libdir)"

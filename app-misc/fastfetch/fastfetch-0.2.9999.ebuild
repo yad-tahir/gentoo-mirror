@@ -18,15 +18,15 @@ else
 	KEYWORDS="~amd64 ~arm ~arm64 ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86"
 fi
 
-LICENSE="MIT nvidia-gpu? ( NVIDIA-NVLM )"
+LICENSE="MIT"
 SLOT="0"
-IUSE="X chafa dbus ddcutil drm gnome imagemagick networkmanager nvidia-gpu opencl opengl osmesa pulseaudio sqlite test vulkan wayland xcb xfce xrandr"
+IUSE="X chafa dbus ddcutil drm gnome imagemagick networkmanager opencl opengl osmesa pulseaudio sqlite test vulkan wayland xcb xfce xrandr"
 RESTRICT="!test? ( test )"
 
 # note - qa-vdb will always report errors because fastfetch loads the libs dynamically
 # make sure to crank yyjson minimum version to match bundled version
 RDEPEND="
-	>=dev-libs/yyjson-0.9.0
+	>=dev-libs/yyjson-0.10.0
 	sys-libs/zlib
 	X? ( x11-libs/libX11 )
 	chafa? ( media-gfx/chafa )
@@ -77,6 +77,7 @@ src_configure() {
 		-DENABLE_ZLIB=yes
 		-DENABLE_SYSTEM_YYJSON=yes
 		-DIS_MUSL=$(usex elibc_musl)
+		-DINSTALL_LICENSE=no
 
 		-DENABLE_CHAFA=$(usex chafa)
 		-DENABLE_DBUS=$(usex dbus)
@@ -89,7 +90,6 @@ src_configure() {
 		-DENABLE_IMAGEMAGICK6=${fastfetch_enable_imagemagick6}
 		-DENABLE_IMAGEMAGICK7=${fastfetch_enable_imagemagick7}
 		-DENABLE_LIBNM=$(usex networkmanager)
-		-DENABLE_PROPRIETARY_GPU_DRIVER_API=$(usex nvidia-gpu)
 		-DENABLE_OPENCL=$(usex opencl)
 		-DENABLE_OSMESA=$(usex osmesa)
 		-DENABLE_PULSE=$(usex pulseaudio)
@@ -107,10 +107,4 @@ src_configure() {
 	append-cppflags -DNDEBUG
 
 	cmake_src_configure
-}
-
-src_install() {
-	cmake_src_install
-
-	rm -r "${ED}"/usr/share/licenses || die
 }

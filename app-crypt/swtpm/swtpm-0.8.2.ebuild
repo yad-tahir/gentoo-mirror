@@ -13,7 +13,7 @@ SRC_URI="https://github.com/stefanberger/swtpm/archive/v${PV}.tar.gz -> ${P}.tar
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 arm arm64 ~loong ~ppc ppc64 ~riscv x86"
 IUSE="fuse seccomp test"
 RESTRICT="!test? ( test )"
 
@@ -46,6 +46,7 @@ BDEPEND="${PYTHON_DEPS}"
 PATCHES=(
 	"${FILESDIR}/${PN}-0.6.0-fix-localca-path.patch"
 	"${FILESDIR}/${PN}-0.5.0-build-sys-Remove-WError.patch"
+	"${FILESDIR}/${PN}-0.8.2-slibtool.patch"
 )
 
 src_prepare() {

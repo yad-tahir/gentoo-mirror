@@ -34,7 +34,7 @@ DEPEND="
 	>=x11-libs/libxkbcommon-1.5.0:0=
 	x11-libs/pango
 	x11-libs/pixman
-	media-libs/mesa[gles2,libglvnd(+)]
+	media-libs/libglvnd
 	swaybar? ( x11-libs/gdk-pixbuf:2 )
 	tray? ( || (
 		sys-apps/systemd
@@ -64,12 +64,8 @@ BDEPEND="
 	>=dev-libs/wayland-protocols-1.24
 	>=dev-build/meson-0.60.0
 	virtual/pkgconfig
+	man? ( >=app-text/scdoc-1.11.3 )
 "
-if [[ ${PV} == 9999 ]]; then
-	BDEPEND+="man? ( ~app-text/scdoc-9999 )"
-else
-	BDEPEND+="man? ( >=app-text/scdoc-1.9.3 )"
-fi
 
 FILECAPS=(
 	cap_sys_nice usr/bin/${PN} # bug 919298
@@ -79,7 +75,6 @@ src_configure() {
 	local emesonargs=(
 		$(meson_feature man man-pages)
 		$(meson_feature tray)
-		$(meson_feature X xwayland)
 		$(meson_feature swaybar gdk-pixbuf)
 		$(meson_use swaynag)
 		$(meson_use swaybar)

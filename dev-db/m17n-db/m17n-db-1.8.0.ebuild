@@ -3,17 +3,35 @@
 
 EAPI="8"
 
-DESCRIPTION="Database for the m17n library"
-HOMEPAGE="https://savannah.nongnu.org/projects/m17n https://git.savannah.nongnu.org/cgit/m17n/m17n-db.git"
-SRC_URI="mirror://nongnu/m17n/${P}.tar.gz"
+GLIBC_PV="2.39"
+GLIBC_P="glibc-${GLIBC_PV}"
 
-LICENSE="LGPL-2.1"
+DESCRIPTION="Database for the m17n library"
+HOMEPAGE="https://www.nongnu.org/m17n/"
+SRC_URI="mirror://nongnu/m17n/${P}.tar.gz
+	elibc_musl? ( mirror://gnu/glibc/${GLIBC_P}.tar.xz )"
+
+LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~loong ppc ppc64 ~riscv sparc x86"
 IUSE=""
 
 RDEPEND="virtual/libintl"
 BDEPEND="sys-devel/gettext"
+
+CHARMAPS="${GLIBC_P}/localedata/charmaps"
+
+src_unpack() {
+	unpack ${P}.tar.gz
+
+	if use elibc_musl; then
+		tar xf "${DISTDIR}"/${GLIBC_P}.tar.xz ${CHARMAPS} || die
+	fi
+}
+
+src_configure() {
+	econf $(usex elibc_musl "--with-charmaps=${WORKDIR}/${CHARMAPS}" "")
+}
 
 src_install() {
 	default

@@ -41,6 +41,7 @@ REQUIRED_USE="
 RDEPEND="
 	>=dev-libs/libinput-1.2.0
 	>=dev-libs/wayland-1.22.0
+	=media-libs/libdisplay-info-0.1*:=
 	media-libs/libpng:0=
 	sys-auth/seatd:=
 	>=x11-libs/cairo-1.11.3
@@ -92,10 +93,6 @@ BDEPEND="
 	virtual/pkgconfig
 	$(python_gen_any_dep 'dev-python/setuptools[${PYTHON_USEDEP}]')
 "
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-neatvnc-0.8.patch
-)
 
 python_check_deps() {
 	python_has_version "dev-python/setuptools[${PYTHON_USEDEP}]"

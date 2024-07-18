@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit flag-o-matic qt6-build toolchain-funcs
+inherit qt6-build toolchain-funcs
 
 DESCRIPTION="Cross-platform application development framework"
 
@@ -245,37 +245,6 @@ src_configure() {
 		$(qt_feature sqlite system_sqlite)
 	)
 
-	if use amd64 || use x86; then
-		# see bug #913400 for explanations
-		local cpufeats=(
-			# list of checked cpu features in configure.cmake
-			avx avx2 avx512{bw,cd,dq,er,f,ifma,pf,vbmi,vbmi2,vl}
-			f16c rdrnd rdseed sse2 sse3 sse4_1 sse4_2 ssse3 vaes
-		)
-		# handle odd ones out not matching -m* and macros (keep same order)
-		local cpuflags=( "${cpufeats[@]}" aes sha )
-		local cpufeats+=( aesni shani )
-
-		local -a intrins
-		IFS=' ' read -ra intrins < <(
-			: "$(test-flags-CXX "${cpuflags[@]/#/-m}")"
-			$(tc-getCXX) -E -P ${_} ${CXXFLAGS} ${CPPFLAGS} - <<-EOF | tail -n 1
-				$(printf '__%s__ ' "${cpuflags[@]^^}")
-			EOF
-			assert
-		)
-
-		# do nothing and leave to qtbase if no macros expanded (test failed?)
-		if [[ \ ${intrins[*]} == *\ [^_\ ]* ]]; then
-			local -i i
-			for ((i=0; i<${#cpufeats[@]}; i++)); do
-				[[ ${intrins[i]} == __* ]] &&
-					mycmakeargs+=( -DQT_FEATURE_${cpufeats[i]}=OFF )
-			done
-			mycmakeargs+=( -DTEST_x86intrin=ON )
-		fi
-	fi
-
 	qt6-build_src_configure
 }
 
@@ -310,6 +279,7 @@ src_test() {
 		tst_qlogging # backtrace log test can easily vary
 		tst_q{,raw}font # affected by available fonts / settings (bug #914737)
 		tst_qprinter # checks system's printers (bug #916216)
+		tst_qhighdpi # may detect users' settings and fail (bug #935364)
 		tst_qstorageinfo # checks mounted filesystems
 		# flaky due to using different test framework and fails with USE=-gui
 		tst_selftests

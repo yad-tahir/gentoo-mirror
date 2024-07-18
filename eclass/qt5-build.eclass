@@ -126,11 +126,11 @@ fi
 
 if [[ ${QT5_MODULE} == qtbase ]]; then
 	case ${PV} in
-		5.15.11)
-			_QT5_GENTOOPATCHSET_REV=4
+		5.15.13)
+			_QT5_GENTOOPATCHSET_REV=5
 			;;
 		*)
-			_QT5_GENTOOPATCHSET_REV=5
+			_QT5_GENTOOPATCHSET_REV=6
 			;;
 	esac
 	SRC_URI+=" https://dev.gentoo.org/~asturm/distfiles/qtbase-5.15-gentoo-patchset-${_QT5_GENTOOPATCHSET_REV}.tar.xz"
@@ -622,6 +622,9 @@ qt5_base_configure() {
 		# MIPS DSP instruction set extensions
 		$(is-flagq -mno-dsp   && echo -no-mips_dsp)
 		$(is-flagq -mno-dspr2 && echo -no-mips_dspr2)
+
+		# bug #773199 and friends
+		$(tc-cpp-is-true "defined(__SSE2__)" ${CFLAGS} ${CXXFLAGS} || echo -no-feature-sse2)
 
 		# use pkg-config to detect include and library paths
 		-pkg-config
