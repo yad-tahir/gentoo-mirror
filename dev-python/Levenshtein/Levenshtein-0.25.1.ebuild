@@ -6,7 +6,7 @@ EAPI=8
 DISTUTILS_EXT=1
 # custom wrapper over setuptools
 DISTUTILS_USE_PEP517=standalone
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{10..13} )
 
 inherit distutils-r1
 
@@ -22,7 +22,7 @@ SRC_URI="
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 ~ia64 ~mips ppc ppc64 ~riscv ~s390 sparc x86"
+KEYWORDS="~alpha amd64 arm arm64 ~ia64 ppc ppc64 ~riscv ~s390 sparc x86"
 
 DEPEND="
 	<dev-cpp/rapidfuzz-cpp-4

@@ -18,7 +18,7 @@ if [[ ${PV} = *9999 ]]; then
 	inherit git-r3
 else
 	SRC_URI="https://github.com/OpenImageDenoise/${PN}/releases/download/v${PV}/${P}.src.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~x86"
+	KEYWORDS="amd64 ~arm ~arm64 ~ppc64 ~x86"
 fi
 
 LICENSE="Apache-2.0"
@@ -50,6 +50,12 @@ src_prepare() {
 		addpredict "/proc/self/task/"
 	fi
 
+	if use hip; then
+		# https://bugs.gentoo.org/930391
+		sed "/-Wno-unused-result/s:): --rocm-path=${EPREFIX}/usr/lib):" \
+			-i devices/hip/CMakeLists.txt || die
+	fi
+
 	sed -e "/^install.*llvm_macros.cmake.*cmake/d" -i CMakeLists.txt || die
 
 	cmake_src_prepare
@@ -58,13 +64,16 @@ src_prepare() {
 src_configure() {
 	local mycmakeargs=(
 		-DOIDN_APPS="$(usex apps)"
-		-DOIDN_APPS_OPENIMAGEIO="$(usex apps "$(usex openimageio)")"
 
 		-DOIDN_DEVICE_CPU="yes"
 		-DOIDN_DEVICE_CUDA="$(usex cuda)"
 		-DOIDN_DEVICE_HIP="$(usex hip)"
 		# -DOIDN_DEVICE_SYCL="$(usex sycl)"
 	)
+
+	if use apps; then
+		mycmakeargs+=( -DOIDN_APPS_OPENIMAGEIO="$(usex openimageio)" )
+	fi
 
 	if use cuda; then
 		export CUDAHOSTCXX="$(cuda_gccdir)"

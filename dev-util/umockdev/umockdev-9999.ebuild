@@ -1,10 +1,10 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 PYTHON_COMPAT=( python3_{10..12} )
 
-inherit meson-multilib python-any-r1 vala
+inherit flag-o-matic meson-multilib python-any-r1 vala
 
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/martinpitt/${PN}.git"
@@ -50,6 +50,9 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101270
+	filter-flags -fno-semantic-interposition
+
 	export VALAC="$(type -P valac-$(vala_best_api_version))"
 	meson_src_configure
 }

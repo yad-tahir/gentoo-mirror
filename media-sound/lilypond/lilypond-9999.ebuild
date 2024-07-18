@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{9..11} )
+PYTHON_COMPAT=( python3_{9..13} )
 
 inherit elisp-common autotools python-single-r1 toolchain-funcs xdg-utils
 
@@ -35,7 +35,7 @@ BDEPEND="
 	doc? ( app-text/texi2html )
 "
 RDEPEND="app-text/ghostscript-gpl
-	>=dev-scheme/guile-2.2:12=[deprecated,regex]
+	>=dev-scheme/guile-3.0.7:12=[deprecated,regex]
 	media-fonts/tex-gyre
 	media-libs/fontconfig
 	media-libs/freetype:2

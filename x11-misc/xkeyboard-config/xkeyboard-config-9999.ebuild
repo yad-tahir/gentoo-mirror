@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{11..12} )
 inherit meson python-any-r1
 
 DESCRIPTION="X keyboard configuration database"
@@ -22,7 +22,6 @@ SLOT="0"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
-# <dev-python/pycountry-23.12.7 bug #920278
 BDEPEND="
 	dev-lang/perl
 	dev-libs/libxslt

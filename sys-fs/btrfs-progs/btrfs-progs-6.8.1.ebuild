@@ -18,13 +18,13 @@ else
 	MY_PV="v${PV/_/-}"
 	MY_P="${PN}-${MY_PV}"
 	SRC_URI="
-		https://www.kernel.org/pub/linux/kernel/people/kdave/${PN}/${MY_P}.tar.xz
-		verify-sig? ( https://www.kernel.org/pub/linux/kernel/people/kdave/${PN}/${MY_P}.tar.sign )
+		https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/${PN}/${MY_P}.tar.xz
+		verify-sig? ( https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/${PN}/${MY_P}.tar.sign )
 	"
 	S="${WORKDIR}"/${PN}-${MY_PV}
 
 	if [[ ${PV} != *_rc* ]] ; then
-		KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86"
+		KEYWORDS="~alpha amd64 arm arm64 ~ia64 ~loong ~mips ppc ppc64 ~riscv ~sparc x86"
 	fi
 fi
 
@@ -157,7 +157,7 @@ src_configure() {
 	export EXTRA_PYTHON_CFLAGS="${CFLAGS}"
 	export EXTRA_PYTHON_LDFLAGS="${LDFLAGS}"
 
-	# bash as a tepmorary workaround for https://github.com/kdave/btrfs-progs/pull/721
+	# bash as a temporary workaround for https://github.com/kdave/btrfs-progs/pull/721
 	CONFIG_SHELL="${BROOT}"/bin/bash econf "${myeconfargs[@]}"
 }
 

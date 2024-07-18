@@ -1,11 +1,11 @@
-# Copyright 2023 Gentoo Authors
+# Copyright 2023-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DISTUTILS_EXT=1
 DISTUTILS_USE_PEP517=maturin
-PYTHON_COMPAT=( pypy3 python3_{10..12} )
+PYTHON_COMPAT=( pypy3 python3_{10..13} )
 
 CRATES="
 "
@@ -38,3 +38,12 @@ SLOT="0"
 KEYWORDS="~amd64 ~arm64"
 
 QA_FLAGS_IGNORED="usr/lib.*/py.*/site-packages/minify_html/minify_html.*.so"
+
+src_prepare() {
+	sed -i -e '/strip/d' Cargo.toml || die
+	distutils-r1_src_prepare
+}
+
+python_test_all() {
+	cargo_src_test
+}

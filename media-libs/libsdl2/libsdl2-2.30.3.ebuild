@@ -13,7 +13,7 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="ZLIB"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~riscv ~sparc"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86"
 
 IUSE="alsa aqua cpu_flags_ppc_altivec cpu_flags_x86_3dnow cpu_flags_x86_mmx cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_sse3 custom-cflags dbus doc fcitx4 gles1 gles2 +haptic ibus jack +joystick kms libsamplerate nas opengl oss pipewire pulseaudio sndio +sound static-libs test +threads udev +video vulkan wayland X xscreensaver"
 RESTRICT="!test? ( test )"
@@ -179,6 +179,7 @@ src_configure() {
 		-DSDL_LIBUDEV=$(usex udev)
 		-DSDL_DBUS=$(usex dbus)
 		-DSDL_IBUS=$(usex ibus)
+		-DSDL_CCACHE=OFF
 		-DSDL_DIRECTX=OFF
 		-DSDL_RPATH=OFF
 		-DSDL_VIDEO_RENDER_D3D=OFF

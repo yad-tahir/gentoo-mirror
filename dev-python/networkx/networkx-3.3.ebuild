@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_FULLY_TESTED=( python3_{10..12} )
+PYTHON_FULLY_TESTED=( python3_{10..13} )
 PYTHON_COMPAT=( "${PYTHON_FULLY_TESTED[@]}" )
 
 inherit distutils-r1 multiprocessing optfeature pypi virtualx
@@ -27,9 +27,6 @@ BDEPEND="
 		$(python_gen_cond_dep '
 			>=dev-python/matplotlib-3.6[${PYTHON_USEDEP}]
 			>=dev-python/numpy-1.23[${PYTHON_USEDEP}]
-			!ppc64? ( !sparc? (
-				>=dev-python/pandas-1.4[${PYTHON_USEDEP}]
-			) )
 			>=dev-python/scipy-1.11.2[${PYTHON_USEDEP}]
 		' "${PYTHON_FULLY_TESTED[@]}")
 	)

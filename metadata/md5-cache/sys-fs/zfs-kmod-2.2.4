@@ -1,12 +1,12 @@
-BDEPEND=app-alternatives/awk dev-lang/perl verify-sig? ( sec-keys/openpgp-keys-openzfs ) >=app-portage/elt-patches-20240116 sys-devel/gnuconfig || ( >=dev-build/automake-1.16.5:1.16 ) || ( >=dev-build/autoconf-2.72-r1:2.72 >=dev-build/autoconf-2.71-r6:2.71 ) >=dev-build/libtool-2.4.7-r3 sys-apps/kmod[tools] modules-sign? ( dev-libs/openssl virtual/pkgconfig ) verify-sig? ( app-crypt/gnupg >=app-portage/gemato-20 )
+BDEPEND=app-alternatives/awk dev-lang/perl verify-sig? ( sec-keys/openpgp-keys-openzfs ) >=app-portage/elt-patches-20240116 sys-devel/gnuconfig || ( >=dev-build/automake-1.17-r1:1.17 >=dev-build/automake-1.16.5:1.16 ) || ( >=dev-build/autoconf-2.72-r1:2.72 >=dev-build/autoconf-2.71-r6:2.71 ) >=dev-build/libtool-2.4.7-r3 sys-apps/kmod[tools] modules-sign? ( dev-libs/openssl virtual/pkgconfig ) verify-sig? ( app-crypt/gnupg >=app-portage/gemato-20 )
 DEFINED_PHASES=compile configure install postinst prepare pretend setup unpack
 DEPEND=virtual/linux-sources
 DESCRIPTION=Linux ZFS kernel module for sys-fs/zfs
 EAPI=8
 HOMEPAGE=https://github.com/openzfs/zfs
-IDEPEND=sys-apps/kmod[tools]
-INHERIT=autotools dist-kernel-utils flag-o-matic linux-mod-r1 multiprocessing verify-sig
-IUSE=custom-cflags debug +rootfs +dist-kernel-cap dist-kernel modules-compress modules-sign +strip verify-sig
+IDEPEND=sys-apps/kmod[tools] initramfs? ( sys-kernel/installkernel )
+INHERIT=autotools flag-o-matic linux-mod-r1 multiprocessing verify-sig
+IUSE=custom-cflags debug +rootfs +dist-kernel-cap dist-kernel modules-compress modules-sign +strip +initramfs verify-sig
 KEYWORDS=~amd64 ~arm64 ~loong ~ppc64 ~riscv ~sparc
 LICENSE=CDDL MIT debug? ( GPL-2+ )
 PDEPEND=dist-kernel? ( ~sys-fs/zfs-2.2.4[dist-kernel] )
@@ -14,5 +14,5 @@ RDEPEND=dist-kernel-cap? ( dist-kernel? ( <virtual/dist-kernel-6.9 ) ) sys-apps/
 RESTRICT=test
 SLOT=0/2.2.4
 SRC_URI=https://github.com/openzfs/zfs/releases/download/zfs-2.2.4/zfs-2.2.4.tar.gz verify-sig? ( https://github.com/openzfs/zfs/releases/download/zfs-2.2.4/zfs-2.2.4.tar.gz.asc )
-_eclasses_=autotools	dc70c1dc473b68317fc4a86f5fbfc57d	dist-kernel-utils	145861da258122cbba5240a850f1a5e8	edo	c0eb9cbe6b0bd01fcb4918f12598a4d3	flag-o-matic	288c54efeb5e2aa70775e39032695ad4	gnuconfig	a397adda6984a4c423e28ac274c1ba98	libtool	5f49a16f67f81bdf873e3d1f10b10001	linux-info	7ca3057b277f1e5978947b4cc289ce62	linux-mod-r1	137b318f89f77c2b66124fcc7790737a	multilib	c19072c3cd7ac5cb21de013f7e9832e0	multiprocessing	30ead54fa2e2b5f9cd4e612ffc34d0fe	toolchain-funcs	e56c7649b804f051623c8bc1a1c44084	verify-sig	a79ba011daaf532d71a219182474d150
-_md5_=25afbbf39ebe4a7fadcb2748ef96a1f4
+_eclasses_=autotools	d12ccbad07b44642a75ac97a3334d8e0	dist-kernel-utils	c5204a4147b612736aef239e7cc69885	edo	367e103a74bf77e6a8da7894d999fa3c	flag-o-matic	e503ea5acc20410237ba33ec3f7c857d	gnuconfig	a397adda6984a4c423e28ac274c1ba98	libtool	5f49a16f67f81bdf873e3d1f10b10001	linux-info	ea4122ba1d8791a12b78e53f9510a2e3	linux-mod-r1	0bdab9f1f3187180a16e0c6827bc13c2	mount-boot-utils	69218c024651aa10db01df7e8a5b63e0	multilib	c19072c3cd7ac5cb21de013f7e9832e0	multiprocessing	30ead54fa2e2b5f9cd4e612ffc34d0fe	toolchain-funcs	e56c7649b804f051623c8bc1a1c44084	verify-sig	a79ba011daaf532d71a219182474d150
+_md5_=148feabce4dc074238f90bec4efbba8a

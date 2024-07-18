@@ -3,7 +3,7 @@
 
 EAPI=8
 
-# Remember to modify LAST_KNOWN_AUTOAKE_VER 'upstream' on new automake (major) releases!
+# Remember to modify LAST_KNOWN_AUTOMAKE_VER 'upstream' on new automake (major) releases!
 
 MY_P="autotools-wrappers-at-${PV}"
 

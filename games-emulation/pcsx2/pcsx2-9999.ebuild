@@ -9,9 +9,10 @@ if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/PCSX2/pcsx2.git"
 else
-	# unbundling on this package has become unmaintainable and, rather than
-	# handle submodules separately, using a tarball that includes them
-	SRC_URI="https://dev.gentoo.org/~ionen/distfiles/${P}.tar.xz"
+	SRC_URI="
+		https://github.com/PCSX2/pcsx2/archive/refs/tags/v${PV}.tar.gz
+			-> ${P}.tar.gz
+	"
 	KEYWORDS="-* ~amd64"
 fi
 
@@ -27,11 +28,10 @@ IUSE="alsa cpu_flags_x86_sse4_1 +clang jack pulseaudio sndio test vulkan wayland
 REQUIRED_USE="cpu_flags_x86_sse4_1" # dies at runtime if no support
 RESTRICT="!test? ( test )"
 
-# dlopen: libglvnd, qtsvg, vulkan-loader, wayland
+# dlopen: libglvnd, qtsvg, shaderc, vulkan-loader, wayland
 COMMON_DEPEND="
 	app-arch/lz4:=
 	app-arch/zstd:=
-	dev-libs/libaio
 	dev-qt/qtbase:6[concurrent,gui,widgets]
 	dev-qt/qtsvg:6
 	media-libs/freetype
@@ -79,7 +79,10 @@ BDEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.7.4667-flags.patch
 	"${FILESDIR}"/${PN}-1.7.5232-cubeb-automagic.patch
-	"${FILESDIR}"/${PN}-1.7.5700-vanilla-shaderc.patch
+	"${FILESDIR}"/${PN}-1.7.5835-vanilla-shaderc.patch
+	"${FILESDIR}"/${PN}-1.7.5855-no-libbacktrace.patch
+	"${FILESDIR}"/${PN}-1.7.5835-musl-header.patch
+	"${FILESDIR}"/${PN}-1.7.5913-musl-cache.patch
 )
 
 src_prepare() {
@@ -106,6 +109,10 @@ src_configure() {
 		strip-unsupported-flags
 	fi
 
+	# pthread_attr_setaffinity_np is not supported on musl, may be possible
+	# to remove if bundled lzma code is updated like 7zip did (bug #935298)
+	use elibc_musl && append-cppflags -DZ7_AFFINITY_DISABLE
+
 	local mycmakeargs=(
 		-DBUILD_SHARED_LIBS=no
 		-DDISABLE_ADVANCE_SIMD=yes
@@ -121,9 +128,6 @@ src_configure() {
 		# seemingly has no intention to drop the requirement at the moment
 		# https://github.com/PCSX2/pcsx2/issues/11149
 		-DX11_API=yes
-
-		# not packaged due to bug #885471, but still disable for no automagic
-		-DCMAKE_DISABLE_FIND_PACKAGE_Libbacktrace=yes
 
 		# bundled cubeb flags, see media-libs/cubeb and cubeb-automagic.patch
 		-DCHECK_ALSA=$(usex alsa)
