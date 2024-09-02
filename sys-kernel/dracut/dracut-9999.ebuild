@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit bash-completion-r1 edo optfeature systemd toolchain-funcs
+inherit flag-o-matic bash-completion-r1 edo optfeature systemd toolchain-funcs
 
 if [[ ${PV} == 9999 ]] ; then
 	inherit git-r3
@@ -75,6 +75,9 @@ src_configure() {
 		--bashcompletiondir="$(get_bashcompdir)"
 		--systemdsystemunitdir="$(systemd_get_systemunitdir)"
 	)
+
+	# this emulates what the build system would be doing without us
+	append-cflags -D_FILE_OFFSET_BITS=64
 
 	tc-export CC PKG_CONFIG
 
@@ -148,6 +151,10 @@ pkg_postinst() {
 	optfeature \
 		"Enable rngd service to help generating entropy early during boot" \
 		sys-apps/rng-tools
+	optfeature "building Unified Kernel Images with dracut (--uefi)" \
+		"sys-apps/systemd[boot]" "sys-apps/systemd-utils[boot]"
 	optfeature "automatically generating an initramfs on each kernel installation" \
 		"sys-kernel/installkernel[dracut]"
+	optfeature "automatically generating an UKI on each kernel installation" \
+		"sys-kernel/installkernel[dracut,uki]"
 }

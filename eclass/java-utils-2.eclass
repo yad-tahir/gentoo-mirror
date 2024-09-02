@@ -1140,7 +1140,7 @@ java-pkg_jarfrom() {
 # @USAGE: [--build-only] [--runtime-only] [--with-dependencies] <package1>[,<package2>...]
 # @DESCRIPTION:
 # Get the classpath provided by any number of packages
-# Among other things, this can be passed to 'javac -classpath' or 'ant -lib'.
+# Among other things, this can be passed to 'javac -classpath'.
 # The providing packages are recorded as dependencies into package.env DEPEND
 # line, unless "--build-only" is passed as the very first argument, for jars
 # that have to be present only at build time and are not needed on runtime
@@ -1838,7 +1838,7 @@ ejunit_() {
 	local junit=${1}
 	shift 1
 
-	local cp=$(java-pkg_getjars --with-dependencies ${junit}${pkgs})
+	local cp=$(java-pkg_getjars --build-only --with-dependencies ${junit}${pkgs})
 	if [[ ${1} = -cp || ${1} = -classpath ]]; then
 		cp="${2}:${cp}"
 		shift 2
@@ -1926,7 +1926,7 @@ etestng() {
 
 	local runner=org.testng.TestNG
 	if [[ ${PN} != testng ]]; then
-		local cp=$(java-pkg_getjars --with-dependencies testng)
+		local cp=$(java-pkg_getjars --build-only --with-dependencies testng)
 	else
 		local cp=testng.jar
 	fi
@@ -2723,7 +2723,13 @@ java-pkg_build-vm-from-handle() {
 	fi
 
 	for vm in ${JAVA_PKG_WANT_BUILD_VM}; do
-		if java-config-2 --select-vm=${vm} 2>/dev/null; then
+		local java_config
+		for java_config in java-config{,-2}; do
+			type -p ${java_config} >/dev/null && break
+		done
+		[[ -z ${java_config} ]] && die "No java-config binary in PATH"
+
+		if ${java_config} --select-vm=${vm} 2>/dev/null; then
 			echo ${vm}
 			return 0
 		fi

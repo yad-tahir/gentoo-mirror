@@ -18,7 +18,7 @@ IUSE="
 # tst_qmediaplayerbackend hard requires qml, review in case becomes optional
 REQUIRED_USE="
 	|| ( ffmpeg gstreamer )
-	eglfs? ( ffmpeg opengl )
+	eglfs? ( ffmpeg opengl qml )
 	screencast? ( ffmpeg )
 	test? ( qml )
 	vaapi? ( ffmpeg opengl )
@@ -86,10 +86,6 @@ CMAKE_SKIP_TESTS=(
 	# fails with offscreen rendering
 	tst_qvideoframecolormanagement
 	tst_qwindowcapturebackend
-)
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-6.8.0-gst-x11-wayland-detect.patch
 )
 
 src_configure() {
