@@ -17,7 +17,7 @@ S=${WORKDIR}/${MY_P}
 
 LICENSE="Apache-2.0"
 SLOT="9"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 ~arm ~arm64 ~x86 ~amd64-linux ~x86-linux"
 IUSE="extra-webapps"
 
 RESTRICT="test" # can we run them on a production system?
@@ -98,6 +98,7 @@ INIT_REV="-r1"
 
 src_compile() {
 	LC_ALL=C eant
+	use doc && LC_ALL=C eant javadoc
 }
 
 src_test() {

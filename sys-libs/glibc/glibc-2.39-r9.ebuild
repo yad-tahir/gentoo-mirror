@@ -477,6 +477,9 @@ setup_flags() {
 	# #898098
 	filter-flags -fno-builtin
 
+	# #798774
+	filter-flags -fno-semantic-interposition
+
 	# #829583
 	filter-lfs-flags
 
@@ -582,8 +585,10 @@ setup_env() {
 		return 0
 	fi
 
-	# Glibc does not work with gold (for various reasons) #269274.
-	tc-ld-disable-gold
+	# glibc does not work with non-bfd (for various reasons):
+	# * gold (bug #269274)
+	# * mold (bug #860900)
+	tc-ld-force-bfd
 
 	if use doc ; then
 		export MAKEINFO=makeinfo
@@ -1001,7 +1006,7 @@ glibc_do_configure() {
 	# worth protecting from stack smashes.
 	myconf+=( --enable-stack-protector=$(usex ssp strong no) )
 
-	# Keep a whitelist of targets supporing IFUNC. glibc's ./configure
+	# Keep a whitelist of targets supporting IFUNC. glibc's ./configure
 	# is not robust enough to detect proper support:
 	#    https://bugs.gentoo.org/641216
 	#    https://sourceware.org/PR22634#c0
