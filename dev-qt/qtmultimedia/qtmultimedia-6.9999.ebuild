@@ -76,7 +76,9 @@ CMAKE_SKIP_TESTS=(
 	# tries to use real alsa or pulseaudio and fails in sandbox
 	tst_qaudiosink
 	tst_qaudiosource
+	tst_qmediacapture_gstreamer
 	tst_qmediacapturesession
+	tst_qmediaframeinputsbackend
 	tst_qmediaplayerbackend
 	tst_qsoundeffect
 	# may try to use v4l2 or hardware acceleration depending on availability
@@ -90,7 +92,7 @@ CMAKE_SKIP_TESTS=(
 
 src_configure() {
 	# normally passed by the build system, but needed for 32-on-64 chroots
-	use x86 && append-cppflags -DPFFFT_SIMD_DISABLE
+	use x86 && append-cppflags -DDISABLE_SIMD -DPFFFT_SIMD_DISABLE
 
 	local mycmakeargs=(
 		$(cmake_use_find_package qml Qt6Qml)

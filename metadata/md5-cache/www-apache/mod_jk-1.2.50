@@ -6,10 +6,10 @@ EAPI=8
 HOMEPAGE=https://tomcat.apache.org/connectors-doc/
 INHERIT=apache-module autotools verify-sig
 IUSE=verify-sig
-KEYWORDS=~amd64 ~arm ~arm64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86
+KEYWORDS=amd64 ~arm ~arm64 ~hppa ~ppc ~ppc64 ~sparc x86
 LICENSE=Apache-2.0
 RDEPEND=dev-libs/apr:1= =www-servers/apache-2*
 SLOT=0
 SRC_URI=mirror://apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.50-src.tar.gz verify-sig? ( https://downloads.apache.org/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.50-src.tar.gz.asc )
-_eclasses_=apache-module	7a226dc5662c581e506e053b99bb8b31	autotools	d12ccbad07b44642a75ac97a3334d8e0	depend.apache	1d51223a0def226481583990f380519c	gnuconfig	a397adda6984a4c423e28ac274c1ba98	libtool	5f49a16f67f81bdf873e3d1f10b10001	multilib	c19072c3cd7ac5cb21de013f7e9832e0	toolchain-funcs	333970c740aa7b1a92e4fcdc52f612bd	verify-sig	a79ba011daaf532d71a219182474d150
-_md5_=b776a76ff155fd001eca803d87b90b0c
+_eclasses_=apache-module	2778fecd257078e9c921796782f6ede1	autotools	7d91cc798a8afd8f4e0c6e9587296ebe	depend.apache	3b9c533be911d4550c8972e4dfb6434a	gnuconfig	ddeb9f8caff1b5f71a09c75b7534df79	libtool	6b28392a775f807c8be5fc7ec9a605b9	multilib	b2a329026f2e404e9e371097dda47f96	toolchain-funcs	d3d42b22a610ce81c267b644bcec9b87	verify-sig	745dccb7d4656514f1e966cce314d7db
+_md5_=b8b156a5f61c9e771719bbcc74592d76

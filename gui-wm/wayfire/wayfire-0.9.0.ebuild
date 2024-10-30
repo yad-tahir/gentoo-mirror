@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit meson
+inherit meson toolchain-funcs
 
 DESCRIPTION="compiz like 3D wayland compositor"
 HOMEPAGE="https://github.com/WayfireWM/wayfire"
@@ -14,12 +14,12 @@ if [[ ${PV} == 9999 ]]; then
 	SLOT="0/0.10"
 else
 	SRC_URI="https://github.com/WayfireWM/${PN}/releases/download/v${PV}/${P}.tar.xz"
-	KEYWORDS="~amd64 ~arm64 ~riscv"
+	KEYWORDS="amd64 arm64 ~riscv"
 	SLOT="0/$(ver_cut 1-2)"
 fi
 
 LICENSE="MIT"
-IUSE="+dbus +gles3 test X"
+IUSE="X +dbus +gles3 openmp test"
 RESTRICT="!test? ( test )"
 
 # bundled wlroots has the following dependency string according to included headers.
@@ -57,7 +57,21 @@ DEPEND="
 BDEPEND="
 	dev-util/wayland-scanner
 	virtual/pkgconfig
+	openmp? (
+		|| (
+			sys-devel/gcc[openmp]
+			sys-devel/clang-runtime[openmp]
+		)
+	)
 "
+
+pkg_pretend() {
+	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
+}
+
+pkg_setup() {
+	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
+}
 
 src_prepare() {
 	default
@@ -74,6 +88,7 @@ src_configure() {
 		$(meson_feature test tests)
 		$(meson_feature X xwayland)
 		$(meson_use gles3 enable_gles32)
+		$(meson_use openmp enable_openmp)
 		-Duse_system_wfconfig=enabled
 		-Duse_system_wlroots=enabled
 	)

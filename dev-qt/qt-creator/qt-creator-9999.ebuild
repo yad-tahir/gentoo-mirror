@@ -3,7 +3,7 @@
 
 EAPI=8
 
-LLVM_COMPAT=( {15..18} )
+LLVM_COMPAT=( {15..19} )
 LLVM_OPTIONAL=1
 PYTHON_COMPAT=( python3_{10..13} )
 inherit cmake edo flag-o-matic go-env llvm-r1 multiprocessing
@@ -77,6 +77,7 @@ COMMON_DEPEND="
 	tracing? (
 		app-arch/zstd:=
 		dev-libs/elfutils
+		>=dev-qt/qtcharts-${QT_PV}
 		>=dev-qt/qtshadertools-${QT_PV}
 	)
 "
@@ -97,7 +98,7 @@ BDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-11.0.2-musl-no-execinfo.patch
+	"${FILESDIR}"/${PN}-15.0.0-musl-no-execinfo.patch
 	"${FILESDIR}"/${PN}-12.0.0-musl-no-malloc-trim.patch
 )
 
@@ -162,6 +163,7 @@ src_configure() {
 		# to plugins with additional build-time dependencies.
 		-DBUILD_LIBRARY_TRACING=$(usex tracing) # qml+perfprofiler,ctfvisual
 		-DBUILD_EXECUTABLE_PERFPARSER=$(usex tracing)
+		-DBUILD_PLUGIN_APPSTATISTICSMONITOR=$(usex tracing)
 
 		-DBUILD_PLUGIN_CLANGCODEMODEL=$(usex clang)
 		-DBUILD_PLUGIN_CLANGFORMAT=$(usex clang)
@@ -267,6 +269,7 @@ Qt Quick:
 - QmlProfiler (USE=tracing)
 
 Utilities:
+- AppStatisticsMonitor (USE=tracing)
 - Autotest (dev-cpp/catch, dev-cpp/gtest, or dev-libs/boost if used)
 - Conan (dev-util/conan)
 - Docker (app-containers/docker)

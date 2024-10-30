@@ -18,7 +18,7 @@ S=${WORKDIR}/${MY_P}
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~riscv ~x86"
+KEYWORDS="amd64 ~arm ~riscv ~x86"
 IUSE="+man test"
 RESTRICT="!test? ( test )"
 
@@ -56,6 +56,8 @@ src_test() {
 		cmd.cc-gnu-src-cxx-cmd
 		cmd.cc-gnu-c-src-c-E
 		cmd.cc-gnu-c-src-c-cmd
+		cmd.cc-gnu-tgt-i386-opt-E
+		cmd.cc-gnu-c-tgt-i386-opt-E
 	)
 
 	cmake_src_test

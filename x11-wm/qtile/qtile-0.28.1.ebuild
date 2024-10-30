@@ -18,7 +18,7 @@ HOMEPAGE="
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~riscv"
+KEYWORDS="amd64 ~riscv"
 IUSE="pulseaudio wayland"
 
 RDEPEND="
@@ -32,7 +32,7 @@ RDEPEND="
 	x11-libs/pango
 	pulseaudio? (
 		dev-python/pulsectl-asyncio[${PYTHON_USEDEP}]
-		media-sound/pulseaudio
+		media-libs/libpulse
 	)
 	wayland? (
 		>=dev-python/pywayland-0.4.17[${PYTHON_USEDEP}]

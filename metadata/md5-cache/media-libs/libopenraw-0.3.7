@@ -6,11 +6,11 @@ EAPI=8
 HOMEPAGE=https://libopenraw.freedesktop.org/
 INHERIT=autotools cargo gnome2-utils
 IUSE=gtk test debug
-KEYWORDS=~amd64 ~arm ~arm64 ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86 ~amd64-linux ~x86-linux ~x64-macos
+KEYWORDS=amd64 arm arm64 ~loong ~mips ppc ppc64 ~riscv sparc x86 ~amd64-linux ~x86-linux ~x64-macos
 LICENSE=GPL-3 LGPL-3 MPL-2.0
 RDEPEND=dev-libs/libxml2 media-libs/libjpeg-turbo:= gtk? ( dev-libs/glib:2 >=x11-libs/gdk-pixbuf-2.24.0:2 )
 RESTRICT=!test? ( test )
 SLOT=0/9
 SRC_URI=https://libopenraw.freedesktop.org/download/libopenraw-0.3.7.tar.xz
-_eclasses_=autotools	d12ccbad07b44642a75ac97a3334d8e0	cargo	c806360bab90e2b49223df1810172c2b	flag-o-matic	e503ea5acc20410237ba33ec3f7c857d	gnome2-utils	a8cf148ec7f5ae0b1f1d33ae5f7f9e88	gnuconfig	a397adda6984a4c423e28ac274c1ba98	libtool	5f49a16f67f81bdf873e3d1f10b10001	multilib	c19072c3cd7ac5cb21de013f7e9832e0	multiprocessing	30ead54fa2e2b5f9cd4e612ffc34d0fe	rust-toolchain	3f822985d9297438ed2443aa1fbdf33e	toolchain-funcs	333970c740aa7b1a92e4fcdc52f612bd	xdg-utils	baea6080dd821f5562d715887954c9d3
-_md5_=aa287161188470fc6f86d12568f2002f
+_eclasses_=autotools	7d91cc798a8afd8f4e0c6e9587296ebe	cargo	aed68000b8e49b4c4dd13a256149971f	flag-o-matic	f14aba975c94ccaa9f357a27e3b17ffe	gnome2-utils	a8cf148ec7f5ae0b1f1d33ae5f7f9e88	gnuconfig	ddeb9f8caff1b5f71a09c75b7534df79	libtool	6b28392a775f807c8be5fc7ec9a605b9	multilib	b2a329026f2e404e9e371097dda47f96	multiprocessing	1e32df7deee68372153dca65f4a7c21f	rust-toolchain	3f822985d9297438ed2443aa1fbdf33e	toolchain-funcs	d3d42b22a610ce81c267b644bcec9b87	xdg-utils	42869b3c8d86a70ef3cf75165a395e09
+_md5_=46dcae0c51ffa3f289dc2fdb033d70ed

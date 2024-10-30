@@ -69,6 +69,10 @@
       <name>Anthony G. Basile</name>
     </member>
     <member>
+      <email>ceamac@gentoo.org</email>
+      <name>Viorel Munteanu</name>
+    </member>
+    <member>
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
       <role>Release engineering</role>
@@ -118,6 +122,10 @@
       <email>blueness@gentoo.org</email>
       <name>Anthony G. Basile</name>
       <role>Catalyst builds for systemd and musl</role>
+    </member>
+    <member>
+      <email>ceamac@gentoo.org</email>
+      <name>Viorel Munteanu</name>
     </member>
     <member>
       <email>flow@gentoo.org</email>
@@ -647,7 +655,7 @@
     <description>Dist-kernel project maintains packages providing for zero-effort kernel install and upgrades</description>
     <member>
       <email>andrewammerlaan@gentoo.org</email>
-      <name>Andrew Nowa Ammerlaan</name>
+      <name>Nowa Ammerlaan</name>
     </member>
     <member>
       <email>gyakovlev@gentoo.org</email>
@@ -847,10 +855,10 @@
     <name>Gentoo Foundation</name>
     <url>https://wiki.gentoo.org/wiki/Foundation:Main_Page</url>
     <description>The Gentoo Foundation, Inc. provides the legal and financial base for the Gentoo project.</description>
-    <member>
+    <member is-lead="1">
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
-      <role>Board Member, SPI Deputy Liaison</role>
+      <role>Board Member, Officer:President, SPI Deputy Liaison</role>
     </member>
     <member>
       <email>maffblaster@gentoo.org</email>
@@ -862,10 +870,10 @@
       <name>Matthew Thode</name>
       <role>Board Member, Officer:Secretary</role>
     </member>
-    <member is-lead="1">
+    <member>
       <email>robbat2@gentoo.org</email>
       <name>Robin Johnson</name>
-      <role>Board Member, Officer:President, Officer:Treasurer, Officer:Assistant Infra Liaison, SPI Liaison</role>
+      <role>Board Member, Officer:Treasurer, Officer:Assistant Infra Liaison, SPI Liaison</role>
     </member>
     <member>
       <email>soap@gentoo.org</email>
@@ -1025,7 +1033,7 @@
     <description>Ebuild repository entirely maintained by Gentoo users</description>
     <member>
       <email>andrewammerlaan@gentoo.org</email>
-      <name>Andrew Nowa Ammerlaan</name>
+      <name>Nowa Ammerlaan</name>
       <role>Crazy Scientist</role>
     </member>
     <member>
@@ -1295,25 +1303,6 @@
     <member>
       <email>gienah@gentoo.org</email>
       <name>Mark Wright</name>
-    </member>
-  </project>
-  <project>
-    <email>ia64@gentoo.org</email>
-    <name>IA64 Development</name>
-    <url>https://wiki.gentoo.org/wiki/Project:IA64</url>
-    <description>The IA64 Development Project is devoted to keeping Gentoo in good shape on the IA64 architecture.</description>
-    <member>
-      <email>ago@gentoo.org</email>
-      <name>Agostino Sarubbo</name>
-      <role>Security bugs primarily</role>
-    </member>
-    <member>
-      <email>hattya@gentoo.org</email>
-      <name>Akinori Hattori</name>
-    </member>
-    <member>
-      <email>vapier@gentoo.org</email>
-      <name>Mike Frysinger</name>
     </member>
   </project>
   <project>
@@ -2262,22 +2251,22 @@
     <member>
       <email>alicef@gentoo.org</email>
       <name>Arisu Tachibana</name>
-      <role>Mastodon (Admin), Twitter (Admin), Events, Telegram (admin)</role>
+      <role>Mastodon (admin), Twitter (admin), Events, Telegram (admin)</role>
     </member>
     <member>
       <email>dilfridge@gentoo.org</email>
       <name>Andreas K. Hüttel</name>
-      <role>Facebook (admin), Twitter</role>
+      <role>Facebook (admin), Twitter/X, LinkedIn (admin)</role>
     </member>
     <member>
       <email>jstein@gentoo.org</email>
       <name>Jonas Stein</name>
-      <role>Workshops, XMPP</role>
+      <role>Mastodon (admin), Workshops, XMPP</role>
     </member>
     <member is-lead="1">
       <email>maffblaster@gentoo.org</email>
       <name>Matthew Marchese</name>
-      <role>Cafepress store, Mastodon (Admin), X, Telegram (admin)</role>
+      <role>Cafepress store, Mastodon (admin), X, Telegram (admin), LinkedIn (admin)</role>
     </member>
     <member>
       <email>rich0@gentoo.org</email>
@@ -2296,7 +2285,7 @@
     <description>The Python project maintains dev-lang/python and most of dev-python/*.</description>
     <member>
       <email>andrewammerlaan@gentoo.org</email>
-      <name>Andrew Nowa Ammerlaan</name>
+      <name>Nowa Ammerlaan</name>
     </member>
     <member>
       <email>arkamar@gentoo.org</email>
@@ -2525,12 +2514,17 @@
     <member>
       <email>bkohler@gentoo.org</email>
       <name>Ben Kohler</name>
-      <role>Autobuild bug fixer</role>
+      <role>Autobuild bug fixer, Catalyst developer</role>
     </member>
     <member>
       <email>blueness@gentoo.org</email>
       <name>Anthony G. Basile</name>
       <role>hardened / musl</role>
+    </member>
+    <member>
+      <email>chewi@gentoo.org</email>
+      <name>James Le Cuirot</name>
+      <role>Catalyst developer</role>
     </member>
     <member>
       <email>dilfridge@gentoo.org</email>
@@ -2545,6 +2539,7 @@
     <member>
       <email>mattst88@gentoo.org</email>
       <name>Matt Turner</name>
+      <role>Catalyst developer</role>
     </member>
     <member>
       <email>robbat2@gentoo.org</email>
@@ -2794,7 +2789,7 @@
     </member>
     <member>
       <email>andrewammerlaan@gentoo.org</email>
-      <name>Andrew Nowa Ammerlaan</name>
+      <name>Nowa Ammerlaan</name>
       <role>Physics, Electronics</role>
     </member>
     <member>
@@ -3223,6 +3218,22 @@
     </member>
   </project>
   <project>
+    <email>vulkan@gentoo.org</email>
+    <name>Vulkan</name>
+    <url>https://wiki.gentoo.org/wiki/Project:Vulkan</url>
+    <description>The Gentoo Vulkan Project maintains packages related to the [https://en.wikipedia.org/wiki/Vulkan Vulkan API].</description>
+    <member>
+      <email>mattst88@gentoo.org</email>
+      <name>Matt Turner</name>
+      <role>Member</role>
+    </member>
+    <member>
+      <email>sarnex@gentoo.org</email>
+      <name>Nick Sarnie</name>
+      <role>Member</role>
+    </member>
+  </project>
+  <project>
     <email>www@gentoo.org</email>
     <name>Website maintainers</name>
     <url>https://wiki.gentoo.org/wiki/Project:Website</url>
@@ -3306,6 +3317,7 @@
     <name>X11 Project</name>
     <url>https://wiki.gentoo.org/wiki/Project:X11</url>
     <description>The X11 project manages the X implementations and related packages in Portage.</description>
+    <subproject ref="vulkan@gentoo.org"/>
     <member is-lead="1">
       <email>mattst88@gentoo.org</email>
       <name>Matt Turner</name>

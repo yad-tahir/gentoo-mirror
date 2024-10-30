@@ -3,5 +3,5 @@
 
 # This file contains descriptions of GUILE_TARGETS USE_EXPAND flags.
 
-2-2 - Build only for GNU Guile 2.2
-3-0 - Build only for GNU Guile 3.0
+2-2 - Build with GNU Guile 2.2
+3-0 - Build with GNU Guile 3.0
