@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{11..12} )
+PYTHON_COMPAT=( python3_{11..13} )
 inherit distutils-r1 git-r3 optfeature shell-completion
 
 DESCRIPTION="Python based initramfs generator with TOML defintions"
@@ -51,6 +51,8 @@ pkg_postinst() {
 	optfeature "ugrd.fs.btrfs support" sys-fs/btrfs-progs
 	optfeature "ugrd.crypto.gpg support" app-crypt/gnupg
 	optfeature "ugrd.fs.lvm support" sys-fs/lvm2[lvm]
+	optfeature "ugrd.fs.mdraid support" sys-fs/mdadm
+	optfeature "ugrd.base.plymouth support" sys-boot/plymouth
 }
 
 distutils_enable_tests unittest

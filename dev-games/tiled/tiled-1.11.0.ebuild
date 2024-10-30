@@ -12,7 +12,7 @@ SRC_URI="https://github.com/mapeditor/tiled/archive/v${PV}/${P}.tar.gz"
 
 LICENSE="BSD BSD-2 GPL-2+"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE="minimal python"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
@@ -49,7 +49,6 @@ qbs_format_flags() {
 
 src_configure() {
 	if use python; then
-		eapply "${FILESDIR}"/${P}-python.patch
 		QBS_PRODUCTS="${QBS_PRODUCTS},python"
 	fi
 	if ! use minimal; then

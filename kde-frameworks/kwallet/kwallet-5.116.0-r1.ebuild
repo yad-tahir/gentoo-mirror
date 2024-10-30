@@ -10,7 +10,7 @@ inherit ecm frameworks.kde.org optfeature
 DESCRIPTION="Framework providing desktop-wide storage for passwords"
 
 LICENSE="LGPL-2+"
-KEYWORDS="amd64 ~arm arm64 ~loong ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm arm64 ~loong ppc64 ~riscv ~x86"
 IUSE="gpg kf6compat +man"
 
 DEPEND="
@@ -52,8 +52,8 @@ src_configure() {
 
 pkg_postinst() {
 	if [[ -z "${REPLACING_VERSIONS}" ]]; then
-		optfeature "Auto-unlocking after account login" "kde-plasma/kwallet-pam:5"
-		optfeature "KWallet management" "kde-apps/kwalletmanager:5"
+		optfeature "Auto-unlocking after Plasma login" "kde-plasma/kwallet-pam"
+		optfeature "KWallet management" "kde-apps/kwalletmanager"
 		elog "For more information, read https://wiki.gentoo.org/wiki/KDE#KWallet"
 	fi
 	ecm_pkg_postinst

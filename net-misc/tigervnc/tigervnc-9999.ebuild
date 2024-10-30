@@ -18,7 +18,7 @@ if [[ ${PV} == *9999 ]]; then
 	EGIT_REPO_URI="https://github.com/TigerVNC/tigervnc/"
 else
 	SRC_URI+=" https://github.com/TigerVNC/tigervnc/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86"
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86"
 fi
 
 LICENSE="GPL-2"
@@ -47,6 +47,7 @@ COMMON_DEPEND="
 		dev-libs/openssl:0=
 		sys-libs/pam
 		x11-libs/libXau
+		x11-libs/libxcvt
 		x11-libs/libXdamage
 		x11-libs/libXdmcp
 		x11-libs/libXfixes
@@ -58,6 +59,10 @@ COMMON_DEPEND="
 		x11-apps/xkbcomp
 		x11-apps/xsetroot
 		x11-misc/xkeyboard-config
+		dri3? (
+			media-libs/mesa[opengl]
+			x11-libs/libxshmfence
+		)
 		opengl? ( media-libs/libglvnd[X] )
 		!net-misc/turbovnc[server]
 	)
@@ -79,7 +84,6 @@ DEPEND="${COMMON_DEPEND}
 	server? (
 		media-fonts/font-util
 		x11-base/xorg-proto
-		x11-libs/libxcvt
 		x11-libs/libXi
 		x11-libs/libxkbfile
 		x11-libs/libXrender
@@ -98,6 +102,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-1.11.0-install-java-viewer.patch
 	"${FILESDIR}"/${PN}-1.14.0-xsession-path.patch
 	"${FILESDIR}"/${PN}-1.12.80-disable-server-and-pam.patch
+	"${FILESDIR}"/${PN}-1.14.1-pam.patch
 )
 
 src_unpack() {
