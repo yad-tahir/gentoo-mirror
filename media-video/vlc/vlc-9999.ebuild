@@ -57,6 +57,7 @@ REQUIRED_USE="
 "
 BDEPEND="
 	>=sys-devel/gettext-0.19.8
+	sys-devel/flex
 	virtual/pkgconfig
 	lua? ( ${LUA_DEPS} )
 	amd64? ( dev-lang/yasm )
@@ -192,7 +193,7 @@ RDEPEND="
 		gnome-base/librsvg:2
 		x11-libs/cairo
 	)
-	taglib? ( >=media-libs/taglib-1.9 )
+	taglib? ( media-libs/taglib:= )
 	theora? ( media-libs/libtheora )
 	tremor? ( media-libs/tremor )
 	truetype? (
@@ -282,6 +283,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# bug #944778
+	unset LEX
+
 	local -x BUILDCC="$(tc-getBUILD_CC)"
 
 	local myeconfargs=(

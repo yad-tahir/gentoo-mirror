@@ -3,6 +3,8 @@
 
 EAPI=8
 
+inherit autotools edos2unix
+
 DESCRIPTION="Epson Inkjet Printer Driver (ESC/P-R)"
 HOMEPAGE="https://download.ebz.epson.net/dsc/search/01/search/?OSC=LX"
 
@@ -12,7 +14,7 @@ SRC_URI="https://download3.ebz.epson.net/dsc/f/03/00/16/21/81/74d098a47c3a616713
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc64"
+KEYWORDS="amd64 ppc64"
 
 DEPEND="net-print/cups"
 RDEPEND="${DEPEND}"
@@ -22,6 +24,16 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.7.7-fnocommon.patch"
 	"${FILESDIR}/${PN}-1.8-missing-include.patch"
 )
+
+src_prepare() {
+	local f
+	for f in $(find ./ -type f || die); do
+		edos2unix "${f}"
+	done
+
+	eautoreconf
+	default
+}
 
 src_configure() {
 	econf --disable-shared

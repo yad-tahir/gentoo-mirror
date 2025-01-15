@@ -180,6 +180,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.22.0-nvcodec.patch
 	"${FILESDIR}"/${PN}-find-npm.patch
 	"${FILESDIR}"/${PN}-miniupnpc.patch
+	"${FILESDIR}"/${PN}-boost-1.86.patch
+	"${FILESDIR}"/${PN}-boost-1.87.patch
 )
 
 # Make this mess a bit simpler.
