@@ -10,11 +10,11 @@ inherit distutils-r1
 
 DESCRIPTION="CLI for SQLite with auto-completion and syntax highlighting"
 HOMEPAGE="https://litecli.com/ https://github.com/dbcli/litecli"
-SRC_URI="https://github.com/dbcli/litecli/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/dbcli/litecli/archive/v${PV}.tar.gz -> ${P}.gh.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 
 RDEPEND="
 	>=dev-python/click-4.1[${PYTHON_USEDEP}]

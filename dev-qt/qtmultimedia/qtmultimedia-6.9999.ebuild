@@ -1,4 +1,4 @@
-# Copyright 2021-2024 Gentoo Authors
+# Copyright 2021-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -79,9 +79,11 @@ CMAKE_SKIP_TESTS=(
 	tst_qmediacapture_gstreamer
 	tst_qmediacapturesession
 	tst_qmediaframeinputsbackend
+	tst_qmediaplayer_gstreamer
 	tst_qmediaplayerbackend
 	tst_qsoundeffect
 	# may try to use v4l2 or hardware acceleration depending on availability
+	tst_qmediarecorderbackend
 	tst_qscreencapture_integration
 	tst_qscreencapturebackend
 	tst_qvideoframebackend
@@ -90,7 +92,15 @@ CMAKE_SKIP_TESTS=(
 	tst_qwindowcapturebackend
 )
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-6.7.3-eigen-ppc-no-vsx.patch
+	"${FILESDIR}"/${PN}-6.8.1-qversionnumber.patch
+)
+
 src_configure() {
+	# eigen + ppc32 seems broken w/ -maltivec (forced by Qt, bug #943402)
+	use ppc && append-cppflags -DEIGEN_DONT_VECTORIZE
+
 	# normally passed by the build system, but needed for 32-on-64 chroots
 	use x86 && append-cppflags -DDISABLE_SIMD -DPFFFT_SIMD_DISABLE
 
@@ -109,7 +119,6 @@ src_configure() {
 		$(qt_feature screencast pipewire)
 		$(qt_feature v4l linux_v4l)
 		$(qt_feature vaapi)
-		-DQT_UNITY_BUILD=OFF # currently fails to build with
 	)
 
 	# ALSA backend is experimental off-by-default and can take priority

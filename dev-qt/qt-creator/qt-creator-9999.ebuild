@@ -1,4 +1,4 @@
-# Copyright 2023-2024 Gentoo Authors
+# Copyright 2023-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -6,7 +6,7 @@ EAPI=8
 LLVM_COMPAT=( {15..19} )
 LLVM_OPTIONAL=1
 PYTHON_COMPAT=( python3_{10..13} )
-inherit cmake edo flag-o-matic go-env llvm-r1 multiprocessing
+inherit cmake edo flag-o-matic go-env llvm-r2 multiprocessing
 inherit python-any-r1 readme.gentoo-r1 xdg
 
 if [[ ${PV} == 9999 ]]; then
@@ -26,7 +26,7 @@ else
 	[[ ${QTC_PV} == ${PV} ]] && QTC_REL=official || QTC_REL=development
 	SRC_URI="
 		https://download.qt.io/${QTC_REL}_releases/qtcreator/$(ver_cut 1-2)/${PV/_/-}/${QTC_P}.tar.xz
-		https://dev.gentoo.org/~ionen/distfiles/${P}-vendor.tar.xz
+		cmdbridge-server? ( https://dev.gentoo.org/~ionen/distfiles/${QTC_P}-vendor.tar.xz )
 	"
 	S=${WORKDIR}/${QTC_P}
 	KEYWORDS="~amd64"
@@ -39,8 +39,8 @@ LICENSE="GPL-3"
 LICENSE+=" BSD MIT" # go
 SLOT="0"
 IUSE="
-	+clang designer doc +help keyring plugin-dev qmldesigner
-	serialterminal +svg test +tracing webengine
+	+clang cmdbridge-server designer doc +help keyring plugin-dev
+	qmldesigner serialterminal +svg test +tracing webengine
 "
 REQUIRED_USE="clang? ( ${LLVM_REQUIRED_USE} )"
 RESTRICT="!test? ( test )"
@@ -55,8 +55,8 @@ COMMON_DEPEND="
 	>=dev-qt/qtdeclarative-${QT_PV}=
 	clang? (
 		$(llvm_gen_dep '
-			sys-devel/clang:${LLVM_SLOT}=
-			sys-devel/llvm:${LLVM_SLOT}=
+			llvm-core/clang:${LLVM_SLOT}=
+			llvm-core/llvm:${LLVM_SLOT}=
 		')
 	)
 	designer? ( >=dev-qt/qttools-${QT_PV}[designer] )
@@ -92,8 +92,8 @@ DEPEND="${COMMON_DEPEND}"
 # worth a massive rebuild every time for the minor go usage
 BDEPEND="
 	${PYTHON_DEPS}
-	>=dev-lang/go-1.21.7
 	>=dev-qt/qttools-${QT_PV}[linguist]
+	cmdbridge-server? ( >=dev-lang/go-1.21.7 )
 	doc? ( >=dev-qt/qttools-${QT_PV}[qdoc,qtattributionsscanner] )
 "
 
@@ -104,16 +104,13 @@ PATCHES=(
 
 QA_FLAGS_IGNORED="usr/libexec/qtcreator/cmdbridge-.*" # written in Go
 
-pkg_setup() {
-	python-any-r1_pkg_setup
-	use clang && llvm-r1_pkg_setup
-}
-
 src_unpack() {
 	if [[ ${PV} == 9999 ]]; then
 		git-r3_src_unpack
-		cd "${S}/src/libs/gocmdbridge/server" || die
-		edo go mod vendor
+		if use cmdbridge-server; then
+			cd -- "${S}"/src/libs/gocmdbridge/server || die
+			edo go mod vendor
+		fi
 	else
 		default
 	fi
@@ -126,6 +123,9 @@ src_prepare() {
 	sed -e "/_IDE_DOC_PATH/s/qtcreator/${PF}/" \
 		-i cmake/QtCreatorAPIInternal.cmake || die
 
+	# avoid stripping for Go, use sed to avoid rebases as may be there forever
+	sed -i 's/-s -w //' src/libs/gocmdbridge/server/CMakeLists.txt || die
+
 	if use plugin-dev; then #928423
 		# cmake --install --component integrates poorly with the cmake
 		# eclass and the install targets are otherwise missing, so strip
@@ -136,8 +136,12 @@ src_prepare() {
 }
 
 src_configure() {
-	go-env_set_compile_environment
-	local -x GOFLAGS="-p=$(makeopts_jobs) -v -x -buildvcs=false -buildmode=pie"
+	use clang && llvm_chost_setup
+
+	if use cmdbridge-server; then
+		go-env_set_compile_environment
+		export GOFLAGS="-p=$(makeopts_jobs) -v -x -buildvcs=false -buildmode=pie"
+	fi
 
 	# -Werror=lto-type-mismatch issues, needs looking into
 	filter-lto
@@ -181,9 +185,8 @@ src_configure() {
 		$(use help && usev !webengine -DCMAKE_DISABLE_FIND_PACKAGE_litehtml=yes)
 
 		-DBUILD_PLUGIN_SERIALTERMINAL=$(usex serialterminal)
-
 		-DENABLE_SVG_SUPPORT=$(usex svg)
-
+		$(usev !cmdbridge-server -DGO_BIN=GO_BIN-NOTFOUND) #945925
 		-DWITH_QMLDESIGNER=$(usex qmldesigner)
 
 		# meant to be in sync with qtbase[journald], but think(?) not worth

@@ -21,24 +21,19 @@ SRC_URI="
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~riscv ~x86"
+KEYWORDS="amd64 ~riscv x86"
 
 BDEPEND="
 	test? (
 		app-arch/brotli[${PYTHON_USEDEP},python]
 		>=dev-python/execnet-1.0.9[${PYTHON_USEDEP}]
-		dev-python/jinja[${PYTHON_USEDEP}]
+		dev-python/jinja2[${PYTHON_USEDEP}]
 		dev-python/pip[${PYTHON_USEDEP}]
 		dev-python/pytest-rerunfailures[${PYTHON_USEDEP}]
 		dev-python/pyzmq[${PYTHON_USEDEP}]
 		>=dev-python/sqlalchemy-1.4[${PYTHON_USEDEP}]
 	)
 "
-RDEPEND="
-	!!dev-python/contextvars
-	!!dev-python/gevent
-"
-
 distutils_enable_tests pytest
 distutils_enable_sphinx docs
 

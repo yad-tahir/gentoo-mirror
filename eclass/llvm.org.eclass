@@ -1,4 +1,4 @@
-# Copyright 2019-2024 Gentoo Authors
+# Copyright 2019-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: llvm.org.eclass
@@ -72,17 +72,14 @@ if [[ -z ${_LLVM_SOURCE_TYPE+1} ]]; then
 			_LLVM_SOURCE_TYPE=snapshot
 
 			case ${PV} in
-				20.0.0_pre20241029)
-					EGIT_COMMIT=3f4468faaa9525ad615118675c3c68938f4a8d5f
+				20.0.0_pre20250111)
+					EGIT_COMMIT=8af4d206e0f979f68925a08f9dffd60a98ce97e2
 					;;
-				20.0.0_pre20241023)
-					EGIT_COMMIT=0cb80c4f00689ca00a85e1f38bc6ae9dd0bf980e
+				20.0.0_pre20250104)
+					EGIT_COMMIT=2529a8df53af9bc6cecfd6c83404ffa5e89e3370
 					;;
-				20.0.0_pre20241015)
-					EGIT_COMMIT=9aef0fd52a0b2bf31cf3bae8a0693d6df8db6e04
-					;;
-				20.0.0_pre20241009)
-					EGIT_COMMIT=fb2960aad93f6c02e0ea8de0568c0aef8896eee8
+				20.0.0_pre20241227)
+					EGIT_COMMIT=ccfe0de0e1e37ed369c9bf89dd0188ba0afb2e9a
 					;;
 				*)
 					die "Unknown snapshot: ${PV}"
@@ -146,7 +143,7 @@ fi
 #   and REQUIRED_USE will be added but no dependencies.
 #
 # - llvm - this package uses targets from LLVM.  RDEPEND+DEPEND
-#   on matching sys-devel/llvm versions with requested flags will
+#   on matching llvm-core/llvm versions with requested flags will
 #   be added.
 #
 # Note that you still need to pass enabled targets to the build system,
@@ -336,7 +333,7 @@ llvm.org_set_globals() {
 			local dep=
 			for x in "${ALL_LLVM_TARGET_FLAGS[@]}"; do
 				dep+="
-					${x}? ( ~sys-devel/llvm-${PV}[${x}] )"
+					${x}? ( ~llvm-core/llvm-${PV}[${x}] )"
 			done
 			RDEPEND+=" ${dep}"
 			DEPEND+=" ${dep}"

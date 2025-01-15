@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -23,7 +23,7 @@ SRC_URI="
 
 LICENSE="LGPL-3"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~m68k ppc ppc64 ~riscv ~s390 ~sparc x86 ~amd64-linux ~x86-linux ~arm64-macos ~x64-macos"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~loong ~m68k ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux ~arm64-macos ~x64-macos"
 IUSE="drafts"
 
 # There are additional test failures if zeromq has the draft api enabled, but pyzmq has it disabled.
@@ -56,6 +56,9 @@ distutils_enable_tests pytest
 src_configure() {
 	DISTUTILS_ARGS=(
 		-DZMQ_DRAFT_API="$(usex drafts)"
+		-DPYZMQ_NO_BUNDLE=ON
+		# unnecessarily adds /usr/lib* to rpath
+		-DPYZMQ_LIBZMQ_RPATH=OFF
 	)
 }
 

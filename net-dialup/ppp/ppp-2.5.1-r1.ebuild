@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit linux-info pam tmpfiles
+inherit flag-o-matic linux-info pam tmpfiles
 
 DESCRIPTION="Point-to-Point Protocol (PPP)"
 HOMEPAGE="https://ppp.samba.org/"
@@ -70,6 +70,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# https://bugs.gentoo.org/943931
+	append-cflags -std=gnu17
+
 	local args=(
 		--localstatedir="${EPREFIX}"/var
 		--runstatedir="${EPREFIX}"/run

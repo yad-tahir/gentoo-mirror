@@ -33,7 +33,7 @@ SRC_URI="
 
 LICENSE="GPL-2+ SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ppc64 ~riscv ~x86"
 IUSE="debug deep-sky doc gps +lens-distortion libcxx media nls qt6 +scripting +show-my-sky stars telescope test webengine +xlsx"
 
 # Python interpreter is used while building RemoteControl plugin
@@ -77,7 +77,7 @@ RDEPEND="
 		scripting? ( dev-qt/qtscript:5 )
 		telescope? ( dev-qt/qtserialport:5 )
 		webengine? ( dev-qt/qtwebengine:5[widgets] )
-		xlsx? ( dev-libs/qxlsx:=[qt5] )
+		xlsx? ( dev-libs/qxlsx:=[qt5(-)] )
 	)
 	qt6? (
 		dev-qt/qtbase:6=[concurrent,gui,network,widgets]
@@ -93,7 +93,7 @@ RDEPEND="
 		scripting? ( dev-qt/qtdeclarative:6 )
 		telescope? ( dev-qt/qtserialport:6 )
 		webengine? ( dev-qt/qtwebengine:6[widgets] )
-		xlsx? ( dev-libs/qxlsx:=[qt6] )
+		xlsx? ( dev-libs/qxlsx:=[qt6(+)] )
 	)
 "
 DEPEND="${RDEPEND}

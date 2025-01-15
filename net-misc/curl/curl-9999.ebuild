@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -106,13 +106,13 @@ RDEPEND="
 		)
 		mbedtls? (
 			app-misc/ca-certificates
-			net-libs/mbedtls:=[${MULTILIB_USEDEP}]
+			net-libs/mbedtls:0=[${MULTILIB_USEDEP}]
 		)
 		openssl? (
 			>=dev-libs/openssl-0.9.7:=[sslv3(-)=,static-libs?,${MULTILIB_USEDEP}]
 		)
 		rustls? (
-			>=net-libs/rustls-ffi-0.13.0:=[${MULTILIB_USEDEP}]
+			>=net-libs/rustls-ffi-0.14.0:=[${MULTILIB_USEDEP}]
 		)
 	)
 	zstd? ( app-arch/zstd:=[${MULTILIB_USEDEP}] )
@@ -156,8 +156,8 @@ QA_CONFIG_IMPL_DECL_SKIP=(
 )
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-prefix-2.patch
-	"${FILESDIR}"/${PN}-respect-cflags-3.patch
+	"${FILESDIR}/${PN}-prefix-3.patch"
+	"${FILESDIR}/${PN}-respect-cflags-3.patch"
 )
 
 src_prepare() {
