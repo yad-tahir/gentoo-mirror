@@ -1,4 +1,4 @@
-# Copyright 2000-2024 Gentoo Authors
+# Copyright 2000-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -102,7 +102,7 @@ RDEPEND="
 	)
 	faad? ( media-libs/faad2 )
 	fdk? ( media-libs/fdk-aac:= )
-	ffmpeg? ( >=media-video/ffmpeg-3.1.3:=[postproc,vaapi?,vdpau?] )
+	ffmpeg? ( >=media-video/ffmpeg-3.1.3:=[postproc(-),vaapi?,vdpau?] )
 	flac? (
 		media-libs/flac:=
 		media-libs/libogg
@@ -194,7 +194,7 @@ RDEPEND="
 		x11-libs/cairo
 	)
 	taglib? ( media-libs/taglib:= )
-	theora? ( media-libs/libtheora )
+	theora? ( media-libs/libtheora:= )
 	tremor? ( media-libs/tremor )
 	truetype? (
 		media-libs/freetype:2
@@ -223,7 +223,7 @@ RDEPEND="
 	)
 	x264? ( >=media-libs/x264-0.0.20190214:= )
 	x265? ( media-libs/x265:= )
-	xml? ( dev-libs/libxml2:2 )
+	xml? ( dev-libs/libxml2:2= )
 	zeroconf? ( net-dns/avahi[dbus] )
 	zvbi? ( media-libs/zvbi )
 "
@@ -289,6 +289,7 @@ src_configure() {
 	local -x BUILDCC="$(tc-getBUILD_CC)"
 
 	local myeconfargs=(
+		--disable-amf-frc # DirectX specific
 		--disable-optimizations
 		--disable-rpath
 		--disable-update-check

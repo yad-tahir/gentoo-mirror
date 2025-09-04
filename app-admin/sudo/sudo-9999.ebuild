@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit flag-o-matic pam tmpfiles toolchain-funcs
+inherit pam tmpfiles toolchain-funcs
 
 MY_P="${P/_/}"
 MY_P="${MY_P/beta/b}"
@@ -12,8 +12,11 @@ DESCRIPTION="Allows users or groups to run commands as other users"
 HOMEPAGE="https://www.sudo.ws/"
 
 if [[ ${PV} == 9999 ]] ; then
-	inherit autotools mercurial
-	EHG_REPO_URI="https://www.sudo.ws/repos/sudo"
+	EGIT_REPO_URI="
+		https://github.com/sudo-project/sudo
+		https://git.sudo.ws/sudo
+	"
+	inherit autotools git-r3
 else
 	VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/sudo.ws.asc
 	inherit libtool verify-sig
@@ -25,10 +28,8 @@ else
 
 	SRC_URI="
 		https://www.sudo.ws/sudo/dist/${uri_prefix}${MY_P}.tar.gz
-		ftp://ftp.sudo.ws/pub/sudo/${uri_prefix}${MY_P}.tar.gz
 		verify-sig? (
 			https://www.sudo.ws/sudo/dist/${uri_prefix}${MY_P}.tar.gz.sig
-			ftp://ftp.sudo.ws/pub/sudo/${uri_prefix}${MY_P}.tar.gz.sig
 		)
 	"
 
@@ -147,9 +148,6 @@ src_configure() {
 
 	# bug #767712
 	tc-export PKG_CONFIG
-
-	# https://github.com/sudo-project/sudo/issues/420
-	append-cflags -std=gnu17
 
 	# - audit: somebody got to explain me how I can test this before I
 	# enable it.. - Diego

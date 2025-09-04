@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Joonas Niilola <juippis@gentoo.org> (2023-08-24)
@@ -13,7 +13,7 @@ app-portage/nattka -depgraph-order
 # Michał Górny <mgorny@gentoo.org> (2021-12-31)
 # Don't apply stable masks to python-exec since we're forcing every
 # impl there anyway. Please keep this in sync with use.stable.mask.
-dev-lang/python-exec -python_targets_pypy3
+dev-lang/python-exec -python_targets_pypy3_11
 
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2021-07-27)
 # deps not keyworded
@@ -30,10 +30,6 @@ gnome-base/gnome -classic -extras
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2021-06-06)
 # deps not keyworded
 net-analyzer/netdata mongodb
-
-# Michał Górny <mgorny@gentoo.org> (2021-03-06)
-# LLVM 9 has been removed.
-dev-util/perf clang
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2021-01-19)
 # dev-java/openjdk:11 is not keyworded

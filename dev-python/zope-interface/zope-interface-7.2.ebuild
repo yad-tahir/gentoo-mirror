@@ -7,7 +7,7 @@ DISTUTILS_EXT=1
 DISTUTILS_USE_PEP517=setuptools
 PYPI_PN=${PN/-/.}
 PYPI_NO_NORMALIZE=1
-PYTHON_COMPAT=( python3_{10..13} pypy3 )
+PYTHON_COMPAT=( python3_{11..14} pypy3_11 )
 
 inherit distutils-r1 pypi
 
@@ -19,8 +19,9 @@ HOMEPAGE="
 
 LICENSE="ZPL"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
-IUSE="+native-extensions"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
+IUSE="+native-extensions test"
+RESTRICT="!test? ( test )"
 
 BDEPEND="
 	test? (
@@ -50,7 +51,7 @@ python_compile() {
 
 python_test() {
 	local -x PURE_PYTHON=0
-	if ! use native-extensions || [[ ${EPYTHON} == pypy3 ]]; then
+	if ! use native-extensions || [[ ${EPYTHON} == pypy3* ]]; then
 		PURE_PYTHON=1
 	fi
 

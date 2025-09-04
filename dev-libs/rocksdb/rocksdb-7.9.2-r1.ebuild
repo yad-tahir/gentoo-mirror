@@ -1,4 +1,4 @@
-# Copyright 2020-2024 Gentoo Authors
+# Copyright 2020-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -32,6 +32,7 @@ RDEPEND="${DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}"/${P}-gcc-13.patch
+	"${FILESDIR}/rocksdb-10.1-fixincludes.patch"
 )
 
 src_prepare() {
@@ -76,4 +77,14 @@ src_install() {
 	if ! use static-libs; then
 		rm "${ED}"/usr/$(get_libdir)/*.a || die
 	fi
+}
+
+src_test() {
+	CMAKE_SKIP_TESTS=(
+		OptionsSettableTest.ColumnFamilyOptionsAllFieldsSettable
+		# skip tests that don't work on tmpfs, bugs 942984, 948931
+		EnvPosixTest
+		FilePrefetchBufferTest
+	)
+	cmake_src_test
 }

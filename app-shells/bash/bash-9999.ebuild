@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -26,11 +26,12 @@ case ${PV} in
 		;;
 	*)
 		PLEVEL=0
+		;;
 esac
 
 # The version of readline this bash normally ships with. Note that we only use
 # the bundled copy of readline for pre-releases.
-READLINE_VER="8.3_alpha"
+READLINE_VER="8.3"
 
 DESCRIPTION="The standard GNU Bourne again shell"
 HOMEPAGE="https://tiswww.case.edu/php/chet/bash/bashtop.html https://git.savannah.gnu.org/cgit/bash.git"
@@ -45,18 +46,18 @@ elif (( PLEVEL < 0 )) && [[ ${PV} == *_p* ]] ; then
 	# the alpha, and the next pre-release is usually quite far away.
 	#
 	# i.e. if it's worth packaging the alpha, it's worth packaging a followup.
-	BASH_COMMIT="d3e86e66ce857a8dc02e3116fd98b6e5b34d6364"
-	SRC_URI="https://git.savannah.gnu.org/cgit/bash.git/snapshot/bash-${BASH_COMMIT}.tar.xz -> ${P}-${BASH_COMMIT}.tar.xz"
+	BASH_COMMIT="b35866a2891a9b069e37ca5684d4309c0391e261"
+	SRC_URI="https://git.savannah.gnu.org/cgit/bash.git/snapshot/bash-${BASH_COMMIT}.tar.gz -> ${P}-${BASH_COMMIT}.tar.gz"
 	S=${WORKDIR}/${PN}-${BASH_COMMIT}
 else
-	my_urls=( {'mirror://gnu/bash','ftp://ftp.cwru.edu/pub/bash'}/"${MY_P}.tar.gz" )
+	my_urls=( "mirror://gnu/bash/${MY_P}.tar.gz" )
 
 	# bash-5.1 -> bash51
 	my_p=${PN}$(ver_cut 1-2) my_p=${my_p/.}
 
 	for (( my_patch_idx = 1; my_patch_idx <= PLEVEL; my_patch_idx++ )); do
 		printf -v my_patch_ver %s-%03d "${my_p}" "${my_patch_idx}"
-		my_urls+=( {'mirror://gnu/bash','ftp://ftp.cwru.edu/pub/bash'}/"${MY_P}-patches/${my_patch_ver}" )
+		my_urls+=( "mirror://gnu/bash/${MY_P}-patches/${my_patch_ver}" )
 		MY_PATCHES+=( "${DISTDIR}/${my_patch_ver}" )
 	done
 
@@ -145,15 +146,6 @@ src_prepare() {
 	# Include official patches.
 	(( PLEVEL > 0 )) && eapply -p0 "${MY_PATCHES[@]}"
 
-	# Clean out local libs so we know we use system ones w/releases. The
-	# touch utility is invoked for the benefit of config.status.
-	if (( PLEVEL >= 0 )); then
-		rm -rf lib/{readline,termcap}/* \
-		&& touch lib/{readline,termcap}/Makefile.in \
-		&& sed -i -E 's:\$[{(](RL|HIST)_LIBSRC[)}]/[[:alpha:]_-]*\.h::g' Makefile.in \
-		|| die
-	fi
-
 	# Prefixify hardcoded path names. No-op for non-prefix.
 	hprefixify pathnames.h.in
 
@@ -175,13 +167,15 @@ src_configure() {
 	# Upstream only test with Bison and require GNUisms like YYEOF and
 	# YYERRCODE. The former at least may be in POSIX soon:
 	# https://www.austingroupbugs.net/view.php?id=1269.
+	#
 	# configure warns on use of non-Bison but doesn't abort. The result
-	# may misbehave at runtime.
+	# may misbehave at runtime. Chet also advises against use of byacc:
+	# https://lists.gnu.org/archive/html/bug-bash/2025-08/msg00115.html
 	unset -v YACC
 
-	# wcsnwidth(), substring() issues with -Wlto-type-mismatch, reported
-	# upstream to Chet by email.
-	filter-lto
+	if tc-is-cross-compiler; then
+		export CFLAGS_FOR_BUILD="${BUILD_CFLAGS} -std=gnu17"
+	fi
 
 	myconf=(
 		--disable-profiling
@@ -316,18 +310,18 @@ src_install() {
 
 	insinto /etc/bash
 	doins "${FILESDIR}"/bash_logout
-	my_prefixify bashrc.d "${FILESDIR}"/bashrc-r1 | newins - bashrc
+	my_prefixify bashrc.d "${FILESDIR}"/bashrc-r2 | newins - bashrc
 
 	insinto /etc/bash/bashrc.d
-	my_prefixify DIR_COLORS "${FILESDIR}"/bashrc.d/10-gentoo-color.bash | newins - 10-gentoo-color.bash
-	newins "${FILESDIR}"/bashrc.d/10-gentoo-title-r1.bash 10-gentoo-title.bash
-	if [[ ! ${EPREFIX} ]]; then
-		doins "${FILESDIR}"/bashrc.d/15-gentoo-bashrc-check.bash
-	fi
+	my_prefixify DIR_COLORS "${FILESDIR}"/bashrc.d/10-gentoo-color-r2.bash | newins - 10-gentoo-color.bash
+	newins "${FILESDIR}"/bashrc.d/10-gentoo-title-r2.bash 10-gentoo-title.bash
+
+	insinto /etc/profile.d
+	doins "${FILESDIR}/profile.d/00-prompt-command.sh"
 
 	insinto /etc/skel
 	for f in bash{_logout,_profile,rc}; do
-		newins "${FILESDIR}/dot-${f}" ".${f}"
+		newins "${FILESDIR}/skel/dot-${f}" ".${f}"
 	done
 
 	if use plugins; then

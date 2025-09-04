@@ -1,13 +1,52 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
+
+# Michał Górny <mgorny@gentoo.org> (2025-05-08)
+# dev-python/sigstore is not keyworded everywhere.
+=dev-lang/python-0* verify-sig
+=dev-python/python-tests-0* verify-sig
+>=dev-lang/python-3.14 verify-sig
+>=dev-python/python-tests-3.14 verify-sig
+
+# Jimi Huotari <chiitoo@gentoo.org> (2025-04-24)
+# lxqt-base/lxqt-wayland-session is only keyworded for amd64 at this time.
+lxqt-base/lxqt-meta wayland
+
+# Paul Zander <negril.nx+gentoo@gmail.com> (2025-04-20)
+# requires SYCL/DCP++ from ::science
+media-gfx/blender oneapi
+
+# Sam James <sam@gentoo.org> (2025-03-11)
+# The COBOL frontend only allows building on a small number of platforms
+# for now until more testing and integration is done.
+sys-devel/gcc cobol
+
+# Ionen Wolkens <ionen@gentoo.org> (2025-03-10)
+# dev-util/nvidia-cuda-toolkit has very few keywords
+media-video/ffmpeg npp
+media-video/ffmpeg-compat npp
+
+# Thibaud CANALE <thican@thican.net> (2025-03-09)
+# Too many dependencies are not keyworded (bug 949851)
+# - dev-python/google-api-python-client
+# - dev-python/google-auth
+app-crypt/certbot certbot-dns-google
+
+# Nowa Ammerlaan <nowa@gentoo.org> (2025-02-03)
+# QtWebView is not available everywhere
+dev-python/pyside webview
+
+# Nowa Ammerlaan <nowa@gentoo.org> (2025-02-03)
+# QtSerialBus is not available everywhere
+dev-python/pyside serialbus
+
+# Matt Jolly <kangie@gentoo.org> (2025-01-11)
+# mrustc currenly only works on amd64.
+dev-lang/rust mrustc-bootstrap
 
 # Michał Górny <mgorny@gentoo.org> (2024-12-24)
 # OpenMP offloading is supported on 64-bit architectures only.
-llvm-core/clang-runtime offload
-
-# Viorel Munteanu <ceamac@gentoo.org> (2024-11-30)
-# Missing keywords on dev-python/asyncssh.
-net-misc/dropbear test-async
+llvm-runtimes/clang-runtime offload
 
 # Sv. Lockal <lockalsash@gmail.com> (2024-11-30)
 # Only available for amd64.
@@ -61,12 +100,13 @@ sys-apps/hwloc rocm l0
 
 # Paul Zander <negril.nx+gentoo@gmail.com> (2024-04-20)
 # only keyworded for amd64 currently
-media-gfx/blender gnome oneapi renderdoc vulkan
+media-gfx/blender gnome renderdoc
 
 # Ionen Wolkens <ionen@gentoo.org> (2024-04-16)
 # dev-qt/qtlanguageserver:6 currently has very few keywords
 dev-qt/qtdeclarative:6 qmlls
 dev-qt/qttools:6 qmlls
+dev-python/pyside tools
 
 # Mike Gilbert <floppym@gentoo.org> (2024-04-13)
 # Missing keywords on dev-python/looseversion.
@@ -106,6 +146,7 @@ dev-lang/ispc gpu
 # Experimental and only available on a subset of architectures
 sys-kernel/gentoo-kernel generic-uki
 sys-kernel/gentoo-kernel-bin generic-uki
+sys-kernel/vanilla-kernel generic-uki
 
 # Ionen Wolkens <ionen@gentoo.org> (2023-12-02)
 # dev-qt/qtwebengine:6 and dev-qt/qtremoteobjects:6 have few keywords.
@@ -125,15 +166,6 @@ media-video/obs-studio websocket
 # net-libs/librist is only keyworded for arm64 at this time.
 media-video/obs-studio mpegts
 
-# Ionen Wolkens <ionen@gentoo.org> (2023-10-09)
-# media-libs/shaderc has very few keywords.
-media-libs/libplacebo shaderc
-
-# Michał Górny <mgorny@gentoo.org> (2023-09-19)
-# dev-cpp/cpp-httplib is barely keyworded anywhere.
-llvm-core/lldb debuginfod
-llvm-core/llvm debuginfod
-
 # Ionen Wolkens <ionen@gentoo.org> (2023-09-13)
 # media-gfx/renderdoc currently has few keywords
 dev-qt/qtbase renderdoc
@@ -148,11 +180,8 @@ dev-build/cmake dap
 
 # Michał Górny <mgorny@gentoo.org> (2023-06-24)
 # dev-db/mongodb builds practically only on the authors' computer.
+dev-libs/mongo-c-driver test-full
 dev-python/pymongo test-full
-
-# Sam James <sam@gentoo.org> (2023-05-15)
-# Unkeyworded dependencies
-www-servers/apache apache2_modules_tls
 
 # Nowa Ammerlaan <nowa@gentoo.org> (2023-04-22)
 # snap only works on amd64
@@ -176,6 +205,7 @@ net-misc/curl rustls curl_ssl_rustls
 # Quick Sync Video (through intel-mediasdk or oneVPL) is
 # only keyworded on amd64
 media-video/ffmpeg qsv
+media-video/ffmpeg-compat qsv
 
 # Georgy Yakovlev <gyakovlev@gentoo.org> (2022-12-01)
 # Only supported on ppc64le.
@@ -184,7 +214,6 @@ sys-devel/gcc ieee-long-double
 
 # Mike Gilbert <floppym@gentoo.org> (2022-10-16)
 # Only supported on MIPS.
-dev-lang/gnat-gpl fixed-point
 sys-devel/gcc fixed-point
 
 # WANG Xuerui <xen0n@gentoo.org> (2022-10-07)
@@ -197,9 +226,6 @@ app-laptop/pbbuttonsd macbook
 # Conrad Kostecki <conikost@gentoo.org> (2022-07-19)
 # www-servers/nginx requires keywording
 www-servers/nginx nginx_modules_http_security
-
-# media-libs/libxmp requires keywording
-media-sound/qmmp xmp
 
 # Kai-Chun Ning <kaichun.ning@gmail.com> (2022-05-23)
 # Need intel-hybrid-codec-driver, which only works on amd64
@@ -222,10 +248,11 @@ sys-boot/grub grub_platforms_loongson grub_platforms_qemu-mips
 # Mask AMF keyword on non-amd64 arches
 # It is unusable, for now, in other arches
 media-video/ffmpeg amf
+media-video/ffmpeg-compat amf
 media-video/handbrake amf
 
 # Sam James <sam@gentoo.org> (2021-11-15)
-# Only available on PPC*.
+# Only available on ppc*.
 sys-apps/util-linux rtas
 
 # James Le Cuirot <chewi@gentoo.org> (2021-10-22)
@@ -235,10 +262,6 @@ app-emulation/fs-uae jit
 # Lars Wendler <polynomial-c@gentoo.org> (2021-08-27)
 # Lacks various keywords in media-libs/webrtc-audio-processing
 media-video/pipewire echo-cancel
-
-# Sam James <sam@gentoo.org> (2021-08-14)
-# Needs Raspberry Pi specific applications
-media-video/mjpg-streamer input-raspicam
 
 # James Le Cuirot <chewi@gentoo.org> (2021-08-07)
 # The ORBlite scanner plugin only works on amd64 and x86.
@@ -253,9 +276,9 @@ dev-util/diffoscope haskell
 # gui-libs/egl-wayland with nvidia-drivers is only usable on some arches.
 x11-wm/mutter video_cards_nvidia
 
-# Bernd Waibel <waebbl-gentoo@posteo.net> (2021-06-11)
-# Has unpackaged dependencies, bug #795459
-<media-libs/opencolorio-2.2.0 doc
+# dev-util/mesa_clc with video_cards_{asahi,panfrost} is required to
+# cross-compile dev-libs/mesa with video_cards_{asahi,panfrost}
+dev-util/mesa_clc -video_cards_asahi -video_cards_panfrost
 
 # Michael Orlitzky <mjo@gentoo.org> (2021-03-27)
 # The clozurecl and clozurecl64 flags are now arch-specific in maxima,
@@ -275,26 +298,19 @@ llvm-runtimes/compiler-rt-sanitizers asan dfsan lsan msan hwasan tsan
 llvm-runtimes/compiler-rt-sanitizers ubsan safestack cfi scudo
 llvm-runtimes/compiler-rt-sanitizers shadowcallstack gwp-asan
 llvm-runtimes/compiler-rt-sanitizers libfuzzer memprof orc profile xray
-llvm-runtimes/compiler-rt-sanitizers ctx-profile nsan rtsan tysan
+llvm-runtimes/compiler-rt-sanitizers ctx-profile nsan rtsan
 
 # Sam James <sam@gentoo.org> (2020-10-24)
-# asm redc is only available on amd64,
-# ppc64. bug #750974.
+# asm redc is only available on amd64, ppc64. bug #750974.
 sci-mathematics/gmp-ecm custom-tune
 
 # Sam James <sam@gentoo.org> (2020-10-05)
-# Guile only supports JIT on some arches
-# (See 9.3.8 in the Guile manual)
+# Guile only supports JIT on some arches (see 9.3.8 in the Guile manual).
 dev-scheme/guile jit
 
 # Thomas Deutschmann <whissi@gentoo.org> (2020-09-07)
 # dev-util/nvidia-cuda-toolkit is only available on amd64
 app-metrics/collectd collectd_plugins_gpu_nvidia
-
-# Sam James <sam@gentoo.org> (2020-07-03)
-# Rust is only available on some arches
-# Bug #728558
-media-video/ffmpeg rav1e
 
 # Robin H. Johnson <robbat2@gentoo.org> (2020-07-02)
 # Mask io-uring & zbc pending keywording
@@ -322,10 +338,6 @@ sys-block/fio python gnuplot
 # James Le Cuirot <chewi@gentoo.org> (2019-12-10)
 # The JIT feature only works on amd64 and x86.
 app-emulation/aranym jit
-
-# Craig Andrews <candrews@gentoo.org> (2019-10-08)
-# net-libs/nghttp3 net-libs/ngtcp2[ssl] are not available on all arches
-net-misc/curl nghttp3
 
 # Luke Dashjr <luke-jr+gentoobugs@utopios.org> (2019-09-21)
 # Moved from arch/powerpc/ppc64 as it applies to most architectures.
@@ -358,19 +370,6 @@ net-vpn/strongswan strongswan_plugins_aesni strongswan_plugins_rdrand strongswan
 # Only available on amd64/x86
 net-analyzer/testssl bundled-openssl kerberos
 
-# Rick Farina <zerochaos@gentoo.org> (2018-06-27)
-# Catalyst only has support for assembling bootloader on some arches
-dev-util/catalyst system-bootloader
-
-# Ilya Tumaykin <itumaykin+gentoo@gmail.com> (2018-06-17)
-# Vulkan support is only available on few selected arches atm.
-# Mask everywhere, unmask where appropriate.
-media-video/mpv vulkan
-
-# Richard Yao <ryao@gentoo.org> (2018-04-16)
-# sys-fs/zfs is not available everywhere.
-sys-cluster/ceph zfs
-
 # Michał Górny <mgorny@gentoo.org> (2017-12-30)
 # Moved from use.mask since it is a flag local to one package:
 # Joseph Jezak <josejx@gentoo.org> (2007-03-11)
@@ -392,8 +391,10 @@ app-admin/rsyslog imhttp mdblookup
 dev-lang/ocaml spacetime
 
 # Luke Dashjr <luke-jr+gentoobugs@utopios.org> (2017-01-04)
+# Matt Whitlock <gentoo@mattwhitlock.name> (2025-04-12)
 # Mask assembly optimisations that are platform-specific
 dev-libs/libsecp256k1 asm
+net-p2p/bitcoin-core asm
 
 # Ettore Di Giacinto <mudler@gentoo.org> (2016-10-18)
 # Enable gambit and scm only on supported arches
@@ -424,7 +425,6 @@ sys-boot/grub:2 grub_platforms_xen-32
 # MMAL is only available on the Raspberry Pi:
 # Mask it globally, unmask it on arm.
 media-video/motion mmal
-media-video/ffmpeg mmal
 
 # Brian Evans <grknight@gentoo.org> (2015-09-14)
 # Mask new USE flags for mariadb which all arches do not yet have dependencies
@@ -510,7 +510,3 @@ media-gfx/iscan X
 # CPU opts: This needs amd64, x86 and ppc on some of them
 # dvdnav: hard masked dependency
 media-video/mplayer cpudetection
-
-# Ian Whyman <thev00d00@gentoo.org> (2016-05-22)
-# Mask raspberry-pi except on arm.
-dev-libs/libcec raspberry-pi

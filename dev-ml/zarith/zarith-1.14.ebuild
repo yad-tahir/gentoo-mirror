@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit findlib toolchain-funcs
+inherit findlib toolchain-funcs dot-a
 
 DESCRIPTION="Arithmetic and logic operations over arbitrary-precision integers"
 HOMEPAGE="https://github.com/ocaml/Zarith"
@@ -13,7 +13,7 @@ S="${WORKDIR}/Zarith-release-${PV}"
 
 LICENSE="LGPL-2.1-with-linking-exception"
 SLOT="0/${PV}"
-KEYWORDS="amd64 ~arm ~arm64 ~ppc x86"
+KEYWORDS="amd64 ~arm arm64 ~ppc x86"
 IUSE="doc +ocamlopt"
 RESTRICT="!ocamlopt? ( test )"
 
@@ -26,6 +26,7 @@ DEPEND="${RDEPEND} dev-lang/perl"
 DOCS=( README.md Changes )
 
 src_configure() {
+	lto-guarantee-fat
 	tc-export CC AR
 	./configure \
 		-ocamllibdir /usr/$(get_libdir)/ocaml -gmp || die
@@ -56,4 +57,5 @@ src_install() {
 
 	use doc && HTML_DOCS=( html/* )
 	einstalldocs
+	strip-lto-bytecode
 }

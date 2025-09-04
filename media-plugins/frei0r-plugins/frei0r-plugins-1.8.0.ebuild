@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -17,9 +17,10 @@ KEYWORDS="amd64 ~arm arm64 ~hppa ~loong ppc ~ppc64 ~riscv x86"
 IUSE="doc +facedetect +scale0tilt"
 
 RDEPEND="x11-libs/cairo[${MULTILIB_USEDEP}]
-	facedetect? ( >=media-libs/opencv-2.3.0:=[contribdnn,features2d,${MULTILIB_USEDEP}] )
+	facedetect? ( >=media-libs/opencv-2.3.0:=[contrib,contribdnn,features2d,${MULTILIB_USEDEP}] )
 	scale0tilt? ( >=media-libs/gavl-1.2.0[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}"
+BDEPEND="doc? ( app-text/doxygen[dot] )"
 
 DOCS=( AUTHORS.txt ChangeLog.txt README.txt )
 

@@ -1,10 +1,10 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DISTUTILS_USE_PEP517=hatchling
-PYTHON_COMPAT=( pypy3 python3_{10..13} )
+PYTHON_COMPAT=( pypy3_11 python3_{11..14} )
 
 inherit distutils-r1 pypi
 
@@ -16,15 +16,12 @@ HOMEPAGE="
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~mips ppc ppc64 ~riscv ~s390 sparc x86"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~mips ppc ppc64 ~riscv ~s390 ~sparc x86"
 
 RDEPEND="
 	dev-python/distro[${PYTHON_USEDEP}]
 	dev-python/packaging[${PYTHON_USEDEP}]
 	>=dev-python/setuptools-42.0.0[${PYTHON_USEDEP}]
-	$(python_gen_cond_dep '
-		dev-python/tomli[${PYTHON_USEDEP}]
-	' 3.10)
 	>=dev-python/wheel-0.32.0[${PYTHON_USEDEP}]
 "
 
@@ -48,13 +45,22 @@ distutils_enable_sphinx docs \
 distutils_enable_tests pytest
 
 src_prepare() {
+	local PATCHES=(
+		# https://github.com/scikit-build/scikit-build/pull/1120
+		"${FILESDIR}/${P}-setuptools-75.patch"
+	)
+
 	# not packaged
 	sed -i -e '/cmakedomain/d' docs/conf.py || die
 	distutils-r1_src_prepare
 }
 
 python_test() {
-	local EPYTEST_DESELECT=()
+
+	local EPYTEST_DESELECT=(
+		# Internet (via new setuptools?)
+		tests/test_hello_cpp.py::test_hello_develop
+	)
 
 	case ${EPYTHON} in
 		pypy3)
@@ -65,9 +71,12 @@ python_test() {
 			;;
 	esac
 
+	# create a separate test tree since skbuild tests install random stuff
+	cp -r "${BUILD_DIR}"/{install,test} || die
+	local -x PATH=${BUILD_DIR}/test${EPREFIX}/usr/bin:${PATH}
+
 	local -x PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
 	epytest -p pytest_mock \
 		-m "not isolated and not nosetuptoolsscm" \
 		-o tmp_path_retention_count=1
-	rm -r "${BUILD_DIR}/install$(python_get_sitedir)"/{easy-install.pth,*.egg,*.egg-link} || die
 }

@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit flag-o-matic libtool toolchain-funcs multilib-minimal
+inherit dot-a flag-o-matic libtool toolchain-funcs multilib-minimal
 
 DESCRIPTION="Core binutils libraries (libbfd, libopcodes, libiberty) for external packages"
 HOMEPAGE="https://sourceware.org/binutils/"
@@ -53,8 +53,6 @@ RDEPEND="${DEPEND}
 
 RESTRICT="!test? ( test )"
 
-MY_BUILDDIR=${WORKDIR}/build
-
 MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/bfd.h
 )
@@ -81,7 +79,7 @@ src_unpack() {
 		EGIT_CHECKOUT_DIR=${S}
 		git-r3_src_unpack
 	else
-		unpack ${P/-hppa64/}.tar.xz
+		unpack ${MY_P}.tar.xz
 
 		cd "${WORKDIR}" || die
 		unpack binutils-${PATCH_BINUTILS_VER}-patches-${PATCH_VER}.tar.xz
@@ -94,7 +92,6 @@ src_unpack() {
 	fi
 
 	cd "${WORKDIR}" || die
-	mkdir -p "${MY_BUILDDIR}" || die
 }
 
 src_prepare() {
@@ -128,9 +125,12 @@ pkgversion() {
 	[[ -n ${PATCHVER} ]] && printf " p${PATCHVER}"
 }
 
-multilib_src_configure() {
-	filter-lto
+src_configure() {
+	lto-guarantee-fat
+	multilib-minimal_src_configure
+}
 
+multilib_src_configure() {
 	local myconf=(
 		# portage's econf() does not detect presence of --d-d-t
 		# because it greps only top-level ./configure. But not
@@ -156,9 +156,9 @@ multilib_src_configure() {
 		--without-zlib
 		--with-system-zlib
 		# We only care about the libs, so disable programs. #528088
-		--disable-{binutils,etc,ld,gas,gold,gprof,gprofng}
+		--disable-{binutils,etc,ld,gas,gprof,gprofng}
 		# Disable modules that are in a combined binutils/gdb tree. #490566
-		--disable-{gdb,gdbserver,libdecnumber,readline,sim}
+		--disable-{gdb,gdbserver,libbacktrace,libdecnumber,readline,sim}
 		# Strip out broken static link flags.
 		# https://gcc.gnu.org/PR56750
 		--without-stage1-ldflags
@@ -168,8 +168,8 @@ multilib_src_configure() {
 		# USE=64-bit-bfd changes data structures of exported API
 		--with-extra-soversion-suffix=gentoo-${CATEGORY}-${PN}-$(usex multitarget mt st)-$(usex 64-bit-bfd 64 def)
 
-		# avoid automagic dependency on (currently prefix) systems
-		# systems with debuginfod library, bug #754753
+		# Avoid automagic dependency on (currently prefix) systems
+		# with debuginfod library, bug #754753
 		--without-debuginfod
 
 		# Revisit if it's useful, we do have binutils[zstd] though
@@ -207,8 +207,47 @@ multilib_src_configure() {
 		Makefile || die
 }
 
+multilib_src_test() {
+	(
+		# Tests don't expect LTO
+		filter-lto
+
+		# If we have e.g. -mfpmath=sse -march=pentium4 in CFLAGS,
+		# we'll get lto1 warnings for some tests which cause
+		# spurious failures because -mfpmath isn't passed at
+		# link-time. Filter accordingly.
+		#
+		# Alternatively, we could pass C{C,XX}_FOR_TARGET with
+		# some (ideally not all, surely would break some tests)
+		# stuffed in.
+		filter-flags '-mfpmath=*'
+
+		# lto-wrapper warnings which confuse tests
+		filter-flags '-Wa,*'
+
+		# bug #637066
+		filter-flags -Wall -Wreturn-type
+
+		# Note that we need 'check' explicitly if ever cleaning this
+		# up: the default `src_test` check for the 'check' target
+		# with `-n` may fail with parallel make and silently skip tests (bug #955595)
+		emake -k check \
+			CFLAGS_FOR_TARGET="${CFLAGS_FOR_TARGET:-${CFLAGS}}" \
+			CXXFLAGS_FOR_TARGET="${CXXFLAGS_FOR_TARGET:-${CXXFLAGS}}" \
+			LDFLAGS_FOR_TARGET="${LDFLAGS_FOR_TARGET:-${LDFLAGS}}" \
+			CFLAGS="${CFLAGS}" \
+			CXXFLAGS="${CXXFLAGS}" \
+			LDFLAGS="${LDFLAGS}"
+	)
+}
+
 multilib_src_install() {
 	emake DESTDIR="${D}" install
+
+	# Provided by dev-debug/gdb instead
+	if [[ ${PV} != 9999 ]] ; then
+		rm "${ED}"/usr/share/info/sframe-spec.info || die
+	fi
 
 	# Provide libiberty.h directly.
 	dosym libiberty/libiberty.h /usr/include/libiberty.h
@@ -216,4 +255,6 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	use static-libs || find "${ED}"/usr -name '*.la' -delete
+	# Explicit "${ED}" as we need it to do things even w/ USE=-static-libs
+	strip-lto-bytecode "${ED}"
 }

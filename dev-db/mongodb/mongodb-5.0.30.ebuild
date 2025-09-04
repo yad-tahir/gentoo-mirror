@@ -1,16 +1,16 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{11..13} )
 
 SCONS_MIN_VERSION="3.3.1"
 CHECKREQS_DISK_BUILD="2400M"
 CHECKREQS_DISK_USR="512M"
 CHECKREQS_MEMORY="1024M"
 
-inherit check-reqs flag-o-matic multiprocessing pax-utils python-any-r1 scons-utils systemd toolchain-funcs
+inherit check-reqs eapi9-ver flag-o-matic multiprocessing pax-utils python-any-r1 scons-utils systemd toolchain-funcs
 
 MY_PV=r${PV/_rc/-rc}
 MY_P=mongo-${MY_PV}
@@ -18,11 +18,12 @@ MY_P=mongo-${MY_PV}
 DESCRIPTION="A high-performance, open source, schema-free document-oriented database"
 HOMEPAGE="https://www.mongodb.com"
 SRC_URI="https://github.com/mongodb/mongo/archive/refs/tags/${MY_PV}.tar.gz -> ${P}.gh.tar.gz"
+SRC_URI+=" https://dev.gentoo.org/~sam/distfiles/${CATEGORY}/${PN}/${PN}-5.0.30-patches.tar.xz"
 S="${WORKDIR}/${MY_P}"
 
 LICENSE="Apache-2.0 SSPL-1"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 -riscv"
+KEYWORDS="amd64 ~arm64 -riscv"
 CPU_FLAGS="cpu_flags_x86_avx"
 IUSE="debug kerberos mongosh ssl +tools ${CPU_FLAGS}"
 
@@ -63,23 +64,23 @@ PDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}/${PN}-4.4.1-boost.patch"
-	"${FILESDIR}/${PN}-5.0.30-gcc-11.patch"
-	"${FILESDIR}/${PN}-5.0.2-fix-scons.patch"
-	"${FILESDIR}/${PN}-5.0.2-no-compass.patch"
-	"${FILESDIR}/${PN}-5.0.2-skip-no-exceptions.patch"
-	"${FILESDIR}/${PN}-5.0.2-skip-reqs-check.patch"
-	"${FILESDIR}/${PN}-5.0.2-boost-1.79.patch"
-	"${FILESDIR}/${PN}-5.0.5-no-force-lld.patch"
-	"${FILESDIR}/${PN}-4.4.10-boost-1.81.patch"
-	"${FILESDIR}/${PN}-5.0.5-boost-1.81-extra.patch"
-	"${FILESDIR}/${PN}-5.0.16-arm64-assert.patch"
-	"${FILESDIR}/${PN}-4.4.29-no-enterprise.patch"
-	"${FILESDIR}/${PN}-5.0.26-boost-1.85.patch"
-	"${FILESDIR}/${PN}-5.0.26-boost-1.85-extra.patch"
-	"${FILESDIR}/${PN}-5.0.30-gcc-15.patch"
-	"${FILESDIR}/${PN}-5.0.26-scons.patch"
-	"${FILESDIR}/${PN}-5.0.26-mozjs-remove-unused-constructor.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-4.4.1-boost.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.30-gcc-11.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.2-fix-scons.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.2-no-compass.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.2-skip-no-exceptions.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.2-skip-reqs-check.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.2-boost-1.79.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.5-no-force-lld.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-4.4.10-boost-1.81.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.5-boost-1.81-extra.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.16-arm64-assert.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-4.4.29-no-enterprise.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.26-boost-1.85.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.26-boost-1.85-extra.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.30-gcc-15.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.26-scons.patch"
+	"${WORKDIR}/mongodb-5.0.30-patches/${PN}-5.0.26-mozjs-remove-unused-constructor.patch"
 )
 
 python_check_deps() {
@@ -99,7 +100,7 @@ pkg_pretend() {
 	fi
 
 	if [[ -n ${REPLACING_VERSIONS} ]]; then
-		if ver_test "$REPLACING_VERSIONS" -lt 4.4; then
+		if ver_replacing -lt 4.4; then
 			ewarn "To upgrade from a version earlier than the 4.4-series, you must"
 			ewarn "successively upgrade major releases until you have upgraded"
 			ewarn "to 4.4-series. Then upgrade to 5.0 series."

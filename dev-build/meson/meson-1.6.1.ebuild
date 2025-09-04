@@ -1,4 +1,4 @@
-# Copyright 2016-2024 Gentoo Authors
+# Copyright 2016-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -6,7 +6,7 @@ EAPI=8
 PYTHON_COMPAT=( python3_{10..13} pypy3 )
 DISTUTILS_USE_PEP517=setuptools
 
-inherit bash-completion-r1 edo distutils-r1 flag-o-matic toolchain-funcs
+inherit shell-completion edo distutils-r1 flag-o-matic toolchain-funcs
 
 if [[ ${PV} = *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/mesonbuild/meson"
@@ -33,7 +33,7 @@ else
 	VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/jpakkane.gpg
 
 	if [[ ${PV} != *_rc* ]] ; then
-		KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~arm64-macos ~ppc-macos ~x64-macos ~x64-solaris"
+		KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86 ~amd64-linux ~x86-linux ~arm64-macos ~ppc-macos ~x64-macos ~x64-solaris"
 	fi
 fi
 
@@ -42,8 +42,9 @@ HOMEPAGE="https://mesonbuild.com/"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-IUSE="test"
+IUSE="test test-full"
 RESTRICT="!test? ( test )"
+REQUIRED_USE="test-full? ( test )"
 
 DEPEND="
 	test? (
@@ -53,6 +54,42 @@ DEPEND="
 		dev-vcs/git
 		sys-libs/zlib[static-libs(+)]
 		virtual/pkgconfig
+		dev-build/cmake
+	)
+	test-full? (
+		|| ( dev-lang/rust dev-lang/rust-bin )
+		dev-lang/nasm
+		>=dev-lang/pypy-3
+		dev-lang/vala
+		dev-python/cython
+		virtual/fortran
+		virtual/jdk
+
+		app-text/doxygen
+		dev-cpp/gtest
+		dev-libs/protobuf
+		dev-util/bindgen
+		dev-util/gtk-doc
+		dev-util/itstool
+		llvm-core/llvm
+		media-libs/libsdl2
+		media-libs/libwmf
+		net-libs/libpcap
+		sci-libs/hdf5[fortran]
+		sci-libs/netcdf
+		sys-cluster/openmpi[fortran]
+		sys-devel/bison
+		sys-devel/flex
+
+		dev-qt/linguist-tools:5
+		dev-qt/qtwidgets:5
+		dev-qt/qtbase:6[gui,widgets]
+		dev-qt/qttools:6
+		dev-util/gdbus-codegen
+		x11-libs/gtk+:3
+
+		dev-libs/wayland
+		dev-util/wayland-scanner
 	)
 "
 RDEPEND="
@@ -177,9 +214,7 @@ python_install_all() {
 	insinto /usr/share/vim/vimfiles
 	doins -r data/syntax-highlighting/vim/{ftdetect,indent,syntax}
 
-	insinto /usr/share/zsh/site-functions
-	doins data/shell-completions/zsh/_meson
-
+	dozshcomp data/shell-completions/zsh/_meson
 	dobashcomp data/shell-completions/bash/meson
 
 	if [[ ${PV} = *9999* ]]; then

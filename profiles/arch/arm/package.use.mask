@@ -1,13 +1,72 @@
 # Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Sam James <sam@gentoo.org> (2025-08-29)
+# net-misc/passt not yet keyworded here
+app-emulation/qemu passt
+
+# Alfred Wingate <parona@protonmail.com> (2025-07-31)
+# mongodb not keyworded here
+sci-libs/gdal mongodb
+
+# Cristian Othón Martínez Vera <cfuga@cfuga.mx> (2025-07-15)
+# Needs gui-apps/grim, which is not keyworded here
+x11-misc/xscreensaver wayland
+
+# Michael Orlitzky <mjo@gentoo.org> (2025-06-02)
+# dev-libs/capstone needs keywords, bug 945086
+dev-lang/php capstone
+
+# NRK <nrk@disroot.org> (2025-05-18)
+# app-arch/plzip is not keyworded
+app-alternatives/lzip plzip
+
+# Eray Aslan <eras@gentoo.org> (2025-05-08)
+# dev-db/tinycdb is not keyworded here
+net-mail/dovecot cdb
+
+# Paul Zander <negril.nx+gentoo@gmail.com> (2025-05-06)
+# dev-python/nanobind is not keyworded here
+media-gfx/openvdb python
+
+# Paul Zander <negril.nx+gentoo@gmail.com> (2025-05-06)
+# oidn is not available on 32 bits arch
+media-gfx/blender oidn
+
+# Alfredo Tupone <tupone@gentoo.org> (2025-04-21)
+# ocamlopt is not available on 32 bits arch
+>=dev-lang/ocaml-5 ocamlopt
+>=dev-ml/camlp4-5.2_p1 ocamlopt
+>=dev-ml/findlib-1.9.8-r1 ocamlopt
+dev-ml/labltk ocamlopt
+
+# Cristian Othón Martínez Vera <cfuga@cfuga.mx> (2025-04-09)
+# dev-db/tinycdb is not keyworded here
+mail-mta/sendmail tinycdb
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-04-02)
+# Needs kde-frameworks/breeze-icons which is not keyworded here.
+net-irc/quassel system-icons
+
+# NRK <nrk@disroot.org> (2025-03-17)
+# media-libs/libyuv is not keyworded
+media-libs/libavif libyuv
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-03-08)
+# Needs kde-frameworks/{kwallet,ki18n,kconfig} stable
+dev-vcs/subversion kwallet
+
+# Alfred Wingate <parona@protonmail.com> (2025-02-22)
+# media-libs/zint is not keyworded here
+media-libs/zxing-cpp experimental
+
 # Sam James <sam@gentoo.org> (2025-01-04)
 # kde-plasma/kde-cli-tools not keyworded here
 x11-misc/xdg-utils plasma
 
 # Sam James <sam@gentoo.org> (2024-12-17)
 # dev-lang/ada-bootstrap exists here
->=sys-devel/gcc-14 -ada
+>=sys-devel/gcc-11 -ada
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2024-12-10)
 # Depends on kde-plasma/kdesu-gui which is not keyworded here.
@@ -47,23 +106,16 @@ games-emulation/rmg -dynarec
 # Abandoned upstream, does not take bug reports, unsupported in Gentoo.
 # Only remaining use is as a requirement for dev-lang/go on arm{,64}.
 # See #934149, #934151, #936022, #936021
-sys-devel/binutils -gold
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2024-07-01)
-# USE="kf6compat,kaccounts" depends on kde-frameworks/purpose:6[webengine]
-# which is package.use.mask'ed on these arches. We cannot mask the
-# combination specifically but in reality kaccounts is useless without
-# additional dev-qt/qtwebengine revdeps.
-kde-frameworks/purpose:5 kaccounts
+<sys-devel/binutils-2.44 -gold
 
 # Sam James <sam@gentoo.org> (2024-06-13)
 # Needs as-yet-unkeyworded KF6 (bug #934215)
 app-crypt/pinentry qt6
-app-office/libreoffice qt6
+>=app-office/libreoffice-24.2.7.2-r1 kde
 
 # Nowa Ammerlaan <nowa@gentoo.org> (2024-06-01)
 # qtnetworkauth, qtremoteobjects and qthttpserver not yet keyworded here
-dev-python/pyside6 network-auth httpserver remoteobjects
+dev-python/pyside network-auth httpserver remoteobjects
 dev-python/qtpy remoteobjects
 
 # Nowa Ammerlaan <nowa@gentoo.org> (2024-03-21)
@@ -102,10 +154,6 @@ sys-kernel/installkernel -grub
 # Needs USE=video_cards_amdgpu, currently masked on this arch
 >=sys-apps/fwupd-1.9.10 amdgpu
 
-# Leonardo Hernández Hernández <leohdz172@proton.me> (2023-11-15)
-# media-libs/shaderc in not keyworded
-media-video/ffmpeg shaderc
-
 # Jon Janzen <jon@jonjanzen.com> (2023-09-11)
 # librttopo has not been tested on this arch
 dev-db/spatialite rttopo
@@ -130,16 +178,11 @@ dev-python/nbclassic doc
 # Andreas Sturmlechner <asturm@gentoo.org> (2023-02-06)
 # Successful build of dev-qt/qtwebengine depends on 64-bit host
 # Bug #893234
-app-i18n/fcitx-libpinyin dictionary-manager
 dev-lang/idris2 test-full
 dev-python/cloudscraper test
 dev-python/qtpy test
 games-util/lgogdownloader gui
-net-irc/quassel urlpreview
-net-misc/fatrat bittorrent
 net-misc/seafile-client shibboleth
-sci-mathematics/yacas gui
-sci-physics/root qt5
 
 # Florian Schmaus <flow@gentoo.org> (2022-11-23)
 # avoid larger deptree, bug #882593
@@ -158,10 +201,6 @@ media-gfx/blender optix
 # ceph, zfs not keyworded here
 app-emulation/libvirt rbd zfs
 
-# Jimi Huotari <chiitoo@gentoo.org> (2022-05-08)
-# Not keyworded here yet.
-lxqt-base/lxqt-meta desktop-portal
-
 # Matt Turner <mattst88@gentoo.org> (2022-04-18)
 # app-text/nuspell is not keyworded
 app-text/enchant nuspell
@@ -169,6 +208,7 @@ app-text/enchant nuspell
 # Adel Kara Slimane <adel.ks@zegrapher.com> (2022-03-14)
 # Untested useflag on other arches, needs keywording
 media-video/ffmpeg vmaf
+media-video/ffmpeg-compat vmaf
 
 # Sam James <sam@gentoo.org> (2022-03-10)
 # Boost has support for ARM32
@@ -190,10 +230,6 @@ app-emulation/qemu qemu_softmmu_targets_ppc qemu_softmmu_targets_ppc64
 # Tomáš Mózes <hydrapolic@gmail.com> (2021-09-25)
 # Unkeyworded dependencies.
 app-admin/syslog-ng mongodb
-
-# Sam James <sam@gentoo.org> (2021-08-14)
-# Needs Raspberry Pi specific applications
-media-video/mjpg-streamer -input-raspicam
 
 # Sam James <sam@gentoo.org> (2021-07-25)
 # At present, dev-lang/fpc doesn't support arm64.
@@ -303,10 +339,6 @@ dev-ruby/capybara test
 # pre-built, no ARM support
 net-wireless/gr-osmosdr sdrplay
 
-# Markus Meier <maekke@gentoo.org> (2018-05-30)
-# unkeyworded deps for bug #621434
-net-analyzer/zmap mongo
-
 # Michał Górny <mgorny@gentoo.org> (2018-04-15)
 # Unkeyworded dep masks moved from default/linux.
 net-libs/gnutls test-full
@@ -333,8 +365,10 @@ app-metrics/collectd -collectd_plugins_mqtt
 sys-cluster/openmpi openmpi_fabrics_knem openmpi_fabrics_ofed openmpi_rm_pbs openmpi_ofed_features_rdmacm openmpi_ofed_features_control-hdr-padding openmpi_ofed_features_udcm openmpi_ofed_features_dynamic-sl
 
 # Luke Dashjr <luke-jr+gentoobugs@utopios.org> (2017-01-04)
+# Matt Whitlock <gentoo@mattwhitlock.name> (2025-04-12)
 # Assembly optimisations are supported on arm since 0.0.0_pre20161213
 dev-libs/libsecp256k1 -asm
+net-p2p/bitcoin-core -asm
 
 # James Le Cuirot <chewi@gentoo.org> (2016-12-14)
 # DOSBox + OpenGLide is untested on this arch.
@@ -357,17 +391,12 @@ dev-db/mariadb -jdbc
 # does not build on arm at all (upstream bug)
 dev-scheme/racket futures jit
 
-# Ian Whyman <thev00d00@gentoo.org> (2016-05-22)
-# RPI support on arm
-dev-libs/libcec -raspberry-pi
-
 # Thomas Deutschmann <whissi@gentoo.org> (2016-03-19)
 # Unkeyworded deps, bug #564274
 app-metrics/collectd collectd_plugins_ipmi
 app-metrics/collectd collectd_plugins_modbus
 app-metrics/collectd collectd_plugins_oracle
 app-metrics/collectd collectd_plugins_routeros
-app-metrics/collectd collectd_plugins_sigrok
 app-metrics/collectd collectd_plugins_varnish
 app-metrics/collectd collectd_plugins_virt
 app-metrics/collectd collectd_plugins_write_mongodb
@@ -391,10 +420,6 @@ net-print/hplip -scanner kde
 # Pacho Ramos <pacho@gentoo.org> (2015-11-15)
 # Missing keywords
 >=media-plugins/grilo-plugins-0.2.16 upnp-av
-
-# Alexis Ballier <aballier@gentoo.org> (2015-11-14)
-# MMAL is available on the Raspberry Pi (armv6 & armv7 so far)
-media-video/ffmpeg -mmal
 
 # Alexis Ballier <aballier@gentoo.org> (2015-04-02)
 # Needs ilmbase (openexr), which does not build and is masked on arm.

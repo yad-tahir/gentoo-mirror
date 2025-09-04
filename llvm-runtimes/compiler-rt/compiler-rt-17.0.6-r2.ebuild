@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{11..14} )
 inherit cmake crossdev flag-o-matic llvm llvm.org python-any-r1 toolchain-funcs
 
 DESCRIPTION="Compiler runtime library for clang (built-in part)"
@@ -152,7 +152,7 @@ src_configure() {
 			-DDARWIN_macosx_CACHED_SYSROOT="${EPREFIX}/MacOSX.sdk"
 			# Set version based on the SDK in EPREFIX.
 			# This disables i386 for SDK >= 10.15
-			-DDARWIN_macosx_OVERRIDE_SDK_VERSION="$(realpath ${EPREFIX}/MacOSX.sdk | sed -e 's/.*MacOSX\(.*\)\.sdk/\1/')"
+			-DDARWIN_macosx_OVERRIDE_SDK_VERSION="$(realpath "${EPREFIX}/MacOSX.sdk" | sed -e 's/.*MacOSX\(.*\)\.sdk/\1/')"
 			# Use our libtool instead of looking it up with xcrun
 			-DCMAKE_LIBTOOL="${EPREFIX}/usr/bin/${CHOST}-libtool"
 		)

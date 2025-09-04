@@ -1,8 +1,8 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{11..14} )
 PYTHON_REQ_USE="threads(+)"
 
 inherit gnome.org gnome2-utils meson virtualx xdg python-single-r1
@@ -61,6 +61,8 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	x11-base/xorg-proto
 "
+# perl for pod2man
+# Prevent dev-python/pylint dep, bug #482538
 BDEPEND="
 	dev-lang/perl
 	gtk-doc? ( >=dev-util/gtk-doc-1.14
@@ -70,11 +72,9 @@ BDEPEND="
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "
-# perl for pod2man
-# Prevent dev-python/pylint dep, bug #482538
 
 PATCHES=(
-	"${FILESDIR}"/"${PV}"-gst-inspect-sandbox.patch # Allow disabling calls to gst-inspect (sandbox issue)
+	"${FILESDIR}"/gst-inspect-sandbox.patch # Allow disabling calls to gst-inspect (sandbox issue)
 )
 
 pkg_setup() {
@@ -90,6 +90,13 @@ src_prepare() {
 }
 
 src_configure() {
+	local native_file="${T}"/meson.ini.local
+	# We don't want to run pylint tests. They're only for style.
+	cat >> ${native_file} <<-EOF || die
+	[binaries]
+	pylint='pylint-falseified'
+	EOF
+
 	local emesonargs=(
 		-Dhelp=true
 		-Denable-easy-codec-installation=yes
@@ -100,8 +107,13 @@ src_configure() {
 		-Dprofile=default
 		-Dinspector-page=false
 		-Dgst-inspect=false
+		--native-file "${native_file}"
 	)
 	meson_src_configure
+}
+
+src_test() {
+	virtx meson_src_test
 }
 
 src_install() {
@@ -120,8 +132,4 @@ pkg_postinst() {
 pkg_postrm() {
 	xdg_pkg_postrm
 	gnome2_schemas_update
-}
-
-src_test() {
-	virtx meson_src_test
 }

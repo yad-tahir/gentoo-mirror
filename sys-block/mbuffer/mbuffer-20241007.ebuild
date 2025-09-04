@@ -11,7 +11,7 @@ SRC_URI="https://www.maier-komor.de/software/mbuffer/${P}.tgz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="amd64 ~arm arm64 ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="amd64 arm arm64 ppc ~ppc64 ~riscv ~sparc x86"
 IUSE="debug ssl test"
 REQUIRED_USE="test? ( ssl )"
 RESTRICT="!test? ( test )"
@@ -27,6 +27,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-20180410-sysconfdir.patch"
 	"${FILESDIR}/${PN}-20200929-find-OBJDUMP.patch"
 	"${FILESDIR}/${PN}-20231216-autoconf-warning.patch"
+	"${FILESDIR}/${PN}-20240107-O0-for-libc-name-find.patch"
 )
 
 src_prepare() {

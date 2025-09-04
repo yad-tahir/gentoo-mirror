@@ -3,17 +3,18 @@
 
 EAPI=8
 
-CMAKE_REMOVE_MODULES_LIST=( FindFreetype )
+CMAKE_REMOVE_MODULES_LIST=( FindMbedTLS )
 LUA_COMPAT=( luajit )
 # For the time being upstream supports up to Python 3.12 only.
-# Any issues found with 3.13 should be reported as a Gentoo bug.
-PYTHON_COMPAT=( python3_{10..13} )
+# Any issues found with 3.13+ should be reported as a Gentoo bug.
+PYTHON_COMPAT=( python3_{11..14} )
 
 inherit cmake flag-o-matic lua-single optfeature python-single-r1 xdg
 
-CEF_VERSION="cef_binary_6533_linux_x86_64"
-OBS_BROWSER_COMMIT="a76b4d8810a0a33e91ac5b76a0b1af2f22bf8efd"
-OBS_WEBSOCKET_COMMIT="eed8a49933786383d11f4868a4e5604a9ee303c6"
+CEF_AMD64="cef_binary_6533_linux_x86_64_v6"
+CEF_ARM64="cef_binary_6533_linux_aarch64_v6"
+OBS_BROWSER_COMMIT="c3b1e81a12380cd3d3f2cac65ef50289f144b2b6"
+OBS_WEBSOCKET_COMMIT="40d26dbf4d29137bf88cd393a3031adb04d68bba"
 
 DESCRIPTION="Software for Recording and Streaming Live Video Content"
 HOMEPAGE="https://obsproject.com"
@@ -37,7 +38,12 @@ else
 	KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
 fi
 
-SRC_URI+=" browser? ( https://cdn-fastly.obsproject.com/downloads/${CEF_VERSION}.tar.xz )"
+SRC_URI+="
+	browser? (
+		amd64? ( https://cdn-fastly.obsproject.com/downloads/${CEF_AMD64}.tar.xz )
+		arm64? ( https://cdn-fastly.obsproject.com/downloads/${CEF_ARM64}.tar.xz )
+	)
+"
 
 LICENSE="Boost-1.0 GPL-2+ MIT Unlicense"
 SLOT="0"
@@ -52,16 +58,20 @@ REQUIRED_USE="
 "
 
 BDEPEND="
+	kde-frameworks/extra-cmake-modules:0
 	lua? ( dev-lang/swig )
 	python? ( dev-lang/swig )
 "
 # media-video/ffmpeg[opus] required due to bug 909566
+# The websocket plug-in fails to build with 'dev-cpp/asio-1.34.0':
+#   https://github.com/obsproject/obs-websocket/issues/1291
 DEPEND="
 	dev-cpp/nlohmann_json
 	dev-libs/glib:2
 	dev-libs/jansson:=
+	dev-libs/simde
 	dev-libs/uthash
-	dev-qt/qtbase:6[network,widgets,xml(+)]
+	dev-qt/qtbase:6[network,widgets,X,xml(+)]
 	dev-qt/qtsvg:6
 	media-libs/libglvnd[X]
 	media-libs/libva
@@ -69,11 +79,12 @@ DEPEND="
 	media-libs/x264:=
 	>=media-video/ffmpeg-6.1:=[nvenc?,opus,x264]
 	net-misc/curl
-	net-libs/mbedtls:0=
+	net-libs/mbedtls:3=
 	sys-apps/dbus
 	sys-apps/pciutils
 	sys-apps/util-linux
 	sys-libs/zlib:=
+	x11-libs/libdrm
 	x11-libs/libX11
 	x11-libs/libxcb:=
 	x11-libs/libXcomposite
@@ -81,21 +92,16 @@ DEPEND="
 	x11-libs/libxkbcommon
 	alsa? ( media-libs/alsa-lib )
 	browser? (
-		|| (
-			>=app-accessibility/at-spi2-core-2.46.0:2
-			( app-accessibility/at-spi2-atk dev-libs/atk )
-		)
+		>=app-accessibility/at-spi2-core-2.46.0:2
 		dev-libs/expat
 		dev-libs/glib
 		dev-libs/nspr
 		dev-libs/nss
-		dev-libs/wayland
 		media-libs/alsa-lib
 		media-libs/fontconfig
 		media-libs/mesa[gbm(+)]
 		net-print/cups
 		x11-libs/cairo
-		x11-libs/libdrm
 		x11-libs/libXcursor
 		x11-libs/libXdamage
 		x11-libs/libXext
@@ -136,14 +142,12 @@ DEPEND="
 		x11-libs/libxkbcommon
 	)
 	websocket? (
-		dev-cpp/asio
+		<dev-cpp/asio-1.34.0
 		dev-cpp/websocketpp
 		dev-libs/qr-code-generator
 	)
 "
-RDEPEND="${DEPEND}
-	qsv? ( media-libs/intel-mediasdk )
-"
+RDEPEND="${DEPEND}"
 
 QA_PREBUILT="
 	usr/lib*/obs-plugins/chrome-sandbox
@@ -184,20 +188,15 @@ src_prepare() {
 	use wayland && filter-lto
 
 	cmake_src_prepare
-
-	pushd deps/json11 &> /dev/null || die
-		eapply "${FILESDIR}/json11-1.0.0-include-cstdint.patch"
-	popd &> /dev/null || die
 }
 
 src_configure() {
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
-		$(usev browser -DCEF_ROOT_DIR=../${CEF_VERSION})
+		-DCCACHE_PROGRAM=OFF
 		-DENABLE_ALSA=$(usex alsa)
 		-DENABLE_AJA=OFF
 		-DENABLE_BROWSER=$(usex browser)
-		-DENABLE_CCACHE=OFF
 		-DENABLE_DECKLINK=$(usex decklink)
 		-DENABLE_FFMPEG_NVENC=$(usex nvenc)
 		-DENABLE_FREETYPE=$(usex truetype)
@@ -237,6 +236,8 @@ src_configure() {
 	fi
 
 	if use browser; then
+		use amd64 && mycmakeargs+=( -DCEF_ROOT_DIR=../cef_binary_6533_linux_x86_64 )
+		use arm64 && mycmakeargs+=( -DCEF_ROOT_DIR=../cef_binary_6533_linux_aarch64 )
 		mycmakeargs+=( -DENABLE_WHATSNEW=ON )
 	else
 		mycmakeargs+=( -DENABLE_WHATSNEW=OFF )
@@ -249,8 +250,8 @@ src_install() {
 	cmake_src_install
 
 	# external plugins may need some things not installed by default, install them here
-	insinto /usr/include/obs/UI/obs-frontend-api
-	doins UI/obs-frontend-api/obs-frontend-api.h
+	insinto /usr/include/obs/frontend/api
+	doins frontend/api/obs-frontend-api.h
 }
 
 pkg_postinst() {

@@ -1,12 +1,12 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit toolchain-funcs
+inherit dot-a toolchain-funcs
 
 DESCRIPTION="Simplified Satisfiability Solver"
-HOMEPAGE="http://fmv.jku.at/cadical/
+HOMEPAGE="https://fmv.jku.at/cadical/
 	https://github.com/arminbiere/cadical/"
 
 if [[ "${PV}" == *9999* ]] ; then
@@ -18,7 +18,7 @@ else
 		-> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-rel-${PV}"
 
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 ~x86"
 fi
 
 LICENSE="MIT"
@@ -34,6 +34,7 @@ DOCS=( CONTRIBUTING.md NEWS.md README.md )
 src_configure() {
 	tc-export AR
 
+	lto-guarantee-fat
 	CXX="$(tc-getCXX)" CXXFLAGS="${CXXFLAGS} ${LDFLAGS}" ./configure || die
 }
 
@@ -44,6 +45,7 @@ src_install() {
 	dolib.a build/libcadical.a
 	doheader src/cadical.hpp
 	doheader src/ccadical.h
+	strip-lto-bytecode
 
 	einstalldocs
 }

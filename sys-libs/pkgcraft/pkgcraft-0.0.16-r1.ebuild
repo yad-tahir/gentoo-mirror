@@ -1,4 +1,4 @@
-# Copyright 2023-2024 Gentoo Authors
+# Copyright 2023-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,7 +7,7 @@ CRATES=" "
 
 RUST_MIN_VER="1.77.1"
 
-inherit edo cargo flag-o-matic toolchain-funcs
+inherit edo cargo flag-o-matic multiprocessing toolchain-funcs
 
 DESCRIPTION="C library for pkgcraft"
 HOMEPAGE="https://pkgcraft.github.io/"
@@ -24,7 +24,7 @@ else
 	SRC_URI="https://github.com/pkgcraft/pkgcraft/releases/download/${MY_P}/${MY_P}.tar.xz"
 	S="${WORKDIR}"/${MY_P}
 
-	KEYWORDS="~amd64 ~arm64"
+	KEYWORDS="amd64 ~arm64"
 fi
 
 LICENSE="MIT"
@@ -74,6 +74,8 @@ src_test() {
 		# It's interesting to test the whole thing rather than just
 		# pkgcraft-c.
 		cd "${WORKDIR}"/${P} || die
+
+		local -x NEXTEST_TEST_THREADS="$(makeopts_jobs)"
 
 		# Need nextest per README (separate processes required)
 		# Invocation from https://github.com/pkgcraft/pkgcraft/blob/main/.github/workflows/ci.yml#L56

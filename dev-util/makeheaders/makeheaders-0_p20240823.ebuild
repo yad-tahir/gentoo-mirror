@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -22,7 +22,7 @@ SRC_URI="
 
 LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~sparc ~x86"
+KEYWORDS="amd64 ~arm ~arm64 ~ppc ~sparc x86"
 
 HTML_DOCS=( "makeheaders.html" )
 
@@ -33,7 +33,7 @@ src_unpack() {
 }
 
 src_compile() {
-	edo $(tc-getCC) ${CFLAGS} ${LDFLAGS} -o makeheaders makeheaders.c
+	edo $(tc-getCC) ${CFLAGS} ${CPPFLAGS} ${LDFLAGS} -o makeheaders makeheaders.c
 }
 
 src_install() {

@@ -1,11 +1,11 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{10..14} )
 
-inherit python-single-r1 toolchain-funcs
+inherit python-single-r1 toolchain-funcs flag-o-matic
 
 DESCRIPTION="A collection of latency testing tools for the linux(-rt) kernel"
 HOMEPAGE="https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git/"
@@ -22,12 +22,17 @@ DEPEND="${PYTHON_DEPS}
 	sys-process/numactl"
 RDEPEND="${DEPEND}"
 
+PATCHES=(
+	"${FILESDIR}/${P}-glibc.patch"
+)
+
 src_prepare() {
 	default
 	use elibc_musl && eapply "${FILESDIR}/${P}-musl.patch"
 }
 
 src_compile() {
+	append-lfs-flags
 	emake CC="$(tc-getCC)" AR="$(tc-getAR)"
 }
 

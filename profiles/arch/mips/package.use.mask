@@ -1,6 +1,97 @@
 # Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-08-29)
+# dev-perl/Template-GD is not keyworded here. Bug #661634
+dev-perl/Template-Toolkit gd
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-08-16)
+# virtual/mysql[static] has no keyworded implementations here.
+>=virtual/mysql-8.0 static
+
+# Pacho Ramos <pacho@gentoo.org> (2025-08-15)
+# dev-lang/spidermonkey:128 is not keyworded on mips, #941187
+app-crypt/libsecret test-rust
+dev-util/glade gjs
+
+# Andreas K. Hüttel <dilfridge@gentoo.org> (2025-07-18)
+# Not keyworded for mips
+app-alternatives/sh ksh
+
+# Cristian Othón Martínez Vera <cfuga@cfuga.mx> (2025-07-15)
+# Needs gui-apps/grim, which is not keyworded here
+x11-misc/xscreensaver wayland
+
+# Petr Vaněk <arkamar@gentoo.org> (2025-06-28)
+# dev-db/mariadb is not keyworded
+dev-db/mariadb-connector-c test
+dev-perl/DBD-mysql test
+dev-perl/DBD-MariaDB test
+
+# Sam James <sam@gentoo.org> (2025-06-07)
+# Needs dev-python/matplotlib
+dev-python/mpmath test-full
+
+# Hans de Graaff <graaff@gentoo.org> (2025-05-31)
+# Requires large parts of dev-ruby/rails to be keyworded.
+dev-ruby/minitest-hooks test
+
+# NRK <nrk@disroot.org> (2025-05-18)
+# app-arch/plzip is not keyworded
+app-alternatives/lzip plzip
+
+# NRK <nrk@disroot.org> (2025-04-07)
+# media-libs/libyuv is not keyworded
+media-libs/imlib2 y4m
+
+# Z. Liu <zhixu.liu@gmail.com> (2025-02-28)
+# requires sys-libs/db:5.3
+dev-lisp/clisp berkdb
+
+# Matt Jolly <kangie@gentoo.org> (2025-04-02)
+# Requires net-misc/gsasl which is not keyworded here
+net-misc/curl sasl-scram
+
+# Sam James <sam@gentoo.org> (2025-03-19)
+# media-libs/libebur128 not keyworded here
+media-video/pipewire loudness
+
+# Joonas Niilola <juippis@gentoo.org> (2025-03-18)
+# llvm-17 stack not keyworded on mips, later versions are.
+# Spidermonkey still declares llvm-17 compat on other arches.
+dev-lang/spidermonkey llvm_slot_17
+
+# NRK <nrk@disroot.org> (2025-03-17)
+# media-libs/libyuv is not keyworded
+media-libs/libavif libyuv
+
+# Sam James <sam@gentoo.org> (2025-03-17)
+# dev-util/babeltrace is not keyworded here
+dev-debug/gdb babeltrace
+
+# Ionen Wolkens <ionen@gentoo.org> (2025-03-10)
+# net-libs/rabbitmq-c is not keyworded here
+media-video/ffmpeg rabbitmq
+media-video/ffmpeg-compat rabbitmq
+
+# Ionen Wolkens <ionen@gentoo.org> (2025-03-10)
+# media-libs/libopenmpt is not keyworded here
+media-video/ffmpeg openmpt
+media-video/ffmpeg-compat openmpt
+
+# Sam James <sam@gentoo.org> (2025-03-04)
+# qt is not keyworded here
+net-wireless/wpa_supplicant gui
+
+# Sam James <sam@gentoo.org> (2025-02-21)
+# media-video/rav1e is not yet keyworded here
+media-video/ffmpeg rav1e
+media-video/ffmpeg-compat rav1e
+
+# Pacho Ramos <pacho@gentoo.org> (2025-01-26)
+# Needs unkeyworded net-libs/msgraph
+gnome-base/gvfs onedrive
+
 # Sam James <sam@gentoo.org> (2025-01-10)
 # Many unkeyworded dependencies like parts of TL (bug #947788)
 dev-perl/Template-Toolkit gd latex vim-syntax
@@ -11,7 +102,7 @@ dev-libs/libfido2 hidapi
 
 # Matt Jolly <kangie@gentoo.org> (2024-11-03)
 # Requires llvm 16 which is not keyworded
-=dev-lang/rust-1.71.1-r100 system-llvm
+~dev-lang/rust-1.71.1 system-llvm
 
 # Felix Janda <felix.janda@posteo.de> (2024-10-20)
 # requires dev-libs/libcss and net-libs/libdom to be keyworded
@@ -42,7 +133,8 @@ gnome-base/gvfs google test
 # Michał Górny <mgorny@gentoo.org> (2024-09-08)
 # libcxx is broken on mips, https://bugs.gentoo.org/939297#c2
 llvm-core/clang-common default-libcxx
-llvm-core/clang-runtime libcxx
+llvm-runtimes/clang-runtime default-libcxx libcxx
+llvm-runtimes/clang-stdlib-config default-libcxx
 
 # Hans de Graaff <graaff@gentoo.org> (2024-09-08)
 # Requires large parts of dev-ruby/rails to be keyworded
@@ -56,6 +148,7 @@ app-crypt/gcr:4 gtk
 # Arthur Zamarin <arthurzam@gentoo.org> (2024-09-06)
 # media-libs/vidstab is not keyworded
 media-video/ffmpeg vidstab
+media-video/ffmpeg-compat vidstab
 
 # Arthur Zamarin <arthurzam@gentoo.org> (2024-09-06)
 # media-video/rav1e isn't keyworded here
@@ -130,6 +223,7 @@ dev-util/maturin doc
 # Andreas Sturmlechner <asturm@gentoo.org> (2024-06-29)
 # media-libs/libplacebo is not keyworded
 media-video/ffmpeg libplacebo
+media-video/ffmpeg-compat libplacebo
 
 # Michał Górny <mgorny@gentoo.org> (2024-05-08)
 # Requires sys-devel/{clang,llvm}:16.
@@ -148,10 +242,6 @@ dev-cpp/eigen test
 # net-libs/libotr fails tests, #918448
 net-irc/irssi otr
 
-# matoro <matoro_gentoo@matoro.tk> (2024-02-28)
-# dev-util/glslang not keyworded here
-media-video/ffmpeg glslang
-
 # Sam James <sam@gentoo.org> (2024-01-02)
 # dev-libs/capstone not keyworded here
 dev-lang/php capstone
@@ -165,10 +255,12 @@ dev-lang/php capstone
 # media-libs/libjxl casualties
 # https://github.com/libjxl/libjxl/issues/2433
 media-video/ffmpeg jpegxl
+media-video/ffmpeg-compat jpegxl
 
 # matoro <matoro_gentoo@matoro.tk> (2023-12-15)
 # media-libs/libvpx casualties (#700902)
 media-video/ffmpeg vpx
+media-video/ffmpeg-compat vpx
 media-plugins/gst-plugins-meta vpx
 
 # matoro <matoro_gentoo@matoro.tk> (2023-11-26)
@@ -181,11 +273,12 @@ net-analyzer/rrdtool rados
 
 # matoro <matoro_gentoo@matoro.tk> (2023-11-24)
 # media-libs/shaderc not keyworded here.
->=media-video/ffmpeg-5 shaderc
+media-video/ffmpeg shaderc
+media-video/ffmpeg-compat shaderc
 
 # matoro <matoro_gentoo@matoro.tk> (2023-11-22)
-# Qt 5 is not keyworded here
-app-admin/setools X test
+# PyQt 6 is not keyworded here
+app-admin/setools gui test
 
 # matoro <matoro_gentoo@matoro.tk> (2023-11-22)
 # Qt 5 is not keyworded here
@@ -195,6 +288,7 @@ net-p2p/bitcoin-core gui qrcode
 # media-libs/libaom casualties
 # https://bugs.chromium.org/p/aomedia/issues/detail?id=3487
 media-video/ffmpeg libaom
+media-video/ffmpeg-compat libaom
 media-libs/libavif aom
 media-libs/libheif aom
 
@@ -234,7 +328,6 @@ net-dns/ddclient test
 
 # Mike Gilbert <floppym@gentoo.org> (2022-10-16)
 # Only supported on MIPS.
-dev-lang/gnat-gpl -fixed-point
 sys-devel/gcc -fixed-point
 
 # Matt Turner <mattst88@gentoo.org> (2022-04-18)
@@ -244,6 +337,7 @@ app-text/enchant nuspell
 # Adel Kara Slimane <adel.ks@zegrapher.com> (2022-03-14)
 # Untested useflag on other arches, needs keywording
 media-video/ffmpeg vmaf
+media-video/ffmpeg-compat vmaf
 
 # James Le Cuirot <chewi@gentoo.org> (2022-02-24)
 # These GRUB platforms are only for MIPS.
@@ -274,9 +368,10 @@ dev-libs/libgudev test
 dev-python/diskcache test
 
 # Sam James <sam@gentoo.org> (2021-02-06)
+# dev-qt/qtbase:6 is not keyworded here
 # media-sound/sndio is not yet keyworded here
 # bug #769098, bug #769122
-media-libs/openal sndio
+media-libs/openal gui sndio
 
 # Sam James <sam@gentoo.org> (2021-01-19)
 # Joonas Niilola <juippis@gentoo.org> (2021-01-10)
@@ -291,7 +386,7 @@ app-text/enchant voikko
 
 # Matt Turner <mattst88@gentoo.org> (2020-08-11)
 # No drivers on this architecture support Vulkan
-media-libs/mesa vulkan vulkan-overlay video_cards_zink
+media-libs/mesa vulkan-overlay video_cards_zink
 
 # Michał Górny <mgorny@gentoo.org> (2018-01-23)
 # USE=collab requires unkeyworded net-libs/loudmouth & dev-cpp/asio.
@@ -369,10 +464,6 @@ dev-ruby/rubygems server
 # Jim Ramsay <lack@gentoo.org> (2007-09-07)
 # app-admin/gkrellm may pull in hddtemp, which is not yet available here
 app-admin/gkrellm hddtemp
-
-# Christian Heim <phreak@gentoo.org> (2007-07-07)
-# virtual/mysql-5 not keyworded yet, still apr-util has the mips keyword.
-dev-libs/apr-util mysql
 
 # Stuart Longland <redhatter@gentoo.org> (2007-09-07)
 # mplayer not tested with these flags yet.  I may remove these slowly as I test

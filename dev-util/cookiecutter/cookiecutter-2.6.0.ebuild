@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..13} pypy3 )
+PYTHON_COMPAT=( python3_{10..13} pypy3 pypy3_11 )
 DISTUTILS_USE_PEP517=setuptools
 inherit distutils-r1
 
@@ -13,7 +13,7 @@ SRC_URI="https://github.com/cookiecutter/cookiecutter/archive/${PV}.tar.gz -> ${
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm64 ~ppc64 ~riscv x86"
 
 RDEPEND="
 	dev-python/arrow[${PYTHON_USEDEP}]

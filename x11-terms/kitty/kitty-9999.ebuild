@@ -1,11 +1,11 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..13} )
-inherit edo go-env optfeature multiprocessing
-inherit python-single-r1 toolchain-funcs xdg
+PYTHON_COMPAT=( python3_{11..14} )
+inherit edo go-env optfeature multiprocessing python-single-r1
+inherit shell-completion toolchain-funcs xdg
 
 if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
@@ -41,13 +41,14 @@ RDEPEND="
 	dev-libs/openssl:=
 	dev-libs/xxhash
 	media-fonts/symbols-nerd-font
-	media-libs/fontconfig
+	media-libs/freetype
 	media-libs/harfbuzz:=[truetype]
 	media-libs/lcms:2
 	media-libs/libglvnd[X?]
 	media-libs/libpng:=
 	sys-apps/dbus
 	sys-libs/zlib:=
+	x11-libs/cairo
 	x11-libs/libxkbcommon[X?]
 	x11-misc/xkeyboard-config
 	~x11-terms/kitty-shell-integration-${PV}
@@ -78,7 +79,7 @@ BDEPEND="
 	>=dev-lang/go-1.23:=
 	sys-libs/ncurses
 	virtual/pkgconfig
-	test? ( $(python_gen_cond_dep 'dev-python/pillow[${PYTHON_USEDEP}]') )
+	test? ( $(python_gen_cond_dep 'dev-python/pillow[zlib,${PYTHON_USEDEP}]') )
 	wayland? ( dev-util/wayland-scanner )
 "
 [[ ${PV} == 9999 ]] || BDEPEND+=" verify-sig? ( sec-keys/openpgp-keys-kovidgoyal )"
@@ -119,6 +120,8 @@ src_prepare() {
 	sed -i setup.py "${sedargs[@]}" || die
 
 	local skiptests=(
+		# broken with nspawn defaults, skip for convenience (bug #954176)
+		kitty_tests/crypto.py
 		# relies on 'who' command which doesn't detect users with pid-sandbox
 		kitty_tests/utmp.py
 		# may fail/hang depending on environment and shell initialization
@@ -141,7 +144,7 @@ src_compile() {
 		--disable-link-time-optimization
 		--ignore-compiler-warnings
 		--libdir-name=$(get_libdir)
-		--shell-integration="enabled no-rc no-sudo"
+		--shell-integration="enabled no-sudo"
 		--update-check-interval=0
 		--verbose
 	)
@@ -157,11 +160,17 @@ src_compile() {
 		mv linux-package/share/doc/{${PN},${PF}} || die
 	fi
 
-	# generate default config as reference, command taken from docs/conf.rst
 	if ! tc-is-cross-compiler; then
+		# generate default config reference, command taken from docs/conf.rst
 		linux-package/bin/kitty +runpy \
 			'from kitty.config import *; print(commented_out_default_config())' \
 			> linux-package/share/doc/${PF}/kitty.conf || die
+
+		# generate shell completions, shell-integration/ has some "old" pre-gen
+		# ones that currently miss things (no bash, no kitten for zsh, etc...)
+		linux-package/bin/kitten __complete__ setup bash > "${T}"/kitty || die
+		linux-package/bin/kitten __complete__ setup fish > "${T}"/kitty.fish || die
+		linux-package/bin/kitten __complete__ setup zsh > "${T}"/_kitty || die
 	fi
 }
 
@@ -176,6 +185,13 @@ src_install() {
 	# time, then uses that rather than the system's at runtime
 	dosym -r /usr/share/fonts/symbols-nerd-font/SymbolsNerdFontMono-Regular.ttf \
 		/usr/"$(get_libdir)"/kitty/fonts/SymbolsNerdFontMono-Regular.ttf
+
+	if ! tc-is-cross-compiler; then
+		dobashcomp "${T}"/kitty
+		bashcomp_alias kitty edit-in-kitty clone-in-kitty kitten
+		dofishcomp "${T}"/kitty.fish
+		dozshcomp "${T}"/_kitty
+	fi
 }
 
 pkg_postinst() {

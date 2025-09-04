@@ -17,6 +17,26 @@
 
 #--- END OF EXAMPLES ---
 
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-08-29)
+# dev-perl/Template-GD is not stable here. Bug #962143
+dev-perl/Template-Toolkit gd
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-08-29)
+# dev-perl/GD-Barcode is not stable here. Bug #962143
+dev-perl/Business-ISBN barcode
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-08-29)
+# dev-perl/GDTextUtil is not stable here. Bug #661634
+media-video/vdrsync dvdr
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-03-07)
+# KDE Frameworks is no longer stable on x86
+x11-themes/QGnomePlatform qt5
+
+# Sam James <sam@gentoo.org> (2025-02-13)
+# sys-cluster/corosync is marked stable here
+sys-fs/mdadm -corosync
+
 # Sam James <sam@gentoo.org> (2025-01-04)
 # kde-plasma/kde-cli-tools not marked stable here
 x11-misc/xdg-utils plasma
@@ -35,7 +55,7 @@ dev-python/selenium test-rust
 dev-util/selenium-manager test
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2024-09-20)
-# dev-python/pyside6 is not stable here.
+# dev-python/pyside is not stable here.
 dev-python/qtpy pyside6
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2024-09-02)
@@ -61,7 +81,7 @@ sys-kernel/installkernel efistub
 
 # Arthur Zamarin <arthurzam@gentoo.org> (2023-06-03)
 # Destabilizing x86 keywords on sci-*/* packages
-app-metrics/collectd collectd_plugins_gps collectd_plugins_sigrok
+app-metrics/collectd collectd_plugins_gps
 dev-games/openscenegraph las
 dev-libs/efl physics
 media-libs/a52dec djbfft
@@ -129,10 +149,6 @@ net-analyzer/wireshark -doc
 # Stable mask dev-ruby/haml test till rails is stabilized.
 dev-ruby/haml test
 
-# Adam Feldman <NP-Hardass@gentoo.org> (2017-09-27)
-# patchset variants are not stable
-virtual/wine proton staging
-
 # Christoph Junghans <junghans@gentoo.org> (2017-02-26)
 # Stable mask some fabrics (bug #525534)
 sys-cluster/openmpi openmpi_fabrics_knem openmpi_fabrics_ofed openmpi_rm_pbs openmpi_ofed_features_rdmacm openmpi_ofed_features_control-hdr-padding openmpi_ofed_features_udcm openmpi_ofed_features_dynamic-sl
@@ -154,4 +170,4 @@ dev-cpp/eigen test
 # Michał Górny <mgorny@gentoo.org> (2014-03-30)
 # Don't apply stable masks to python-exec since we're forcing every
 # impl there anyway. Please keep this in sync with use.stable.mask.
-dev-lang/python-exec -python_targets_pypy3
+dev-lang/python-exec -python_targets_pypy3_11

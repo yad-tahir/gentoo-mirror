@@ -3,11 +3,11 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{11..13} )
 DISTUTILS_USE_PEP517=setuptools
 DISTUTILS_SINGLE_IMPL=1
 
-inherit distutils-r1
+inherit distutils-r1 eapi9-ver
 
 DESCRIPTION="Utility to communicate with the ROM bootloader in Espressif ESP8266 and ESP32"
 HOMEPAGE="https://github.com/espressif/esptool"
@@ -15,7 +15,7 @@ SRC_URI="https://github.com/espressif/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="amd64 ~arm ~arm64 x86"
 
 RDEPEND="
 	$(python_gen_cond_dep '
@@ -34,6 +34,8 @@ BDEPEND="
 	')
 	test? ( $(python_gen_cond_dep '
 		dev-python/cffi[${PYTHON_USEDEP}]
+		dev-python/requests[${PYTHON_USEDEP}]
+		dev-python/flaky[${PYTHON_USEDEP}]
 		dev-python/pyelftools[${PYTHON_USEDEP}]
 		dev-python/pytest[${PYTHON_USEDEP}]
 	') )
@@ -58,7 +60,7 @@ src_prepare() {
 }
 
 pkg_postinst() {
-	if ver_test ${REPLACING_VERSIONS} -lt 4; then
+	if ver_replacing -lt 4; then
 		ewarn "${P} - new 4.x release with breaking changes:"
 		ewarn "  - Public API has been defined by limiting access to internals that have been refactored into multiple source files"
 		ewarn "  - If active security features are detected, the default behavior changes to prevent unintentional bricking"

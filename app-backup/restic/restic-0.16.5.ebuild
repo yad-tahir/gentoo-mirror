@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -6,7 +6,7 @@ EAPI=8
 inherit go-module shell-completion
 
 DESCRIPTION="A backup program that is fast, efficient and secure"
-HOMEPAGE="https://restic.github.io/"
+HOMEPAGE="https://restic.net/"
 SRC_URI="https://github.com/restic/restic/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 SRC_URI+=" https://gentoo.kropotkin.rocks/go-pkgs/${P}-deps.tar.xz"
 
@@ -40,7 +40,7 @@ src_install() {
 
 	newbashcomp doc/bash-completion.sh "${PN}"
 	newzshcomp doc/zsh-completion.zsh _restic
-	newfishcomp doc/fish-completion.fish "${PN}"
+	newfishcomp doc/fish-completion.fish "${PN}.fish"
 
 	doman doc/man/*
 	dodoc doc/*.rst

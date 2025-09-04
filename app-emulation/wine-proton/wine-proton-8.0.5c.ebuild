@@ -1,10 +1,10 @@
-# Copyright 2022-2024 Gentoo Authors
+# Copyright 2022-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 MULTILIB_COMPAT=( abi_x86_{32,64} )
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{11..14} )
 inherit autotools flag-o-matic multilib multilib-build prefix
 inherit python-any-r1 readme.gentoo-r1 toolchain-funcs wrapper
 
@@ -28,10 +28,10 @@ HOMEPAGE="https://github.com/ValveSoftware/wine/"
 LICENSE="LGPL-2.1+ BSD-2 IJG MIT OPENLDAP ZLIB gsm libpng2 libtiff"
 SLOT="${PV}"
 IUSE="
-	+abi_x86_32 +abi_x86_64 +alsa crossdev-mingw custom-cflags
-	+fontconfig +gecko +gstreamer llvm-libunwind +mono nls osmesa
-	perl pulseaudio +sdl selinux +ssl +strip udev udisks +unwind
-	usb v4l video_cards_amdgpu +xcomposite xinerama
+	+abi_x86_32 +abi_x86_64 +alsa crossdev-mingw custom-cflags +dbus
+	+fontconfig +gecko +gstreamer llvm-libunwind +mono nls perl
+	pulseaudio +sdl selinux +ssl +strip udev +unwind usb v4l
+	video_cards_amdgpu +xcomposite xinerama
 "
 
 # tests are non-trivial to run, can hang easily, don't play well with
@@ -50,14 +50,13 @@ WINE_DLOPEN_DEPEND="
 	x11-libs/libXrandr[${MULTILIB_USEDEP}]
 	x11-libs/libXrender[${MULTILIB_USEDEP}]
 	x11-libs/libXxf86vm[${MULTILIB_USEDEP}]
+	dbus? ( sys-apps/dbus[${MULTILIB_USEDEP}] )
 	fontconfig? ( media-libs/fontconfig[${MULTILIB_USEDEP}] )
-	osmesa? ( media-libs/mesa[osmesa,${MULTILIB_USEDEP}] )
 	sdl? ( media-libs/libsdl2[haptic,joystick,${MULTILIB_USEDEP}] )
 	ssl? (
 		dev-libs/gmp:=[${MULTILIB_USEDEP}]
 		net-libs/gnutls:=[${MULTILIB_USEDEP}]
 	)
-	udisks? ( sys-apps/dbus[${MULTILIB_USEDEP}] )
 	v4l? ( media-libs/libv4l[${MULTILIB_USEDEP}] )
 	xcomposite? ( x11-libs/libXcomposite[${MULTILIB_USEDEP}] )
 	xinerama? ( x11-libs/libXinerama[${MULTILIB_USEDEP}] )
@@ -66,7 +65,6 @@ WINE_COMMON_DEPEND="
 	${WINE_DLOPEN_DEPEND}
 	x11-libs/libX11[${MULTILIB_USEDEP}]
 	x11-libs/libXext[${MULTILIB_USEDEP}]
-	x11-libs/libdrm[video_cards_amdgpu?,${MULTILIB_USEDEP}]
 	alsa? ( media-libs/alsa-lib[${MULTILIB_USEDEP}] )
 	gstreamer? (
 		dev-libs/glib:2[${MULTILIB_USEDEP}]
@@ -80,6 +78,7 @@ WINE_COMMON_DEPEND="
 		!llvm-libunwind? ( sys-libs/libunwind:=[${MULTILIB_USEDEP}] )
 	)
 	usb? ( dev-libs/libusb:1[${MULTILIB_USEDEP}] )
+	video_cards_amdgpu? ( x11-libs/libdrm[video_cards_amdgpu,${MULTILIB_USEDEP}] )
 "
 RDEPEND="
 	${WINE_COMMON_DEPEND}
@@ -92,7 +91,6 @@ RDEPEND="
 		dev-perl/XML-LibXML
 	)
 	selinux? ( sec-policy/selinux-wine )
-	udisks? ( sys-fs/udisks:2 )
 "
 DEPEND="
 	${WINE_COMMON_DEPEND}
@@ -127,6 +125,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-8.0.1c-unwind.patch
 	"${FILESDIR}"/${PN}-8.0.4-restore-menubuilder.patch
 	"${FILESDIR}"/${PN}-8.0.5c-vulkan-libm.patch
+	"${FILESDIR}"/${PN}-9.0.4-binutils2.44.patch
 )
 
 pkg_pretend() {
@@ -237,16 +236,16 @@ src_configure() {
 		$(use_enable video_cards_amdgpu amd_ags_x64)
 		--disable-tests
 		$(use_with alsa)
+		$(use_with dbus)
 		$(use_with fontconfig)
 		$(use_with gstreamer)
 		$(use_with nls gettext)
-		$(use_with osmesa)
+		--without-osmesa # media-libs/mesa no longer supports this
 		--without-oss # media-sound/oss is not packaged (OSSv4)
 		$(use_with pulseaudio pulse)
 		$(use_with sdl)
 		$(use_with ssl gnutls)
 		$(use_with udev)
-		$(use_with udisks dbus) # dbus is only used for udisks
 		$(use_with unwind)
 		$(use_with usb)
 		$(use_with v4l v4l2)
@@ -412,5 +411,7 @@ pkg_postinst() {
 }
 
 pkg_postrm() {
-	eselect wine update --if-unset || die
+	if has_version -b app-eselect/eselect-wine; then
+		eselect wine update --if-unset || die
+	fi
 }

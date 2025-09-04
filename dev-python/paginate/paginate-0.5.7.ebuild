@@ -1,10 +1,10 @@
-# Copyright 2023-2024 Gentoo Authors
+# Copyright 2023-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( pypy3 python3_{10..13} )
+PYTHON_COMPAT=( pypy3_11 python3_{11..14} )
 
 inherit distutils-r1
 
@@ -23,22 +23,3 @@ SLOT="0"
 KEYWORDS="amd64 ~arm arm64 ~ppc ~ppc64 ~riscv x86"
 
 distutils_enable_tests pytest
-
-python_test() {
-	local EPYTEST_DESELECT=()
-
-	case ${EPYTHON} in
-		python3.13)
-			;&
-		python3.12)
-			EPYTEST_DESELECT+=(
-				# these tests assume that dict is not sliceable
-				# https://github.com/Pylons/paginate/issues/19
-				tests/test_paginate.py::test_wrong_collection
-				tests/test_paginate.py::TestCollectionTypes::test_unsliceable_sequence3
-			)
-			;;
-	esac
-
-	epytest
-}

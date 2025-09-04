@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -14,7 +14,7 @@ SRC_URI="https://jedsoft.org/releases/${PN}/${MY_P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 ppc x86 ~amd64-linux ~x86-linux"
 IUSE="canlock nls selinux ssl uudeview"
 
 RDEPEND="app-arch/sharutils
@@ -32,6 +32,10 @@ RDEPEND+=" selinux? ( sec-policy/selinux-slrnpull )"
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.0.2-make.patch
 	"${FILESDIR}"/${P}-configure.patch
+)
+
+QA_CONFIG_IMPL_DECL_SKIP=(
+	__va_copy # bug #900270, pre-C99 extension, using standard va_copy() instead
 )
 
 src_configure() {

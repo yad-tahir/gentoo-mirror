@@ -1,4 +1,4 @@
-# Copyright 2019-2024 Gentoo Authors
+# Copyright 2019-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Unmask the flag which corresponds to ARCH.
@@ -32,11 +32,6 @@
 pdfium
 webengine
 
-# Marek Szuba <marecki@gentoo.org> (2021-08-14)
-# sci-libs/netcdf fails tests in a way suggesting it might be completely
-# unreliable on this arch as far as I/O is concerned.
-netcdf
-
 # Marek Szuba <marecki@gentoo.org> (2021-07-05)
 # dev-lang/luajit does not support this arch
 lua_single_target_luajit
@@ -53,6 +48,9 @@ mono
 
 # No proper support for this arch yet
 java
+
+
+-video_cards_imagination
 
 # not supported / tested cards
 
@@ -83,4 +81,3 @@ input_devices_joystick
 input_devices_vmmouse
 input_devices_void
 input_devices_synaptics
-input_devices_wacom

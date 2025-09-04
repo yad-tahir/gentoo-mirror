@@ -3,9 +3,9 @@
 
 EAPI=8
 
-LLVM_COMPAT=( {15..19} )
+LLVM_COMPAT=( {15..21} )
 LLVM_OPTIONAL=1
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{11..14} )
 inherit cmake edo flag-o-matic go-env llvm-r2 multiprocessing
 inherit python-any-r1 readme.gentoo-r1 xdg
 
@@ -45,13 +45,14 @@ IUSE="
 REQUIRED_USE="clang? ( ${LLVM_REQUIRED_USE} )"
 RESTRICT="!test? ( test )"
 
-QT_PV=6.5.4:6
+QT_PV=6.7.3:6
 
 # := is used where Qt's private APIs are used for safety
 COMMON_DEPEND="
+	app-arch/libarchive:=
 	dev-cpp/yaml-cpp:=
 	>=dev-qt/qt5compat-${QT_PV}
-	>=dev-qt/qtbase-${QT_PV}=[concurrent,dbus,gui,network,widgets,xml]
+	>=dev-qt/qtbase-${QT_PV}=[concurrent,dbus,gui,network,ssl,widgets,xml]
 	>=dev-qt/qtdeclarative-${QT_PV}=
 	clang? (
 		$(llvm_gen_dep '
@@ -71,6 +72,8 @@ COMMON_DEPEND="
 	qmldesigner? (
 		>=dev-qt/qtquick3d-${QT_PV}=
 		>=dev-qt/qtsvg-${QT_PV}
+		>=dev-qt/qtwebsockets-${QT_PV}
+		webengine? ( >=dev-qt/qtwebengine-${QT_PV} )
 	)
 	serialterminal? ( >=dev-qt/qtserialport-${QT_PV} )
 	svg? ( >=dev-qt/qtsvg-${QT_PV} )
@@ -98,11 +101,13 @@ BDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-15.0.0-musl-no-execinfo.patch
+	"${FILESDIR}"/${PN}-16.0.0-musl-no-execinfo.patch
 	"${FILESDIR}"/${PN}-12.0.0-musl-no-malloc-trim.patch
 )
 
-QA_FLAGS_IGNORED="usr/libexec/qtcreator/cmdbridge-.*" # written in Go
+# written in Go, use PREBUILT rather than FLAGS_IGNORED given the
+# the different arch versions confuse portage's checks
+QA_PREBUILT="usr/libexec/qtcreator/cmdbridge-*"
 
 src_unpack() {
 	if [[ ${PV} == 9999 ]]; then
@@ -125,6 +130,9 @@ src_prepare() {
 
 	# avoid stripping for Go, use sed to avoid rebases as may be there forever
 	sed -i 's/-s -w //' src/libs/gocmdbridge/server/CMakeLists.txt || die
+
+	# avoid building manual tests (aka not ran) for nothing (bug #950010)
+	sed -i '/add_subdirectory(manual)/d' tests/CMakeLists.txt || die
 
 	if use plugin-dev; then #928423
 		# cmake --install --component integrates poorly with the cmake
@@ -184,10 +192,16 @@ src_configure() {
 		# https://bugreports.qt.io/browse/QTCREATORBUG-29169
 		$(use help && usev !webengine -DCMAKE_DISABLE_FIND_PACKAGE_litehtml=yes)
 
+		# help shouldn't use with the above, but qmldesigner is automagic
+		$(use help || use qmldesigner &&
+			cmake_use_find_package webengine Qt6WebEngineWidgets)
+
 		-DBUILD_PLUGIN_SERIALTERMINAL=$(usex serialterminal)
 		-DENABLE_SVG_SUPPORT=$(usex svg)
-		$(usev !cmdbridge-server -DGO_BIN=GO_BIN-NOTFOUND) #945925
 		-DWITH_QMLDESIGNER=$(usex qmldesigner)
+
+		$(usev !cmdbridge-server -DGO_BIN=GO_BIN-NOTFOUND) #945925
+		-DUPX_BIN=UPX_BIN-NOTFOUND #961623
 
 		# meant to be in sync with qtbase[journald], but think(?) not worth
 		# handling given qt-creator can use QT_FORCE_STDERR_LOGGING=1 nowadays

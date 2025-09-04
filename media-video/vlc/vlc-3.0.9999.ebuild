@@ -1,4 +1,4 @@
-# Copyright 2000-2024 Gentoo Authors
+# Copyright 2000-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -62,6 +62,7 @@ BDEPEND="
 	wayland? ( dev-util/wayland-scanner )
 	x86? ( dev-lang/yasm )
 "
+# <media-plugins/live-2024.11.28: https://github.com/gentoo/gentoo/pull/40610#issuecomment-2664870395
 RDEPEND="
 	media-libs/libvorbis
 	net-dns/libidn:=
@@ -100,7 +101,7 @@ RDEPEND="
 	)
 	faad? ( media-libs/faad2 )
 	fdk? ( media-libs/fdk-aac:= )
-	ffmpeg? ( >=media-video/ffmpeg-3.1.3:=[postproc,vaapi?,vdpau?] )
+	ffmpeg? ( >=media-video/ffmpeg-3.1.3:=[postproc(-),vaapi?,vdpau?] )
 	flac? (
 		media-libs/flac:=
 		media-libs/libogg
@@ -147,7 +148,7 @@ RDEPEND="
 	libtiger? ( media-libs/libtiger )
 	linsys? ( media-libs/zvbi )
 	lirc? ( app-misc/lirc )
-	live? ( media-plugins/live:= )
+	live? ( <media-plugins/live-2024.11.28:= )
 	lua? ( ${LUA_DEPS} )
 	mad? ( media-libs/libmad )
 	matroska? (
@@ -192,7 +193,7 @@ RDEPEND="
 		x11-libs/cairo
 	)
 	taglib? ( media-libs/taglib:= )
-	theora? ( media-libs/libtheora )
+	theora? ( media-libs/libtheora:= )
 	tremor? ( media-libs/tremor )
 	truetype? (
 		media-libs/freetype:2
@@ -219,7 +220,7 @@ RDEPEND="
 	)
 	x264? ( >=media-libs/x264-0.0.20190214:= )
 	x265? ( media-libs/x265:= )
-	xml? ( dev-libs/libxml2:2 )
+	xml? ( dev-libs/libxml2:2= )
 	zeroconf? ( net-dns/avahi[dbus] )
 	zvbi? ( media-libs/zvbi )
 "
@@ -233,7 +234,6 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.0.11.1-configure_lua_version.patch
 	"${FILESDIR}"/${PN}-3.0.18-drop-minizip-dep.patch
 	"${FILESDIR}"/${PN}-3.0.21-freerdp-2.patch # bug 919296, 590164
-	"${FILESDIR}"/${PN}-3.0.21-vaapi-without-ffmpeg4.patch # bug 864721, thx Fedora
 )
 
 DOCS=( AUTHORS THANKS NEWS README doc/fortunes.txt )
@@ -287,6 +287,7 @@ src_configure() {
 
 	local myeconfargs=(
 		--disable-aa
+		--disable-amf-frc # DirectX specific
 		--disable-optimizations
 		--disable-rpath
 		--disable-update-check

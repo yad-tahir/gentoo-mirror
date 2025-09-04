@@ -1,7 +1,9 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="8"
+
+inherit toolchain-funcs
 
 if [[ ${PV} == "99999999" ]] ; then
 	inherit git-r3
@@ -29,10 +31,14 @@ RDEPEND="
 BDEPEND="app-arch/xz-utils"
 
 src_install() {
+	tc-export PKG_CONFIG # Bug 955822
+
 	default
 
 	if [[ ${PV} == "99999999" ]] ; then
 		sed -i "s:@CDEVPV@:${EGIT_VERSION}:" "${ED}"/usr/bin/crossdev || die
+	else
+		sed -i "s:@CDEVPV@:${PV}:" "${ED}"/usr/bin/crossdev || die
 	fi
 
 	dodir /usr/share/config.site.d

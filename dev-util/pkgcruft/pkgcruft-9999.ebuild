@@ -4,10 +4,10 @@
 EAPI=8
 
 CRATES=" "
-LLVM_COMPAT=( {17..19} )
-RUST_MIN_VER="1.82.0"
+LLVM_COMPAT=( {17..20} )
+RUST_MIN_VER="1.88.0"
 
-inherit cargo edo llvm-r2 shell-completion toolchain-funcs
+inherit cargo edo llvm-r2 multiprocessing shell-completion toolchain-funcs
 
 DESCRIPTION="QA library and tools based on pkgcraft"
 HOMEPAGE="https://pkgcraft.github.io/"
@@ -26,7 +26,7 @@ fi
 LICENSE="MIT"
 # Dependent crate licenses
 LICENSE+="
-	Apache-2.0 BSD-2 BSD CC0-1.0 GPL-3+ ISC MIT MPL-2.0 Unicode-DFS-2016
+	Apache-2.0 BSD-2 BSD CC0-1.0 CDLA-Permissive-2.0 ISC MIT MPL-2.0
 "
 SLOT="0"
 IUSE="test"
@@ -61,19 +61,36 @@ src_compile() {
 	tc-export AR CC
 
 	cargo_src_compile
-	edo cargo run --features shell --bin pkgcruft-shell-comp -p pkgcruft
+
+	if [[ ${PV} == 9999 ]] ; then
+		einfo "Generating shell completions"
+		mkdir shell || die
+		local BIN="${WORKDIR}/${P}/$(cargo_target_dir)/pkgcruft"
+		"${BIN}" completion bash > shell/pkgcruft.bash || die
+		"${BIN}" completion zsh > shell/_pkgcruft || die
+		"${BIN}" completion fish > shell/pkgcruft.fish || die
+	fi
 }
 
 src_test() {
 	unset CLICOLOR CLICOLOR_FORCE
 
-	edo cargo nextest run $(usev !debug '--release') --color always --all-features --tests
+	# TODO: Maybe move into eclass (and maybe have a cargo_enable_tests
+	# helper)
+	local -x NEXTEST_TEST_THREADS="$(makeopts_jobs)"
+
+	# The test failures appear ebuild-related
+	edo cargo nextest run $(usev !debug '--release') \
+		--color always \
+		--all-features \
+		--tests \
+		--no-fail-fast
 }
 
 src_install() {
 	cargo_src_install
 
-	newbashcomp shell/pkgcruft.bash ${PN}
+	newbashcomp shell/pkgcruft.bash pkgcruft
 	dozshcomp shell/_pkgcruft
 	dofishcomp shell/pkgcruft.fish
 }

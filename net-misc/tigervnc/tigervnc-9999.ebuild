@@ -1,17 +1,17 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 CMAKE_IN_SOURCE_BUILD=1
-inherit autotools cmake flag-o-matic java-pkg-opt-2 optfeature systemd xdg
+inherit autotools cmake eapi9-ver flag-o-matic java-pkg-opt-2 optfeature systemd xdg
 
-XSERVER_VERSION="21.1.14"
+XSERVER_VERSION="21.1.18"
 XSERVER_PATCH_VERSION="21"
 
 DESCRIPTION="Remote desktop viewer display system"
 HOMEPAGE="https://tigervnc.org"
-SRC_URI="server? ( ftp://ftp.freedesktop.org/pub/xorg/individual/xserver/xorg-server-${XSERVER_VERSION}.tar.xz )"
+SRC_URI="server? ( https://www.x.org/releases/individual/xserver/xorg-server-${XSERVER_VERSION}.tar.xz )"
 
 if [[ ${PV} == *9999 ]]; then
 	inherit git-r3
@@ -23,15 +23,17 @@ fi
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="dri3 +drm gnutls java nls +opengl +server +viewer xinerama"
+IUSE="dri3 +drm gnutls java nls +opengl +server test +viewer xinerama"
 REQUIRED_USE="
 	dri3? ( drm )
 	java? ( viewer )
 	opengl? ( server )
 	|| ( server viewer )
 "
+RESTRICT="!test? ( test )"
 
 # TODO: sys-libs/libselinux
+# <fltk-1.4: https://github.com/TigerVNC/tigervnc/pull/1887#issuecomment-2545662546
 COMMON_DEPEND="
 	dev-libs/gmp:=
 	dev-libs/nettle:=
@@ -68,7 +70,7 @@ COMMON_DEPEND="
 	)
 	viewer? (
 		media-video/ffmpeg:=
-		x11-libs/fltk:1=
+		<x11-libs/fltk-1.4:1=
 		x11-libs/libXi
 		x11-libs/libXrender
 		!net-misc/turbovnc[viewer]
@@ -95,13 +97,14 @@ DEPEND="${COMMON_DEPEND}
 BDEPEND="
 	virtual/pkgconfig
 	nls? ( sys-devel/gettext )
+	test? ( dev-cpp/gtest )
 "
 
 PATCHES=(
 	# Restore Java viewer
 	"${FILESDIR}"/${PN}-1.11.0-install-java-viewer.patch
 	"${FILESDIR}"/${PN}-1.14.0-xsession-path.patch
-	"${FILESDIR}"/${PN}-1.12.80-disable-server-and-pam.patch
+	"${FILESDIR}"/${PN}-1.15.80-disable-server-and-pam.patch
 	"${FILESDIR}"/${PN}-1.14.1-pam.patch
 )
 
@@ -195,6 +198,10 @@ src_compile() {
 	fi
 }
 
+src_test() {
+	ctest --test-dir tests/unit/
+}
+
 src_install() {
 	cmake_src_install
 
@@ -215,7 +222,7 @@ src_install() {
 pkg_postinst() {
 	xdg_pkg_postinst
 
-	use server && [[ -n ${REPLACING_VERSIONS} ]] && ver_test "${REPLACING_VERSIONS}" -lt 1.13.1-r3 && {
+	use server && ver_replacing -lt 1.13.1-r3 && {
 		elog 'OpenRC users: please migrate to one service per display as documented here:'
 		elog 'https://wiki.gentoo.org/wiki/TigerVNC#Migrating_from_1.13.1-r2_or_lower:'
 		elog

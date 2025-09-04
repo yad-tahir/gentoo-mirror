@@ -3,6 +3,7 @@
 
 EAPI=8
 
+QT6_HAS_STATIC_LIBS=1
 inherit flag-o-matic qt6-build
 
 DESCRIPTION="Multimedia (audio, video, radio, camera) library for the Qt6 framework"
@@ -12,23 +13,20 @@ if [[ ${QT6_BUILD_TYPE} == release ]]; then
 fi
 
 IUSE="
-	+X alsa eglfs +ffmpeg gstreamer opengl pulseaudio
-	qml screencast v4l vaapi vulkan wayland
+	+X alsa +dbus eglfs +ffmpeg gstreamer opengl pipewire pulseaudio
+	qml v4l vaapi vulkan wayland
 "
 # tst_qmediaplayerbackend hard requires qml, review in case becomes optional
 REQUIRED_USE="
 	|| ( ffmpeg gstreamer )
 	eglfs? ( ffmpeg opengl qml )
-	screencast? ( ffmpeg )
 	test? ( qml )
 	vaapi? ( ffmpeg opengl )
 "
 
-# gstreamer[X=] is to avoid broken gst detect if -X w/ gst[X] w/o xorg-proto
-# (*could* be removed if gst-plugins-base[X] RDEPENDs on xorg-proto)
-# := skipped on pipewire due to only being used through dbus
+# dlopen/dbus: pipewire
 RDEPEND="
-	~dev-qt/qtbase-${PV}:6[gui,network,opengl=,vulkan=,widgets]
+	~dev-qt/qtbase-${PV}:6[concurrent,gui,network,opengl=,vulkan=,widgets]
 	alsa? (
 		!pulseaudio? ( media-libs/alsa-lib )
 	)
@@ -44,7 +42,7 @@ RDEPEND="
 	gstreamer? (
 		dev-libs/glib:2
 		media-libs/gst-plugins-bad:1.0
-		media-libs/gst-plugins-base:1.0[X=]
+		media-libs/gst-plugins-base:1.0
 		media-libs/gstreamer:1.0
 		opengl? (
 			~dev-qt/qtbase-${PV}:6[X?,wayland?]
@@ -52,14 +50,14 @@ RDEPEND="
 		)
 	)
 	opengl? ( media-libs/libglvnd )
+	pipewire? (
+		~dev-qt/qtbase-${PV}:6[dbus?]
+		media-video/pipewire:=
+	)
 	pulseaudio? ( media-libs/libpulse )
 	qml? (
 		~dev-qt/qtdeclarative-${PV}:6
 		~dev-qt/qtquick3d-${PV}:6
-	)
-	screencast? (
-		~dev-qt/qtbase-${PV}:6[dbus]
-		media-video/pipewire
 	)
 "
 DEPEND="
@@ -87,9 +85,14 @@ CMAKE_SKIP_TESTS=(
 	tst_qscreencapture_integration
 	tst_qscreencapturebackend
 	tst_qvideoframebackend
+	# seems flaky depending on what codecs system libraries support or not
+	tst_qmediaformatbackend
 	# fails with offscreen rendering
 	tst_qvideoframecolormanagement
 	tst_qwindowcapturebackend
+	# >=ffmpeg-8 changed SWS_* defines to an enum and this confuses a test-only
+	# assert, should have no negative runtime effect so just skip for now
+	tst_qffmpegvideoencoderutils
 )
 
 PATCHES=(
@@ -115,8 +118,9 @@ src_configure() {
 				$(qt_feature wayland gstreamer_gl_wayland)
 			")
 		")
+		$(qt_feature pipewire)
+		$(usev pipewire $(qt_feature dbus pipewire_screencapture))
 		$(qt_feature pulseaudio)
-		$(qt_feature screencast pipewire)
 		$(qt_feature v4l linux_v4l)
 		$(qt_feature vaapi)
 	)

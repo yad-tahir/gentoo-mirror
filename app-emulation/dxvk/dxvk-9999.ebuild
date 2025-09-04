@@ -1,24 +1,29 @@
-# Copyright 2022-2024 Gentoo Authors
+# Copyright 2022-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{11..14} )
 MULTILIB_ABIS="amd64 x86" # allow usage on /no-multilib/
 MULTILIB_COMPAT=( abi_x86_{32,64} )
-inherit flag-o-matic meson-multilib python-any-r1
+inherit eapi9-ver flag-o-matic meson-multilib python-any-r1
 
 if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/doitsujin/dxvk.git"
 	EGIT_SUBMODULES=(
 		# picky about headers and is cross-compiled making -I/usr/include troublesome
-		include/{spirv,vulkan}
+		include/spirv
+		include/vulkan
+		subprojects/dxbc-spirv
+		subprojects/dxbc-spirv/submodules/spirv_headers
 		subprojects/libdisplay-info
 	)
 else
 	HASH_SPIRV=
 	HASH_VULKAN=
+	HASH_DXBCSPIRV=
+	HASH_DXBCSPIRV_SPIRV=
 	HASH_DISPLAYINFO=
 	SRC_URI="
 		https://github.com/doitsujin/dxvk/archive/refs/tags/v${PV}.tar.gz
@@ -27,6 +32,10 @@ else
 			-> spirv-headers-${HASH_SPIRV}.tar.gz
 		https://github.com/KhronosGroup/Vulkan-Headers/archive/${HASH_VULKAN}.tar.gz
 			-> vulkan-headers-${HASH_VULKAN}.tar.gz
+		https://github.com/doitsujin/dxbc-spirv/archive/${HASH_DXBCSPIRV}.tar.gz
+			-> dxbc-spirv-${HASH_DXBCSPIRV}.tar.gz
+		https://github.com/KhronosGroup/SPIRV-Headers/archive/${HASH_DXBCSPIRV_SPIRV}.tar.gz
+			-> spirv-headers-${HASH_DXBCSPIRV_SPIRV}.tar.gz
 		https://gitlab.freedesktop.org/JoshuaAshton/libdisplay-info/-/archive/${HASH_DISPLAYINFO}/libdisplay-info-${HASH_DISPLAYINFO}.tar.bz2
 	"
 	KEYWORDS="-* ~amd64 ~x86"
@@ -82,10 +91,22 @@ pkg_pretend() {
 
 src_prepare() {
 	if [[ ${PV} != 9999 ]]; then
-		rmdir include/{spirv,vulkan} subprojects/libdisplay-info || die
+		# TODO?: may need to consider making our tarballs if this keeps up
+		# (if do this, also drop EGIT_SUBMODULES and leave it default)
+		rmdir include/{spirv,vulkan} subprojects/{dxbc-spirv,libdisplay-info} || die
 		mv ../SPIRV-Headers-${HASH_SPIRV} include/spirv || die
 		mv ../Vulkan-Headers-${HASH_VULKAN} include/vulkan || die
+		mv ../dxbc-spirv-${HASH_DXBCSPIRV} subprojects/dxbc-spirv || die
 		mv ../libdisplay-info-${HASH_DISPLAYINFO} subprojects/libdisplay-info || die
+
+		rmdir subprojects/dxbc-spirv/submodules/spirv_headers || die
+		if [[ ${HASH_SPIRV} == ${HASH_DXBCSPIRV_SPIRV} ]]; then
+			ln -s ../../../include/spirv \
+				subprojects/dxbc-spirv/submodules/spirv_headers || die
+		else
+			mv ../SPIRV-Headers-${HASH_DXBCSPIRV_SPIRV} \
+				subprojects/dxbc-spirv/submodules/spirv_headers || die
+		fi
 	fi
 	cp -- "${DISTDIR}"/setup_dxvk.sh . || die
 
@@ -102,10 +123,8 @@ src_configure() {
 	# performance, GPU does the actual work)
 	filter-lto
 
-	# -mavx with mingw-gcc has a history of obscure issues and
-	# disabling is seen as safer, e.g. `WINEARCH=win32 winecfg`
-	# crashes with -march=skylake >=wine-8.10, similar issues with
-	# znver4: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110273
+	# -mavx and mingw-gcc do not mix safely here
+	# https://github.com/doitsujin/dxvk/issues/4746#issuecomment-2708869202
 	append-flags -mno-avx
 
 	if [[ ${CHOST} != *-mingw* ]]; then
@@ -168,9 +187,7 @@ pkg_postinst() {
 		elog "removed upstream, handling may change in the future."
 	fi
 
-	if use d3d8 && [[ ${REPLACING_VERSIONS##* } ]] &&
-		ver_test ${REPLACING_VERSIONS##* } -lt 2.4
-	then
+	if use d3d8 && ver_replacing -lt 2.4; then
 		elog
 		elog ">=${PN}-2.4 now provides d3d8.dll, to make use of it will need to"
 		elog "update old wine prefixes which is typically done by re-running:"

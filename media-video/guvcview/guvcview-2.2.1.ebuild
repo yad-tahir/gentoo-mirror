@@ -12,13 +12,14 @@ S="${WORKDIR}/${PN}-src-${PV}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE="gsl pulseaudio qt6 sfml"
 
 BDEPEND="
 	sys-devel/gettext
 	virtual/pkgconfig
 "
+# <media-libs/libsfml-3: breaking changes
 RDEPEND="
 	media-libs/libpng:=
 	media-libs/libv4l
@@ -35,7 +36,7 @@ RDEPEND="
 	)
 	sfml? (
 		media-libs/libglvnd
-		media-libs/libsfml:=
+		<media-libs/libsfml-3:=
 	)
 	!sfml? ( media-libs/libsdl2 )
 "

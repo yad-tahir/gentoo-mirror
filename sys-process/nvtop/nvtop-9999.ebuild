@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -16,32 +16,43 @@ else
 	KEYWORDS="~amd64 ~x86"
 fi
 
-LICENSE="GPL-3"
+LICENSE="GPL-3+"
 SLOT="0"
 
-IUSE="unicode video_cards_intel video_cards_amdgpu video_cards_nvidia video_cards_freedreno"
+IUSE="
+	unicode
+	video_cards_amdgpu
+	video_cards_freedreno
+	video_cards_intel
+	video_cards_nvidia
+	video_cards_panfrost
+	video_cards_panthor
+"
 
 RDEPEND="
-	video_cards_intel?  ( virtual/udev )
+	sys-libs/ncurses:=[unicode(+)?]
 	video_cards_amdgpu? ( x11-libs/libdrm[video_cards_amdgpu] )
-	video_cards_nvidia? ( x11-drivers/nvidia-drivers )
 	video_cards_freedreno? ( x11-libs/libdrm[video_cards_freedreno] )
-	sys-libs/ncurses[unicode(+)?]
+	video_cards_intel?  ( virtual/udev )
+	video_cards_nvidia? ( x11-drivers/nvidia-drivers )
+	video_cards_panfrost? ( x11-libs/libdrm )
+	video_cards_panthor? ( x11-libs/libdrm )
 "
 
 DEPEND="${RDEPEND}"
 
-BDEPEND="
-	virtual/pkgconfig
-"
+BDEPEND="virtual/pkgconfig"
 
 src_configure() {
 	local mycmakeargs=(
 		-DCURSES_NEED_WIDE=$(usex unicode)
-		-DINTEL_SUPPORT=$(usex video_cards_intel)
-		-DNVIDIA_SUPPORT=$(usex video_cards_nvidia)
+
 		-DAMDGPU_SUPPORT=$(usex video_cards_amdgpu)
+		-DINTEL_SUPPORT=$(usex video_cards_intel)
 		-DMSM_SUPPORT=$(usex video_cards_freedreno)
+		-DNVIDIA_SUPPORT=$(usex video_cards_nvidia)
+		-DPANFROST_SUPPORT=$(usex video_cards_panfrost)
+		-DPANTHOR_SUPPORT=$(usex video_cards_panthor)
 	)
 
 	cmake_src_configure

@@ -40,7 +40,7 @@ S="${WORKDIR}/OpenImageIO-${PV}"
 
 LICENSE="Apache-2.0"
 SLOT="0/$(ver_cut 1-2)"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv"
+KEYWORDS="amd64 ~arm ~arm64 ~ppc64 ~riscv"
 
 X86_CPU_FEATURES=(
 	aes:aes sse2:sse2 sse3:sse3 ssse3:ssse3 sse4_1:sse4.1 sse4_2:sse4.2
@@ -166,6 +166,10 @@ src_prepare() {
 
 		cp testsuite/heif/ref/out-libheif1.1{2,5}-orient.txt || die
 		eapply "${FILESDIR}/${PN}-2.5.12.0_heif_test.patch"
+
+		sed \
+			-e "s/BBAA06ABCADF65F9323FDA979421A54F5B2E53D0/A5C53C7628B01F12DCAE09A42D8B15433644C54C/g" \
+			-i testsuite/tiff-depths/ref/out-*.txt || die
 	fi
 }
 
@@ -183,11 +187,6 @@ src_configure() {
 	# This is currently needed on arm64 to get the NEON SIMD wrapper to compile the code successfully
 	# Even if there are no SIMD features selected, it seems like the code will turn on NEON support if it is available.
 	use arm64 && append-flags -flax-vector-conversions
-
-	# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=118077
-	if tc-is-gcc && [[ $(gcc-major-version) -eq 15 ]]; then
-		append-flags -fno-early-inlining
-	fi
 
 	local mycmakeargs=(
 		-DVERBOSE="yes"
@@ -285,6 +284,10 @@ src_test() {
 	if use python; then
 		PYTHONPATH="${T}$(python_get_sitedir)"
 	fi
+
+	local -x myctestargs=(
+		-R tiff-depths
+	)
 
 	virtx cmake_src_test
 

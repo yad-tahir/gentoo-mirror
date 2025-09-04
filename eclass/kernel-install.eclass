@@ -478,7 +478,11 @@ kernel-install_test() {
 	esac
 
 	if [[ ${KERNEL_IUSE_MODULES_SIGN} ]]; then
-		use modules-sign && qemu_extra_append+=" module.sig_enforce=1"
+		# If KERNEL_IUSE_MODULES_SIGN, but no IUSE=modules-sign,
+		# then this is gentoo-kernel-bin test phase with signed mods.
+		if ! in_iuse modules-sign || use modules-sign; then
+			qemu_extra_append+=" module.sig_enforce=1"
+		fi
 	fi
 
 	cat > run.sh <<-EOF || die
@@ -808,6 +812,9 @@ kernel-install_pkg_postrm() {
 			find "${kernel_dir}" -depth -type d -empty -delete
 		eend ${?}
 	fi
+
+	# Clean up dead symlinks
+	find -L "${EROOT}/lib/modules/${KV_FULL}" -type l -delete
 }
 
 # @FUNCTION: kernel-install_pkg_config
