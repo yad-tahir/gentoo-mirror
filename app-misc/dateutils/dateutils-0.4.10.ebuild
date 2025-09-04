@@ -22,6 +22,10 @@ SLOT="0"
 BDEPEND="app-arch/xz-utils"
 DEPEND="sys-libs/timezone-data"
 
+PATCHES=(
+	"${FILESDIR}"/${P}-gcc-14.patch
+)
+
 # bug 429810
 RDEPEND="${DEPEND}
 	!sys-fabric/dapl"

@@ -1,11 +1,11 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DISTUTILS_SINGLE_IMPL=1
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{11..13} )
 inherit distutils-r1 xdg
 
 if [[ ${PV} == 9999 ]]; then
@@ -51,13 +51,7 @@ BDEPEND="
 			dev-python/beautifulsoup4[${PYTHON_USEDEP}]
 			dev-python/cheroot[${PYTHON_USEDEP}]
 			dev-python/flask[${PYTHON_USEDEP}]
-			dev-python/hypothesis[${PYTHON_USEDEP}]
 			dev-python/pillow[${PYTHON_USEDEP}]
-			dev-python/pytest-bdd[${PYTHON_USEDEP}]
-			dev-python/pytest-mock[${PYTHON_USEDEP}]
-			dev-python/pytest-qt[${PYTHON_USEDEP}]
-			dev-python/pytest-rerunfailures[${PYTHON_USEDEP}]
-			dev-python/pytest-xvfb[${PYTHON_USEDEP}]
 			dev-python/tldextract[${PYTHON_USEDEP}]
 		)
 	')
@@ -69,6 +63,7 @@ else
 	BDEPEND+=" verify-sig? ( sec-keys/openpgp-keys-qutebrowser )"
 fi
 
+EPYTEST_PLUGINS=( hypothesis pytest-{bdd,mock,qt,rerunfailures,xvfb} )
 distutils_enable_tests pytest
 
 src_prepare() {
@@ -129,6 +124,8 @@ python_test() {
 		tests/unit/commands/test_userscripts.py::test_custom_env\[_POSIXUserscriptRunner\]
 		# may fail if chromium version is unrecognized (aka newer qtwebengine)
 		tests/unit/utils/test_version.py
+		# no longer XFAIL due to being fixed in python
+		tests/unit/utils/test_urlmatch.py::test_invalid_patterns\[host-ipv6-two-closing\]
 	)
 
 	local epytestargs=(

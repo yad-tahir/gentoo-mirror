@@ -1,10 +1,10 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 MODULES_OPTIONAL_IUSE=+modules
-inherit desktop eapi9-pipestatus flag-o-matic linux-mod-r1 multilib
+inherit desktop dot-a eapi9-pipestatus flag-o-matic linux-mod-r1 multilib
 inherit readme.gentoo-r1 systemd toolchain-funcs unpacker user-info
 
 MODULES_KERNEL_MAX=6.6
@@ -75,7 +75,8 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
-QA_PREBUILT="lib/firmware/* opt/bin/* usr/lib*"
+# there is some non-prebuilt exceptions but rather not maintain a list
+QA_PREBUILT="lib/firmware/* usr/bin/* usr/lib*"
 
 PATCHES=(
 	"${FILESDIR}"/nvidia-drivers-470.141.03-clang15.patch
@@ -148,8 +149,8 @@ src_compile() {
 	CC+=" $(test-flags-CC "${kcflags[@]}")"
 	use modules && KERNEL_CC+=" $(CC=${KERNEL_CC} test-flags-CC "${kcflags[@]}")"
 
+	# extra flags for the libXNVCtrl.a static library
 	local xnvflags=-fPIC #840389
-	# lto static libraries tend to cause problems without fat objects
 	tc-is-lto && xnvflags+=" $(test-flags-CC -ffat-lto-objects)"
 
 	NV_ARGS=(
@@ -169,8 +170,7 @@ src_compile() {
 	)
 
 	# temporary workaround for bug #914468
-	use modules &&
-		CPP="${KERNEL_CC} -E" tc-is-clang && addpredict "${KV_OUT_DIR}"
+	use modules && addpredict "${KV_OUT_DIR}"
 
 	linux-mod-r1_src_compile
 	emake "${NV_ARGS[@]}" -C nvidia-modprobe
@@ -294,6 +294,7 @@ documentation that is installed alongside this README."
 
 	if use static-libs; then
 		dolib.a nvidia-settings/src/out/libXNVCtrl.a
+		strip-lto-bytecode
 
 		insinto /usr/include/NVCtrl
 		doins nvidia-settings/src/libXNVCtrl/NVCtrl{Lib,}.h
@@ -322,7 +323,7 @@ documentation that is installed alongside this README."
 		if [[ -v 'paths[${m[2]}]' ]]; then
 			into=${paths[${m[2]}]}
 		elif [[ ${m[2]} == *_BINARY ]]; then
-			into=/opt/bin
+			into=/usr/bin
 		elif [[ ${m[3]} == COMPAT32 ]]; then
 			use abi_x86_32 || continue
 			into=/usr/${libdir32}
@@ -474,46 +475,6 @@ pkg_postinst() {
 		ewarn "are available or fully functional, may need to consider nouveau[2])."
 		ewarn "[1] https://www.nvidia.com/object/IO_32667.html"
 		ewarn "[2] https://wiki.gentoo.org/wiki/Nouveau"
-	fi
-
-	# these can be removed after some time, only to help the transition
-	# given users are unlikely to do further custom solutions if it works
-	# (see also https://github.com/elogind/elogind/issues/272)
-	if grep -riq "^[^#]*HandleNvidiaSleep=yes" "${EROOT}"/etc/elogind/sleep.conf.d/ 2>/dev/null
-	then
-		ewarn
-		ewarn "!!! WARNING !!!"
-		ewarn "Detected HandleNvidiaSleep=yes in ${EROOT}/etc/elogind/sleep.conf.d/."
-		ewarn "This 'could' cause issues if used in combination with the new hook"
-		ewarn "installed by the ebuild to handle sleep using the official upstream"
-		ewarn "script. It is recommended to disable the option."
-	fi
-	if [[ $(realpath "${EROOT}"{/etc,{/usr,}/lib*}/elogind/system-sleep 2>/dev/null | \
-		sort | uniq | xargs -d'\n' grep -Ril nvidia 2>/dev/null | wc -l) -gt 2 ]]
-	then
-		ewarn
-		ewarn "!!! WARNING !!!"
-		ewarn "Detected a custom script at ${EROOT}{/etc,{/usr,}/lib*}/elogind/system-sleep"
-		ewarn "referencing NVIDIA. This version of ${PN} has installed its own"
-		ewarn "hook at ${EROOT}/usr/lib/elogind/system-sleep/nvidia and it is recommended"
-		ewarn "to remove the custom one to avoid potential issues."
-		ewarn
-		ewarn "Feel free to ignore this warning if you know the other NVIDIA-related"
-		ewarn "scripts can be used together. The warning will be removed in the future."
-	fi
-	if [[ ${REPLACING_VERSIONS##* } ]] &&
-		ver_test ${REPLACING_VERSIONS##* } -lt 470.256.02-r1 # may get repeated
-	then
-		elog
-		elog "For suspend/sleep, 'NVreg_PreserveVideoMemoryAllocations=1' is now default"
-		elog "with this version of ${PN}. This is recommended (or required) by"
-		elog "major DEs especially with wayland but, *if* experience regressions with"
-		elog "suspend, try reverting to =0 in '${EROOT}/etc/modprobe.d/nvidia.conf'."
-		elog
-		elog "May notably be an issue when using neither systemd nor elogind to suspend."
-		elog
-		elog "Also, the systemd suspend/hibernate/resume services are now enabled by"
-		elog "default, and for openrc+elogind a similar hook has been installed."
 	fi
 
 	ewarn

@@ -8,6 +8,7 @@ llvm-core/mlir
 llvm-core/clang-common
 llvm-core/clang
 llvm-core/clang-toolchain-symlinks
+llvm-core/flang
 dev-python/clang
 dev-python/lit
 llvm-core/lld
@@ -16,10 +17,17 @@ llvm-core/lldb
 llvm-core/polly
 llvm-runtimes/compiler-rt
 llvm-runtimes/compiler-rt-sanitizers
+llvm-runtimes/flang-rt
 llvm-runtimes/libunwind
 llvm-runtimes/libcxxabi
 llvm-runtimes/libcxx
+llvm-runtimes/libgcc
 llvm-runtimes/openmp
 llvm-runtimes/offload
-llvm-core/clang-runtime
+llvm-core/clang-linker-config
+llvm-runtimes/clang-rtlib-config
+llvm-runtimes/clang-unwindlib-config
+llvm-runtimes/clang-stdlib-config
+llvm-runtimes/clang-runtime
 llvm-core/libclc
+llvm-runtimes/libatomic-stub

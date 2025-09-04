@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: autotools.eclass
@@ -32,6 +32,7 @@ case ${EAPI} in
 esac
 
 GNUCONFIG_AUTO_DEPEND=no
+LIBTOOL_AUTO_DEPEND=no
 inherit gnuconfig libtool
 
 # @ECLASS_VARIABLE: WANT_AUTOCONF
@@ -71,7 +72,7 @@ inherit gnuconfig libtool
 # Do NOT change this variable in your ebuilds!
 # If you want to force a newer minor version, you can specify the correct
 # WANT value by using a colon:  <PV>:<WANT_AUTOCONF>
-_LATEST_AUTOCONF=( 2.72-r1:2.72 2.71-r6:2.71 )
+_LATEST_AUTOCONF=( 2.72-r1:2.72 )
 
 # @ECLASS_VARIABLE: _LATEST_AUTOMAKE
 # @INTERNAL
@@ -92,7 +93,7 @@ _LATEST_AUTOCONF=( 2.72-r1:2.72 2.71-r6:2.71 )
 # Do NOT change this variable in your ebuilds!
 # If you want to force a newer minor version, you can specify the correct
 # WANT value by using a colon:  <PV>:<WANT_AUTOMAKE>
-_LATEST_AUTOMAKE=( 1.17-r1:1.17 1.16.5:1.16 )
+_LATEST_AUTOMAKE=( 1.18:1.18 1.17-r1:1.17 )
 
 _automake_atom="dev-build/automake"
 _autoconf_atom="dev-build/autoconf"
@@ -109,14 +110,13 @@ if [[ -n ${WANT_AUTOMAKE} ]] ; then
 			unset _automake_atom_tmp
 			;;
 		*)
-			_automake_atom="=dev-build/automake-${WANT_AUTOMAKE}*"
+			_automake_atom="dev-build/automake:${WANT_AUTOMAKE}"
 			;;
 	esac
 	export WANT_AUTOMAKE
 fi
 
 if [[ -n ${WANT_AUTOCONF} ]] ; then
-	# TODO: Fix the slot mess here and just have proper PV-as-SLOT?
 	# TODO: Make _LATEST_AUTOCONF an assoc. array and instead iterate over
 	# its keys.
 	case ${WANT_AUTOCONF} in
@@ -124,25 +124,13 @@ if [[ -n ${WANT_AUTOCONF} ]] ; then
 			# some packages don't require autoconf at all
 			_autoconf_atom=""
 			;;
-		2.1)
-			_autoconf_atom=">=dev-build/autoconf-2.13-r7:2.1"
-			;;
-		2.5)
-			_autoconf_atom=">=dev-build/autoconf-2.71-r6:2.71"
-			;;
-		2.69)
-			_autoconf_atom=">=dev-build/autoconf-2.69-r9:2.69"
-			;;
-		2.71)
-			_autoconf_atom=">=dev-build/autoconf-2.71-r6:2.71"
-			;;
 		latest)
 			printf -v _autoconf_atom_tmp '>=dev-build/autoconf-%s:%s ' ${_LATEST_AUTOCONF[@]/:/ }
 			_autoconf_atom="|| ( ${_autoconf_atom_tmp} )"
 			unset _autoconf_atom_tmp
 			;;
 		*)
-			die "Invalid WANT_AUTOCONF value '${WANT_AUTOCONF}'"
+			_autoconf_atom="dev-build/autoconf:${WANT_AUTOCONF}"
 			;;
 	esac
 	export WANT_AUTOCONF
@@ -165,6 +153,7 @@ fi
 # versions in *DEPEND format.
 AUTOTOOLS_DEPEND="
 	${GNUCONFIG_DEPEND}
+	${LIBTOOL_DEPEND}
 	${_automake_atom}
 	${_autoconf_atom}
 	${_libtool_atom}
@@ -389,7 +378,14 @@ eaclocal() {
 	# See bug #677002
 	if [[ ! -f "${T}"/aclocal/dirlist ]] ; then
 		mkdir "${T}"/aclocal || die
-		cat <<- EOF > "${T}"/aclocal/dirlist || die
+		if [[ "${LIBTOOLIZE:-}" == 'slibtoolize' ]]; then
+			cat <<- EOF > "${T}"/aclocal/dirlist || die
+				${BROOT}/usr/share/slibtool
+				${ESYSROOT}/usr/share/slibtool
+			EOF
+		fi
+
+		cat <<- EOF >> "${T}"/aclocal/dirlist || die
 			${BROOT}/usr/share/aclocal
 			${ESYSROOT}/usr/share/aclocal
 		EOF
@@ -609,7 +605,7 @@ autotools_run_tool() {
 	done
 
 	if [[ ${EBUILD_PHASE_FUNC} != "src_prepare" ]] ; then
-		eqawarn "Running '${1}' in ${EBUILD_PHASE_FUNC} phase"
+		eqawarn "QA Notice: Running '${1}' in ${EBUILD_PHASE_FUNC} phase"
 	fi
 
 	if ${missing_ok} && ! type -P ${1} >/dev/null ; then

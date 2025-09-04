@@ -12,7 +12,7 @@ else
 	MY_P="qTox-${PV}"
 	SRC_URI="https://github.com/TokTok/qTox/archive/v${PV}/v${PV}.tar.gz -> ${MY_P}.tar.gz"
 	KEYWORDS="~amd64"
-	S="${WORKDIR}/qTox"
+	S="${WORKDIR}/qTox-${PV}"
 fi
 
 DESCRIPTION="Instant messaging client using the encrypted p2p Tox protocol"
@@ -34,7 +34,7 @@ RDEPEND="
 	media-gfx/qrencode:=
 	media-libs/libexif
 	media-libs/openal
-	media-video/ffmpeg:=[webp,v4l]
+	media-video/ffmpeg:=[webp]
 	>=net-libs/tox-0.2.19:=[av]
 	spellcheck? (
 		|| (
@@ -60,7 +60,6 @@ src_configure() {
 		-DPLATFORM_EXTENSIONS=$(usex X)
 		-DSPELL_CHECK=$(usex spellcheck)
 		-DSTRICT_OPTIONS=OFF
-		-DSVGZ_ICON=ON
 		-DTSAN=OFF
 		-DUBSAN=ON
 		-DUPDATE_CHECK=OFF

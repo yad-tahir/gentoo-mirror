@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -21,13 +21,16 @@ LICENSE="MIT"
 # .1 is a fudge factor for 0.18 fixing compat w/ 0.16, drop on next
 # SONAME change.
 SLOT="0/5.1"
-IUSE="cpu_flags_x86_rdrand doc static-libs threads"
+IUSE="cpu_flags_x86_rdrand doc static-libs test threads"
+RESTRICT="!test? ( test )"
 
 BDEPEND="doc? ( >=app-text/doxygen-1.8.13 )"
 
 MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/json-c/config.h
 )
+
+PATCHES=( "${FILESDIR}/0.18.0-cmake4.patch" )
 
 multilib_src_configure() {
 	# Tests use Valgrind automagically otherwise (bug #927027)
@@ -42,6 +45,7 @@ multilib_src_configure() {
 		-DDISABLE_WERROR=ON
 		-DENABLE_RDRAND=$(usex cpu_flags_x86_rdrand)
 		-DENABLE_THREADING=$(usex threads)
+		-DBUILD_TESTING=$(usex test)
 	)
 
 	cmake_src_configure

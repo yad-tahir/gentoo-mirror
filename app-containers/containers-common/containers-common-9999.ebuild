@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -58,6 +58,7 @@ src_prepare() {
 
 src_compile() {
 	emake docs
+	touch {images,layers}.lock || die
 }
 
 src_install() {
@@ -67,7 +68,14 @@ src_install() {
 	insinto /usr/share/containers
 	doins pkg/seccomp/seccomp.json pkg/subscriptions/mounts.conf
 
-	keepdir /etc/containers/certs.d /etc/containers/oci/hooks.d /etc/containers/systemd /var/lib/containers/sigstore
+	keepdir /etc/containers/{certs.d,oci/hooks.d,networks,systemd} /var/lib/containers/sigstore \
+			/usr/lib/containers/storage
+	diropts -m0700
+	dodir /usr/lib/containers/storage/overlay-{images,layers}
+	for i in images layers; do
+		insinto /usr/lib/containers/storage/overlay-"${i}"
+		doins "${i}".lock
+	done
 }
 
 pkg_postinst() {

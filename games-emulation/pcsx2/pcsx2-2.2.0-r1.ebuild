@@ -3,7 +3,11 @@
 
 EAPI=8
 
-inherit cmake desktop fcaps flag-o-matic optfeature toolchain-funcs
+# note: keep old versions for an extended period (at "least" 2 months
+# after stabilization unless it is broken) due to save states being
+# locked to specific versions and users may need time
+
+inherit cmake desktop eapi9-ver fcaps flag-o-matic optfeature toolchain-funcs
 
 if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
@@ -13,7 +17,7 @@ else
 		https://github.com/PCSX2/pcsx2/archive/refs/tags/v${PV}.tar.gz
 			-> ${P}.tar.gz
 	"
-	KEYWORDS="-* ~amd64"
+	KEYWORDS="-* amd64"
 fi
 
 DESCRIPTION="PlayStation 2 emulator"
@@ -85,6 +89,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-2.2.0-missing-header.patch
 )
 
+CMAKE_QA_COMPAT_SKIP=1 #957976
+
 src_prepare() {
 	cmake_src_prepare
 
@@ -113,6 +119,10 @@ src_configure() {
 	# to remove if bundled lzma code is updated like 7zip did (bug #935298)
 	use elibc_musl && append-cppflags -DZ7_AFFINITY_DISABLE
 
+	# workaround for clang:20, backporting to old fmt would be complicated
+	# https://github.com/fmtlib/fmt/issues/4177 (probably?)
+	append-cppflags -DFMT_CONSTEVAL=
+
 	local mycmakeargs=(
 		-DBUILD_SHARED_LIBS=no
 		-DDISABLE_ADVANCE_SIMD=yes
@@ -122,9 +132,6 @@ src_configure() {
 		-DUSE_LINKED_FFMPEG=yes
 		-DUSE_VTUNE=no # not packaged
 		-DUSE_VULKAN=$(usex vulkan)
-
-		# note that upstream hardly support native wayland, may or may not work
-		# https://github.com/PCSX2/pcsx2/pull/10179
 		-DWAYLAND_API=$(usex wayland)
 		# not optional given libX11 is hard-required either way and upstream
 		# seemingly has no intention to drop the requirement at the moment
@@ -164,9 +171,7 @@ pkg_postinst() {
 		media-sound/alsa-utils \
 		media-libs/gst-plugins-base:1.0
 
-	if [[ ${REPLACING_VERSIONS##* } ]] &&
-		ver_test ${REPLACING_VERSIONS##* } -lt 2.2.0
-	then
+	if ver_replacing -lt 2.2.0; then
 		elog
 		elog "Note that the 'pcsx2' executable was renamed to 'pcsx2-qt' with this version."
 	fi

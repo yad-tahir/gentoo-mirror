@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: cargo.eclass
@@ -181,7 +181,7 @@ ECARGO_VENDOR="${ECARGO_HOME}/gentoo"
 # functions will be exported.
 #
 # If you enable CARGO_OPTIONAL call at least cargo_gen_config manually
-# before using other src_functions or cargo_env of this eclass.
+# before using other src_* functions or cargo_env of this eclass.
 # Note that cargo_gen_config is automatically called by cargo_src_unpack.
 
 # @ECLASS_VARIABLE: myfeatures
@@ -244,6 +244,16 @@ ECARGO_VENDOR="${ECARGO_HOME}/gentoo"
 # @OUTPUT_VARIABLE
 # @DESCRIPTION:
 # List of URIs to put in SRC_URI created from CRATES variable.
+
+# @FUNCTION: _cargo_check_initialized
+# @INTERNAL
+# @DESCRIPTION:
+# Checks if rust_pkg_setup has been run.
+_cargo_check_initialized() {
+	if [[ -z "${CARGO}" ]]; then
+		die "CARGO is not set; was rust_pkg_setup run?"
+	fi
+}
 
 # @FUNCTION: _cargo_set_crate_uris
 # @USAGE: <crates>
@@ -396,6 +406,9 @@ cargo_gen_config() {
 	jobs = $(makeopts_jobs)
 	incremental = false
 
+	[env]
+	RUST_TEST_THREADS = "$(makeopts_jobs)"
+
 	[term]
 	verbose = true
 	$([[ "${NOCOLOR}" = true || "${NOCOLOR}" = yes ]] && echo "color = 'never'")
@@ -445,7 +458,9 @@ _cargo_gen_git_config() {
 # Return the directory within target that contains the build, e.g.
 # target/aarch64-unknown-linux-gnu/release.
 cargo_target_dir() {
-	echo "${CARGO_TARGET_DIR:-target}/$(rust_abi)/$(usex debug debug release)"
+	local abi
+	tc-is-cross-compiler && abi=/$(rust_abi)
+	echo "${CARGO_TARGET_DIR:-target}${abi}/$(usex debug debug release)"
 }
 
 # @FUNCTION: cargo_update_crates
@@ -463,9 +478,7 @@ cargo_target_dir() {
 cargo_update_crates () {
 	debug-print-function ${FUNCNAME} "$@"
 
-	if [[ -z ${CARGO} ]]; then
-		die "CARGO is not set; was rust_pkg_setup run?"
-	fi
+	_cargo_check_initialized
 
 	local path=${1:-"${S}/Cargo.toml"}
 	if [[ $# -gt 1 ]]; then
@@ -527,6 +540,12 @@ cargo_src_unpack() {
 		done < <(sha256sum -z "${crates[@]}" || die)
 
 		popd >/dev/null || die
+
+		if [[ ${#crates[@]} -ge 300 ]]; then
+			eqawarn "QA Notice: This package uses a very large number of CRATES.  Please provide"
+			eqawarn "a crate tarball instead and fetch it via SRC_URI.  You can use"
+			eqawarn "'pycargoebuild --crate-tarball' to create one."
+		fi
 	fi
 
 	cargo_gen_config
@@ -541,6 +560,8 @@ cargo_live_src_unpack() {
 
 	[[ "${PV}" == *9999* ]] || die "${FUNCNAME} only allowed in live/9999 ebuilds"
 	[[ "${EBUILD_PHASE}" == unpack ]] || die "${FUNCNAME} only allowed in src_unpack"
+
+	_cargo_check_initialized
 
 	mkdir -p "${S}" || die
 	mkdir -p "${ECARGO_VENDOR}" || die
@@ -592,12 +613,12 @@ cargo_live_src_unpack() {
 	export CARGO_HOME="${ECARGO_REGISTRY_DIR}"
 
 	# Absence of quotes around offline arg is intentional, as cargo bails out if it encounters ''
-	einfo "cargo fetch ${offline:+--offline}"
-	cargo fetch ${offline:+--offline} || die #nowarn
+	einfo "${CARGO} fetch ${offline:+--offline}"
+	"${CARGO}" fetch ${offline:+--offline} || die #nowarn
 
 	# Let cargo copy all required crates to "${WORKDIR}" for offline use in later phases.
-	einfo "cargo vendor ${offline:+--offline} ${ECARGO_VENDOR}"
-	cargo vendor ${offline:+--offline} "${ECARGO_VENDOR}" || die #nowarn
+	einfo "${CARGO} vendor ${offline:+--offline} ${ECARGO_VENDOR}"
+	"${CARGO}" vendor ${offline:+--offline} "${ECARGO_VENDOR}" || die #nowarn
 
 	# Users may have git checkouts made by cargo.
 	# While cargo vendors the sources, it still needs git checkout to be present.
@@ -736,10 +757,15 @@ cargo_env() {
 	# The default linker is "cc" so override by setting linker to CC in the
 	# RUSTFLAGS. The given linker cannot include any arguments, so split these
 	# into link-args along with LDFLAGS.
+	#
+	# Rust defaults to static linking (-C target-feature=+crt-static) on musl
+	# targets. We already patch dev-lang/rust to always prefer dynamic linking,
+	# but to ensure that behavior with dev-lang/rust-bin, set the opposite option
+	# (-C target-feature=-crt-static) in RUSTFLAGS.
 	local -x CARGO_BUILD_TARGET=$(rust_abi)
 	local TRIPLE=${CARGO_BUILD_TARGET//-/_}
 	local TRIPLE=${TRIPLE^^} LD_A=( $(tc-getCC) ${LDFLAGS} )
-	local -Ix CARGO_TARGET_"${TRIPLE}"_RUSTFLAGS+=" -C strip=none -C linker=${LD_A[0]}"
+	local -Ix CARGO_TARGET_"${TRIPLE}"_RUSTFLAGS+=" -C strip=none -C linker=${LD_A[0]} -C target-feature=-crt-static"
 	[[ ${#LD_A[@]} -gt 1 ]] && local CARGO_TARGET_"${TRIPLE}"_RUSTFLAGS+="$(printf -- ' -C link-arg=%s' "${LD_A[@]:1}")"
 	local CARGO_TARGET_"${TRIPLE}"_RUSTFLAGS+=" ${RUSTFLAGS}"
 
@@ -747,6 +773,10 @@ cargo_env() {
 		# These variables will override the above, even if empty, so unset them
 		# locally. Do this in a subshell so that they remain set afterwards.
 		unset CARGO_BUILD_RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTFLAGS
+
+		# Only tell Cargo to cross-compile when actually needed to avoid the
+		# aforementioned build host vs target flag separation issue.
+		tc-is-cross-compiler || unset CARGO_BUILD_TARGET
 
 		"${@}"
 	)
@@ -758,9 +788,7 @@ cargo_env() {
 cargo_src_compile() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	if [[ -z "${CARGO}" ]]; then
-		die "CARGO is not set; was rust_pkg_setup run?"
-	fi
+	_cargo_check_initialized
 
 	set -- "${CARGO}" build $(usex debug "" --release) ${ECARGO_ARGS[@]} "$@"
 	einfo "${@}"
@@ -770,15 +798,13 @@ cargo_src_compile() {
 # @FUNCTION: cargo_src_install
 # @DESCRIPTION:
 # Installs the binaries generated by cargo.
-# In come cases workspaces need an alternative --path parameter.
+# In some cases workspaces need an alternative --path parameter.
 # Defaults to '--path ./' if no path is specified.
 # '--path ./somedir' can be passed directly to cargo_src_install.
 cargo_src_install() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	if [[ -z "${CARGO}" ]]; then
-		die "CARGO is not set; was rust_pkg_setup run?"
-	fi
+	_cargo_check_initialized
 
 	set -- "${CARGO}" install $(has --path ${@} || echo --path ./) \
 		--root "${ED}/usr" \
@@ -798,9 +824,7 @@ cargo_src_install() {
 cargo_src_test() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	if [[ -z "${CARGO}" ]]; then
-		die "CARGO is not set; was rust_pkg_setup run?"
-	fi
+	_cargo_check_initialized
 
 	set -- "${CARGO}" test $(usex debug "" --release) ${ECARGO_ARGS[@]} "$@"
 	einfo "${@}"

@@ -3,7 +3,11 @@
 
 EAPI=8
 
-inherit cmake desktop fcaps flag-o-matic optfeature toolchain-funcs
+# note: keep old versions for an extended period (at "least" 2 months
+# after stabilization unless it is broken) due to save states being
+# locked to specific versions and users may need time
+
+inherit cmake desktop eapi9-ver fcaps flag-o-matic optfeature toolchain-funcs
 
 if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
@@ -24,7 +28,7 @@ LICENSE="
 	ISC LGPL-2.1+ LGPL-3+ MIT OFL-1.1 ZLIB public-domain
 "
 SLOT="0"
-IUSE="alsa cpu_flags_x86_sse4_1 +clang jack pulseaudio sndio test vulkan wayland"
+IUSE="alsa cpu_flags_x86_sse4_1 +clang jack pulseaudio sndio test wayland"
 REQUIRED_USE="cpu_flags_x86_sse4_1" # dies at runtime if no support
 RESTRICT="!test? ( test )"
 
@@ -34,27 +38,30 @@ COMMON_DEPEND="
 	app-arch/zstd:=
 	dev-qt/qtbase:6[concurrent,gui,widgets]
 	dev-qt/qtsvg:6
+	gui-libs/kddockwidgets:=
 	media-libs/freetype
 	media-libs/libglvnd[X]
 	media-libs/libjpeg-turbo:=
 	media-libs/libpng:=
-	media-libs/libsdl2[haptic,joystick]
+	media-libs/libsdl3
 	media-libs/libwebp:=
+	media-libs/plutosvg
+	media-libs/plutovg
+	media-libs/shaderc
+	media-libs/vulkan-loader
 	media-video/ffmpeg:=
 	net-libs/libpcap
 	net-misc/curl
 	sys-apps/dbus
 	sys-libs/zlib:=
 	virtual/libudev:=
+	x11-libs/libX11
+	x11-libs/libXi
 	x11-libs/libXrandr
 	alsa? ( media-libs/alsa-lib )
 	jack? ( virtual/jack )
 	pulseaudio? ( media-libs/libpulse )
 	sndio? ( media-sound/sndio:= )
-	vulkan? (
-		media-libs/shaderc
-		media-libs/vulkan-loader
-	)
 	wayland? ( dev-libs/wayland )
 "
 # patches is a optfeature but always pull given PCSX2 complaints if it
@@ -84,6 +91,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-2.2.0-missing-header.patch
 )
 
+CMAKE_QA_COMPAT_SKIP=1 #957976
+
 src_prepare() {
 	cmake_src_prepare
 
@@ -92,10 +101,21 @@ src_prepare() {
 			-i cmake/Pcsx2Utils.cmake || die
 	fi
 
-	# relax Qt6 and SDL2 version requirements which often get restricted
-	# without a specific need, please report a bug to Gentoo (not upstream)
-	# if a still-available older version is really causing issues
-	sed -e '/find_package(\(Qt6\|SDL2\)/s/ [0-9.]*//' \
+	# relax some version requirements which often get restricted without
+	# a specific need, please report a bug to Gentoo (not upstream) if a
+	# still-available older version is really causing issues
+	sed -e '/find_package(\(Qt6\|SDL3\)/s/ [0-9.]*//' \
+		-i cmake/SearchForStuff.cmake || die
+
+	# pluto(s)vg likewise often restrict versions and Gentoo also does not
+	# have .pc files for it, use sed to avoid rebasing on version changes
+	sed -e '/^find_package(plutovg/d' \
+		-e '/^find_package(plutosvg/c\
+			find_package(PkgConfig REQUIRED)\
+			pkg_check_modules(plutovg REQUIRED IMPORTED_TARGET plutovg)\
+			alias_library(plutovg::plutovg PkgConfig::plutovg)\
+			pkg_check_modules(plutosvg REQUIRED IMPORTED_TARGET plutosvg)\
+			alias_library(plutosvg::plutosvg PkgConfig::plutosvg)' \
 		-i cmake/SearchForStuff.cmake || die
 }
 
@@ -116,10 +136,7 @@ src_configure() {
 		-DUSE_BACKTRACE=no # not packaged (bug #885471)
 		-DUSE_LINKED_FFMPEG=yes
 		-DUSE_VTUNE=no # not packaged
-		-DUSE_VULKAN=$(usex vulkan)
-
-		# note that upstream hardly support native wayland, may or may not work
-		# https://github.com/PCSX2/pcsx2/pull/10179
+		-DUSE_VULKAN=yes # currently fails to build without, may revisit
 		-DWAYLAND_API=$(usex wayland)
 		# not optional given libX11 is hard-required either way and upstream
 		# seemingly has no intention to drop the requirement at the moment
@@ -159,9 +176,7 @@ pkg_postinst() {
 		media-sound/alsa-utils \
 		media-libs/gst-plugins-base:1.0
 
-	if [[ ${REPLACING_VERSIONS##* } ]] &&
-		ver_test ${REPLACING_VERSIONS##* } -lt 2.2.0
-	then
+	if ver_replacing -lt 2.2.0; then
 		elog
 		elog "Note that the 'pcsx2' executable was renamed to 'pcsx2-qt' with this version."
 	fi

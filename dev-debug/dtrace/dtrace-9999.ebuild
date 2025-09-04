@@ -1,9 +1,9 @@
-# Copyright 2024 Gentoo Authors
+# Copyright 2024-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit edo flag-o-matic linux-info systemd toolchain-funcs udev
+inherit edo flag-o-matic linux-info multilib systemd toolchain-funcs udev
 
 DESCRIPTION="Dynamic BPF-based system-wide tracing tool"
 HOMEPAGE="https://github.com/oracle/dtrace-utils https://wiki.gentoo.org/wiki/DTrace"
@@ -23,9 +23,6 @@ LICENSE="UPL-1.0"
 SLOT="0"
 IUSE="test-install valgrind"
 
-# XXX: right now, we auto-adapt to whether multilibs are present:
-# should we force them to be? how?
-#
 # TODO: can we make the wireshark dep conditional?
 DEPEND="
 	dev-libs/elfutils
@@ -33,7 +30,7 @@ DEPEND="
 	dev-libs/libpfm:=
 	net-analyzer/wireshark[dumpcap]
 	net-libs/libpcap
-	>=sys-fs/fuse-3.2.0:3
+	>=sys-fs/fuse-3.2.0:3=
 	>=sys-libs/binutils-libs-2.42:=
 	sys-libs/zlib
 "
@@ -52,7 +49,6 @@ RDEPEND="
 		sys-fs/xfsprogs
 		sys-process/time
 		virtual/jdk
-		virtual/perl-IO-Socket-IP
 	)
 "
 BDEPEND="
@@ -127,7 +123,8 @@ src_configure() {
 	# that can't actually obtain results from probes, even trivial examples
 	# just hang.
 	filter-flags -fno-semantic-interposition
-	# https://github.com/oracle/dtrace-utils/issues/86
+	# While it builds as of 2025-06-08, it's broken at runtime
+	# in the same way as -fno-semantic-interposition (hangs, no probes fire).
 	filter-lto
 
 	local confargs=(
@@ -145,8 +142,17 @@ src_configure() {
 }
 
 src_compile() {
+	local myemakeargs=(
+		verbose=1
+		$(usev !test-install TRIGGERS='')
+	)
+
+	if use amd64 ; then
+		! has_multilib_profile && myemakeargs+=( NATIVE_BITNESS_ONLY=1 )
+	fi
+
 	# -j1: https://github.com/oracle/dtrace-utils/issues/82
-	emake verbose=1 -j1 $(usev !test-install TRIGGERS='')
+	emake -j1 "${myemakeargs[@]}"
 }
 
 src_test() {

@@ -1,10 +1,10 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_TESTED=( python3_{10..12} pypy3 )
+PYTHON_TESTED=( python3_{11..12} )
 PYTHON_COMPAT=( "${PYTHON_TESTED[@]}" )
 
 inherit distutils-r1 multiprocessing pypi
@@ -18,7 +18,7 @@ HOMEPAGE="
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x64-solaris"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
@@ -27,10 +27,6 @@ RDEPEND="
 	>=dev-python/more-itertools-4.0.0[${PYTHON_USEDEP}]
 	dev-python/packaging[${PYTHON_USEDEP}]
 	>=dev-python/pluggy-1.3.0[${PYTHON_USEDEP}]
-	$(python_gen_cond_dep '
-		>=dev-python/exceptiongroup-1.0.0_rc8[${PYTHON_USEDEP}]
-		>=dev-python/tomli-1.0.0[${PYTHON_USEDEP}]
-	' 3.{9..10})
 "
 BDEPEND="
 	>=dev-python/setuptools-scm-6.2.3[${PYTHON_USEDEP}]

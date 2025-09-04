@@ -57,7 +57,7 @@ LLVM_VERSION=$(ver_cut 1-3)
 # @DESCRIPTION:
 # The major version of current LLVM trunk.  Used to determine
 # the correct branch to use.
-_LLVM_MAIN_MAJOR=20
+_LLVM_MAIN_MAJOR=22
 
 # @ECLASS_VARIABLE: _LLVM_SOURCE_TYPE
 # @INTERNAL
@@ -72,14 +72,11 @@ if [[ -z ${_LLVM_SOURCE_TYPE+1} ]]; then
 			_LLVM_SOURCE_TYPE=snapshot
 
 			case ${PV} in
-				20.0.0_pre20250111)
-					EGIT_COMMIT=8af4d206e0f979f68925a08f9dffd60a98ce97e2
+				22.0.0_pre20250820)
+					EGIT_COMMIT=d76bb2bb894a4641ed62447327b40a347a6ae883
 					;;
-				20.0.0_pre20250104)
-					EGIT_COMMIT=2529a8df53af9bc6cecfd6c83404ffa5e89e3370
-					;;
-				20.0.0_pre20241227)
-					EGIT_COMMIT=ccfe0de0e1e37ed369c9bf89dd0188ba0afb2e9a
+				22.0.0_pre20250831)
+					EGIT_COMMIT=1d8fdda7b0a9f47c443600bca6af2bc141e4abf7
 					;;
 				*)
 					die "Unknown snapshot: ${PV}"
@@ -146,6 +143,10 @@ fi
 #   on matching llvm-core/llvm versions with requested flags will
 #   be added.
 #
+# - llvm+eq - this package automagically uses targets from LLVM by using
+#   a function like InitializeAllTargets.  Same behavior as =llvm, but
+#   with matching use= deps for targets.
+#
 # Note that you still need to pass enabled targets to the build system,
 # usually grabbing them from ${LLVM_TARGETS} (via USE_EXPAND).
 
@@ -188,14 +189,26 @@ case ${LLVM_MAJOR} in
 		)
 		;;
 	*)
-		ALL_LLVM_EXPERIMENTAL_TARGETS=(
-			ARC CSKY DirectX M68k SPIRV Xtensa
-		)
-		ALL_LLVM_PRODUCTION_TARGETS=(
-			AArch64 AMDGPU ARM AVR BPF Hexagon Lanai LoongArch Mips
-			MSP430 NVPTX PowerPC RISCV Sparc SystemZ VE WebAssembly X86
-			XCore
-		)
+		# TODO: limit to < 20 when we remove old snapshots
+		if ver_test ${PV} -lt 20.0.0_pre20250122; then
+			ALL_LLVM_EXPERIMENTAL_TARGETS=(
+				ARC CSKY DirectX M68k SPIRV Xtensa
+			)
+			ALL_LLVM_PRODUCTION_TARGETS=(
+				AArch64 AMDGPU ARM AVR BPF Hexagon Lanai LoongArch Mips
+				MSP430 NVPTX PowerPC RISCV Sparc SystemZ VE WebAssembly X86
+				XCore
+			)
+		else
+			ALL_LLVM_EXPERIMENTAL_TARGETS=(
+				ARC CSKY DirectX M68k Xtensa
+			)
+			ALL_LLVM_PRODUCTION_TARGETS=(
+				AArch64 AMDGPU ARM AVR BPF Hexagon Lanai LoongArch Mips
+				MSP430 NVPTX PowerPC RISCV Sparc SPIRV SystemZ VE
+				WebAssembly X86 XCore
+			)
+		fi
 		;;
 esac
 
@@ -258,7 +271,7 @@ llvm.org_set_globals() {
 			fi
 			BDEPEND+="
 				verify-sig? (
-					>=sec-keys/openpgp-keys-llvm-18.1.6
+					>=sec-keys/openpgp-keys-llvm-20.1.5
 				)
 			"
 			VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/llvm.asc
@@ -303,6 +316,12 @@ llvm.org_set_globals() {
 				19*)
 					LLVM_MANPAGE_DIST="llvm-19.1.0-manpages.tar.bz2"
 					;;
+				20*)
+					LLVM_MANPAGE_DIST="llvm-20.1.0-manpages.tar.xz"
+					;;
+				21*)
+					LLVM_MANPAGE_DIST="llvm-21.1.0-manpages.tar.xz"
+					;;
 			esac
 		fi
 
@@ -325,15 +344,26 @@ llvm.org_set_globals() {
 	case ${LLVM_USE_TARGETS:-__unset__} in
 		__unset__)
 			;;
-		provide|llvm)
+		provide|llvm|llvm+eq)
 			IUSE+=" ${ALL_LLVM_TARGET_FLAGS[*]}"
 			REQUIRED_USE+=" || ( ${ALL_LLVM_TARGET_FLAGS[*]} )"
 			;;&
 		llvm)
+			# We do x? ( ... ) instead of [x?,y?,...] to workaround
+			# a pkgcheck bug: https://github.com/pkgcore/pkgcheck/pull/423
 			local dep=
 			for x in "${ALL_LLVM_TARGET_FLAGS[@]}"; do
 				dep+="
 					${x}? ( ~llvm-core/llvm-${PV}[${x}] )"
+			done
+			RDEPEND+=" ${dep}"
+			DEPEND+=" ${dep}"
+			;;
+		llvm+eq)
+			local dep=
+			for x in "${ALL_LLVM_TARGET_FLAGS[@]}"; do
+				dep+="
+					${x}? ( ~llvm-core/llvm-${PV}[${x}=] )"
 			done
 			RDEPEND+=" ${dep}"
 			DEPEND+=" ${dep}"

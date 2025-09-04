@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -44,6 +44,10 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
+PATCHES=(
+	"${FILESDIR}"/${P}-gcc15.patch
+)
+
 src_prepare() {
 	use cuda && cuda_src_prepare
 	cmake_src_prepare
@@ -88,6 +92,7 @@ src_configure() {
 		-DHARDENING_ENABLE=$(usex hardening)
 		-DPOCL_DEBUG_MESSAGES=$(usex debug)
 		-DUSE_POCL_MEMMANAGER=$(usex memmanager)
+		-DENABLE_EXAMPLES=$(usex examples)
 		-DENABLE_TESTS=$(usex test)
 	)
 

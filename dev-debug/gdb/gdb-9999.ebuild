@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,7 +7,7 @@ EAPI=8
 # tips & notes.
 
 GUILE_COMPAT=( 2-2 3-0 )
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{11..13} )
 inherit flag-o-matic guile-single linux-info python-single-r1 strip-linguas toolchain-funcs
 
 export CTARGET=${CTARGET:-${CHOST}}
@@ -77,7 +77,7 @@ SRC_URI="
 
 LICENSE="GPL-3+ LGPL-2.1+"
 SLOT="0"
-IUSE="cet debuginfod guile lzma multitarget nls +python rocm +server sim source-highlight test vanilla xml xxhash zstd"
+IUSE="babeltrace cet debuginfod guile lzma multitarget nls +python rocm +server sim source-highlight test vanilla xml xxhash zstd"
 if [[ -n ${REGULAR_RELEASE} ]] ; then
 	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
 fi
@@ -88,13 +88,14 @@ REQUIRED_USE="
 "
 RESTRICT="!test? ( test )"
 
+# <babeltrace-2: bug #951652
 RDEPEND="
 	dev-libs/mpfr:=
 	dev-libs/gmp:=
 	>=sys-libs/ncurses-5.2-r2:=
 	>=sys-libs/readline-7:=
 	sys-libs/zlib
-	elibc_glibc? ( net-libs/libnsl:= )
+	babeltrace? ( dev-util/babeltrace:0/1 )
 	debuginfod? (
 		dev-libs/elfutils[debuginfod(-)]
 	)
@@ -102,7 +103,7 @@ RDEPEND="
 	python? ( ${PYTHON_DEPS} )
 	guile? ( ${GUILE_DEPS} )
 	xml? ( dev-libs/expat )
-	rocm? ( dev-libs/rocdbgapi )
+	rocm? ( >=dev-libs/rocdbgapi-6.3 )
 	source-highlight? (
 		dev-util/source-highlight
 	)
@@ -134,14 +135,16 @@ PATCHES=(
 pkg_setup() {
 	local CONFIG_CHECK
 
-	if kernel_is -ge 6.11.3 ; then
-		# https://forums.gentoo.org/viewtopic-p-8846891.html
-		#
-		# Either CONFIG_PROC_MEM_ALWAYS_FORCE or CONFIG_PROC_MEM_FORCE_PTRACE
-		# should be okay, but not CONFIG_PROC_MEM_NO_FORCE.
-		CONFIG_CHECK+="
-			~!PROC_MEM_NO_FORCE
-		"
+	if [[ ${CHOST} == *-linux-* ]] ; then
+		if kernel_is -ge 6.11.3 ; then
+			# https://forums.gentoo.org/viewtopic-p-8846891.html
+			#
+			# Either CONFIG_PROC_MEM_ALWAYS_FORCE or CONFIG_PROC_MEM_FORCE_PTRACE
+			# should be okay, but not CONFIG_PROC_MEM_NO_FORCE.
+			CONFIG_CHECK+="
+				~!PROC_MEM_NO_FORCE
+			"
+		fi
 	fi
 
 	linux-info_pkg_setup
@@ -160,14 +163,6 @@ src_prepare() {
 	# Avoid using ancient termcap from host on Prefix systems
 	sed -i -e 's/termcap tinfow/tinfow/g' \
 		gdb/configure{.ac,} || die
-	if [[ ${CHOST} == *-solaris* ]] ; then
-		# code relies on C++11, so make sure we get that selected
-		# due to Python 3.11 pymacro.h doing stuff to work around
-		# versioning mess based on the C version, while we're compiling
-		# C++ here, so we need to make it clear we're doing C++11/C11
-		# because Solaris system headers act on these
-		sed -i -e 's/-x c++/-std=c++11/' gdb/Makefile.in || die
-	fi
 }
 
 gdb_branding() {
@@ -203,6 +198,7 @@ src_configure() {
 		# Disable modules that are in a combined binutils/gdb tree. bug #490566
 		--disable-{binutils,etc,gas,gold,gprof,gprofng,ld}
 
+		$(use_with babeltrace)
 		$(use_with debuginfod)
 
 		$(use_enable test unit-tests)
@@ -273,7 +269,8 @@ src_configure() {
 	# ensure proper compiler is detected for Clang builds: bug #831202
 	export GCC_FOR_TARGET="${CC_FOR_TARGET:-$(tc-getCC)}"
 
-	econf "${myconf[@]}"
+	# XXX: bash for https://inbox.sourceware.org/gdb-patches/87ecw08tfk.fsf@gentoo.org/
+	CONFIG_SHELL="${BROOT}"/bin/bash econf "${myconf[@]}"
 }
 
 src_test() {

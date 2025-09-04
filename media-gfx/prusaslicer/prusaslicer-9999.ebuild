@@ -48,27 +48,26 @@ RDEPEND="
 	sci-libs/nlopt
 	sci-libs/opencascade:=
 	sci-mathematics/cgal:=
+	sci-mathematics/z3:=
 	sys-apps/dbus
 	sys-libs/zlib:=
 	virtual/opengl
 	x11-libs/gtk+:3
-	>=x11-libs/wxGTK-3.2.2.1-r3:${WX_GTK_VER}[X,opengl,webkit]
+	x11-libs/wxGTK:${WX_GTK_VER}=[X,opengl,webkit]
 	media-libs/nanosvg:=
 "
 DEPEND="${RDEPEND}
 	media-libs/qhull[static-libs]
-	test? ( =dev-cpp/catch-2* )
+	test? ( =dev-cpp/catch-3.8* )
 "
 
 PATCHES=(
 	"${FILESDIR}/${PN}-2.6.0-dont-force-link-to-wayland-and-x11.patch"
-	"${FILESDIR}/${PN}-2.8.0-wxwidgets-3.2.4.patch"
 	"${FILESDIR}/${PN}-2.8.1-cgal-6.0.patch"
 	"${FILESDIR}/${PN}-2.8.1-fstream.patch"
 	"${FILESDIR}/${PN}-2.8.1-fix-libsoup-double-linking.patch"
 	"${FILESDIR}/${PN}-2.8.1-boost-1.87.patch"
-	"${FILESDIR}/${PN}-2.9.0-missing-includes.patch"
-	"${FILESDIR}/${PN}-2.9.0-arrange-static.patch"
+	"${FILESDIR}/${PN}-2.9.2-boost-1.88.patch"
 )
 
 src_prepare() {

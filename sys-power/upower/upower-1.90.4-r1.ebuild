@@ -1,10 +1,10 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 PYTHON_COMPAT=( python3_{10..12} )
-inherit meson python-any-r1 systemd udev xdg-utils
+inherit eapi9-ver meson python-any-r1 systemd udev xdg-utils
 
 DESCRIPTION="D-Bus abstraction for enumerating power devices, querying history and statistics"
 HOMEPAGE="https://upower.freedesktop.org/"
@@ -13,7 +13,7 @@ S="${WORKDIR}/${PN}-v${PV}"
 
 LICENSE="GPL-2+"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~mips ppc ppc64 ~riscv ~s390 sparc x86"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~mips ppc ppc64 ~riscv ~s390 ~sparc x86"
 
 # gtk-doc files are not available as prebuilt in the tarball
 IUSE="doc +introspection ios selinux test"
@@ -99,7 +99,7 @@ src_install() {
 pkg_postinst() {
 	udev_reload
 
-	if [[ ${REPLACING_VERSIONS} ]] && ver_test ${REPLACING_VERSIONS} -lt 0.99.12; then
+	if ver_replacing -lt 0.99.12; then
 		elog "Support for Logitech Unifying Receiver battery state readout was"
 		elog "removed in version 0.99.12, these devices have been directly"
 		elog "supported by the Linux kernel since version >=3.2."

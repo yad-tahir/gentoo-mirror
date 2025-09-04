@@ -71,7 +71,7 @@ RDEPEND="
 	)
 	pulseaudio? ( media-libs/libpulse )
 	speech? ( app-accessibility/speech-dispatcher )
-	theora? ( media-libs/libtheora )
+	theora? ( media-libs/libtheora:= )
 	tools? ( app-misc/ca-certificates )
 	udev? ( virtual/udev )
 	wayland? (
@@ -92,6 +92,7 @@ BDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-4.3-scons.patch
+	"${FILESDIR}"/${PN}-4.3-gcc15.patch
 )
 
 src_prepare() {

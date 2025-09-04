@@ -1,13 +1,16 @@
 # Copyright 2022-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# WANG Xuerui <xen0n@gentoo.org> (2025-01-24)
+# dev-util/sysprof-capture is keyworded on loong
+-sysprof
+
 # WANG Xuerui <xen0n@gentoo.org> (2025-01-12)
 # net-misc/dropbox is closed-source and unavailable on loong
 dropbox
 
 # Sam James <sam@gentoo.org> (2025-01-10)
 # Older targets don't have an old enough dev-lang/ada-bootstrap available
-ada_target_gnat_2021
 ada_target_gcc_12
 ada_target_gcc_13
 

@@ -1,6 +1,42 @@
 # Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-08-29)
+# dev-perl/Template-GD is not keyworded here. Bug #661634
+dev-perl/Template-Toolkit gd
+
+# Michał Górny <mgorny@gentoo.org> (2025-08-21)
+# Requires dev-python/qtconsole.
+dev-python/ipython gui
+
+# Hans de Graaff <graaff@gentoo.org> (2025-05-31)
+# Requires large parts of dev-ruby/rails to be keyworded.
+dev-ruby/minitest-hooks test
+
+# NRK <nrk@disroot.org> (2025-05-18)
+# app-arch/plzip is not keyworded
+app-alternatives/lzip plzip
+
+# Eray Aslan <eras@gentoo.org> (2025-05-08)
+# dev-db/tinycdb is not keyworded here
+net-mail/dovecot cdb
+
+# NRK <nrk@disroot.org> (2025-04-07)
+# media-libs/libyuv is not keyworded
+media-libs/imlib2 y4m
+
+# Cristian Othón Martínez Vera <cfuga@cfuga.mx> (2025-04-09)
+# dev-db/tinycdb is not keyworded here
+mail-mta/sendmail tinycdb
+
+# NRK <nrk@disroot.org> (2025-03-17)
+# media-libs/libavif is not keyworded
+media-libs/imlib2 avif
+
+# Sam James <sam@gentoo.org> (2025-03-17)
+# dev-util/babeltrace is not keyworded here
+dev-debug/gdb babeltrace
+
 # Sam James <sam@gentoo.org. (2025-01-14)
 # dev-cpp/benchmark is not yet keyworded here
 dev-libs/re2 benchmark
@@ -53,10 +89,6 @@ dev-lang/python jit
 # media-libs/libraw is not keyworded
 media-libs/imlib2 raw
 
-# Viorel Munteanu <ceamac@gentoo.org> (2024-04-06)
-# sys-libs/nss_wrapper unavailable for tests
-net-misc/dropbear test
-
 # Sam James <sam@gentoo.org> (2024-03-27)
 # No rust-bin available for profiler
 virtual/rust profiler
@@ -106,7 +138,6 @@ app-alternatives/ninja samurai
 # Patrick McLean <chutzpah@gentoo.org> (2023-10-03)
 # sys-apps/s6-linux-init has not been tested on this arch
 sys-apps/openrc s6
-sys-apps/openrc-navi s6
 
 # Sam James <sam@gentoo.org> (2023-09-24)
 # Qt not keyworded here.
@@ -210,7 +241,6 @@ net-fs/cifs-utils acl
 # x11-themes/sound-theme-freedesktop unkeyworded here
 app-editors/gvim sound
 app-editors/vim sound
-media-libs/libcanberra sound
 
 # Sam James <sam@gentoo.org> (2022-04-24)
 # media-libs/libavif isn't keyworded here
@@ -242,6 +272,7 @@ app-portage/nattka depgraph-order
 # Adel Kara Slimane <adel.ks@zegrapher.com> (2022-03-14)
 # Untested useflag on other arches, needs keywording
 media-video/ffmpeg vmaf
+media-video/ffmpeg-compat vmaf
 
 # Sam James <sam@gentoo.org> (2021-11-05)
 # Avoid keywording unnecessary depenencies for now, bug #804115
@@ -253,7 +284,7 @@ dev-python/diskcache test
 
 # Matt Turner <mattst88@gentoo.org> (2020-08-11)
 # No drivers on this architecture support Vulkan
-media-libs/mesa video_cards_zink vulkan vulkan-overlay
+media-libs/mesa video_cards_zink vulkan-overlay
 
 # Hans de Graaff <graaff@gentoo.org> (2019-04-08)
 # Obsolete ruby version, no newer versions keyworded or stable.

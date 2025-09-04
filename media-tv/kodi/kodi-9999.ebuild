@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,12 +12,12 @@ CODENAME="Piers"
 LIBDVDCSS_VERSION="1.4.3-Next-Nexus-Alpha2-2"
 LIBDVDREAD_VERSION="6.1.3-Next-Nexus-Alpha2-2"
 LIBDVDNAV_VERSION="6.1.1-Next-Nexus-Alpha2-2"
-FFMPEG_VERSION="7.1"
+FFMPEG_VERSION="7.1.1"
 
 # Java bundles from xbmc/interfaces/swig/CMakeLists.txt
-GROOVY_VERSION="4.0.16"
-APACHE_COMMON_LANG_VERSION="3.14.0"
-APACHE_COMMON_TEXT_VERSION="1.11.0"
+GROOVY_VERSION="4.0.26"
+APACHE_COMMON_LANG_VERSION="3.17.0"
+APACHE_COMMON_TEXT_VERSION="1.13.0"
 
 _JAVA_PKG_WANT_BUILD_VM=( {openjdk{,-jre},icedtea}{,-bin}-{8,11,17,21} )
 JAVA_PKG_WANT_BUILD_VM=${_JAVA_PKG_WANT_BUILD_VM[@]}
@@ -26,7 +26,7 @@ JAVA_PKG_WANT_SOURCE="21"
 JAVA_PKG_WANT_TARGET="21"
 
 PYTHON_REQ_USE="sqlite,ssl"
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{11..14} )
 
 # See cmake/scripts/common/ArchSetup.cmake for available options
 CPU_FLAGS="cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_sse3 cpu_flags_x86_sse4_1 cpu_flags_x86_sse4_2 cpu_flags_x86_avx cpu_flags_x86_avx2 cpu_flags_arm_neon"
@@ -129,7 +129,7 @@ COMMON_TARGET_DEPEND="${PYTHON_DEPS}
 	>=media-libs/freetype-2.10.1
 	media-libs/harfbuzz:=
 	>=media-libs/libass-0.15.0:=
-	media-libs/mesa[egl(+),gbm(+)?,wayland?,X?]
+	media-libs/mesa[opengl,wayland?,X?]
 	media-libs/taglib:=
 	virtual/libiconv
 	virtual/ttf-fonts
@@ -155,7 +155,7 @@ COMMON_TARGET_DEPEND="${PYTHON_DEPS}
 		sys-libs/libcap
 	)
 	cec? (
-		>=dev-libs/libcec-4.0[-cubox]
+		>=dev-libs/libcec-4.0[-cubox(-)]
 	)
 	dbus? (
 		sys-apps/dbus
@@ -164,12 +164,6 @@ COMMON_TARGET_DEPEND="${PYTHON_DEPS}
 		>=dev-libs/libinput-1.10.5:=
 		media-libs/libdisplay-info:=
 		x11-libs/libxkbcommon
-	)
-	gles? (
-		|| (
-			>=media-libs/mesa-24.1.0_rc1[opengl]
-			<media-libs/mesa-24.1.0_rc1[gles2]
-		)
 	)
 	!gles? (
 		media-libs/glu
@@ -202,7 +196,7 @@ COMMON_TARGET_DEPEND="${PYTHON_DEPS}
 		>=net-fs/samba-3.4.6[smbclient(+)]
 	)
 	system-ffmpeg? (
-		=media-video/ffmpeg-7*:=[encode,soc(-)?,postproc,vaapi?,vdpau?,X?]
+		=media-video/ffmpeg-7*:=[encode(+),soc(-)?,postproc(-),vaapi?,vdpau?,X?]
 	)
 	!system-ffmpeg? (
 		app-arch/bzip2
@@ -226,10 +220,10 @@ COMMON_TARGET_DEPEND="${PYTHON_DEPS}
 		)
 	)
 	wayland? (
-		>=x11-libs/libxkbcommon-0.4.1[wayland]
+		>=x11-libs/libxkbcommon-0.4.1
 	)
 	webserver? (
-		>=net-libs/libmicrohttpd-0.9.77:=[messages(+)]
+		>=net-libs/libmicrohttpd-0.9.77:=
 	)
 	X? (
 		x11-libs/libX11
@@ -238,7 +232,7 @@ COMMON_TARGET_DEPEND="${PYTHON_DEPS}
 	)
 	xslt? (
 		dev-libs/libxslt
-		>=dev-libs/libxml2-2.9.4
+		>=dev-libs/libxml2-2.9.4:=
 	)
 	zeroconf? (
 		net-dns/avahi[dbus]
@@ -251,7 +245,7 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	${COMMON_TARGET_DEPEND}
-	>=dev-libs/rapidjson-1.0.2
+	>=dev-cpp/nlohmann_json-3.2.0
 	test? (
 		>=dev-cpp/gtest-1.10.0
 	)
@@ -269,7 +263,7 @@ BDEPEND="
 	dev-build/cmake
 	dev-lang/swig
 	virtual/pkgconfig
-	<=virtual/jre-21:*
+	<=virtual/jre-21-r9999:*
 	doc? (
 		app-text/doxygen
 	)
@@ -277,7 +271,7 @@ BDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/kodi-21-optional-ffmpeg-libx11.patch
-	"${FILESDIR}"/kodi-21.1-silence-libdvdread-git.patch
+	"${FILESDIR}"/kodi-22-silence-libdvdread-git.patch
 )
 
 # bug #544020
@@ -361,7 +355,6 @@ src_configure() {
 		-DENABLE_GOLD=OFF
 		-DENABLE_LLD=OFF
 		-DENABLE_MOLD=OFF
-		-DUSE_LTO=OFF
 
 		# Features
 		-DENABLE_AIRTUNES=$(usex airplay)
@@ -411,10 +404,9 @@ src_configure() {
 		-DENABLE_INTERNAL_FSTRCMP=OFF
 		-DENABLE_INTERNAL_GTEST=OFF
 		-DENABLE_INTERNAL_PCRE2=OFF
-		-DENABLE_INTERNAL_RapidJSON=OFF
+		-DENABLE_INTERNAL_NLOHMANNJSON=OFF
 		-DENABLE_INTERNAL_SPDLOG=OFF
 		-DENABLE_INTERNAL_TAGLIB=OFF
-		-DENABLE_INTERNAL_UDFREAD=OFF
 
 		-DTARBALL_DIR="${DISTDIR}"
 		-Dlibdvdnav_URL="${DISTDIR}/libdvdnav-${LIBDVDNAV_VERSION}.tar.gz"
@@ -445,9 +437,11 @@ src_configure() {
 		append-cxxflags -DNDEBUG
 	fi
 
-	# Violates ODR (bug #860984) and USE_LTO does spooky stuff
-	# https://github.com/xbmc/xbmc/commit/cb72a22d54a91845b1092c295f84eeb48328921e
-	filter-lto
+	if tc-is-lto ; then
+		mycmakeargs+=( -DUSE_LTO=ON )
+	else
+		mycmakeargs+=( -DUSE_LTO=OFF )
+	fi
 
 	if tc-is-cross-compiler; then
 		for t in "${NATIVE_TOOLS[@]}" ; do
@@ -482,6 +476,9 @@ src_test() {
 		# Tries to ping localhost, naturally breaking network-sandbox
 		TestNetwork.PingHost
 	)
+
+	# Tests assumes bluray support is enabled
+	use !bluray && CMAKE_SKIP_TESTS+=( TestURIUtils.GetBasePath )
 
 	if use arm || use x86; then
 		# bug #779184

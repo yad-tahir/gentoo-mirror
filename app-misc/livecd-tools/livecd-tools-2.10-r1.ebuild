@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,7 +10,7 @@ if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 else
 	SRC_URI="https://gitweb.gentoo.org/proj/livecd-tools.git/snapshot/${P}.tar.bz2"
-	KEYWORDS="~alpha ~amd64 arm64 hppa ~loong ~mips ~ppc ~ppc64 ~sparc ~x86"
+	KEYWORDS="~alpha ~amd64 arm64 ~hppa ~loong ~mips ~ppc ~ppc64 ~sparc ~x86"
 fi
 
 DESCRIPTION="Gentoo LiveCD tools for autoconfiguration of hardware"
@@ -23,10 +23,7 @@ RDEPEND="
 	dev-util/dialog
 	media-sound/alsa-utils
 	net-dialup/mingetty
-	|| (
-		sys-apps/openrc
-		sys-apps/openrc-navi
-	)
+	sys-apps/openrc
 	sys-apps/pciutils
 "
 

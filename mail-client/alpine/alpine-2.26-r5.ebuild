@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,7 +12,7 @@ SRC_URI="https://alpineapp.email/alpine/release/src/${P}.tar.xz
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~ppc ~ppc64 ~sparc ~x86"
+KEYWORDS="~alpha amd64 ppc ~ppc64 ~sparc x86"
 IUSE="+chappa ipv6 kerberos ldap nls onlyalpine passfile smime ssl"
 
 DEPEND="sys-libs/ncurses:=
@@ -33,6 +33,15 @@ src_prepare() {
 
 	# optional extra features, see https://alpineapp.email/alpine/index.html
 	use chappa && eapply "${WORKDIR}/${P}-patches/chappa-rebased.patch"
+
+	# fix gettext macros to work with >=0.23 (bug #946128)
+	# eautoreconf will call autopoint, which will install any necessary files
+	# from the version we set in configure.ac
+	local gettext_version=$(gettextize --version | awk '/GNU gettext-tools/{print $NF}' || die)
+	sed -i "s/^AM_GNU_GETTEXT_VERSION(.*)/AM_GNU_GETTEXT_VERSION([${gettext_version}])/g" configure.ac || die
+
+	# do not override $RM for libtool (bug #880323)
+	sed -i "/^AC_PATH_PROG(RM/d" configure.ac || die
 
 	eautoreconf
 	tc-export CC RANLIB AR

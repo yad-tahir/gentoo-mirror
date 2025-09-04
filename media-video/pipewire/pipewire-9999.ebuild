@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -23,15 +23,20 @@ EAPI=8
 : ${PIPEWIRE_DOCS_PREBUILT:=1}
 
 PIPEWIRE_DOCS_PREBUILT_DEV=sam
-PIPEWIRE_DOCS_VERSION="${PV}"
+PIPEWIRE_DOCS_VERSION="$(ver_cut 1-2).0"
 # Default to generating docs (inc. man pages) if no prebuilt; overridden later
 PIPEWIRE_DOCS_USEFLAG="+man"
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{11..13} )
 inherit meson-multilib optfeature prefix python-any-r1 systemd tmpfiles udev
 
-if [[ ${PV} == 9999 ]]; then
+if [[ ${PV} == 9999 ]] ; then
 	PIPEWIRE_DOCS_PREBUILT=0
 	EGIT_REPO_URI="https://gitlab.freedesktop.org/${PN}/${PN}.git"
+	inherit git-r3
+elif [[ ${PV} == *.9999 ]] ; then
+	PIPEWIRE_DOCS_PREBUILT=0
+	EGIT_REPO_URI="https://gitlab.freedesktop.org/${PN}/${PN}.git"
+	EGIT_BRANCH="${PV%.*}"
 	inherit git-r3
 else
 	if [[ ${PV} == *_p* ]] ; then
@@ -56,7 +61,7 @@ HOMEPAGE="https://pipewire.org/"
 LICENSE="MIT LGPL-2.1+ GPL-2"
 # ABI was broken in 0.3.42 for https://gitlab.freedesktop.org/pipewire/wireplumber/-/issues/49
 SLOT="0/0.4"
-IUSE="${PIPEWIRE_DOCS_USEFLAG} bluetooth elogind dbus doc echo-cancel extra ffmpeg flatpak gstreamer gsettings ieee1394 jack-client jack-sdk liblc3 lv2"
+IUSE="${PIPEWIRE_DOCS_USEFLAG} bluetooth elogind dbus doc echo-cancel extra ffmpeg fftw flatpak gstreamer gsettings ieee1394 jack-client jack-sdk liblc3 loudness lv2"
 IUSE+=" modemmanager pipewire-alsa readline roc selinux sound-server ssl system-service systemd test v4l X zeroconf"
 
 # Once replacing system JACK libraries is possible, it's likely that
@@ -100,8 +105,8 @@ BDEPEND="
 # * While udev could technically be optional, it's needed for a number of options,
 # and not really worth it, bug #877769.
 #
-# * Supports both legacy webrtc-audio-processing:0 and new webrtc-audio-processing:1.
-# We depend on :1 as it prefers that, it's not legacy, and to avoid automagic.
+# * Supports both legacy webrtc-audio-processing:2 and new webrtc-audio-processing:1.
+# Automagic but :2 isn't yet packaged.
 #
 # * Older Doxygen (<1.9.8) may work but inferior output is created:
 #   - https://gitlab.freedesktop.org/pipewire/pipewire/-/merge_requests/1778
@@ -128,6 +133,7 @@ RDEPEND="
 	echo-cancel? ( >=media-libs/webrtc-audio-processing-1.2:1 )
 	extra? ( >=media-libs/libsndfile-1.0.20 )
 	ffmpeg? ( media-video/ffmpeg:= )
+	fftw? ( sci-libs/fftw:3.0=[${MULTILIB_USEDEP}] )
 	flatpak? ( dev-libs/glib )
 	gstreamer? (
 		>=dev-libs/glib-2.32.0:2
@@ -142,11 +148,12 @@ RDEPEND="
 		!media-sound/jack2
 	)
 	liblc3? ( media-sound/liblc3 )
+	loudness? ( media-libs/libebur128:=[${MULTILIB_USEDEP}] )
 	lv2? ( media-libs/lilv )
 	modemmanager? ( >=net-misc/modemmanager-1.10.0 )
-	pipewire-alsa? ( >=media-libs/alsa-lib-1.1.7[${MULTILIB_USEDEP}] )
+	pipewire-alsa? ( >=media-libs/alsa-lib-1.2.10[${MULTILIB_USEDEP}] )
 	sound-server? ( !media-sound/pulseaudio-daemon )
-	roc? ( >=media-libs/roc-toolkit-0.3.0:= )
+	roc? ( >=media-libs/roc-toolkit-0.4.0:= )
 	readline? ( sys-libs/readline:= )
 	selinux? ( sys-libs/libselinux )
 	ssl? ( dev-libs/openssl:= )
@@ -188,7 +195,9 @@ src_prepare() {
 	default
 
 	# Used for upstream backports
-	[[ -d "${FILESDIR}"/${PV} ]] && eapply "${FILESDIR}"/${PV}
+	if [[ ${PV} != *9999 && -d "${FILESDIR}"/${PV} ]] ; then
+		eapply "${FILESDIR}"/${PV}
+	fi
 }
 
 multilib_src_configure() {
@@ -215,7 +224,7 @@ multilib_src_configure() {
 		$(meson_native_use_feature gstreamer)
 		$(meson_native_use_feature gstreamer gstreamer-device-provider)
 		$(meson_native_use_feature gsettings)
-		$(meson_native_use_feature systemd)
+		$(meson_native_use_feature systemd libsystemd)
 		-Dlogind=${logind}
 		-Dlogind-provider=$(usex systemd 'libsystemd' 'libelogind')
 
@@ -241,6 +250,7 @@ multilib_src_configure() {
 		$(meson_native_use_feature bluetooth bluez5-codec-aac)
 		$(meson_native_use_feature bluetooth bluez5-codec-aptx)
 		$(meson_native_use_feature bluetooth bluez5-codec-ldac)
+		$(meson_native_use_feature bluetooth bluez5-codec-g722)
 		$(meson_native_use_feature bluetooth opus)
 		$(meson_native_use_feature bluetooth bluez5-codec-opus)
 		$(meson_native_use_feature bluetooth libusb) # At least for now only used by bluez5 native (quirk detection of adapters)
@@ -259,6 +269,8 @@ multilib_src_configure() {
 		-Dtest=disabled # fakesink and fakesource plugins
 		-Dbluez5-codec-lc3plus=disabled # unpackaged
 		$(meson_native_use_feature liblc3 bluez5-codec-lc3)
+		$(meson_feature loudness ebur128)
+		$(meson_feature fftw)
 		$(meson_native_use_feature lv2)
 		$(meson_native_use_feature v4l v4l2)
 		-Dlibcamera=disabled # libcamera is not in Portage tree
@@ -334,8 +346,12 @@ multilib_src_install_all() {
 		dosym ../../../usr/share/alsa/alsa.conf.d/99-pipewire-default-hook.conf /etc/alsa/conf.d/99-pipewire-default-hook.conf
 	fi
 
+	exeinto /etc/user/init.d
+	newexe "${FILESDIR}"/pipewire.initd pipewire
 	# Enable required wireplumber alsa and bluez monitors
 	if use sound-server; then
+		newexe "${FILESDIR}"/pipewire-pulse.initd pipewire-pulse
+
 		# Install sound-server enabler for wireplumber 0.5.0+ conf syntax
 		insinto /etc/wireplumber/wireplumber.conf.d
 		doins "${FILESDIR}"/gentoo-sound-server-enable-audio-bluetooth.conf
@@ -352,7 +368,7 @@ multilib_src_install_all() {
 		newins "${FILESDIR}"/pipewire.desktop-r2 pipewire.desktop
 
 		exeinto /usr/bin
-		newexe "${FILESDIR}"/gentoo-pipewire-launcher.in-r3 gentoo-pipewire-launcher
+		newexe "${FILESDIR}"/gentoo-pipewire-launcher.in-r4 gentoo-pipewire-launcher
 
 		doman "${FILESDIR}"/gentoo-pipewire-launcher.1
 

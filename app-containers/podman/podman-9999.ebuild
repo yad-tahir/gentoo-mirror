@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -51,7 +51,7 @@ BDEPEND="
 "
 
 PATCHES=(
-	"${T}"/togglable-seccomp.patch
+	"${FILESDIR}"/${PN}-5.5.2-togglable-seccomp.patch
 )
 
 CONFIG_CHECK="
@@ -65,24 +65,11 @@ pkg_setup() {
 }
 
 src_prepare() {
-	cat <<'EOF' > "${T}"/togglable-seccomp.patch || die
---- a/Makefile
-+++ b/Makefile
-@@ -56,7 +56,6 @@ BUILDTAGS ?= \
-	$(shell hack/systemd_tag.sh) \
-	$(shell hack/libsubid_tag.sh) \
-	exclude_graphdriver_devicemapper \
--	seccomp
- # allow downstreams to easily add build tags while keeping our defaults
- BUILDTAGS += ${EXTRA_BUILDTAGS}
- # N/B: This value is managed by Renovate, manual changes are
-EOF
-
 	default
 
 	# assure necessary files are present
 	local file
-	for file in apparmor_tag btrfs_installed_tag btrfs_tag systemd_tag; do
+	for file in apparmor_tag btrfs_installed_tag systemd_tag; do
 		[[ -f hack/"${file}".sh ]] || die
 	done
 
@@ -94,15 +81,14 @@ EOF
 		EOF
 	done
 
-	echo -e "#!/usr/bin/env bash\n echo" > hack/btrfs_installed_tag.sh || die
-	cat <<-EOF > hack/btrfs_tag.sh || die
+	cat <<-EOF > hack/btrfs_installed_tag.sh || die
 	#!/usr/bin/env bash
-	$(usex btrfs echo 'echo exclude_graphdriver_btrfs btrfs_noversion')
+	$(usex btrfs echo 'echo exclude_graphdriver_btrfs')
 	EOF
 }
 
 src_compile() {
-	export PREFIX="${EPREFIX}/usr"
+	export PREFIX="${EPREFIX}/usr" BUILD_ORIGIN="Gentoo Portage"
 
 	# For non-live versions, prevent git operations which causes sandbox violations
 	# https://github.com/gentoo/gentoo/pull/33531#issuecomment-1786107493
@@ -136,6 +122,12 @@ src_install() {
 
 		insinto /etc/logrotate.d
 		newins "${FILESDIR}/podman.logrotated" podman
+
+		exeinto /etc/user/init.d
+		newexe "${FILESDIR}/podman-5.0.0_rc4.user.initd" podman
+
+		insinto /etc/user/conf.d
+		newins "${FILESDIR}/podman-5.0.0_rc4.user.confd" podman
 	fi
 
 	keepdir /var/lib/containers

@@ -1,16 +1,15 @@
-# Copyright 2021-2024 Gentoo Authors
+# Copyright 2021-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..13} )
-PYTHON_REQ_USE="xml(+)"
+PYTHON_COMPAT=( python3_{11..14} )
 inherit check-reqs flag-o-matic multiprocessing optfeature
 inherit prefix python-any-r1 qt6-build toolchain-funcs
 
 DESCRIPTION="Library for rendering dynamic web content in Qt6 C++ and QML applications"
 SRC_URI+="
-	https://dev.gentoo.org/~ionen/distfiles/${PN}-6.9-patchset-1.tar.xz
+	https://dev.gentoo.org/~ionen/distfiles/${PN}-6.10-patchset-2.tar.xz
 "
 
 if [[ ${QT6_BUILD_TYPE} == release ]]; then
@@ -19,20 +18,20 @@ fi
 
 IUSE="
 	accessibility +alsa bindist custom-cflags designer geolocation
-	+jumbo-build kerberos opengl pdfium pulseaudio qml screencast
+	+jumbo-build kerberos opengl +pdfium pulseaudio qml screencast
 	+system-icu vaapi vulkan webdriver +widgets
 "
 REQUIRED_USE="
 	designer? ( qml widgets )
+	test? ( widgets )
 "
 
-# dlopen: krb5, libva, pciutils, udev
-# gcc: for -latomic
+# dlopen: krb5, libva, pciutils
 RDEPEND="
 	app-arch/snappy:=
 	dev-libs/expat
 	dev-libs/libevent:=
-	dev-libs/libxml2[icu]
+	dev-libs/libxml2:=[icu]
 	dev-libs/libxslt
 	dev-libs/nspr
 	dev-libs/nss
@@ -52,9 +51,8 @@ RDEPEND="
 	media-libs/tiff:=
 	sys-apps/dbus
 	sys-apps/pciutils
-	sys-devel/gcc:*
 	sys-libs/zlib:=[minizip]
-	virtual/libudev
+	virtual/libudev:=
 	x11-libs/libX11
 	x11-libs/libXcomposite
 	x11-libs/libXdamage
@@ -81,11 +79,16 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
+	|| (
+		sys-devel/gcc:*
+		llvm-runtimes/libatomic-stub
+	)
 	media-libs/libglvnd
 	x11-base/xorg-proto
 	x11-libs/libXcursor
 	x11-libs/libXi
 	x11-libs/libxshmfence
+	elibc_musl? ( sys-libs/queue-standalone )
 	screencast? ( media-libs/libepoxy[egl(+)] )
 	vaapi? (
 		vulkan? ( dev-util/vulkan-headers )
@@ -94,7 +97,7 @@ DEPEND="
 BDEPEND="
 	$(python_gen_any_dep 'dev-python/html5lib[${PYTHON_USEDEP}]')
 	dev-util/gperf
-	net-libs/nodejs[ssl]
+	net-libs/nodejs[icu,ssl]
 	sys-devel/bison
 	sys-devel/flex
 "
@@ -123,8 +126,8 @@ qtwebengine_check-reqs() {
 		ewarn "If run into issues, please try disabling before reporting a bug."
 	fi
 
-	local CHECKREQS_DISK_BUILD=9G
-	local CHECKREQS_DISK_USR=360M
+	local CHECKREQS_DISK_BUILD=10G
+	local CHECKREQS_DISK_USR=400M
 
 	if ! has distcc ${FEATURES}; then #830661
 		# assume ~2GB per job or 1.5GB if clang, possible with less
@@ -155,22 +158,26 @@ src_prepare() {
 	# store chromium versions, only used in postinst for a warning
 	local chromium
 	mapfile -t chromium < CHROMIUM_VERSION || die
-	[[ ${chromium[1]} =~ ^Based.*:[^0-9]+([0-9.]+$) ]] &&
+	[[ ${chromium[0]} =~ ^Based.*:[^0-9]+([0-9.]+$) ]] &&
 		QT6_CHROMIUM_VER=${BASH_REMATCH[1]} || die
-	[[ ${chromium[2]} =~ ^Patched.+:[^0-9]+([0-9.]+$) ]] &&
+	[[ ${chromium[1]} =~ ^Patched.+:[^0-9]+([0-9.]+$) ]] &&
 		QT6_CHROMIUM_PATCHES_VER=${BASH_REMATCH[1]} || die
 }
 
 src_configure() {
 	local mycmakeargs=(
 		$(qt_feature pdfium qtpdf_build)
-		$(qt_feature qml qtpdf_quick_build)
-		$(qt_feature webdriver webenginedriver)
-		$(qt_feature widgets qtpdf_widgets_build)
+		$(use pdfium && qt_feature qml qtpdf_quick_build)
+		$(use pdfium && qt_feature widgets qtpdf_widgets_build)
 		$(usev pdfium -DQT_FEATURE_pdf_v8=ON)
 
+		# TODO?: since 6.9.0, dependency checks have been adjusted to make it
+		# easier for webengine to be optional which could be useful if *only*
+		# need QtPdf (rare at the moment), would require all revdeps to depend
+		# on qtwebengine[webengine(+)]
 		-DQT_FEATURE_qtwebengine_build=ON
 		$(qt_feature qml qtwebengine_quick_build)
+		$(qt_feature webdriver webenginedriver)
 		$(qt_feature widgets qtwebengine_widgets_build)
 
 		$(cmake_use_find_package designer Qt6Designer)
@@ -213,8 +220,8 @@ src_configure() {
 		# given qtbase's force_system_libs does not affect these right now
 		$(printf -- '-DQT_FEATURE_webengine_system_%s=ON ' \
 			freetype gbm glib harfbuzz lcms2 libevent libjpeg \
-			libopenjpeg2 libpci libpng libtiff libwebp libxml \
-			minizip opus snappy zlib)
+			libopenjpeg2 libpci libpng libtiff libudev libwebp \
+			libxml minizip opus snappy zlib)
 
 		# TODO: fixup gn cross, or package dev-qt/qtwebengine-gn with =ON
 		# (see also BUILD_ONLY_GN option added in 6.8+ for the latter)
@@ -230,7 +237,9 @@ src_configure() {
 	)
 
 	if use !custom-cflags; then
-		strip-flags # fragile
+		# qtwebengine can be rather fragile with *FLAGS
+		filter-lto
+		strip-flags
 
 		if is-flagq '-g?(gdb)?([2-9])'; then #914475
 			replace-flags '-g?(gdb)?([2-9])' -g1
@@ -244,6 +253,10 @@ src_configure() {
 		use arm64 && tc-is-gcc && filter-flags '-march=*' '-mcpu=*'
 	fi
 
+	# chromium passes this by default, but qtwebengine does not and it may
+	# "possibly" get enabled by some paths and cause issues (bug #953111)
+	append-ldflags -Wl,-z,noexecstack
+
 	export NINJAFLAGS=$(get_NINJAOPTS)
 	[[ ${NINJA_VERBOSE^^} == OFF ]] || NINJAFLAGS+=" -v"
 
@@ -254,10 +267,12 @@ src_configure() {
 }
 
 src_compile() {
-	# tentatively work around a possible (rare) race condition (bug #921680)
-	cmake_build WebEngineCore_sync_all_public_headers
-
 	cmake_src_compile
+
+	# exact cause unknown, but >=qtwebengine-6.9.2 started to act as if
+	# QtWebEngineProcess is marked USER_FACING despite not set anywhere
+	# and this creates a user_facing_tool_links.txt with a broken symlink
+	:> "${BUILD_DIR}"/user_facing_tool_links.txt || die
 }
 
 src_test() {

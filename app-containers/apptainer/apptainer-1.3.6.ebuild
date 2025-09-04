@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit linux-info toolchain-funcs
+inherit eapi9-ver linux-info toolchain-funcs
 
 DESCRIPTION="The container system for secure high-performance computing"
 HOMEPAGE="https://apptainer.org/"
@@ -11,7 +11,7 @@ SRC_URI="https://github.com/apptainer/${PN}/releases/download/v${PV}/${P}.tar.gz
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~riscv ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 ~riscv ~x86 ~amd64-linux ~x86-linux"
 IUSE="examples +network suid systemd"
 
 # Do not complain about CFLAGS etc. since go projects do not use them.
@@ -35,11 +35,13 @@ CONFIG_CHECK="~SQUASHFS"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.0.2-trim_upstream_cflags.patch
+	"${FILESDIR}"/${P}-fix_c23.patch
 )
 
 DOCS=( README.md CONTRIBUTORS.md CONTRIBUTING.md )
 
 src_configure() {
+	tc-export PKG_CONFIG
 	local myconfargs=(
 		-c "$(tc-getBUILD_CC)" \
 		-x "$(tc-getBUILD_CXX)" \
@@ -79,13 +81,9 @@ src_install() {
 
 pkg_postinst() {
 	if ! use suid; then
-		local oldver
-		for oldver in ${REPLACING_VERSIONS}; do
-			if ver_test "${oldver}" -lt 1.1.0; then
-				ewarn "Since version 1.1.0 ${PN} no longer installs setuid-root components by default, relying on unprivileged user namespaces instead. For details, see https://apptainer.org/docs/admin/main/user_namespace.html"
-				ewarn "Make sure user namespaces (possibly except network ones for improved security) are enabled on your system, or re-enable installation of setuid root components by passing USE=suid to ${CATEGORY}/${PN}"
-				break
-			fi
-		done
+		if ver_replacing -lt 1.1.0; then
+			ewarn "Since version 1.1.0 ${PN} no longer installs setuid-root components by default, relying on unprivileged user namespaces instead. For details, see https://apptainer.org/docs/admin/main/user_namespace.html"
+			ewarn "Make sure user namespaces (possibly except network ones for improved security) are enabled on your system, or re-enable installation of setuid root components by passing USE=suid to ${CATEGORY}/${PN}"
+		fi
 	fi
 }

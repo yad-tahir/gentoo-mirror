@@ -5,7 +5,7 @@ EAPI=8
 
 DISTUTILS_EXT=1
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( pypy3 python3_{10..13} )
+PYTHON_COMPAT=( pypy3 pypy3_11 python3_{10..13} )
 PYTHON_REQ_USE="threads(+)"
 
 inherit distutils-r1 prefix pypi
@@ -19,7 +19,7 @@ HOMEPAGE="
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc64 ~riscv ~sparc ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 arm arm64 ~loong ppc64 ~riscv ~sparc x86 ~amd64-linux ~x86-linux"
 IUSE="+cpudetection examples test"
 RESTRICT="!test? ( test )"
 

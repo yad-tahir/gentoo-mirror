@@ -1,8 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-USE_RUBY="ruby31 ruby32"
+
+USE_RUBY="ruby32 ruby33 ruby34"
 
 RUBY_FAKEGEM_BINWRAP=""
 RUBY_FAKEGEM_EXTRADOC="CHANGELOG.md README.md TODO"
@@ -34,8 +35,8 @@ ruby_add_bdepend "test? (
 	dev-ruby/webmock
 	dev-ruby/rack
 	dev-ruby/rest-client
-	|| ( dev-ruby/actionpack:7.1 dev-ruby/actionpack:7.0 dev-ruby/actionpack:6.1 )
-	|| ( dev-ruby/railties:7.1 dev-ruby/railties:7.0 dev-ruby/railties:6.1 )
+	|| ( dev-ruby/actionpack:7.1 dev-ruby/actionpack:7.0 )
+	|| ( dev-ruby/railties:7.1 dev-ruby/railties:7.0 )
 )"
 
 all_ruby_prepare() {

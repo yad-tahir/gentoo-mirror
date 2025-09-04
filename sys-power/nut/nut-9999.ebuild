@@ -1,10 +1,10 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..12} )
-inherit bash-completion-r1 desktop flag-o-matic linux-info optfeature
+PYTHON_COMPAT=( python3_{11..13} )
+inherit bash-completion-r1 desktop linux-info optfeature
 inherit python-single-r1 systemd tmpfiles toolchain-funcs udev wrapper xdg
 
 MY_P=${P/_/-}
@@ -17,7 +17,7 @@ if [[ ${PV} == *9999 ]] ; then
 	inherit git-r3
 else
 	SRC_URI="https://networkupstools.org/source/${PV%.*}/${MY_P}.tar.gz"
-	KEYWORDS="~amd64 ~arm ~arm64 ~riscv ~x86" # waiting for ~arch of dev-libs/libgpiod: ~ppc ~ppc64
+	KEYWORDS="~amd64 ~arm ~arm64 ~riscv ~x86"
 fi
 
 S="${WORKDIR}/${MY_P}"
@@ -123,7 +123,7 @@ src_configure() {
 		--with-group=nut
 		--with-htmlpath=/usr/share/nut/html
 		--with-logfacility=LOG_DAEMON
-		--with-statepath=/var/lib/nut
+		--with-statepath=/run/nut
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-systemdtmpfilesdir="/usr/lib/tmpfiles.d"
 		--with-udev-dir="$(get_udevdir)"
@@ -150,8 +150,6 @@ src_configure() {
 		$(use_with zeroconf avahi)
 	)
 
-	filter-lto
-	append-flags -fno-lto
 	tc-export CC CXX AR
 
 	use cgi && myeconfargs+=( --with-cgipath=/usr/share/nut/cgi )

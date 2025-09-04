@@ -1,6 +1,71 @@
 # Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-08-29)
+# dev-perl/Template-GD is not keyworded here. Bug #661634
+dev-perl/Template-Toolkit gd
+
+# Michał Górny <mgorny@gentoo.org> (2025-08-21)
+# Requires dev-python/qtconsole.
+dev-python/ipython gui
+
+# Ian Jordan <immoloism@gmail.com> (2025-07-28)
+# Needs app-text/ronn-ng, which is not keyworded here
+app-accessibility/espeakup man
+
+# Cristian Othón Martínez Vera <cfuga@cfuga.mx> (2025-07-15)
+# Needs gui-apps/grim, which is not keyworded here
+x11-misc/xscreensaver wayland
+
+# Mike Gilbert <floppym@gentoo.org> (2025-06-18)
+# media-libs/libsdl3 is missing keywords.
+>=net-misc/freerdp-3.16.0 sdl
+
+# NRK <nrk@disroot.org> (2025-05-18)
+# app-arch/plzip is not keyworded
+app-alternatives/lzip plzip
+
+# Alfred Wingate (2025-05-13)
+# Need dev-libs/libdispatch which is not keyworded here
+gnustep-base/gnustep-base libdispatch
+
+# Eray Aslan <eras@gentoo.org> (2025-05-08)
+# dev-db/tinycdb is not keyworded here
+net-mail/dovecot cdb
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-05-03)
+# dev-qt/qtbase:6 is not keyworded here
+media-libs/openal gui
+
+# NRK <nrk@disroot.org> (2025-04-07)
+# media-libs/libyuv is not keyworded
+media-libs/imlib2 y4m
+
+# Cristian Othón Martínez Vera <cfuga@cfuga.mx> (2025-04-09)
+# dev-db/tinycdb is not keyworded here
+mail-mta/sendmail tinycdb
+
+# NRK <nrk@disroot.org> (2025-03-17)
+# media-libs/libyuv is not keyworded
+media-libs/libavif libyuv
+
+# Ionen Wolkens <ionen@gentoo.org> (2025-03-10)
+# media-libs/libopenmpt is not keyworded here
+media-video/ffmpeg openmpt
+media-video/ffmpeg-compat openmpt
+
+# Sam James <sam@gentoo.org> (2025-03-04)
+# qt is not keyworded here
+net-wireless/wpa_supplicant gui
+
+# Matt Jolly <kangie@gentoo.org> (2025-01-29)
+# Needs dev-lang/go which is not keyworded here
+x11-wm/fvwm3 go
+
+# Pacho Ramos <pacho@gentoo.org> (2025-01-26)
+# Needs unkeyworded net-libs/msgraph
+gnome-base/gvfs onedrive
+
 # Sam James <sam@gentoo.org> (2025-01-14)
 # Needs dev-python/numpy and dev-python/scipy which aren't keyworded here
 dev-cpp/benchmark tools
@@ -60,6 +125,7 @@ mail-filter/pyzor redis test
 # Andreas Sturmlechner <asturm@gentoo.org> (2024-06-29)
 # media-libs/libplacebo is not keyworded
 media-video/ffmpeg libplacebo
+media-video/ffmpeg-compat libplacebo
 
 # Michał Górny <mgorny@gentoo.org> (2024-05-08)
 # Requires sys-devel/{clang,llvm}:16.
@@ -82,12 +148,9 @@ dev-util/perf bpf
 dev-lang/php capstone
 
 # matoro <matoro_gentoo@matoro.tk> (2023-11-24)
-# dev-util/glslang not keyworded here.
-media-video/ffmpeg glslang
-
-# matoro <matoro_gentoo@matoro.tk> (2023-11-24)
 # media-libs/shaderc not keyworded here.
->=media-video/ffmpeg-5 shaderc
+media-video/ffmpeg shaderc
+media-video/ffmpeg-compat shaderc
 
 # matoro <matoro_gentoo@matoro.tk> (2023-11-14)
 # dev-db/mysql not keyworded here.
@@ -112,6 +175,7 @@ app-alternatives/ninja samurai
 # https://buildd.debian.org/status/logs.php?pkg=weston&arch=alpha
 gui-libs/gtk wayland
 dev-libs/libportal wayland
+app-i18n/ibus wayland
 
 # matoro <matoro_gentoo@matoro.tk> (2023-06-18)
 # sci-physics/bullet not keyworded here (#908240)
@@ -198,6 +262,7 @@ media-libs/freetype svg
 # Adel Kara Slimane <adel.ks@zegrapher.com> (2022-03-14)
 # Untested useflag on other arches, needs keywording
 media-video/ffmpeg vmaf
+media-video/ffmpeg-compat vmaf
 
 # Sam James <sam@gentoo.org> (2022-01-29)
 # app-text/ronn-ng not keyworded here, bug #801103
@@ -206,6 +271,7 @@ app-accessibility/espeak-ng man
 # James Beddek <telans@posteo.de> (2022-01-15)
 # media-libs/svt-av1 is not keyworded here
 media-video/ffmpeg svt-av1
+media-video/ffmpeg-compat svt-av1
 
 # Sam James <sam@gentoo.org> (2021-11-05)
 # Avoid keywording unnecessary depenencies for now, bug #804115
@@ -269,6 +335,7 @@ sci-libs/umfpack cholmod
 # bug #769098, bug #769122
 media-libs/openal sndio
 media-video/ffmpeg sndio
+media-video/ffmpeg-compat sndio
 media-sound/moc sndio
 media-libs/libsdl2 sndio
 media-libs/libao sndio
@@ -288,14 +355,6 @@ dev-util/ragel doc
 # Dependency not keyworded on this arch.
 app-text/enchant voikko
 
-# Michał Górny <mgorny@gentoo.org> (2020-11-30)
-# Qt5 is not keyworded here.
-x11-misc/synergy gui
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2020-11-12)
-# media-sound/lash not keyworded, bug #736725
-media-sound/fluidsynth lash
-
 # Arfrever Frehtes Taifersar Arahesis <arfrever.fta@gmail.com> (2020-10-14)
 # app-i18n/fcitx:4 not keyworded.
 media-libs/libsdl2 fcitx
@@ -310,7 +369,7 @@ mail-filter/pyzor mysql
 
 # Matt Turner <mattst88@gentoo.org> (2020-08-11)
 # No drivers on this architecture support Vulkan
-media-libs/mesa video_cards_zink vulkan vulkan-overlay
+media-libs/mesa video_cards_zink vulkan-overlay
 
 # Sergei Trofimovich <slyfox@gentoo.org> (2020-07-18)
 # net-libs/webkit-gtk has no alpha keywords
@@ -357,6 +416,7 @@ sys-block/thin-provisioning-tools test
 # Mask USE=dav1d, media-libs/dav1d is not keyworded
 # Mask USE=libaribb24, media-libs/aribb24 is not keyworded
 media-video/ffmpeg dav1d libaribb24 libtesseract
+media-video/ffmpeg-compat dav1d libaribb24 libtesseract
 
 # Andrey Utkin <andrey_utkin@gentoo.org> (2020-03-11)
 # USE=bpf depends on llvm-core/clang which is not keyworded on alpha.
@@ -443,6 +503,7 @@ net-libs/gnutls test-full
 # Tobias Klausmann <klausman@gentoo.org> (2017-03-02)
 # libilbc has not been ported to alpha and likely never will be.
 media-video/ffmpeg libilbc
+media-video/ffmpeg-compat libilbc
 
 # Tobias Klausmann <klausman@gentoo.org> (2016-01-25)
 # The tests use hypothesis which complains about too-slow tests on
@@ -484,6 +545,7 @@ app-admin/conky cmus irc
 # Tobias Klausmann <klausman@gentoo.org> (2016-06-07)
 # nasm is x86/x86-64 only
 media-video/ffmpeg openh264
+media-video/ffmpeg-compat openh264
 
 # Tobias Klausmann <klausman@gentoo.org> (2016-02-04)
 # sys-cluster/ceph is not broken per se, but a maintenance burden.
@@ -511,7 +573,6 @@ net-misc/networkmanager wext
 
 # Tobias Klausmann <klausman@gentoo.org> (2015-08-10)
 # Opting out of the net-misc/ofono dep tree until we have a user request
->=media-sound/pulseaudio-6.0 ofono-headset
 media-sound/pulseaudio-daemon ofono-headset
 
 # Gilles Dartiguelongue <eva@gentoo.org> (2015-06-09)
@@ -544,6 +605,7 @@ app-accessibility/orca braille
 # Tobias Klausmann <klausman@gentoo.org>
 # media-libs/x265 doesn't work on alpha (bug 519046)
 media-video/ffmpeg x265
+media-video/ffmpeg-compat x265
 
 # Pacho Ramos <pacho@gentoo.org> (2014-02-22)
 # Missing keywords, bug #495250

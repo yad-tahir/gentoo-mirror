@@ -35,7 +35,7 @@ else
 	[[ -z ${PATCH_VER} ]] || SRC_URI="${SRC_URI}
 		https://dev.gentoo.org/~${PATCH_DEV}/distfiles/binutils-${PATCH_BINUTILS_VER}-patches-${PATCH_VER}.tar.xz"
 	SLOT=$(ver_cut 1-2)
-	KEYWORDS="~alpha amd64 arm arm64 hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86"
+	KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86"
 fi
 
 #
@@ -316,7 +316,7 @@ src_configure() {
 
 			if use hardened ; then
 				myconf+=(
-					# TOOD: breaks glibc test suite
+					# TODO: breaks glibc test suite
 					#--enable-error-execstack=yes
 					#--enable-error-rwx-segments=yes
 					--enable-default-execstack=no

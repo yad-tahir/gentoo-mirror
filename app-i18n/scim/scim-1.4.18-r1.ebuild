@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -11,7 +11,7 @@ SRC_URI="https://github.com/scim-im/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ppc ppc64 ~riscv sparc x86"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ppc ppc64 ~riscv ~sparc x86"
 IUSE="doc gtk3 static-libs test"
 RESTRICT="!test? ( test )"
 
@@ -45,6 +45,8 @@ DOCS=( README AUTHORS ChangeLog docs/developers docs/scim.cfg )
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.4.18-slibtool.patch
+	"${FILESDIR}"/${PN}-1.4.18-cast-in-initializer.patch
+	"${FILESDIR}"/${PN}-1.4.18-fix-for-gcc15.patch
 )
 
 src_prepare() {

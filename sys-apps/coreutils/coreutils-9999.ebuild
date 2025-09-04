@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -13,7 +13,7 @@ PYTHON_COMPAT=( python3_{10..13} )
 VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/coreutils.asc
 inherit flag-o-matic python-any-r1 toolchain-funcs verify-sig
 
-MY_PATCH="${PN}-9.5-patches"
+MY_PATCH="${PN}-9.6-patches"
 DESCRIPTION="Standard GNU utilities (chmod, cp, dd, ls, sort, tr, head, wc, who,...)"
 HOMEPAGE="https://www.gnu.org/software/coreutils/"
 
@@ -23,7 +23,7 @@ if [[ ${PV} == 9999 ]] ; then
 elif [[ ${PV} == *_p* ]] ; then
 	# Note: could put this in devspace, but if it's gone, we don't want
 	# it in tree anyway. It's just for testing.
-	MY_SNAPSHOT="$(ver_cut 1-2).185-541b02"
+	MY_SNAPSHOT="$(ver_cut 1-2).53-14af8"
 	SRC_URI="https://www.pixelbeat.org/cu/coreutils-${MY_SNAPSHOT}.tar.xz -> ${P}.tar.xz"
 	SRC_URI+=" verify-sig? ( https://www.pixelbeat.org/cu/coreutils-${MY_SNAPSHOT}.tar.xz.sig -> ${P}.tar.xz.sig )"
 	S="${WORKDIR}"/${PN}-${MY_SNAPSHOT}
@@ -221,27 +221,24 @@ src_test() {
 	local -x PATH="${T}/mount-wrappers:${PATH}"
 	local -x gl_public_submodule_commit=
 
-	local xfail_tests=(
-		# bug #629660
-		tests/dd/no-allocate.sh
+	local xfail_tests=()
 
-		# bug #675802
-		tests/env/env-S
-		tests/env/env-S.pl
+	if [[ -n ${SANDBOX_ACTIVE} ]]; then
+		xfail_tests+=(
+			# bug #629660
+			# Commented out again in 9.6 as it XPASSes on linux-6.12.10
+			# with sandbox-2.43 on tmpfs. Let's see if it lasts..
+			#tests/dd/no-allocate.sh
 
-		# bug #413621 and bug #548250
-		tests/du/long-from-unreadable.sh
-		tests/ls/removed-directory
-		tests/ls/removed-directory.sh
-		tests/ls/stat-free-symlinks
-		tests/ls/stat-free-symlinks.sh
-		tests/rm/deep-2
-		tests/rm/deep-2.sh
+			# bug #675802
+			tests/env/env-S
+			tests/env/env-S.pl
 
-		# We have a patch which fixes this (bug #259876)
-		#tests/touch/not-owner
-		#tests/touch/not-owner.sh
-	)
+			# We have a patch which fixes this (bug #259876)
+			#tests/touch/not-owner
+			#tests/touch/not-owner.sh
+		)
+	fi
 
 	# This test is flaky (bug #910640).
 	cat > tests/tty/tty-eof.pl <<-EOF || die

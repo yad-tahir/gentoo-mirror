@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,13 +7,13 @@ inherit toolchain-funcs
 
 SNAPSHOT="2005-02-27"
 DESCRIPTION="X Load Image: view images or load them to root window"
-HOMEPAGE="ftp://ftp.ibiblio.org/pub/Linux/apps/graphics/viewers/X/xli-1.16.README"
+HOMEPAGE="https://www.ibiblio.org/pub/Linux/apps/graphics/viewers/X/xli-1.16.README"
 SRC_URI="http://pantransit.reptiles.org/prog/xli/xli-${SNAPSHOT}.tar.gz"
 S="${WORKDIR}/${PN}-${SNAPSHOT}"
 
 LICENSE="HPND"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm ~arm64 ~hppa ~mips ppc ppc64 ~riscv sparc x86 ~amd64-linux ~x86-linux ~ppc-macos"
+KEYWORDS="~alpha amd64 arm ~arm64 ~hppa ~mips ppc ppc64 ~riscv ~sparc x86 ~amd64-linux ~x86-linux ~ppc-macos"
 
 RDEPEND="
 	app-arch/bzip2:=

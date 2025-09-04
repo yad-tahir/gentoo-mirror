@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: xorg-3.eclass
@@ -135,7 +135,11 @@ if [[ ${PN} != util-macros ]] ; then
 	# Required even by xorg-server
 	[[ ${PN} == "font-util" ]] || EAUTORECONF_DEPEND+=" >=media-fonts/font-util-1.2.0"
 fi
-[[ ${XORG_EAUTORECONF} != no ]] && BDEPEND+=" ${EAUTORECONF_DEPEND}"
+if [[ ${XORG_EAUTORECONF} == no ]] ; then
+	BDEPEND+=" ${LIBTOOL_DEPEND}"
+else
+	BDEPEND+=" ${EAUTORECONF_DEPEND}"
+fi
 unset EAUTORECONF_DEPEND
 
 # @ECLASS_VARIABLE: FONT_DIR
@@ -425,7 +429,7 @@ xorg-3_src_install() {
 
 	# Many X11 libraries unconditionally install developer documentation
 	if [[ -d "${D}"/usr/share/man/man3 ]]; then
-		! in_iuse doc && eqawarn "ebuild should set XORG_DOC=doc since package installs library documentation"
+		! in_iuse doc && eqawarn "QA Notice: ebuild should set XORG_DOC=doc since package installs library documentation"
 	fi
 
 	if in_iuse doc && ! use doc; then

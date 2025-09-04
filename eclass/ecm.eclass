@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: ecm.eclass
@@ -126,7 +126,7 @@ fi
 # If set to "true", add "doc" to IUSE, add the appropriate dependency, let
 # -DBUILD_QCH=ON generate and install Qt compressed help files when USE=doc.
 # If set to "false", do nothing.
-if [[ ${CATEGORY} = kde-frameworks ]]; then
+if [[ ${CATEGORY} = kde-frameworks ]] && ver_test -lt 6.15; then
 	: "${ECM_QTHELP:=true}"
 fi
 : "${ECM_QTHELP:=false}"
@@ -284,7 +284,7 @@ case ${ECM_QTHELP} in
 		COMMONDEPEND+=" doc? ( dev-qt/qt-docs:${_KFSLOT} )"
 		BDEPEND+=" doc? ( >=app-text/doxygen-1.8.13-r1 )"
 		if [[ ${_KFSLOT} == 6 ]]; then
-			BDEPEND+=" dev-qt/qttools:${_KFSLOT}[assistant]"
+			BDEPEND+=" doc? ( dev-qt/qttools:${_KFSLOT}[assistant] )"
 		else
 			BDEPEND+=" doc? ( dev-qt/qthelp:${_KFSLOT} )"
 		fi
@@ -333,6 +333,18 @@ fi
 DEPEND+=" ${COMMONDEPEND}"
 RDEPEND+=" ${COMMONDEPEND}"
 unset COMMONDEPEND
+
+# @FUNCTION: _ecm_handbook_optional
+# @DESCRIPTION:
+# Use with ECM_HANDBOOK=optional; ticks either -DBUILD_DOC if available,
+# or -DCMAKE_DISABLE_FIND_PACKAGE_KF${_KFSLOT}DocTools
+_ecm_handbook_optional() {
+	if grep -Eq "option.*BUILD_DOC" CMakeLists.txt; then
+		echo "-DBUILD_DOC=$(usex handbook)"
+	else
+		echo "-DCMAKE_DISABLE_FIND_PACKAGE_KF${_KFSLOT}DocTools=$(usex !handbook)"
+	fi
+}
 
 # @FUNCTION: _ecm_strip_handbook_translations
 # @INTERNAL
@@ -465,7 +477,7 @@ ecm_punt_bogus_dep() {
 # @DESCRIPTION:
 # Disables kdoctools_install(po) call.
 _ecm_punt_kdoctools_install() {
-	sed -e "s/^ *kdoctools_install.*(po.*)/#& # disabled by ecm.eclass/" \
+	sed -e "s/^ *kdoctools_install.*(\s*po.*)/#& # disabled by ecm.eclass/" \
 		-i CMakeLists.txt || die
 }
 
@@ -475,7 +487,7 @@ _ecm_punt_kdoctools_install() {
 # is outsourcing common files to a ${PN}-common split package.
 ecm_punt_po_install() {
 	_ecm_punt_kdoctools_install
-	sed -e "s/^ *ki18n_install.*(po.*)/#& # disabled by ecm.eclass/" \
+	sed -e "s/^ *ki18n_install.*(\s*po.*)/#& # disabled by ecm.eclass/" \
 		-i CMakeLists.txt || die
 }
 
@@ -486,20 +498,11 @@ if [[ ${EAPI} == 8 ]]; then
 # Determine if the current GCC version is acceptable, otherwise die.
 _ecm_deprecated_check_gcc_version() {
 	if ver_test ${KFMIN} -ge 6.9; then
-		eqawarn "QA notice: ecm_pkg_${1} has become a no-op."
+		eqawarn "QA Notice: ecm_pkg_${1} has become a no-op."
 		eqawarn "It is no longer being exported with KFMIN >=6.9.0."
-		return
-	fi
-	if [[ ${MERGE_TYPE} != binary && -v KDE_GCC_MINIMAL ]] && tc-is-gcc; then
-
-		local version=$(gcc-version)
-
-		debug-print "GCC version check activated"
-		debug-print "Version detected: ${version}"
-		debug-print "Version required: ${KDE_GCC_MINIMAL}"
-
-		ver_test ${version} -lt ${KDE_GCC_MINIMAL} &&
-			die "Sorry, but gcc-${KDE_GCC_MINIMAL} or later is required for this package (found ${version})."
+	else
+		[[ ${MERGE_TYPE} != binary && -v KDE_GCC_MINIMAL ]] &&
+			tc-check-min_ver gcc ${KDE_GCC_MINIMAL}
 	fi
 }
 
@@ -589,7 +592,7 @@ ecm_src_prepare() {
 				diff -Naur ${f}.old ${f} 1>>${pf}
 				rm ${f}.old || die "Failed to clean up"
 			done
-			eqawarn "QA notice: Build system modified by ECM_TEST=forceoptional-recursive."
+			eqawarn "QA Notice: Build system modified by ECM_TEST=forceoptional-recursive."
 			eqawarn "Unified diff file ready for pickup in:"
 			eqawarn "  ${pf}"
 			eqawarn "Push it upstream to make this message go away."
@@ -630,7 +633,7 @@ ecm_src_configure() {
 	fi
 
 	if [[ ${ECM_HANDBOOK} = optional ]] ; then
-		cmakeargs+=( -DCMAKE_DISABLE_FIND_PACKAGE_KF${_KFSLOT}DocTools=$(usex !handbook) )
+		cmakeargs+=( $(_ecm_handbook_optional) )
 	fi
 
 	if in_iuse designer && [[ ${ECM_DESIGNERPLUGIN} = true ]]; then
@@ -638,10 +641,10 @@ ecm_src_configure() {
 	fi
 
 	if [[ ${ECM_PYTHON_BINDINGS} == off ]]; then
-		cmakeargs+=(
-			-DBUILD_PYTHON_BINDINGS=OFF
-			-DCMAKE_DISABLE_FIND_PACKAGE_{Python3,PySide6,Shiboken6}=ON
-		)
+		cmakeargs+=( -DBUILD_PYTHON_BINDINGS=OFF )
+		if ver_test -lt 6.15; then
+			cmakeargs+=( -DCMAKE_DISABLE_FIND_PACKAGE_{Python3,PySide6,Shiboken6}=ON )
+		fi
 	fi
 
 	if [[ ${ECM_QTHELP} = true ]]; then
@@ -692,7 +695,7 @@ ecm_src_test() {
 		fi
 
 		# KDE_DEBUG stops crash handlers from launching and hanging the test phase
-		KDE_DEBUG=1 cmake_src_test
+		KDE_DEBUG=1 cmake_src_test "$@"
 	}
 
 	local -x QT_QPA_PLATFORM=offscreen
@@ -704,9 +707,9 @@ ecm_src_test() {
 	unset DBUS_SESSION_BUS_ADDRESS DBUS_SESSION_BUS_PID
 
 	if [[ ${EAPI} == 8 ]] && [[ ${VIRTUALX_REQUIRED} = always || ${VIRTUALX_REQUIRED} = test ]]; then
-		virtx _test_runner
+		virtx _test_runner "$@"
 	else
-		_test_runner
+		_test_runner "$@"
 	fi
 
 	if [[ -n "${DBUS_SESSION_BUS_PID}" ]] ; then
@@ -725,7 +728,7 @@ ecm_src_test() {
 ecm_src_install() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	cmake_src_install
+	cmake_src_install "$@"
 
 	local f
 	# bug 621970
@@ -746,18 +749,18 @@ ecm_src_install() {
 
 	if [[ -n ${_KDE_ORG_ECLASS} && -d "${ED}"/usr/share/metainfo/ ]]; then
 		if [[ ${KDE_ORG_NAME} != ${PN} ]]; then
-			local ecm_metainfo
+			local ecm_metainfo mainslot=${SLOT%/*}
 			pushd "${ED}"/usr/share/metainfo/ > /dev/null || die
 			for ecm_metainfo in find * -type f -iname "*metainfo.xml"; do
 				case ${ecm_metainfo} in
 					*${KDE_ORG_NAME}*)
-						mv_metainfo ${ecm_metainfo} ${KDE_ORG_NAME} ${PN}${SLOT/0*/}
+						mv_metainfo ${ecm_metainfo} ${KDE_ORG_NAME} ${PN}${mainslot/0*/}
 						;;
 					*${KDE_ORG_NAME/-/_}*)
-						mv_metainfo ${ecm_metainfo} ${KDE_ORG_NAME/-/_} ${PN}${SLOT/0*/}
+						mv_metainfo ${ecm_metainfo} ${KDE_ORG_NAME/-/_} ${PN}${mainslot/0*/}
 						;;
 					org.kde.*)
-						mv_metainfo ${ecm_metainfo} "org.kde." "org.kde.${PN}${SLOT/0*/}-"
+						mv_metainfo ${ecm_metainfo} "org.kde." "org.kde.${PN}${mainslot/0*/}-"
 						;;
 				esac
 			done
@@ -777,7 +780,7 @@ if [[ ${EAPI} == 8 ]]; then
 # Carryall for ecm_pkg_preinst, ecm_pkg_postinst and ecm_pkg_postrm.
 _ecm_nongui_deprecated() {
 	if ver_test ${KFMIN} -ge 6.9; then
-		eqawarn "QA notice: ecm_pkg_${1} has become a no-op."
+		eqawarn "QA Notice: ecm_pkg_${1} has become a no-op."
 		eqawarn "It is no longer being exported with KFMIN >=6.9.0."
 	else
 		case ${ECM_NONGUI} in

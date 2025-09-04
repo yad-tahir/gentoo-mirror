@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -39,7 +39,7 @@ else
 	S="${WORKDIR}"/${MY_P}
 
 	if [[ ${PV} != *_rc* ]] ; then
-		KEYWORDS="-* ~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
+		KEYWORDS="-* amd64 arm arm64 ppc ppc64 x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
 	fi
 fi
 
@@ -71,6 +71,8 @@ QA_CONFIG_IMPL_DECL_SKIP+=(
 	# errors and reports both "function definition is not allowed here" and
 	# -Wimplicit-function-declaration. bug #900396
 	foo
+	# FreeBSD function, bug #932822
+	aio_readv
 )
 
 src_unpack() {

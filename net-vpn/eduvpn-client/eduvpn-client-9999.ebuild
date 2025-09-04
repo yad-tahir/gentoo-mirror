@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -10,7 +10,7 @@ DOCS_DIR="doc"
 PYTHON_COMPAT=( python3_{10..13} )
 
 DISTUTILS_USE_PEP517=setuptools
-inherit distutils-r1 docs xdg-utils
+inherit distutils-r1 docs xdg
 
 if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
@@ -24,10 +24,10 @@ else
 		VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/eduvpn.asc
 	fi
 	inherit verify-sig
-	MY_P="python-${P}"
+	MY_P="linux-app-${PV}"
 	SRC_URI="
-		https://github.com/eduvpn/python-eduvpn-client/releases/download/${PV}/${MY_P}.tar.xz
-		verify-sig? ( https://github.com/eduvpn/python-eduvpn-client/releases/download/${PV}/${MY_P}.tar.xz.asc )
+		https://codeberg.org/eduVPN/linux-app/releases/download/${PV}/${MY_P}.tar.xz -> ${P}.tar.xz
+		verify-sig? ( https://codeberg.org/eduVPN/linux-app/releases/download/${PV}/${MY_P}.tar.xz.asc -> ${P}.tar.xz.asc )
 	"
 	KEYWORDS="~amd64 ~x86"
 	S="${WORKDIR}/${MY_P}"
@@ -47,17 +47,19 @@ RDEPEND="
 	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
 	net-misc/networkmanager
-	>=net-vpn/eduvpn-common-2.1[${PYTHON_USEDEP}]
+	>=net-vpn/eduvpn-common-3[${PYTHON_USEDEP}]
+	x11-libs/libnotify
 "
 
 if [[ ${PV} != *9999* ]] ; then
 	BDEPEND="verify-sig? ( >=sec-keys/openpgp-keys-eduvpn-20240307 )"
 fi
 
-pkg_postinst() {
-	xdg_icon_cache_update
-}
-
-pkg_postrm() {
-	xdg_icon_cache_update
+python_install() {
+	distutils-r1_python_install
+	# See utils.py: client supports loading from sys.prefix or
+	# package_data dir. Move to the sys.prefix so desktop files work.
+	# https://codeberg.org/eduVPN/linux-app/pulls/626
+	rsync -a "${D}/$(python_get_sitedir)/eduvpn/data/share/"* \
+		"${ED}/usr/share/" --remove-source-files || die
 }

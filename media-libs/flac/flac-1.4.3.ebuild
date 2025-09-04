@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,7 +12,7 @@ SRC_URI="https://downloads.xiph.org/releases/${PN}/${P}.tar.xz"
 LICENSE="BSD FDL-1.2 GPL-2 LGPL-2.1"
 # <libFLAC SONAME>-<libFLAC++ SONAME>
 SLOT="0/10-12"
-KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-solaris"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-solaris"
 IUSE="+cxx debug ogg cpu_flags_x86_avx2 cpu_flags_x86_avx static-libs"
 # AVX configure switch is for both AVX & AVX2
 REQUIRED_USE="
@@ -34,7 +34,7 @@ src_prepare() {
 
 multilib_src_configure() {
 	# -fipa-pta exposes a test failure in replaygain_analysis (https://gcc.gnu.org/PR115533)
-	# TOOD: Replace with some -ffp-contract= option?
+	# TODO: Replace with some -ffp-contract= option?
 	append-flags $(test-flags-CC -fno-ipa-pta)
 
 	local myeconfargs=(

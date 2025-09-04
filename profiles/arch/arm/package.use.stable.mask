@@ -1,6 +1,23 @@
 # Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-08-29)
+# dev-perl/GD-Barcode is not stable here. Bug #661634
+dev-perl/Business-ISBN barcode
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-08-18)
+# net-libs/farstream is not stable here. Bug #953811
+net-im/pidgin gstreamer
+
+# Pacho Ramos <pacho@gentoo.org> (2025-06-28)
+# It needs gnome-control-center and many more gnome packages to be
+# stabilized before
+gnome-base/gvfs onedrive
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-01-28)
+# PyQt 6 is not stable here
+>=app-admin/setools-4.5.1 gui test
+
 # Sam James <sam@gentoo.org> (2024-10-05)
 # media-libs/jasper fails tests (bug #907259)
 media-gfx/graphicsmagick jpeg2k
@@ -12,6 +29,7 @@ x11-misc/xdg-utils plasma
 # Andreas Sturmlechner <asturm@gentoo.org> (2024-06-29)
 # media-libs/libplacebo is not stable here
 media-video/ffmpeg libplacebo
+media-video/ffmpeg-compat libplacebo
 
 # Nowa Ammerlaan <nowa@gentoo.org> (2024-03-21)
 # Experimental, virt-firmware is keyworded only unstable
@@ -99,10 +117,6 @@ dev-util/geany-plugins markdown
 sci-mathematics/z3 java
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2019-02-10)
-# Needs kde-frameworks/{kwallet,ki18n,kconfig} stable
-dev-vcs/subversion kwallet
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2019-02-10)
 # Needs kde-plasma/{polkit-kde-agent,plasma-workspace} stable
 sys-auth/polkit kde
 virtual/notification-daemon kde
@@ -139,6 +153,7 @@ media-sound/mpd fluidsynth
 # Alexis Ballier <aballier@gentoo.org> (2017-05-29)
 # frei0r-plugins is not stable yet, mask it on stable versions
 media-video/ffmpeg frei0r
+media-video/ffmpeg-compat frei0r
 
 # Michael Weber <xmw@gentoo.org> (2017-04-01)
 # no stable jdk
@@ -168,10 +183,6 @@ dev-util/geany-plugins gtkspell
 # Markus Meier <maekke@gentoo.org> (2016-09-27)
 # Missing stable
 dev-db/mariadb jdbc
-
-# Ian Whyman <thev00d00@gentoo.org> (2016-05-22)
-# RPI support on arm
-dev-libs/libcec -raspberry-pi
 
 # Brian Evans <grknight@gentoo.org> (2016-01-08)
 # net-misc/libteam is not yet stable on arm

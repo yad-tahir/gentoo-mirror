@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{11..14} )
 
 inherit distutils-r1 pypi
 
@@ -17,7 +17,7 @@ HOMEPAGE="
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~riscv ~x86"
+KEYWORDS="amd64 ~arm ~arm64 ~ppc ~riscv x86"
 
 ### This version is compatible with both 0.X and 1.X versions of libusb
 DEPEND="virtual/libusb:="

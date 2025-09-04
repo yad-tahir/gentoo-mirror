@@ -3,7 +3,7 @@
 
 EAPI=8
 
-LLVM_COMPAT=( 18 )
+LLVM_COMPAT=( {18..20} )
 LLVM_OPTIONAL=1
 
 inherit cmake llvm-r1 pax-utils xdg-utils
@@ -22,12 +22,12 @@ if [[ ${PV} == *9999 ]]; then
 	)
 else
 	MGBA_COMMIT=8739b22fbc90fdf0b4f6612ef9c0520f0ba44a51
-	IMPLOT_COMMIT=cc5e1daa5c7f2335a9460ae79c829011dc5cef2d
+	IMPLOT_COMMIT=18c72431f8265e2b0b5378a3a73d8a883b2175ff
 	TINYGLTF_COMMIT=c5641f2c22d117da7971504591a8f6a41ece488b
-	VULKAN_HEADERS_COMMIT=05fe2cc910a68c9ba5dac07db46ef78573acee72
-	VULKANMEMORYALLOCATOR_COMMIT=009ecd192c1289c7529bff248a16cfe896254816
+	VULKAN_HEADERS_COMMIT=39f924b810e561fd86b2558b6711ca68d4363f68
+	VULKANMEMORYALLOCATOR_COMMIT=3bab6924988e5f19bf36586a496156cf72f70d9f
 	ZLIB_NG_COMMIT=ce01b1e41da298334f8214389cc9369540a7560f
-	MINIZIP_NG_COMMIT=3eed562ef0ea3516db30d1c8ecb0e1b486d8cb70
+	MINIZIP_NG_COMMIT=55db144e03027b43263e5ebcb599bf0878ba58de
 	SRC_URI="
 		https://github.com/dolphin-emu/dolphin/archive/${PV}.tar.gz
 			-> ${P}.tar.gz
@@ -72,13 +72,12 @@ RDEPEND="
 	app-arch/xz-utils
 	>=app-arch/zstd-1.4.0:=
 	dev-libs/hidapi
-	<dev-libs/libfmt-11.1:=
-	>=dev-libs/libfmt-10.1
+	>=dev-libs/libfmt-10.1:=
 	dev-libs/lzo:2
 	dev-libs/pugixml
 	dev-libs/xxhash
 	media-libs/cubeb
-	media-libs/libsfml:=
+	>=media-libs/libsfml-3.0:=
 	media-libs/libspng
 	>=net-libs/enet-1.3.18:1.3=
 	net-libs/mbedtls:0=
@@ -92,17 +91,17 @@ RDEPEND="
 	bluetooth? ( net-wireless/bluez:= )
 	evdev? (
 		dev-libs/libevdev
-		virtual/udev
+		virtual/libudev
 	)
 	ffmpeg? ( media-video/ffmpeg:= )
 	gui? (
-		dev-qt/qtbase:6[gui,widgets]
+		dev-qt/qtbase:6[X,gui,widgets]
 		dev-qt/qtsvg:6
 	)
 	llvm? ( $(llvm_gen_dep 'llvm-core/llvm:${LLVM_SLOT}=') )
 	profile? ( dev-util/oprofile )
 	pulseaudio? ( media-libs/libpulse )
-	sdl? ( media-libs/libsdl2 )
+	sdl? ( >=media-libs/libsdl2-2.30.9 )
 	systemd? ( sys-apps/systemd:0= )
 	upnp? ( net-libs/miniupnpc:= )
 "
@@ -127,6 +126,8 @@ declare -A KEEP_BUNDLED=(
 	# please keep this list in CMakeLists.txt order
 
 	# TODO: use system libraries
+	# bug #873952
+	# https://github.com/dolphin-emu/dolphin/pull/13089
 	[zlib-ng]=ZLIB
 	[minizip-ng]=ZLIB
 
@@ -155,7 +156,6 @@ declare -A KEEP_BUNDLED=(
 )
 
 PATCHES=(
-	"${FILESDIR}"/dolphin-2407-libfmt-11-fix.patch
 	"${FILESDIR}"/dolphin-2407-minizip.patch
 )
 
@@ -196,11 +196,6 @@ src_prepare() {
 	einfo "removing sources: ${remove[*]}"
 	rm -r "${remove[@]}" || die
 
-	# About 50% compile-time speedup
-	if ! use vulkan; then
-		sed -i -e '/Externals\/glslang/d' CMakeLists.txt || die
-	fi
-
 	# Remove dirty suffix: needed for netplay
 	sed -i -e 's/--dirty/&=""/' CMake/ScmRevGen.cmake || die
 }
@@ -213,8 +208,10 @@ src_configure() {
 		-DENABLE_AUTOUPDATE=OFF
 		-DENABLE_BLUEZ=$(usex bluetooth)
 		-DENABLE_CLI_TOOL=ON
+		-DENABLE_CUBEB=ON
 		-DENABLE_EGL=$(usex egl)
 		-DENABLE_EVDEV=$(usex evdev)
+		-DENABLE_HWDB=$(usex evdev)
 		-DENABLE_LLVM=$(usex llvm)
 		-DENABLE_LTO=OFF # just adds -flto, user can do that via flags
 		-DENABLE_NOGUI=$(usex !gui)
@@ -226,7 +223,6 @@ src_configure() {
 		-DENCODE_FRAMEDUMPS=$(usex ffmpeg)
 		-DFASTLOG=$(usex log)
 		-DOPROFILING=$(usex profile)
-		-DSTEAM=OFF
 		-DUSE_DISCORD_PRESENCE=$(usex discord-presence)
 		-DUSE_MGBA=$(usex mgba)
 		-DUSE_RETRO_ACHIEVEMENTS=OFF
@@ -242,7 +238,6 @@ src_configure() {
 		-DUSE_SYSTEM_BZIP2=ON
 		-DUSE_SYSTEM_LIBLZMA=ON
 		-DUSE_SYSTEM_ZSTD=ON
-		-DUSE_SYSTEM_ZLIB=OFF
 		-DUSE_SYSTEM_MINIZIP=OFF
 		-DUSE_SYSTEM_LZO=ON
 		-DUSE_SYSTEM_LZ4=ON

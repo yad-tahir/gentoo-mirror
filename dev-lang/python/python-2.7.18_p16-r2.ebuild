@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -27,10 +27,10 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="PSF-2"
 SLOT="${PYVER}"
-KEYWORDS="~alpha amd64 arm arm64 hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86"
 IUSE="
-	berkdb bluetooth build examples gdbm +ncurses +readline
-	+sqlite +ssl tk valgrind wininst +xml
+	berkdb bluetooth examples gdbm +ncurses +readline +sqlite +ssl
+	valgrind wininst +xml
 "
 RESTRICT="test"
 
@@ -41,6 +41,7 @@ RESTRICT="test"
 
 RDEPEND="
 	app-arch/bzip2:=
+	app-misc/mime-types
 	dev-libs/libffi:=
 	>=sys-libs/zlib-1.1.3:=
 	virtual/libcrypt:=
@@ -54,12 +55,6 @@ RDEPEND="
 	readline? ( >=sys-libs/readline-4.1:= )
 	sqlite? ( >=dev-db/sqlite-3.3.8:3= )
 	ssl? ( dev-libs/openssl:= )
-	tk? (
-		>=dev-lang/tcl-8.0:=
-		>=dev-lang/tk-8.0:=
-		dev-tcltk/blt:=
-		dev-tcltk/tix
-	)
 	xml? ( >=dev-libs/expat-2.1:= )
 "
 # bluetooth requires headers from bluez
@@ -72,9 +67,6 @@ BDEPEND="
 	app-alternatives/awk
 	virtual/pkgconfig
 	verify-sig? ( sec-keys/openpgp-keys-python )
-"
-RDEPEND+="
-	!build? ( app-misc/mime-types )
 "
 
 VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/python.org.asc
@@ -142,7 +134,7 @@ src_configure() {
 	use readline  || disable+=" readline"
 	use sqlite    || disable+=" _sqlite3"
 	use ssl       || export PYTHON_DISABLE_SSL="1"
-	use tk        || disable+=" _tkinter"
+	disable+=" _tkinter"
 	use xml       || disable+=" _elementtree pyexpat" # _elementtree uses pyexpat.
 	export PYTHON_DISABLE_MODULES="${disable}"
 
@@ -155,6 +147,9 @@ src_configure() {
 	if [[ -n "${PYTHON_DISABLE_MODULES}" ]]; then
 		einfo "Disabled modules: ${PYTHON_DISABLE_MODULES}"
 	fi
+
+	# bug #945717
+	append-flags -std=gnu17
 
 	append-flags -fwrapv
 
@@ -200,7 +195,6 @@ src_configure() {
 		--enable-unicode=ucs4
 		--infodir='${prefix}/share/info'
 		--mandir='${prefix}/share/man'
-		--with-computed-gotos
 		--with-dbmliborder="${dbmliborder}"
 		--with-libc=
 		--enable-loadable-sqlite-extensions
@@ -295,10 +289,9 @@ src_install() {
 	if ! use sqlite; then
 		rm -r "${libdir}/"{sqlite3,test/test_sqlite*} || die
 	fi
-	if ! use tk; then
-		rm -r "${ED}/usr/bin/idle${PYVER}" || die
-		rm -r "${libdir}/"{idlelib,lib-tk} || die
-	fi
+
+	rm -r "${ED}/usr/bin/idle${PYVER}" || die
+	rm -r "${libdir}/"{idlelib,lib-tk} || die
 
 	dodoc Misc/{ACKS,HISTORY,NEWS}
 

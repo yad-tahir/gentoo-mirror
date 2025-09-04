@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -13,19 +13,21 @@ if [[ "${PV}" == "9999" ]] ; then
 	inherit git-r3
 else
 	SRC_URI="https://github.com/Syllo/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 ~x86"
 fi
 
 LICENSE="GPL-3"
 SLOT="0"
 
-IUSE="unicode video_cards_intel video_cards_amdgpu video_cards_nvidia video_cards_freedreno"
+IUSE="unicode video_cards_intel video_cards_amdgpu video_cards_nvidia video_cards_freedreno video_cards_panfrost video_cards_panthor"
 
 RDEPEND="
 	video_cards_intel?  ( virtual/udev )
 	video_cards_amdgpu? ( x11-libs/libdrm[video_cards_amdgpu] )
 	video_cards_nvidia? ( x11-drivers/nvidia-drivers )
 	video_cards_freedreno? ( x11-libs/libdrm[video_cards_freedreno] )
+	video_cards_panfrost? ( x11-libs/libdrm )
+	video_cards_panthor? ( x11-libs/libdrm )
 	sys-libs/ncurses[unicode(+)?]
 "
 
@@ -46,6 +48,8 @@ src_configure() {
 		-DNVIDIA_SUPPORT=$(usex video_cards_nvidia)
 		-DAMDGPU_SUPPORT=$(usex video_cards_amdgpu)
 		-DMSM_SUPPORT=$(usex video_cards_freedreno)
+		-DPANFROST_SUPPORT=$(usex video_cards_panfrost)
+		-DPANTHOR_SUPPORT=$(usex video_cards_panthor)
 	)
 
 	cmake_src_configure

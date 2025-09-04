@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -33,12 +33,12 @@ MIN_PAX_UTILS_VER="1.3.3"
 MIN_SYSTEMD_VER="254.9-r1"
 
 inherit python-any-r1 prefix preserve-libs toolchain-funcs flag-o-matic gnuconfig \
-	multilib systemd multiprocessing tmpfiles
+	multilib systemd multiprocessing tmpfiles eapi9-ver
 
 DESCRIPTION="GNU libc C library"
 HOMEPAGE="https://www.gnu.org/software/libc/"
 
-if [[ ${PV} == 9999* ]]; then
+if [[ ${PV} == *9999 ]]; then
 	inherit git-r3
 else
 	#KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
@@ -51,7 +51,7 @@ SRC_URI+=" systemd? ( https://gitweb.gentoo.org/proj/toolchain/glibc-systemd.git
 
 LICENSE="LGPL-2.1+ BSD HPND ISC inner-net rc PCRE"
 SLOT="2.2"
-IUSE="audit caps cet compile-locales custom-cflags doc gd hash-sysv-compat headers-only +multiarch multilib multilib-bootstrap nscd perl profile selinux +ssp stack-realign +static-libs suid systemd systemtap test vanilla"
+IUSE="audit caps cet compile-locales custom-cflags doc gd hash-sysv-compat headers-only +multiarch multilib multilib-bootstrap nscd perl profile selinux sframe +ssp stack-realign +static-libs suid systemd systemtap test vanilla"
 
 # Here's how the cross-compile logic breaks down ...
 #  CTARGET - machine that will target the binaries
@@ -115,6 +115,7 @@ BDEPEND="
 		dev-lang/perl
 		sys-apps/texinfo
 	)
+	sframe? ( >=sys-devel/binutils-2.45 )
 	test? (
 		dev-lang/perl
 		>=net-dns/libidn2-2.3.0
@@ -193,6 +194,7 @@ XFAIL_NSPAWN_TEST_LIST=(
 	# upstream, as systemd-nspawn's default seccomp whitelist is too strict.
 	# https://sourceware.org/PR30603
 	test-errno-linux
+	tst-aarch64-pkey
 	tst-bz21269
 	tst-mlock2
 	tst-ntp_gettime
@@ -491,10 +493,6 @@ setup_flags() {
 	# https://sourceware.org/glibc/wiki/FAQ#Why_do_I_get:.60.23error_.22glibc_cannot_be_compiled_without_optimization.22.27.2C_when_trying_to_compile_GNU_libc_with_GNU_CC.3F
 	replace-flags -O0 -O1
 
-	# glibc handles this internally already where it's appropriate;
-	# can't always have SSP when we're the ones setting it up, etc
-	filter-flags '-fstack-protector*'
-
 	# Similar issues as with SSP. Can't inject yourself that early.
 	filter-flags '-fsanitize=*'
 
@@ -615,13 +613,13 @@ setup_env() {
 		# Last, we need the settings of the *build* environment, not of the
 		# target environment...
 
-		local current_binutils_path=$(env ROOT="${BROOT}" binutils-config -B)
+		local current_binutils_path=$(env CHOST="${CBUILD}" ROOT="${BROOT}" binutils-config -B "${CTARGET}")
 		local current_gcc_path=$(env ROOT="${BROOT}" gcc-config -B)
 		einfo "Overriding clang configuration, since it won't work here"
 
-		export CC="${current_gcc_path}/gcc"
-		export CPP="${current_gcc_path}/cpp"
-		export CXX="${current_gcc_path}/g++"
+		export CC="${current_gcc_path}/${CTARGET}-gcc"
+		export CPP="${current_gcc_path}/${CTARGET}-cpp"
+		export CXX="${current_gcc_path}/${CTARGET}-g++"
 		export LD="${current_binutils_path}/ld.bfd"
 		export AR="${current_binutils_path}/ar"
 		export AS="${current_binutils_path}/as"
@@ -771,11 +769,6 @@ g_int_to_KV() {
 	echo ${major}.${minor}.${micro}
 }
 
-eend_KV() {
-	[[ $(g_KV_to_int $1) -ge $(g_KV_to_int $2) ]]
-	eend $?
-}
-
 get_kheader_version() {
 	printf '#include <linux/version.h>\nLINUX_VERSION_CODE\n' | \
 	$(tc-getCPP ${CTARGET}) -I "${ESYSROOT}$(alt_headers)" - | \
@@ -869,11 +862,13 @@ sanity_prechecks() {
 			if ! is_crosscompile && ! tc-is-cross-compiler ; then
 				# Building fails on an non-supporting kernel
 				ebegin "Checking running kernel version (${run_kv} >= ${want_kv})"
-				if ! eend_KV ${run_kv} ${want_kv} ; then
+				if ! [[ $(g_KV_to_int ${run_kv}) -ge $(g_KV_to_int ${want_kv}) ]] ; then
+					eend 1
 					echo
 					eerror "You need a kernel of at least ${want_kv}!"
 					die "Kernel version too low!"
 				fi
+				eend 0
 			fi
 
 			# Do not run this check for pkg_pretend, just pkg_setup and friends (if we ever get used there).
@@ -884,11 +879,13 @@ sanity_prechecks() {
 			# but let's leave it as-is for now.
 			if [[ ${EBUILD_PHASE_FUNC} != pkg_pretend ]] ; then
 				ebegin "Checking linux-headers version (${build_kv} >= ${want_kv})"
-				if ! eend_KV ${build_kv} ${want_kv} ; then
+				if ! [[ $(g_KV_to_int ${build_kv}) -ge $(g_KV_to_int ${want_kv}) ]] ; then
+					eend 1
 					echo
 					eerror "You need linux-headers of at least ${want_kv}!"
 					die "linux-headers version too low!"
 				fi
+				eend 0
 			fi
 		fi
 	fi
@@ -898,16 +895,12 @@ upgrade_warning() {
 	is_crosscompile && return
 
 	if [[ ${MERGE_TYPE} != buildonly && -n ${REPLACING_VERSIONS} && -z ${ROOT} ]]; then
-		local oldv newv=$(ver_cut 1-2 ${PV})
-		for oldv in ${REPLACING_VERSIONS}; do
-			if ver_test ${oldv} -lt ${newv}; then
-				ewarn "After upgrading glibc, please restart all running processes."
-				ewarn "Be sure to include init (telinit u) or systemd (systemctl daemon-reexec)."
-				ewarn "Alternatively, reboot your system."
-				ewarn "(See bug #660556, bug #741116, bug #823756, etc)"
-				break
-			fi
-		done
+		if ver_replacing -lt $(ver_cut 1-2 ${PV}); then
+			ewarn "After upgrading glibc, please restart all running processes."
+			ewarn "Be sure to include init (telinit u) or systemd (systemctl daemon-reexec)."
+			ewarn "Alternatively, reboot your system."
+			ewarn "(See bug #660556, bug #741116, bug #823756, etc)"
+		fi
 	fi
 }
 
@@ -938,7 +931,7 @@ src_unpack() {
 
 	use multilib-bootstrap && unpack gcc-multilib-bootstrap-${GCC_BOOTSTRAP_VER}.tar.xz
 
-	if [[ ${PV} == 9999* ]] ; then
+	if [[ ${PV} == *9999 ]] ; then
 		EGIT_REPO_URI="
 			https://anongit.gentoo.org/git/proj/toolchain/glibc-patches.git
 			https://github.com/gentoo/glibc-patches.git
@@ -952,12 +945,13 @@ src_unpack() {
 			https://gitlab.com/x86-glibc/glibc.git
 		"
 		EGIT_CHECKOUT_DIR=${S}
+		[[ ${PV} == *.*.9999 ]] && EGIT_BRANCH=release/${PV%.*}/master
 		git-r3_src_unpack
 	else
 		unpack ${P}.tar.xz
 
 		cd "${WORKDIR}" || die
-		unpack glibc-${PV}-patches-${PATCH_VER}.tar.xz
+		unpack ${P}-patches-${PATCH_VER}.tar.xz
 	fi
 
 	cd "${WORKDIR}" || die
@@ -978,6 +972,15 @@ src_prepare() {
 		eapply "${WORKDIR}"/patches
 		einfo "Done."
 	fi
+
+	case ${CTARGET} in
+		m68*-aligned-*)
+			einfo "Applying utmp format fix for m68k with -maligned-int"
+			eapply "${FILESDIR}/glibc-2.41-m68k-malign.patch"
+			;;
+		*)
+			;;
+	esac
 
 	default
 
@@ -1016,6 +1019,11 @@ glibc_do_configure() {
 
 	case ${ABI}-${CTARGET} in
 		amd64-x86_64-*|x32-x86_64-*-*-gnux32) myconf+=( $(use_enable cet) ) ;;
+		*) ;;
+	esac
+
+	case ${ABI}-${CTARGET} in
+		amd64-x86_64-*|arm64-aarch64-*) myconf+=( $(use_enable sframe) ) ;;
 		*) ;;
 	esac
 
@@ -1300,7 +1308,7 @@ glibc_src_test() {
 	# we give the tests a bit more time to avoid spurious
 	# bug reports on slow arches
 
-	SANDBOX_ON=0 LD_PRELOAD= TIMEOUTFACTOR=16 emake ${myxfailparams} check
+	SANDBOX_ON=0 LD_PRELOAD= TIMEOUTFACTOR=16 nonfatal emake ${myxfailparams} check
 }
 
 src_test() {
@@ -1308,44 +1316,44 @@ src_test() {
 		return
 	fi
 
+	# glibc_src_test uses nonfatal so that we can run tests for all ABIs
+	# and fail at the end instead.
 	foreach_abi glibc_src_test || die "tests failed"
 }
 
 # src_install
 
 run_locale_gen() {
-	# if the host locales.gen contains no entries, we'll install everything
-	local root="$1"
-	local inplace=""
+	local prefix=$1 user_config config
+	local -a hasversion_opts localegen_args
 
-	if [[ "${root}" == "--inplace-glibc" ]] ; then
-		inplace="--inplace-glibc"
-		root="$2"
+	if [[ ${EBUILD_PHASE_FUNC} == src_install ]]; then
+		hasversion_opts=( -b )
 	fi
 
-	local locale_list="${root%/}/etc/locale.gen"
-
-	pushd "${ED}"/$(get_libdir) >/dev/null
-
-	if [[ -z $(locale-gen --list --config "${locale_list}") ]] ; then
-		[[ -z ${inplace} ]] && ewarn "Generating all locales; edit /etc/locale.gen to save time/space"
-		locale_list="${root%/}/usr/share/i18n/SUPPORTED"
+	if has_version "${hasversion_opts[@]}" '>=sys-apps/locale-gen-3'; then
+		localegen_args=( --prefix "${prefix}" )
+	else
+		config="${prefix}/usr/share/i18n/SUPPORTED"
+		user_config="${prefix}/etc/locale.gen"
+		if [[ ${EBUILD_PHASE_FUNC} == src_install ]]; then
+			# For USE=compile-locales, all locales should be built.
+			mkdir -p -- "${prefix}/usr/lib/locale" || die
+		elif locale-gen --list --config "${user_config}" | read -r; then
+			config=${user_config}
+		fi
+		localegen_args=( --config "${config}" --destdir "${prefix}" )
 	fi
 
-	# bug 736794: we need to be careful with the parallelization... the number of
-	# processors saved in the environment of a binary package may differ strongly
-	# from the number of processes available during postinst
-	local mygenjobs="$(makeopts_jobs)"
-	if [[ "${EMERGE_FROM}" == "binary" ]] ; then
-		mygenjobs="$(nproc)"
+	# bug 736794: we need to be careful with the parallelization... the
+	# number of processors saved in the environment of a binary package may
+	# differ strongly from the number of processes available during postinst
+	if [[ ${EMERGE_FROM} != binary ]]; then
+		localegen_args+=( --jobs "$(makeopts_jobs)" )
 	fi
 
-	set -- locale-gen ${inplace} --jobs "${mygenjobs}" --config "${locale_list}" \
-		--destdir "${root}"
-	echo "$@"
-	"$@"
-
-	popd >/dev/null
+	printf 'Executing: locale-gen %s\n' "${localegen_args[*]@Q}" >&2
+	locale-gen "${localegen_args[@]}"
 }
 
 glibc_do_src_install() {
@@ -1560,8 +1568,8 @@ glibc_do_src_install() {
 	rm -f "${ED}"/etc/localtime
 
 	# Generate all locales if this is a native build as locale generation
-	if use compile-locales && ! is_crosscompile ; then
-		run_locale_gen --inplace-glibc "${ED}/"
+	if use compile-locales && ! is_crosscompile && ! run_locale_gen "${ED}"; then
+		die "locale-gen(1) unexpectedly failed during the ${EBUILD_PHASE_FUNC} phase"
 	fi
 }
 
@@ -1711,13 +1719,15 @@ pkg_postinst() {
 		# window for the affected programs.
 		use loong && glibc_refresh_ldconfig
 
-		use compile-locales || run_locale_gen "${EROOT}/"
+		if ! use compile-locales && ! run_locale_gen "${EROOT}"; then
+			ewarn "locale-gen(1) unexpectedly failed during the ${EBUILD_PHASE_FUNC} phase"
+		fi
 
 		# If fixincludes was/is active for a particular GCC slot, we
 		# must refresh it. See bug #933282 and GCC's documentation:
 		# https://gcc.gnu.org/onlinedocs/gcc/Fixed-Headers.html
 		#
-		# TODO: Could this be done for non-cross? Some care would be needed
+		# TODO: Could this be done for cross? Some care would be needed
 		# to pass the right arguments.
 		while IFS= read -r -d $'\0' slot ; do
 			local mkheaders_path="${BROOT}"/usr/libexec/gcc/${CBUILD}/${slot##*/}/install-tools/mkheaders

@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,7 +12,7 @@ SRC_URI+=" https://dev.gentoo.org/~sam/distfiles/${CATEGORY}/${PN}/${PN}-1.9.5-p
 
 LICENSE="HPND MIT"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 ~hppa ~mips ppc ppc64 ~riscv sparc x86"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~mips ppc ppc64 ~riscv ~sparc x86"
 IUSE="doc static-libs"
 
 RDEPEND="
@@ -50,6 +50,9 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# Ancient configure and relies on imake, not worth it
+	append-cflags -std=gnu89
+
 	# -Werror=lto-type-mismatch
 	# https://bugs.gentoo.org/859934
 	# https://sourceforge.net/p/nas/bugs/13/
@@ -59,6 +62,9 @@ multilib_src_configure() {
 	pushd config || die
 	econf
 	popd || die
+
+	# bug #947416
+	unset MAKEOPTS GNUMAKEFLAGS
 
 	local cpp=($(get_abi_CHOST ${DEFAULT_ABI})-gcc $(get_abi_CFLAGS) -E) #884203
 	CC="$(tc-getBUILD_CC)" LD="$(tc-getLD)" \

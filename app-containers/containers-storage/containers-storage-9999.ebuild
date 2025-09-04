@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -27,6 +27,6 @@ src_compile() {
 src_install() {
 	emake DESTDIR="${ED}" -C docs install
 
-	insinto /etc/containers
+	insinto /usr/share/containers
 	doins storage.conf
 }

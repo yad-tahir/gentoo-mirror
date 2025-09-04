@@ -6,14 +6,14 @@ EAPI=8
 inherit cmake-multilib flag-o-matic
 
 DESCRIPTION="Small, safe and fast formatting library"
-HOMEPAGE="https://github.com/fmtlib/fmt"
+HOMEPAGE="https://fmt.dev/dev/ https://github.com/fmtlib/fmt"
 
 if [[ ${PV} == *9999 ]] ; then
 	EGIT_REPO_URI="https://github.com/fmtlib/fmt.git"
 	inherit git-r3
 else
 	SRC_URI="https://github.com/fmtlib/fmt/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="amd64 ~arm ~arm64 hppa ~loong ppc ppc64 ~riscv x86"
+	KEYWORDS="amd64 arm arm64 ~hppa ~loong ppc ppc64 ~riscv x86"
 	S="${WORKDIR}/fmt-${PV}"
 fi
 

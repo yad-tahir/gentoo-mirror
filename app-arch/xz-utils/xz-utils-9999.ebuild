@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Remember: we cannot leverage autotools in this ebuild in order
@@ -6,7 +6,7 @@
 
 EAPI=8
 
-inherit libtool multilib multilib-minimal preserve-libs toolchain-funcs
+inherit dot-a flag-o-matic libtool multilib multilib-minimal preserve-libs toolchain-funcs
 
 if [[ ${PV} == 9999 ]] ; then
 	# Per tukaani.org, git.tukaani.org is a mirror of github and
@@ -50,7 +50,7 @@ SLOT="0"
 IUSE="cpu_flags_arm_crc32 doc +extra-filters pgo nls static-libs"
 
 if [[ ${PV} != 9999 ]] ; then
-	BDEPEND+=" verify-sig? ( >=sec-keys/openpgp-keys-lassecollin-20240529 )"
+	BDEPEND+=" verify-sig? ( >=sec-keys/openpgp-keys-lassecollin-20250313 )"
 fi
 
 src_prepare() {
@@ -65,11 +65,12 @@ src_prepare() {
 	fi
 }
 
-multilib_src_configure() {
-	# Workaround for bug #934370 (libtool-2.5.0), drop when dist tarball
-	# uses newer libtool with the fix.
-	export ac_cv_prog_ac_ct_FILECMD='file' FILECMD='file'
+src_configure() {
+	use static-libs && lto-guarantee-fat
+	multilib-minimal_src_configure
+}
 
+multilib_src_configure() {
 	local myconf=(
 		--enable-threads
 		$(multilib_native_use_enable doc)
@@ -111,8 +112,11 @@ multilib_src_configure() {
 }
 
 multilib_src_compile() {
-	local pgo_generate_flags=$(usev pgo "-fprofile-update=atomic -fprofile-dir=${T}/${ABI}-pgo -fprofile-generate=${T}/${ABI}-pgo")
-	local pgo_use_flags=$(usev pgo "-fprofile-use=${T}/${ABI}-pgo -fprofile-dir=${T}/${ABI}-pgo")
+	# -fprofile-partial-training because upstream note the test suite isn't super comprehensive
+	# TODO: revisit that now we have the tar/xz loop below?
+	# See https://documentation.suse.com/sbp/all/html/SBP-GCC-10/index.html#sec-gcc10-pgo
+	local pgo_generate_flags=$(usev pgo "-fprofile-update=atomic -fprofile-dir=${T}/${ABI}-pgo -fprofile-generate=${T}/${ABI}-pgo $(test-flags-CC -fprofile-partial-training)")
+	local pgo_use_flags=$(usev pgo "-fprofile-use=${T}/${ABI}-pgo -fprofile-dir=${T}/${ABI}-pgo $(test-flags-CC -fprofile-partial-training)")
 
 	emake CFLAGS="${CFLAGS} ${pgo_generate_flags}"
 
@@ -187,6 +191,8 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
+	strip-lto-bytecode
+
 	find "${ED}" -type f -name '*.la' -delete || die
 
 	if use doc ; then
