@@ -1,0 +1,17 @@
+Reason is currently unclear, but somehow it thinks 6.0.2 is not
+higher than 5? Or is there some rule that enforces == major version?
+Dropping the lower bound allows it to find assimp6.
+
+Issue could potentially be in our own assimp6 rather than in Qt given
+it does sed some bits, but needs investigation.
+
+Either way, Qt bundles assimp-6.0.2 in Qt 6.9.2 and it should work fine
+with that system version.
+--- a/src/plugins/assetimporters/configure.cmake
++++ b/src/plugins/assetimporters/configure.cmake
+@@ -16 +16 @@
+-qt_find_package(WrapQuick3DAssimp 5.1.6 PROVIDED_TARGETS WrapQuick3DAssimp::WrapQuick3DAssimp MODULE_NAME assetimporters QMAKE_LIB quick3d_assimp)
++qt_find_package(WrapQuick3DAssimp PROVIDED_TARGETS WrapQuick3DAssimp::WrapQuick3DAssimp MODULE_NAME assetimporters QMAKE_LIB quick3d_assimp)
+@@ -38 +38 @@
+-                   PACKAGES PACKAGE WrapQuick3DAssimp 5.1.6)
++                   PACKAGES PACKAGE WrapQuick3DAssimp)

@@ -134,7 +134,7 @@ check_distribution_components() {
 					LLVM|LLVMgold)
 						;;
 					# TableGen lib + deps
-					LLVMDemangle|LLVMSupport|LLVMTableGen)
+					LLVMDemangle|LLVMSupport|LLVMSupportLSP|LLVMTableGen)
 						;;
 					# for mlir-tblgen
 					LLVMCodeGenTypes)
@@ -204,9 +204,6 @@ src_prepare() {
 	# Update config.guess to support more systems
 	cp "${BROOT}/usr/share/gnuconfig/config.guess" cmake/ || die
 
-	# Disable lit tests (we run them in dev-python/lit).
-	> utils/lit/CMakeLists.txt || die
-
 	# Verify that the ebuild is up-to-date
 	check_uptodate
 
@@ -235,6 +232,7 @@ get_distribution_components() {
 		LLVMTableGen
 		# mlir-tblgen
 		LLVMCodeGenTypes
+		LLVMSupportLSP
 
 		# testing libraries
 		llvm_gtest
@@ -509,7 +507,6 @@ multilib_src_compile() {
 }
 
 multilib_src_test() {
-	local -x LIT_XFAIL="CodeGen/Xtensa/select-cc-fp.ll"
 	# respect TMPDIR!
 	local -x LIT_PRESERVES_TMP=1
 	cmake_build check

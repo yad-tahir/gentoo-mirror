@@ -6,7 +6,7 @@ EAPI=8
 # crates vendored upstream
 CRATES=""
 
-RUST_MIN_VERSION=1.80.0
+RUST_MIN_VER=1.80.0
 
 inherit cargo meson
 
@@ -25,7 +25,7 @@ LICENSE+="
 	MIT Unicode-3.0
 	|| ( LGPL-2.1+ MPL-2.0 )
 "
-SLOT="0"
+SLOT="1"
 KEYWORDS="amd64 arm64"
 IUSE="heif jpegxl svg test"
 REQUIRED_USE="test? ( heif jpegxl )"
