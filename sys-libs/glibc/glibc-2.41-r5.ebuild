@@ -350,7 +350,7 @@ setup_target_flags() {
 					[[ ${t} == "x86_64" ]] && t="x86-64"
 					filter-flags '-march=*'
 					# ugly, ugly, ugly.  ugly.
-					CFLAGS_x86=$(CFLAGS=${CFLAGS_x86} filter-flags '-march=*'; echo "${CFLAGS}")
+					CFLAGS_x86=$(CFLAGS=${CFLAGS_x86}; filter-flags '-march=*'; echo "${CFLAGS}")
 					export CFLAGS_x86="${CFLAGS_x86} -march=${t}"
 					einfo "Auto adding -march=${t} to CFLAGS_x86 #185404 (ABI=${ABI})"
 				fi
@@ -821,7 +821,7 @@ sanity_prechecks() {
 
 	# ABI-specific checks follow here. Hey, we have a lot more specific conditions that
 	# we test for...
-	if ! is_crosscompile ; then
+	if ! is_crosscompile && ! tc-is-cross-compiler; then
 		if use amd64 && use multilib && [[ ${MERGE_TYPE} != "binary" ]] ; then
 			ebegin "Checking if the system can execute 32-bit binaries"
 			echo 'int main(){return 0;}' > "${T}/check-ia32-emulation.c"
@@ -1316,7 +1316,8 @@ src_test() {
 # src_install
 
 run_locale_gen() {
-	local prefix=$1 user_config config
+	local fatal=$1 prefix=$2
+	local user_config action config stderr noun ret
 	local -a hasversion_opts localegen_args
 
 	if [[ ${EBUILD_PHASE_FUNC} == src_install ]]; then
@@ -1345,7 +1346,27 @@ run_locale_gen() {
 	fi
 
 	printf 'Executing: locale-gen %s\n' "${localegen_args[*]@Q}" >&2
-	locale-gen "${localegen_args[@]}"
+	{ stderr=$(locale-gen "${localegen_args[@]}" 2>&1 >&3); } 3>&1
+	ret=$?
+	action="ewarn"
+	if (( ret == 0 )); then
+		noun="warning"
+	else
+		noun="error"
+		if (( fatal )); then
+			action="die"
+		fi
+	fi
+	# Convey warnings/errors so that they can be reseen upon emerge exiting.
+	if [[ ${stderr} ]]; then
+		ewarn "locale-gen(8) issued the following ${noun}s:"
+		while read -r; do
+			ewarn "$REPLY"
+		done <<<"${stderr}"
+	fi
+	if (( ret != 0 )); then
+		"${action}" "locale-gen(8) unexpectedly failed during the ${EBUILD_PHASE_FUNC} phase"
+	fi
 }
 
 glibc_do_src_install() {
@@ -1560,8 +1581,8 @@ glibc_do_src_install() {
 	rm -f "${ED}"/etc/localtime
 
 	# Generate all locales if this is a native build as locale generation
-	if use compile-locales && ! is_crosscompile && ! run_locale_gen "${ED}"; then
-		die "locale-gen(1) unexpectedly failed during the ${EBUILD_PHASE_FUNC} phase"
+	if use compile-locales && ! is_crosscompile; then
+		run_locale_gen 1 "${ED}"
 	fi
 }
 
@@ -1711,8 +1732,8 @@ pkg_postinst() {
 		# window for the affected programs.
 		use loong && glibc_refresh_ldconfig
 
-		if ! use compile-locales && ! run_locale_gen "${EROOT}"; then
-			ewarn "locale-gen(1) unexpectedly failed during the ${EBUILD_PHASE_FUNC} phase"
+		if ! use compile-locales; then
+			run_locale_gen 0 "${EROOT}"
 		fi
 
 		# If fixincludes was/is active for a particular GCC slot, we

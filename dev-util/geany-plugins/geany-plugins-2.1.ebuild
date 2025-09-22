@@ -11,9 +11,9 @@ DESCRIPTION="A collection of different plugins for Geany"
 HOMEPAGE="https://plugins.geany.org"
 SRC_URI="https://plugins.geany.org/${PN}/${P}.tar.bz2"
 
-LICENSE="GPL-2"
+LICENSE="BSD-2 GPL-2 GPL-3+"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 
 IUSE="ctags debugger enchant geniuspaste git gpg gtkspell lsp lua markdown nls pretty-printer scope test webhelper workbench"
 REQUIRED_USE="lua? ( ${LUA_REQUIRED_USE} )"

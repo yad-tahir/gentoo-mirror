@@ -17,6 +17,18 @@
 
 #--- END OF EXAMPLES ---
 
+# Nicolas PARLANT <nicolas.parlant@parhuet.fr> (2025-09-20)
+# Require dev-libs/libtsm, keyworded here
+>=media-gfx/fbida-2.14_p20241216 -fbcon
+
+# Michał Górny <mgorny@gentoo.org> (2025-09-12)
+# These BLAS/LAPACK providers are keyworded here.
+sci-libs/flexiblas -blis -mkl -openblas
+
+# Christopher Byrne <salah.coronya@gmail.com> (2025-09-01)
+# net-emulation/libvirt is only keyworded on amd64 at this time
+sys-block/nbdkit -libguestfs
+
 # Andreas K. Hüttel <dilfridge@gentoo.org> (2025-08-06)
 # x86-64 supports sframe
 >=sys-libs/glibc-2.42 -sframe
@@ -455,11 +467,6 @@ app-metrics/collectd -collectd_plugins_mqtt
 # Thomas Deutschmann <whissi@gentoo.org> (2016-08-26)
 # Enable numa support on supported architectures
 dev-db/mysql -numa
-dev-db/percona-server -numa
-
-# Brian Evans <grknight@gentoo.org> (2016-08-23)
-# It's only supported on amd64
-dev-db/percona-server -tokudb -tokudb-backup-plugin
 
 # Brian Evans <grknight@gentoo.org> (2016-08-18)
 # Allow jdbc on this arch

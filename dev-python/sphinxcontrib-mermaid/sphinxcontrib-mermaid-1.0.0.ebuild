@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_13 )
+PYTHON_COMPAT=( python3_{13..14} )
 
 inherit distutils-r1
 
@@ -20,7 +20,7 @@ SRC_URI="
 
 LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS="amd64 arm64"
+KEYWORDS="amd64 ~arm arm64 ~x86"
 
 RDEPEND="
 	>=dev-python/sphinx-3.0.0[${PYTHON_USEDEP}]
@@ -30,10 +30,10 @@ BDEPEND="
 	test? (
 		dev-python/defusedxml[${PYTHON_USEDEP}]
 		dev-python/myst-parser[${PYTHON_USEDEP}]
-		dev-python/pytest-asyncio[${PYTHON_USEDEP}]
 	)
 "
 
+EPYTEST_PLUGINS=( pytest-asyncio )
 distutils_enable_tests pytest
 
 python_compile() {

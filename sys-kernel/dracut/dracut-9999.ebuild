@@ -22,7 +22,7 @@ HOMEPAGE="https://github.com/dracut-ng/dracut-ng/wiki"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="+dracut-cpio selinux test"
+IUSE="dracut-cpio selinux test"
 RESTRICT="test"
 PROPERTIES="test? ( test_privileged test_network )"
 
@@ -118,7 +118,7 @@ src_configure() {
 		--disable-dracut-cpio
 	)
 
-	if ! has_version dev-ruby/asciidoctor; then
+	if ! has_version -b dev-ruby/asciidoctor; then
 		myconf+=( --disable-asciidoctor )
 	fi
 
