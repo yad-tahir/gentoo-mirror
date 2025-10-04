@@ -522,7 +522,6 @@ app-editors/xemacs:athena - Chooses the MIT Athena widget set
 app-editors/xemacs:bignum - Support for OpenSSL bignum implementation
 app-editors/xemacs:pop - Support POP for mail retrieval
 app-editors/xemacs:xim - Enable X11 XiM input method
-app-editors/zed:gles - Use simplified OpenGLES instead of full-scale OpenGL
 app-emacs/auctex:preview-latex - Use bundled preview-latex
 app-emacs/bbdb:tex - Install plain TeX support files
 app-emacs/bbdb:vm - Add support for app-emacs/vm
@@ -577,6 +576,7 @@ app-emulation/fex-xtajit:arm64ec - Enable x86_64 emulation using arm64ec
 app-emulation/fex-xtajit:wow64 - Enable x86 (32-bit) emulation using wow64
 app-emulation/fs-uae:fmv - Enable support for CD32 FMV (full motion video)
 app-emulation/fs-uae:glew - Enable support for The OpenGL Extension Wrangler Library (media-libs/glew)
+app-emulation/fs-uae:portmidi - Enable support for MIDI via media-libs/portmidi
 app-emulation/fs-uae-launcher:lha - Enable LHA archive support
 app-emulation/fuse:backend-X - Use X11 rendering backend
 app-emulation/fuse:backend-fbcon - Use framebuffer rendering backend
@@ -717,7 +717,7 @@ app-emulation/wine-proton:mingw - Build PE files using dev-util/mingw64-toolchai
 app-emulation/wine-proton:mono - Enable .NET support using app-emulation/wine-mono
 app-emulation/wine-proton:perl - Install helpers that require perl (winedump/winemaker)
 app-emulation/wine-proton:sdl - Enable gamepad support using media-libs/libsdl2
-app-emulation/wine-proton:wow64 - Enable the "new" wow64 mode that allows running 32bit applications without 32bit ELF multilib by mapping to 64bit calls (experimental, *may* have worse/unusable OpenGL performance or other issues compared to USE=abi_x86_32 aka "old" wow64, also lacks 16bit support) -- if USE=mingw is set, still need the default abi_x86_32 set on dev-util/mingw64-toolchain but that can be done even with /no-multilib/ profiles. This can also be enabled on arm64 to allow running x86 applications via binary translation.
+app-emulation/wine-proton:wow64 - Enable the "new" wow64 mode that allows running 32bit applications without 32bit ELF multilib by mapping to 64bit calls (experimental, *may* have worse performance or other issues compared to USE=abi_x86_32 aka "old" wow64) -- if USE=mingw is set, still need the default abi_x86_32 set on dev-util/mingw64-toolchain but that can be done even with /no-multilib/ profiles. This can also be enabled on arm64 to allow running x86 applications via binary translation.
 app-emulation/wine-staging:arm64ec - Enable support for running x86_64 applications on arm64 via binary translation
 app-emulation/wine-staging:capi - Enable ISDN support using net-libs/libcapi
 app-emulation/wine-staging:crossdev-mingw - Use sys-devel/crossdev for the toolchain rather than dev-util/mingw64-toolchain (requires manual setting up and is mostly unsupported, try disabling if have issues)
@@ -730,7 +730,7 @@ app-emulation/wine-staging:pcap - Support packet capture software (e.g. wireshar
 app-emulation/wine-staging:perl - Install helpers that require perl (winedump/winemaker)
 app-emulation/wine-staging:samba - Pull in net-fs/samba with winbind for NTLM auth support
 app-emulation/wine-staging:sdl - Enable gamepad support using media-libs/libsdl2
-app-emulation/wine-staging:wow64 - Enable the "new" wow64 mode that allows running 32bit applications without 32bit ELF multilib by mapping to 64bit calls (experimental, *may* have worse/unusable OpenGL performance or other issues compared to USE=abi_x86_32 aka "old" wow64, also lacks 16bit support) -- if USE=mingw is set, still need the default abi_x86_32 set on dev-util/mingw64-toolchain but that can be done even with /no-multilib/ profiles. This can also be enabled on arm64 to allow running x86 applications via binary translation.
+app-emulation/wine-staging:wow64 - Enable the "new" wow64 mode that allows running 32bit applications without 32bit ELF multilib by mapping to 64bit calls (experimental, *may* have worse performance or other issues compared to USE=abi_x86_32 aka "old" wow64) -- if USE=mingw is set, still need the default abi_x86_32 set on dev-util/mingw64-toolchain but that can be done even with /no-multilib/ profiles. This can also be enabled on arm64 to allow running x86 applications via binary translation.
 app-emulation/wine-vanilla:arm64ec - Enable support for running x86_64 applications on arm64 via binary translation
 app-emulation/wine-vanilla:capi - Enable ISDN support using net-libs/libcapi
 app-emulation/wine-vanilla:crossdev-mingw - Use sys-devel/crossdev for the toolchain rather than dev-util/mingw64-toolchain (requires manual setting up and is mostly unsupported, try disabling if have issues)
@@ -743,7 +743,7 @@ app-emulation/wine-vanilla:pcap - Support packet capture software (e.g. wireshar
 app-emulation/wine-vanilla:perl - Install helpers that require perl (winedump/winemaker)
 app-emulation/wine-vanilla:samba - Pull in net-fs/samba with winbind for NTLM auth support
 app-emulation/wine-vanilla:sdl - Enable gamepad support using media-libs/libsdl2
-app-emulation/wine-vanilla:wow64 - Enable the "new" wow64 mode that allows running 32bit applications without 32bit ELF multilib by mapping to 64bit calls (experimental, *may* have worse/unusable OpenGL performance or other issues compared to USE=abi_x86_32 aka "old" wow64, also lacks 16bit support) -- if USE=mingw is set, still need the default abi_x86_32 set on dev-util/mingw64-toolchain but that can be done even with /no-multilib/ profiles. This can also be enabled on arm64 to allow running x86 applications via binary translation.
+app-emulation/wine-vanilla:wow64 - Enable the "new" wow64 mode that allows running 32bit applications without 32bit ELF multilib by mapping to 64bit calls (experimental, *may* have worse performance or other issues compared to USE=abi_x86_32 aka "old" wow64) -- if USE=mingw is set, still need the default abi_x86_32 set on dev-util/mingw64-toolchain but that can be done even with /no-multilib/ profiles. This can also be enabled on arm64 to allow running x86 applications via binary translation.
 app-emulation/winetricks:rar - Pull in app-arch/unrar for extraction of rar-compressed game files
 app-emulation/xe-guest-utilities:xenstore - Use xenstore binaries bundled by Citrix instead of building app-emulation/xen-tools
 app-emulation/xen:boot-symlinks - Symlink xen.gz variants in /boot, disable on fat filesystems
@@ -956,8 +956,10 @@ app-misc/lirc:inputlirc - Add a dependency on app-misc/inputlircd
 app-misc/lirc:uinput - Enable support for uinput
 app-misc/localsearch:cue - Enable cue sheet parsing
 app-misc/localsearch:gsf - Enable gnome-extra/libgsf based data extractor and for ODT.
+app-misc/localsearch:gstreamer - Enable support for metadata writeback functionality
 app-misc/localsearch:iptc - Enable extraction of IPTC data from pictures
 app-misc/localsearch:iso - Enable extraction of metadata from ISO disk images
+app-misc/localsearch:landlock - Enable sandboxing using Landlock LSM
 app-misc/localsearch:playlist - Add support for playlists
 app-misc/localsearch:xps - Add support for XPS file format through app-text/libgxps.
 app-misc/mc:edit - Compile and install the mcedit application
@@ -1003,6 +1005,7 @@ app-misc/tinysparql:stemmer - Add word stemming via dev-libs/snowball-stemmer.
 app-misc/tmux:sixel - Enable sixel support
 app-misc/tmux:utempter - Include libutempter support
 app-misc/unfoo:minimal - Do not install all support archive binaries
+app-misc/upterm:server - Compile server support (uptermd)
 app-misc/vcontrold:vclient - Build the vclient helper program to talk to vcontrold
 app-misc/vcontrold:vsim - Build the vsim helper program (simulates the heating's answers, for development and debugging)
 app-misc/vifm:extended-keys - Support for extended keys (arrows, home etc)
@@ -1039,6 +1042,7 @@ app-office/calligra:lcms - Build colorengine plugins using media-libs/lcms
 app-office/calligra:okular - Enable bindings for kde-apps/okular
 app-office/calligra:phonon - Build stage/eventplugins and videoshape plugin using media-libs/phonon
 app-office/calligra:webengine - Enable Braindump support using dev-qt/qtwebengine
+app-office/dia:xslt - Enable the plugin for xslt
 app-office/glabels:barcode - Enable barcode support through external libraries.
 app-office/gnucash:aqbanking - Connect to some internet banks via AqBanking
 app-office/gnucash:quotes - Enable online stock quote retrieval
@@ -1908,8 +1912,6 @@ dev-lang/swi-prolog:yaml - Use libyaml for YAML pack
 dev-lang/swig:ccache - build ccache-swig(a fast compiler cache)
 dev-lang/vala:valadoc - Installs valadoc documentation generation tool
 dev-lang/xsb:mariadb - Enable support for the mariadb database backend
-dev-lang/yap:R - Enable support for connecting R to Prolog
-dev-lang/yap:raptor - Enable support for Raptor RDF syntax libarary
 dev-lang/zig:debug - Build with debug extensions enabled.
 dev-lang/zig:llvm - Build with LLVM backend and extensions enabled.
 dev-libs/aml:examples - Build and install examples
@@ -2052,7 +2054,6 @@ dev-libs/libffi:pax-kernel - Use PaX emulated trampolines, for we can't use PROT
 dev-libs/libffi-compat:pax-kernel - Use PaX emulated trampolines, for we can't use PROT_EXEC
 dev-libs/libfido2:hidapi - Enable HID API support
 dev-libs/libfido2:nfc - Enable experimental NFC support
-dev-libs/libflatarray:cuda - Enables plugins for NVIDIA GPUs (e.g. CUDAAllocator)
 dev-libs/libgcrypt:getentropy - Use getentropy function to obtain randomness from the kernel
 dev-libs/libgdata:crypt - Use app-crypt/gcr for keeping tokens and passwords in non-pageable memory for improved security
 dev-libs/libgdata:gnome-online-accounts - Enable net-libs/gnome-online-accounts support
@@ -2201,6 +2202,7 @@ dev-libs/pocl:float-conversion - When enabled, OpenCL printf() call's f/e/g form
 dev-libs/pocl:hardening - Enable hardening against various attacks. May worsen performance
 dev-libs/pocl:hwloc - Enable hwloc support
 dev-libs/pocl:memmanager - Enables custom memory manager. Except for special circumstances, this should be disabled
+dev-libs/pocl:server - Enable pocld for remote OpenCL execution
 dev-libs/pocl:spirv - Build SPIR-V support
 dev-libs/poco:7z - Add Support for the 7z archive format
 dev-libs/poco:activerecord - Add ActiveRecord support
@@ -2832,7 +2834,6 @@ dev-util/ctags:xml - Enable XML parsing support
 dev-util/ctags:yaml - Enable YAML parsing support
 dev-util/cwdiff:mercurial - install hg wdiff alias for dev-vcs/mercurial
 dev-util/devhelp:gedit - Install plugin for app-editors/gedit
-dev-util/dialog:minimal - Disable library, install command-line program only
 dev-util/diffoscope:R - Use dev-lang/R
 dev-util/diffoscope:binutils - Use sys-devel/binutils
 dev-util/diffoscope:cpio - Use app-alternatives/cpio
@@ -3440,6 +3441,7 @@ gui-apps/mako:icons - Enable support for icons
 gui-apps/swaybg:gdk-pixbuf - Support image types other than PNG
 gui-apps/swayidle:elogind - Enable support for rootless session via elogind
 gui-apps/swaylock:gdk-pixbuf - Enable additional image format support via the x11-libs/gdk-pixbuf library
+gui-apps/waybar:backlight - Enable module that controls the current backlight level
 gui-apps/waybar:evdev - Enable libevdev support for evdev related features
 gui-apps/waybar:experimental - Enable experimental features, such as Bluetooth battery reporting
 gui-apps/waybar:libinput - Enable libinput support for libinput related features
@@ -3447,6 +3449,7 @@ gui-apps/waybar:logind - Enable support for logind (bluetooth and idle inhibit)
 gui-apps/waybar:mpd - Enable support for the Music Player Daemon
 gui-apps/waybar:mpris - Enable support for mpris
 gui-apps/waybar:network - Enable libnl support for network related features
+gui-apps/waybar:niri - Enable support for Niri Wayland compositor
 gui-apps/waybar:pipewire - Enable support for pipewire
 gui-apps/waybar:pulseaudio - Enable support for volume control via PulseAudio
 gui-apps/waybar:sndio - Enable support for volume control via sndio
@@ -3659,7 +3662,6 @@ kde-plasma/discover:firmware - Enable support for firmware upgrades using sys-ap
 kde-plasma/discover:flatpak - Enable support for flatpak repositories using sys-apps/flatpak
 kde-plasma/discover:snap - Enable support for snap packages using app-containers/snapd
 kde-plasma/discover:webengine - Enable webflow support using dev-qt/qtwebview and dev-qt/qtwebengine instead of default URL handler
-kde-plasma/drkonqi:systemd - Enable Coredumpd integration
 kde-plasma/kde-cli-tools:kdesu - Pull in graphical kdesu frontend kde-plasma/kdesu-gui
 kde-plasma/kdeplasma-addons:alternate-calendar - Support alternate calendar systems (currently Chinese or Indian) via dev-libs/icu
 kde-plasma/kdeplasma-addons:share - Enable applet for quickly sharing data to a variety of sources
@@ -3899,7 +3901,6 @@ mail-client/thunderbird:hwaccel - Force-enable hardware-accelerated rendering (M
 mail-client/thunderbird:libproxy - Enable libproxy support
 mail-client/thunderbird:pgo - Add support for profile-guided optimization using gcc-4.5, for faster binaries. This option will double the compile time.
 mail-client/thunderbird:pulseaudio - Add sound server support via media-libs/libpulse (may be PulseAudio or Pipewire, or apulse if installed)
-mail-client/thunderbird:rust-extensions - Compile and install experimental rust extensions, that may become part of Thunderbird some day.
 mail-client/thunderbird:sndio - Enable support for the media-sound/sndio backend
 mail-client/thunderbird:system-av1 - Use the system-wide media-libs/dav1d and media-libs/libaom library instead of bundled.
 mail-client/thunderbird:system-harfbuzz - Use the system-wide media-libs/harfbuzz and media-gfx/graphite2 instead of bundled.
@@ -4911,9 +4912,6 @@ media-sound/pithos:keybinder - Use keybinder to enable global key bindings
 media-sound/pms:regex - Enable regular expression searches
 media-sound/puddletag:acoustid - Use media-libs/chromaprint for acoustic fingerprinting
 media-sound/puddletag:quodlibet - Enables support for editing media-sound/quodlibet databases
-media-sound/pulseaudio:daemon - Build the pulseaudio binary (not-needed for pipewire-pulse)
-media-sound/pulseaudio:glib - Add support to dev-libs/glib-based mainloop for the libpulse client library, to allow using libpulse on glib-based programs. Build the GSettings PA module.
-media-sound/pulseaudio:ofono-headset - Build with oFono HFP backend for bluez 5, requires net-misc/ofono.
 media-sound/pulseaudio-daemon:X - Build the X11 publish module to export PulseAudio information through X11 protocol for clients to make use. Don't enable this flag if you want to use a system wide instance. If unsure, enable this flag.
 media-sound/pulseaudio-daemon:alsa-plugin - Request installing media-plugins/alsa-plugins with PulseAudio plugin enabled. This ensures that clients supporting ALSA only will use PulseAudio.
 media-sound/pulseaudio-daemon:aptx - aptX (HD) over Bluetooth (many Android compatible headphones), requires media-plugins/gst-plugins-openaptx.
@@ -5259,7 +5257,6 @@ media-video/mjpg-streamer:output-zmqserver - Plugin which provides zmqserver pro
 media-video/mjpg-streamer:www - Installs WWW content
 media-video/mjpg-streamer:wxp-compat - Enable camera WXP compatible format
 media-video/motion:mariadb - Add mariadb database support
-media-video/motion:mmal - Enables Multi-Media Abstraction Layer (MMAL) decoding support: Available e.g. on the Raspberry Pi.
 media-video/motiontrack:multiprocess - Enables multi-process support (SMP/cluster) for motiontrack programs
 media-video/mplayer:bl - Blinkenlights video output
 media-video/mplayer:bluray - Enable playback of Blu-ray filesystems
@@ -5527,7 +5524,7 @@ net-analyzer/netdata:aclk - Enable Agent-Cloud Link (ACLK) for securely connecti
 net-analyzer/netdata:bpf - Enable the extended Berkeley Packet Filter (eBPF) collector to monitor kernel-level metrics about applications with per-second granularity
 net-analyzer/netdata:cloud - Enable Netdata Cloud support
 net-analyzer/netdata:dbengine - Enable the Netdata database engine
-net-analyzer/netdata:ipmi - Install sys-apps/ipmitool required for monitoring IPMI sensors.
+net-analyzer/netdata:ipmi - Install sys-apps/ipmitool required for monitoring IPMI sensors
 net-analyzer/netdata:mongodb - Enable support for the mongodb backend
 net-analyzer/netdata:nfacct - Enable the nfacct plugin
 net-analyzer/netdata:nodejs - Enable use of nodejs (which some plugins use)
@@ -7305,6 +7302,7 @@ sci-libs/avogadrolibs:archive - Enable archive support using app-arch/libarchive
 sci-libs/avogadrolibs:mmtf - Enable support of MMTF format using dev-libs/mmtf-cpp
 sci-libs/avogadrolibs:spglib - Find and set the Hall number for a crystal using sci-libs/spglib
 sci-libs/avogadrolibs:vtk - Enable sci-libs/vtk support
+sci-libs/blas-lapack-aux-wrapper:index64 - Create ILP64 wrappers as well
 sci-libs/blis:64bit-index - Enable 64bit array indexing, incompatible with runtime switching
 sci-libs/blis:eselect-ldso - Enable runtime library switching by eselect and ld.so.
 sci-libs/blis:index64 - Build an ILP64 libblis64 in addition to LP64 libblis
@@ -7337,9 +7335,6 @@ sci-libs/coinor-clp:glpk - Enable GNU Linear Programming Kit sci-mathematics/glp
 sci-libs/coinor-clp:metis - Enable partitioning with sci-libs/metis
 sci-libs/coinor-clp:mumps - Enable sci-libs/mumps support
 sci-libs/coinor-clp:sparse - Enable support for sparse matrix with sci-libs/cholmod
-sci-libs/coinor-cppad:adolc - Add support for ADOL-C (sci-libs/adolc)
-sci-libs/coinor-cppad:eigen - Add support for Eigen (dev-cpp/eigen)
-sci-libs/coinor-cppad:ipopt - Add support for IPOPT (sci-libs/ipopt)
 sci-libs/coinor-symphony:glpk - Enable GNU Linear Programming Kit sci-mathematics/glpk support
 sci-libs/coinor-utils:glpk - Enable GNU Linear Programming Kit sci-mathematics/glpk support
 sci-libs/composable-kernel:profiler - Build and install the Composable Kernal profiler (ckProfiler)
@@ -7369,14 +7364,13 @@ sci-libs/dlib:cuda - Enable support for CUDA for Deep Neural Networks (cuDNN) on
 sci-libs/dlib:mkl - Enable support for Intel FFT sci-libs/mkl
 sci-libs/dlib:python - Enable support for Python API bindings
 sci-libs/dmlc-core:s3 - Support for the Amazon Simple Storage Service
-sci-libs/fcl:octomap - OctoMap library support
-sci-libs/fcl:profiling - Enable profiling
 sci-libs/fftw:zbus - Adds support for ZBus cycle-counter of mips
 sci-libs/flann:octave - Add bindings for sci-mathematics/octave
 sci-libs/flexiblas:blis - Support sci-libs/blis provider
 sci-libs/flexiblas:index64 - Build a separate ILP64 library in addition to LP64
 sci-libs/flexiblas:mkl - Support sci-libs/mkl provider
 sci-libs/flexiblas:openblas - Support sci-libs/openblas provider
+sci-libs/flexiblas:system-blas - Install symlinks to use FlexiBLAS as the system BLAS / LAPACK provider.
 sci-libs/flexiblas:tbb - Support sci-libs/mkl with dev-cpp/tbb threading.
 sci-libs/fplll:qd - Use sci-libs/qd for quad-double datatype
 sci-libs/gdal:archive - Enable support for various archive and compression formats with app-arch/libarchive
@@ -7433,11 +7427,11 @@ sci-libs/kissfft:int32 - Build library for primary data type of int32_t
 sci-libs/kissfft:tools - Build command line tools
 sci-libs/lapack:deprecated - Also build deprecated functions
 sci-libs/lapack:eselect-ldso - Enable runtime library switching by eselect and ld.so.
+sci-libs/lapack:flexiblas - Rename install files, for system FlexiBLAS compatibility
 sci-libs/lapack:index64 - Build a separate ILP64 library in addition to LP64
 sci-libs/lapack:lapacke - Build LAPACKE
 sci-libs/lemon:coin - Enable the sci-libs/coinor-clp and sci-libs/coinor-cbc graph algorithms
 sci-libs/lemon:glpk - Enable GNU Linear Programming Kit sci-mathematics/glpk support
-sci-libs/libccd:double-precision - More precise calculations at the expense of speed
 sci-libs/liborigin:tools - Install opj2dat command line util
 sci-libs/libqalculate:hardened - Disable unsafe functions like 'command' and variables like 'uptime'.
 sci-libs/libsemigroups:eigen - Use dev-cpp/eigen (at build time only) to speed up some matrix operations.
@@ -7485,7 +7479,6 @@ sci-libs/opencascade:optimize - Don't clear allocated memory. Use optimized memo
 sci-libs/opencascade:tbb - Enable multithreading with the Intel Threads Building Block dev-cpp/tbb
 sci-libs/opencascade:testprograms - Indicates whether non-regression OCCT test scripts should be installed
 sci-libs/opencascade:vtk - Enable Visualization Toolkit support via sci-libs/vtk
-sci-libs/orocos_kdl:models - Build models for some well known robots.
 sci-libs/p4est:vtk-binary - Enable binary vtk output. If disabled vtk files will be written in ASCII text format.
 sci-libs/pastix:fortran - Install the Fortran interface
 sci-libs/pastix:int64 - Use 64- rather than 32-bit integer representation
@@ -7920,6 +7913,7 @@ sys-apps/fwupd:gusb - Enable dev-libs/libgusb support
 sys-apps/fwupd:logitech - Build and install Logitech bulk controller plugin
 sys-apps/fwupd:modemmanager - Build and install Modem Manager plugin
 sys-apps/fwupd:nvme - Build and install NVMe plugin
+sys-apps/fwupd:protobuf - Enable protobuf plugins
 sys-apps/fwupd:spi - Install Intel-SPI plugin
 sys-apps/fwupd:synaptics - Install synaptics plugin
 sys-apps/fwupd:test-full - Enable tests known not to play nicely with the sandbox
@@ -8055,8 +8049,9 @@ sys-apps/systemd:kernel-install - Enable kernel-install
 sys-apps/systemd:kmod - Enable kernel module loading via sys-apps/kmod
 sys-apps/systemd:lz4 - Enable lz4 compression for the journal
 sys-apps/systemd:openssl - Enable use of dev-libs/openssl for various features
+sys-apps/systemd:passwdqc - Use sys-auth/passwdqc for password checking in homed
 sys-apps/systemd:pkcs11 - Enable PKCS#11 support for cryptsetup and homed
-sys-apps/systemd:pwquality - Enable password quality checking in homed
+sys-apps/systemd:pwquality - Use dev-libs/libpwquality for password checking in homed
 sys-apps/systemd:qrcode - Enable qrcode output support in journal
 sys-apps/systemd:resolvconf - Install resolvconf symlink for systemd-resolve
 sys-apps/systemd:sysv-utils - Install sysvinit compatibility symlinks and manpages for init, telinit, halt, poweroff, reboot, runlevel, and shutdown
@@ -8177,6 +8172,15 @@ sys-boot/lilo:device-mapper - Enable support for device-mapper from sys-fs/lvm2
 sys-boot/lilo:keytab - Install keytab, keyboard remapping helper script
 sys-boot/lilo:minimal - Do not install optional bits (dolilo helper, docs, etc.)
 sys-boot/lilo:pxeserial - Avoid character echo on PXE serial console
+sys-boot/limine:bios - Enable BIOS/MBR boot support.
+sys-boot/limine:bios-cd - Enables BIOS boot support for CDs.
+sys-boot/limine:bios-pxe - Enables BIOS PXE boot support.
+sys-boot/limine:cd-efi - Enable building cd-efi.bin using sys-fs/mtools. This flag was previously known as eltorito-efi.
+sys-boot/limine:uefi32 - Enable 32-bit UEFI support.
+sys-boot/limine:uefi64 - Enable 64-bit UEFI support.
+sys-boot/limine:uefiaa64 - Enable AArch64 UEFI support.
+sys-boot/limine:uefiloong64 - Enable 64-bit LoongArch UEFI support.
+sys-boot/limine:uefirv64 - Enable 64-bit RISC-V UEFI support.
 sys-boot/plymouth:drm - Provides abstraction to the DRM drivers (intel, nouveau and vmwgfx at this moment)
 sys-boot/plymouth:freetype - Build with freetype support (if enabled, used for encryption prompts)
 sys-boot/plymouth:pango - Adds support for printing text on splash screen and text prompts, e.g. for password
@@ -8608,13 +8612,17 @@ sys-process/systemd-cron:setgid - Compile setgid C helper for crontab. Needs GCC
 sys-process/systemd-cron:yearly - Support /etc/cron.yearly
 sys-process/tini:args - Enable argument parsing.
 virtual/blas:eselect-ldso - Enable runtime library switching by eselect and ld.so.
+virtual/blas:flexiblas - Use sci-libs/flexiblas as the provider.
 virtual/blas:index64 - Provide an ILP64 library in addition to LP64
 virtual/cblas:eselect-ldso - Enable runtime library switching by eselect and ld.so.
+virtual/cblas:flexiblas - Use sci-libs/flexiblas as the provider.
 virtual/cblas:index64 - Provide an ILP64 library in addition to LP64
 virtual/jdk:headless-awt - Don't install the X backend for AWT, needed by some GUIs
 virtual/lapack:eselect-ldso - Enable runtime library switching by eselect and ld.so.
+virtual/lapack:flexiblas - Use sci-libs/flexiblas as the provider.
 virtual/lapack:index64 - Provide an ILP64 library in addition to LP64
 virtual/lapacke:eselect-ldso - Enable runtime library switching by eselect and ld.so.
+virtual/lapacke:flexiblas - Use sci-libs/flexiblas as the provider.
 virtual/lapacke:index64 - Provide an ILP64 library in addition to LP64
 virtual/linux-sources:firmware - Install linux kernel firmware
 virtual/mpi:nullmpi - Allow sys-cluster/nullmpi a minimal incomplete MPI implementation as a provider
@@ -8767,7 +8775,7 @@ www-client/surf:savedconfig - Without a saved config.h, this package depends on 
 www-client/surf:tabbed - Install surf-open.sh script for running surf in x11-misc/tabbed
 www-client/uget:aria2 - Enable support for net-misc/aria2 through xmlrpc. You'll find the plugin in the app's settings.
 www-client/uget:control-socket - Enable JSON-RPC over unix domain socket
-www-client/uget:openssl - Use dev-libs/openssl instead of net-libs/gnutls
+www-client/uget:openssl - Use dev-libs/openssl instead of dev-libs/libgcrypt
 www-client/uget:rss - Enable uGet feed messages
 www-client/vivaldi:ffmpeg-chromium - Use Chromium FFmpeg fork (media-video/ffmpeg-chromium) rather than mainline FFmpeg (media-video/ffmpeg)
 www-client/vivaldi:proprietary-codecs - Use system FFmpeg library to support patent-encumbered media codecs
@@ -8791,13 +8799,16 @@ www-servers/apache:static - Link in apache2 modules statically rather then plugi
 www-servers/apache:suexec - Install suexec with apache
 www-servers/apache:suexec-caps - Install suexec with capabilities instead of SUID
 www-servers/apache:suexec-syslog - Log suexec to syslog instead of to a separate file
+www-servers/caddy:dns-alidns - Adds module which allows to manage Aliyun DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.alidns
 www-servers/caddy:dns-azure - Adds module which allows to manage Azure hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.azure
 www-servers/caddy:dns-cloudflare - Adds module which allows to manage Cloudflare hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.cloudflare
 www-servers/caddy:dns-cloudns - Adds module which allows to manage ClouDNS hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.cloudns
 www-servers/caddy:dns-digitalocean - Adds module which allows to manage DigitalOcean hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.digitalocean
 www-servers/caddy:dns-duckdns - Adds module which allows to manage Duck DNS hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.duckdns
 www-servers/caddy:dns-googleclouddns - Adds module which allows to manage Google Cloud hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.googleclouddns
+www-servers/caddy:dns-he - Adds module which allows to manage Hurricane Electric hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.he
 www-servers/caddy:dns-hetzner - Adds module which allows to manage Hetzner hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.hetzner
+www-servers/caddy:dns-huaweicloud - Adds module which allows to manage Huawei Cloud hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.huaweicloud
 www-servers/caddy:dns-mailinabox - Adds module which allows to manage Mail-in-a-Box hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.mailinabox
 www-servers/caddy:dns-netcup - Adds module which allows to manage netcup hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.netcup
 www-servers/caddy:dns-ovh - Adds module which allows to manage OVHcloud hosted DNS zones using Caddy https://caddyserver.com/docs/modules/dns.providers.ovh
@@ -9005,6 +9016,7 @@ x11-misc/xmobar:xft - Use Xft to render text. UTF-8 support included.
 x11-misc/xmobar:xpm - Enable usage of xpm for icons.
 x11-misc/xmobar:xrender - Use XRender for alpha background pseudo-transparency.
 x11-misc/xscreensaver:fonts - Install the fonts shipped with XScreenSaver that have clear licensing
+x11-misc/xscreensaver:gdk-pixbuf - Add ability for screensavers to read images in formats supported by x11-libs/gdk-pixbuf
 x11-misc/xscreensaver:gdm - Use gdmflexiserver from gnome-base/gdm instead of x11-misc/lightdm
 x11-misc/xscreensaver:gles - Emulate OpenGL 1.3 in terms of OpenGL ES 1.x
 x11-misc/xscreensaver:glx - Use GLX to interface OpenGL and X11 instead of EGL

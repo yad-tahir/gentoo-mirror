@@ -263,10 +263,15 @@ kernel-install_can_update_symlink() {
 	# strip KV_LOCALVERSION, we want to update the old kernels not using
 	# KV_LOCALVERSION suffix and the new kernels using it
 	symlink_ver=${symlink_ver%${KV_LOCALVERSION}}
+	symlink_ver=${symlink_ver/-p/_p}
+	# strip -p* revision
+	local symlink_ver_no_rev=${symlink_ver%_p[0-9]*}
+	local rev=${symlink_ver#${symlink_ver_no_rev}}
+	rev=${rev#_p}
 
-	# if ${symlink_ver} contains anything but numbers (e.g. an extra
-	# suffix), it's not our kernel, so leave it alone
-	[[ -n ${symlink_ver//[0-9.]/} ]] && return 1
+	# if ${symlink_ver} contained anything but numbers and revision (e.g.
+	# an extra suffix), it's not our kernel, so leave it alone
+	[[ -n ${symlink_ver_no_rev//[0-9.]/} || -n ${rev//[0-9]/} ]] && return 1
 
 	local symlink_pkg=${CATEGORY}/${PN}-${symlink_ver}
 	# if the current target is either being replaced, or still
@@ -734,7 +739,7 @@ kernel-install_install_all() {
 	local module_ver
 	module_ver=$(<"${relfile}") || die
 
-	if [[ ! -r ${SECUREBOOT_SIGN_CERT} && -r ${kernel_cert} ]]; then
+	if [[ ! -r ${SECUREBOOT_SIGN_CERT} && -s ${kernel_cert} ]]; then
 		openssl x509 \
 			-inform DER -in "${kernel_cert}" \
 			-outform PEM -out "${T}/cert.pem" ||
