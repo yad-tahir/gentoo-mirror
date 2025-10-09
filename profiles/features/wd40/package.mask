@@ -1,6 +1,10 @@
 # Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Sam James <sam@gentoo.org> (2025-10-06)
+# Rewritten in Rust.
+>=app-misc/task-3
+
 # Azamat H. Hackimov <azamat.hackimov@gmail.com> (2025-09-22)
 # app-i18n/libchewing was ported to Rust.
 >=app-i18n/ibus-chewing-2.1.7
@@ -396,7 +400,7 @@ gnome-extra/gnome-browser-connector
 gnome-extra/gnome-tweaks
 gnome-extra/sushi
 >=media-gfx/libimagequant-4
-media-gfx/gimp
+<media-gfx/gimp-3.0.6
 >=media-libs/libopenraw-0.3.2
 media-plugins/gimp-lqr
 media-video/rav1e
