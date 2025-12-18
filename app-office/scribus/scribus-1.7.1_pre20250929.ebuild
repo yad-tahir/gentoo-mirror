@@ -21,7 +21,7 @@ else
 		SRC_URI="https://downloads.sourceforge.net/project/${PN}/${PN}-devel/${PV}/${P}.tar.xz"
 		S="${WORKDIR}/${P}"
 	fi
-	KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+	KEYWORDS="amd64 ppc ppc64 x86"
 fi
 
 LICENSE="GPL-2"
@@ -58,7 +58,7 @@ DEPEND="${PYTHON_DEPS}
 	media-libs/libzmf
 	media-libs/tiff:=
 	net-print/cups
-	sys-libs/zlib[minizip]
+	virtual/minizip:=
 	x11-libs/cairo[X,svg(+)]
 	x11-libs/libxcb
 	boost? ( dev-libs/boost:= )

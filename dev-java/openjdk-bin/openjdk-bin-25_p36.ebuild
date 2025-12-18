@@ -54,7 +54,7 @@ S="${WORKDIR}/jdk-${MY_PV}"
 
 LICENSE="GPL-2-with-classpath-exception"
 SLOT=$(ver_cut 1)
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv"
+KEYWORDS="amd64 arm64 ppc64 ~riscv"
 IUSE="alsa cups headless-awt selinux source"
 
 RDEPEND="
@@ -65,7 +65,7 @@ RDEPEND="
 		media-libs/harfbuzz
 		elibc_glibc? ( >=sys-libs/glibc-2.2.5:* )
 		elibc_musl? ( sys-libs/musl )
-		sys-libs/zlib
+		virtual/zlib:=
 		alsa? ( media-libs/alsa-lib )
 		cups? ( net-print/cups )
 		selinux? ( sec-policy/selinux-java )

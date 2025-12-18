@@ -15,7 +15,7 @@ SRC_URI="mirror://gimp/v$(ver_cut 1-2)/${P}.tar.xz"
 
 LICENSE="GPL-3+ LGPL-3+"
 SLOT="0/3"
-KEYWORDS="~amd64 ~arm ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~x86"
 
 IUSE="X aalib alsa doc fits gnome heif javascript jpeg2k jpegxl lua mng openexr openmp postscript test udev unwind vala vector-icons wayland webp wmf xpm"
 REQUIRED_USE="
@@ -42,7 +42,7 @@ COMMON_DEPEND="
 	>=app-text/poppler-data-0.4.9
 	>=dev-libs/appstream-0.16.1:=
 	>=dev-libs/glib-2.70.0:2
-	dev-libs/gobject-introspection
+	>=dev-libs/gobject-introspection-1.82.0-r2
 	>=dev-libs/json-glib-1.4.4
 	>=gnome-base/librsvg-2.40.6:2
 	>=media-gfx/mypaint-brushes-1.3.1:1.0=
@@ -58,7 +58,7 @@ COMMON_DEPEND="
 	>=media-libs/libpng-1.6.37:0=
 	>=media-libs/tiff-4.1.0:=
 	net-libs/glib-networking[ssl]
-	sys-libs/zlib
+	virtual/zlib:=
 	>=x11-libs/cairo-1.16.0[X?]
 	>=x11-libs/gdk-pixbuf-2.40.0:2[introspection]
 	>=x11-libs/gtk+-3.24.48:3[introspection,wayland?,X?]
@@ -112,13 +112,17 @@ BDEPEND="
 	dev-util/gdbus-codegen
 	>=sys-devel/gettext-0.21
 	doc? (
-		dev-libs/gobject-introspection[doctool]
+		>=dev-libs/gobject-introspection-1.82.0-r2[doctool]
 		dev-util/gi-docgen
 	)
 	virtual/pkgconfig
 "
 
 DOCS=( "AUTHORS" "NEWS" "README" "README.i18n" )
+
+PATCHES=(
+	"${FILESDIR}"/gimp-3.0.6-fix-tests.patch
+)
 
 pkg_pretend() {
 	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
@@ -179,9 +183,7 @@ src_configure() {
 		$(meson_feature openexr)
 		$(meson_feature openmp)
 		$(meson_feature postscript ghostscript)
-		# https://gitlab.gnome.org/GNOME/gimp/-/issues/14822
-		-Dheadless-tests=disabled
-		#$(meson_feature test headless-tests)
+		$(meson_feature test headless-tests)
 		$(meson_feature udev gudev)
 		$(meson_feature vala)
 		$(meson_feature webp)
@@ -221,6 +223,10 @@ _rename_plugins() {
 
 src_test() {
 	local -x LD_LIBRARY_PATH="${BUILD_DIR}/libgimp:${LD_LIBRARY_PATH}"
+	# Try hard to avoid system installed gimp causing issues
+	local -x GIMP3_DIRECTORY="${BUILD_DIR}/"
+	local -x GIMP3_PLUGINDIR="${BUILD_DIR}/plug-ins/"
+	local -x GIMP3_SYSCONFDIR="${BUILD_DIR}/etc/"
 	meson_src_test
 }
 

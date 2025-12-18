@@ -108,7 +108,7 @@ LICENSE+="
 	LGPL-3 MIT MIT-0 MPL-2.0 UoI-NCSA openssl Unicode-3.0 ZLIB
 "
 SLOT="0"
-KEYWORDS="~amd64 ~arm64"
+KEYWORDS="amd64 ~arm64"
 CHECKREQS_DISK_BUILD="12G"
 CHECKREQS_MEMORY="8G"
 
@@ -134,7 +134,7 @@ DEPEND="
 	media-libs/fontconfig
 	media-libs/vulkan-loader[X]
 	net-misc/curl
-	sys-libs/zlib
+	virtual/zlib:=
 	x11-libs/libX11
 	x11-libs/libxcb:=
 	x11-libs/libxkbcommon[X]

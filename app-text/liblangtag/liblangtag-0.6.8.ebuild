@@ -11,13 +11,13 @@ SRC_URI="https://gitlab.com/tagoh/liblangtag/-/releases/${PV}/downloads/${P}.tar
 
 LICENSE="|| ( LGPL-3 MPL-2.0 )"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm arm64 ~loong ~ppc ppc64 ~riscv x86"
 IUSE="debug doc introspection test"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
 	dev-libs/libxml2:=
-	introspection? ( dev-libs/gobject-introspection )
+	introspection? ( >=dev-libs/gobject-introspection-1.82.0-r2 )
 "
 DEPEND="${RDEPEND}
 	test? ( dev-libs/check )

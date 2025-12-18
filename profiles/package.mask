@@ -36,240 +36,279 @@
 
 #--- END OF EXAMPLES ---
 
-# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2025-10-02)
-# Nothing depends on it.
-# Removal: 2025-11-01.  Bug #961199
-net-libs/NativeThread
-
-# Ionen Wolkens <ionen@gentoo.org> (2025-10-07)
-# Masked for testing the new .0 version and leave time for packages
-# to catch up on support. Will likely be kept masked until 6.10.1
-# is released unless there is a notable reason to need this earlier.
+# Sam James <sam@gentoo.org> (2025-12-18)
+# Another change to multiprocessing broke Portage. >=sys-apps/portage-3.0.73-r2
+# is fixed, but a fixed version of Portage must be running in order to safely
+# upgrade or re-emerge Portage with >= Python 3.14.2. Mask until more users
+# have had a chance to upgrade Portage.
 #
-# If wanted, feel welcome to add `dev-qt/*:6/6.10.0` to package.unmask
-# and report issues.
+# This only affects users with non-default PYTHON_TARGETS (3.14) set.
 #
-# A common issue with 6.10 is builds failing to find Qt private headers
-# as it (now) requires searching for e.g. GuiPrivate in CMakeLists.txt.
-=dev-python/pyside-6.10.0*
-=dev-qt/qt-docs-6.10.0*
-=dev-qt/qt3d-6.10.0*
-=dev-qt/qt5compat-6.10.0*
-=dev-qt/qtbase-6.10.0*
-=dev-qt/qtcharts-6.10.0*
-=dev-qt/qtconnectivity-6.10.0*
-=dev-qt/qtdeclarative-6.10.0*
-=dev-qt/qtgraphs-6.10.0*
-=dev-qt/qthttpserver-6.10.0*
-=dev-qt/qtimageformats-6.10.0*
-=dev-qt/qtlanguageserver-6.10.0*
-=dev-qt/qtlocation-6.10.0*
-=dev-qt/qtmultimedia-6.10.0*
-=dev-qt/qtnetworkauth-6.10.0*
-=dev-qt/qtpositioning-6.10.0*
-=dev-qt/qtquick3d-6.10.0*
-=dev-qt/qtquicktimeline-6.10.0*
-=dev-qt/qtremoteobjects-6.10.0*
-=dev-qt/qtscxml-6.10.0*
-=dev-qt/qtsensors-6.10.0*
-=dev-qt/qtserialbus-6.10.0*
-=dev-qt/qtserialport-6.10.0*
-=dev-qt/qtshadertools-6.10.0*
-=dev-qt/qtspeech-6.10.0*
-=dev-qt/qtsvg-6.10.0*
-=dev-qt/qttools-6.10.0*
-=dev-qt/qttranslations-6.10.0*
-=dev-qt/qtvirtualkeyboard-6.10.0*
-=dev-qt/qtwayland-6.10.0*
-=dev-qt/qtwebchannel-6.10.0*
-=dev-qt/qtwebengine-6.10.0*
-=dev-qt/qtwebsockets-6.10.0*
-=dev-qt/qtwebview-6.10.0*
+# If you are unable to upgrade Portage, please manually edit
+# /usr/lib/python-exec/python3.14/emerge and /usr/lib/python-exec/python3.14/ebuild
+# by deleting the first 3 lines beginning with 'signal.signal(' (bug #967199).
+~app-doc/python-docs-3.14.2
+~dev-lang/python-3.14.2
+~dev-lang/python-0.3.14.2
+~dev-python/python-tests-3.14.2
+~dev-python/python-tests-0.3.14.2
 
-# Michał Górny <mgorny@gentoo.org> (2025-10-06)
-# Refcount errors that trigger crashes in dev-python/moto tests
-# tests/test_xray/test_xray_client.py.  TODO: investigate.
-=dev-python/pymongo-4.15.2
+# Ionen Wolkens <ionen@gentoo.org> (2025-12-17)
+# This version breaks building (at least) media-gfx/krita, issue may
+# or may not be on sip's side but masking until it is figured out.
+# https://bugs.gentoo.org/967648
+=dev-python/sip-6.15.0
 
-# Sam James <sam@gentoo.org> (2025-10-05)
-# Fails to build with to-be-stabled CMake 4, Qt 5, no upstream release in
-# 5 years (despite much activity), and a bunch of other open bugs in need
-# of attention.
-# Removal on 2025-11-04.  Bug #957460.
-media-sound/lmms
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-15)
+# Last release depends on Qt5, upstream appears dormant. Bug #959826
+# Removal on 2026-01-15
+net-misc/electrum-ltc
 
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-10-05)
-# Dead upstream, replaced by sci-libs/pdal in most places.
-# Many bugs: #725938, #742668, #944868, #957235, #961718
-# Removal on 2025-11-01.
-sci-geosciences/liblas
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-14)
+# Still depends on Qt5 with no upstream activity in years. Bug #960814
+# Removal on 2026-01-15
+media-sound/qmidiroute
 
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-10-05)
-# Last release 8 years ago, broken by CMake 4, unclear purpose without any
-# revdeps. Bugs #800608, #866377, #955465. Removal on 2025-11-01.
-dev-build/cmake-fedora
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-14)
+# Still depends on Qt5 with no upstream porting activity. Bug #960220
+# Removal on 2026-01-15
+media-sound/mp3diags
 
-# Ionen Wolkens <ionen@gentoo.org> (2025-10-05)
-# New major nasm version that seem to break several packages (can
-# confirm at least dav1d, x265, and x264 wrt bug #963796). Mask for
-# now to give time for this to be looked into.
-=dev-lang/nasm-3*
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-14)
+# Last release depends on Qt5, upstream appears dormant. Bug #950474
+# Removal on 2026-01-15
+media-gfx/luminance-hdr
 
-# Sam James <sam@gentoo.org> (2025-10-04)
-# Has some regressions:
-# * autoconf (https://lore.kernel.org/dash/ba3014e6-b1f6-4b6b-99ac-524dafd22f33@SystematicSW.ab.ca/)
-#            (https://savannah.gnu.org/support/?111321)
-# * expansion (https://lore.kernel.org/dash/d3a79537-be6a-4e5d-afe6-8b8d9dd57955@reillybrogan.com/)
-# * parsing (https://lore.kernel.org/dash/105f1d0e-f7c4-431b-b95d-efad442aaa34@reillybrogan.com/)
-=app-shells/dash-0.5.13
+# Michał Górny <mgorny@gentoo.org> (2025-12-12)
+# Upstream has switched to LLM-first coding which has already caused
+# a number of suspicious bugs.  At this point, new versions
+# of the packages cannot be trusted to be safe to use.  Furthermore,
+# the maintenance cost of dealing with packaging bugs alone
+# is overwhelming to human maintainers of this package.
+>=dev-python/autobahn-25.10
+>=dev-python/txaio-25.10
+
+# Hans de Graaff <graaff@gentoo.org> (2025-12-11)
+# The twitter API is no longer available making this package
+# useless. Upstream has archived the gem and refers to an X gem as an
+# alternative. Removal on 2026-01-11.
+dev-ruby/twitter
+
+# Michael Orlitzky <mjo@gentoo.org> (2025-12-08)
+# An experimental attempt to avoid the gtk -> librsvg -> rust dependency
+# that is now obsolete because upstream gtk links directly to librsvg.
+# Removal on or after 2026-01-08.
+media-libs/libsvgtiny-pixbuf
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-07)
+# Last release depends on Qt5, upstream appears dormant. Several
+# alternatives are available in ::gentoo. Bug #967107
+# Removal on 2026-01-15
+games-fps/doomsday
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-07)
+# Depends on PyQt5, stalled porting effort upstream.
+# Needs porting to Python 3.13, but 0.6.5 requires unpackaged dependency.
+# Bugs #948094, #952551. Removal on 2026-01-15
+media-sound/linux-show-player
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-07)
+# IUSE qt5 feature sees no porting effort upstream. 2.4.9-r1 remains
+# available with IUSE qt5 removed. Bug #965503
+# Removal on 2026-01-15
+=media-libs/libffado-2.4.9
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-05)
+# Depends on Qt5, stalled porting effort upstream. Bug #955277
+# Removal on 2026-01-15
+games-engines/qtads
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-05)
+# Depends on Qt5, no signs of porting work upstream. Bug #949881
+# Removal on 2026-01-15
+games-strategy/hedgewars
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-05)
+# Broken w/ CMake4, IUSE python stuck on py3.12, Gui stuck on Qt5.
+# Bugs #929093, #952086, #952528, #955277. Removal on 2026-01-04.
+media-gfx/yafaray
+
+# Nowa Ammerlaan <nowa@gentoo.org> (2025-12-05)
+# Stuck on Qt5, no upstream action.
+# Please use the games-action/prismlauncher fork instead.
+# Removal on 2026-01-05. Bug 967108.
+games-action/multimc-bin
+
+# Ulrich Müller <ulm@gentoo.org> (2025-12-04)
+# No longer functional because the Twitter API has been axed.
+# Last release in 2015, last commit to upstream repository in 2018.
+# Removal on 2026-01-03. Bug #965998.
+app-emacs/twittering-mode
+
+# Michał Górny <mgorny@gentoo.org> (2025-12-03)
+# Upstream changed how multiprocessing shares data between processes,
+# which means the upgrade randomly breaks some currently running Python
+# applications, notably Portage.
+~app-doc/python-docs-3.13.10
+~app-doc/python-docs-3.14.1
+~dev-lang/python-3.13.10
+~dev-lang/python-0.3.13.10
+~dev-lang/python-3.14.1
+~dev-lang/python-0.3.14.1
+~dev-python/python-tests-3.13.10
+~dev-python/python-tests-0.3.13.10
+~dev-python/python-tests-3.14.1
+~dev-python/python-tests-0.3.14.1
+
+# Jaco Kroon <jkroon@gentoo.org> (2025-12-02)
+# Dead upstream, limited usefulness.  If you're still using it please reach out
+# so we can discuss options.  Likely not worth the effort to fix the compiler
+# warnings soon to be errors.
+# No revdeps.
+# Open bugs: #929259
+# Removal on 2026-01-02.
+net-proxy/sqtop
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-01)
+# Depends on PyQt5, no signs of upstream porting/activity.
+# Bugs #965505, 962256. Removal on 2025-12-31.
+media-video/vidcutter
+
+# David Seifert <soap@gentoo.org> (2025-12-01)
+# Last release over 20 years ago, ancient codebase, lots of QA warnings, no
+# other distro packages this anymore. Removal on 2025-12-31. Bug #944877.
+sci-biology/rnaview
+
+# David Seifert <soap@gentoo.org> (2025-11-30)
+# Last release over 15 years ago, GTK+2, EAPI 7, broken C constructs, removed
+# by other distros already. Removal on 2025-12-30. Bug #944347.
+sys-apps/gscanbus
+
+# David Seifert <soap@gentoo.org> (2025-11-30)
+# Unmaintained, dead package, last release over 20 years ago, no other distro
+# packages this anymore, EAPI 7. Removal on 2025-12-30. Bug #943810.
+sys-fs/lde
+
+# David Seifert <soap@gentoo.org> (2025-11-30)
+# More than 26 years since release, ancient C code, no revdeps in tree,
+# no other distro still packages this.
+# Removal on 2025-12-30. Bug #881017, #944864, #945018.
+sci-libs/djbfft
+
+# Eli Schwartz <eschwartz@gentoo.org> (2025-11-30)
+# Abandoned and unmaintained. It existed solely as a test dep for
+# dev-python/sphinx-rtd-theme, which no longer uses it, so nobody should
+# have it installed anyway.
+# Removal on 2025-12-30.  Bugs #966396, #963998.
+dev-python/readthedocs-sphinx-ext
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
+# Depends on Qt5, upstream needs help with porting. Bug #956453
+# Removal on 2025-12-27.
+media-gfx/panini
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
+# Dead upstream, depends on Qt5, so it has no future in ::gentoo.
+# Qt6-based alternatives: KDE Plasma, LXQt, liquidshell.
+# Bug #961737. Removal on 2025-12-27.
+x11-wm/lumina
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
+# Depends on Qt5, no upstream hopes of porting. Bug #955682
+# Removal on 2025-12-27.
+media-gfx/meshlab
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
+# Depends on Qt5, no reply or activity upstream. Bug #961793
+# Removal on 2025-12-27.
+app-i18n/tagainijisho
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
+# Unmaintained upstream, depends on Qt5. Bug #953263
+# Removal on 2025-12-27.
+x11-misc/fraqtive
+
+# Sam James <sam@gentoo.org> (2025-11-25)
+# Generates session keys with weak (no) randomness. Please re-encrypt
+# any data/messages using this librnp version. <0.18 is fine as is >=0.18.1.
+# See bug #966299.
+=dev-util/librnp-0.18.0
+
+# Michał Górny <mgorny@gentoo.org> (2025-11-22)
+# A NIH replacement for dev-python/faker with a very slow test suite.
+# No reverse dependencies left.
+# Removal on 2025-12-22.  Bug #966327.
+dev-python/fake-py
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-21)
+# Declared obsolete upstream, fails to build against Qt 6.10.
+# Bug #966307; Removal on 2025-12-20.
+gui-apps/xwaylandvideobridge
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-20)
+# Unmaintained in Gentoo for 2.5 years, still PyQt5 based upstream.
+# Potential replacements: RazerGenie + libopenrazer
+# Bug #965508; Removal on 2025-12-20.
+sys-apps/razercfg
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-19)
+# No more revdeps, no longer developed upstream, Phonon revdep.
+# Removal on 2025-12-19.
+kde-apps/libkcompactdisc
+
+# orbea <orbea@riseup.net> (2025-11-16)
+# Dead upstream, non-free licenses, depends on libsdl, no revdeps.
+# Use games-emulation/geolith-jg instead.
+# Bugs #744043, #896336, #926370.
+# Removal on 2025-12-16.
+games-emulation/gngeo
+
+# Petr Vaněk <arkamar@gentoo.org> (2025-11-13)
+# The MDEV-38068 issue has been discovered with MariaDB 11.8.4. The issue
+# caused a partial data deletion when using the DELETE statement on MyISAM or
+# Aria tables under specific conditions. InnoDB tables are not affected by
+# this. See:
+# https://jira.mariadb.org/browse/MDEV-38068
+# https://lists.mariadb.org/hyperkitty/list/packagers@lists.mariadb.org/thread/IT3YIRPIS4ZVDZ5LBIDV7MPUDIL2VGIA/
+#
+# Affected package was removed from the tree, but this message shall be kept
+# untill 2025-12-15.
+~dev-db/mariadb-11.8.4
+
+# Sam James <sam@gentoo.org> (2025-11-13)
+# Reported crashes (https://bugs.gentoo.org/914256#c18)
+=sys-libs/musl-1.2.5-r6
+
+# Sam James <sam@gentoo.org> (2025-11-05)
+# re 8.3.0: Has regressions breaking media-video/subliminal and 8.3.1
+# which fixes some (but not all of those regressions) is semi-released only.
+# re 8.3.1: Release not on PyPI (yet?), causing regressions in dev-python/black.
+# https://github.com/pallets/click/issues/3087
+~dev-python/click-8.3.0
+=dev-python/click-8.3.1
+
+# Sam James <sam@gentoo.org> (2025-10-13)
+# Crashes in memtodest when handling PATH. Not yet reported upstream.
+=app-shells/dash-0.5.13.1
+
+# Michał Górny <mgorny@gentoo.org> (2025-10-12)
+# Requires Rust with RUST_SYSROOTS=bpf, which isn't currently supported
+# by dev-lang/rust-bin.  Also needs net-proxy/mitmproxy-linux updates.
+>=dev-util/bpf-linker-0.9.15-r1
 
 # Lukas Schmelting <lschmelting@posteo.com> (2025-10-03)
-# Breaks e.g. in combination with gnome-shell-48.4
+# Breaks e.g. in combination with gnome-shell-48.4, gettext/gjs (bug #963815)
 >=dev-libs/glib-2.86.0
 >=dev-libs/gobject-introspection-1.86.0
 >=dev-libs/gobject-introspection-common-1.86.0
 >=dev-util/gdbus-codegen-2.86.0
 >=dev-util/glib-utils-2.86.0
 
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-10-01)
-# Remaining old EAPI-7 based cmake.eclass consumers after 4 years of
-# tracking EAPI-7 removal. Port to EAPI-8 if you can.
-# Bugs #957246, #957403, #957788, #957819, #957869, #957918, #958068,
-# #958255, #958317, #958353, #958596, #958651, #960286
-# Removal on 2025-11-01.
-dev-games/newton
-games-action/lugaru
-games-action/supermariowar
-games-arcade/ninvaders
-games-arcade/slimevolley
-games-engines/frobtads
-games-fps/avp
-games-kids/memonix
-games-puzzle/meandmyshadow
-games-server/pvpgn
-games-strategy/freesynd
-games-strategy/maxr
-games-util/antimicro
-games-util/qjoypad
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-30)
-# Unmaintained in ::gentoo, EAPI-7 based, a *lot* of ancient unsolved bugs
-# #576768, #594846, #601126, #724848, #770802, #770994, #832774, #925000,
-# #925001, #926243, #926244, #944452. Removal on 2025-10-29.
-media-libs/raspberrypi-userland
-media-libs/raspberrypi-userland-bin
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-30)
-# EAPI-7 based, depends on dead media-libs/raspberrypi-userland, broken
-# by current available version anyway.
-# Several bugs #770802, #881797, #926326, #928521. Removal on 2025-10-29.
-media-plugins/vdr-rpihddevice
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-30)
-# Dead upstream, EAPI-7 based, no one else is left packaging this.
-# Bug #957218. Removal on 2025-10-29.
-net-firewall/itval
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-30)
-# Unmaintained in ::gentoo, EAPI-7 based, broken by CMake-4, boost-1.89
-# but most importantly Google according to upstream user reports.
-# Bugs #907861, #957553, #957554, #963466. Removal on 2025-10-29.
-net-misc/grive
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-30)
-# Dead upstream, EAPI-7 based, no one else is left packaging this.
-# Bugs #952796, #957240. Removal on 2025-10-29.
-sys-auth/google-authenticator-wrappers
-
-# Jason A. Donenfeld <zx2c4@gentoo.org> (2025-09-30)
-# Upstream is dead, package is broken. Removal on 2025-10-29.
-net-analyzer/speedtest++
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-30)
-# Unmaintained in ::gentoo, EAPI-7 based, almost no one else is left
-# packaging this. Removal on 2025-10-29.
-sys-fs/reiserfs-defrag
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-30)
-# Unmaintained in ::gentoo, EAPI-7 based, broken by CMake 4.
-# If you want to keep it, maintain it.
-# Bugs #789756, #951884, #956413, #957572. Removal on 2025-10-29.
-x11-wm/ctwm
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-30)
-# Unmaintained in ::gentoo, EAPI-7 based, almost no one else is left
-# packaging this. Removal on 2025-10-29.
-sys-auth/pam_abl
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-30)
-# No stable revdeps, destabilising package together with cleanup
-# of EAPI-7 based -r2. media-libs/aften-0.0.8-r3 is available
-# for ~amd64, ~ppc and ~x86.
-<media-libs/aften-0.0.8-r3
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-29)
-# Unmaintained in ::gentoo, EAPI-7 based, broken by CMake 4 and modern C++
-# Package in search of a dedicated maintainer.
-# Bugs #931705, #949793, #957249. Removal on 2025-10-29.
-net-p2p/fms
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-29)
-# Abandoned upstream for many years, no one else is packaging this.
-# Bugs #851885, #951509, #955877. Removal on 2025-10-29.
-sys-apps/thunderbolt-software-user-space
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-29)
-# Effectively unmaintained in Gentoo for 5 years, EAPI-7 based, 3.17.2
-# version bump pending in bug #962079. Removal on 2025-10-29.
-x11-terms/roxterm
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-29)
-# No stable revdeps, destabilising package together with cleanup of
-# really outdated version 3.17.0. sci-libs/alglib-3.20.0 is available
-# for ~amd64 and ~x86.
-<sci-libs/alglib-3.20.0
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-28)
-# Unmaintained for ages, thus not deserving of stable keywords.
-# media-video/ccextractor-0.89 is available for ~amd64 and ~x86.
-<media-video/ccextractor-0.89
-
-# Ionen Wolkens <ionen@gentoo.org> (2025-09-23)
-# Abandoned and barely functional, and will just keep getting worse if
-# it does not keep up with website changes. net-misc/youtube-viewer
-# can be used as an alternative albeit it requires a YouTube API key.
-# Removal on 2025-10-23.
-net-misc/ytfzf
-
 # Sam James <sam@gentoo.org> (2025-09-21)
 # Breaks (common) mt7921e WiFi driver with a hang in many cases, affecting
 # not just network. See bug #963106.
 =sys-kernel/linux-firmware-20250917
-
-# Ionen Wolkens <ionen@gentoo.org> (2025-09-18)
-# No revdeps left, in-tree version is broken with cmake4, and is a pain
-# to maintain due to its overly custom cmake usage. Also outdated given
-# the latest version was unusable with its old revdep (been breaking API
-# somewhat often). Removal on 2025-10-18. Bug #963014
-dev-cpp/rapidyaml
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-16)
-# Appears dead upstream w/ last release from 2016, no reponse to Qt5 EOL
-# notice, only sporadic code changes for a long time w/ last commit from
-# 7 months ago. Removal on 2025-10-16. Bug #955964
-net-p2p/classified-ads
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-09-16)
-# Abandoned upstream, based on Qt5, "must be run as root", then fails to
-# start w/ current kde-plasma/kdesu-gui[X] within Wayland sessions too.
-# Removal on 2025-10-16. Bug #957179
-sys-boot/unetbootin
-
-# Viorel Munteanu <ceamac@gentoo.org> (2025-09-16)
-# Masked for testing.  This package is supposed to be installed in the livecd,
-# not on user's system.  We need a few more reports of it working before
-# unmasking.
-app-misc/calamares-gentoo-livecd
+=sys-kernel/linux-firmware-20251011
 
 # Viorel Munteanu <ceamac@gentoo.org> (2025-09-16)
 # Unmaintained upstream, last release more than 7 years old.
@@ -282,48 +321,6 @@ sys-fs/encfs
 # Masking due to regressions.
 # https://github.com/pyparsing/pyparsing/issues/618
 =dev-python/pyparsing-3.2.4
-
-# Conrad Kostecki <conikost@gentoo.org> (2025-09-14)
-# Replaced by >=media-libs/libv4l-1.30.1[utils], as merged by upstream.
-# Bugs #953534 and #962841.
-# Removal on 2025-09-29.
-sys-apps/edid-decode
-
-# Rick Farina <zerochaos@gentoo.org> (2025-09-11)
-# Dead upstream, fails to compile on modern gcc. Bug #919250
-# Removal on 2025-10-12
-net-wireless/mdk
-
-# Michał Górny <mgorny@gentoo.org> (2025-09-06)
-# Abandoned.  Incompatible with py3.14.  Last release in 2020.
-# No revdeps left.
-# Removal on 2025-10-06.  Bug #962431.
-dev-python/timeout-decorator
-
-# Michał Górny <mgorny@gentoo.org> (2025-09-06)
-# dev-python/partd is a dep of dask which we removed in 2024.  It
-# test-depends on dev-python/locket which was last updated in 2022.
-# That one in turn test-depends on dev-python/spur which was last
-# updated in 2023 and is pinned to old dev-python/paramiko version.
-# Its SSH part is not tested by us at all, and the "spur.local"
-# alternative without SSH was last released in 2016.
-# These packages have no revdeps outside themselves left.
-# Removal on 2025-10-06.  Bug #962404.
-dev-python/locket
-dev-python/partd
-dev-python/spur
-
-# Eli Schwartz <eschwartz@gentoo.org> (2025-09-01)
-# Effectively unmaintained in Gentoo. Upstream dead for 8 years. Stuck
-# on py3.11, but no testsuite and still has py2-specific source code so
-# the pity port to py3 was likely misguided and never tested!
-# Removal on 2025-10-01.  Bug #956814.
-app-vim/voom
-
-# Michał Górny <mgorny@gentoo.org> (2025-08-30)
-# Multiple cases of test suite breakage.
-# https://github.com/pytest-dev/pytest-rerunfailures/issues/303
-=dev-python/pytest-rerunfailures-16.0
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2025-08-29)
 # Obsolete transitional meta package. Bug #961795. Removal on 2025-09-28.
@@ -441,6 +438,7 @@ dev-db/mysql:8.4
 
 # Michał Górny <mgorny@gentoo.org> (2025-03-17)
 # Xfce 4.22 prereleases.  Masked because they tend to be quite unstable.
+>=app-office/orage-4.21
 >=dev-build/xfce4-dev-tools-4.21
 >=xfce-base/exo-4.21
 >=xfce-base/garcon-4.21
@@ -523,9 +521,11 @@ dev-qt/qtdatavis3d:5
 dev-qt/qtgamepad:5
 dev-qt/qtlocation:5
 dev-qt/qtnetworkauth:5
+dev-qt/qtpositioning:5
 dev-qt/qtquicktimeline:5
 dev-qt/qtsensors:5
 dev-qt/qtserialbus:5
+dev-qt/qtserialport:5
 dev-qt/qtvirtualkeyboard:5
 dev-qt/qtwebchannel:5
 dev-qt/qtwebview:5

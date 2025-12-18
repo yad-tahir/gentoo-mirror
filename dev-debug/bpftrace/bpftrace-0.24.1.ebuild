@@ -21,7 +21,7 @@ if [[ ${PV} == *9999* ]] ; then
 	inherit git-r3
 else
 	SRC_URI="https://github.com/bpftrace/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~arm64"
+	KEYWORDS="amd64 ~arm64"
 fi
 
 SRC_URI+=" https://github.com/bpftrace/${PN}/releases/download/v${MAN_V:-${PV}}/man.tar.xz -> ${PN}-${MAN_V:-${PV}}-man.tar.xz"
@@ -31,7 +31,7 @@ S="${WORKDIR}/${PN}-${MY_PV:-${PV}}"
 LICENSE="Apache-2.0"
 SLOT="0"
 
-IUSE="pcap test systemd"
+IUSE="pcap systemd test"
 
 RESTRICT="!test? ( test )"
 
@@ -58,7 +58,7 @@ BDEPEND="
 	app-arch/xz-utils
 	app-alternatives/lex
 	app-alternatives/yacc
-	app-editors/vim-core
+	|| ( dev-util/xxd app-editors/vim-core )
 	dev-libs/cereal
 	dev-util/bpftool
 	test? (
@@ -81,11 +81,21 @@ pkg_pretend() {
 		~BPF_EVENTS
 		~BPF_JIT
 		~BPF_SYSCALL
+		~DEBUG_INFO_BTF
+		~DEBUG_INFO_BTF_MODULES
 		~FTRACE_SYSCALLS
 		~HAVE_EBPF_JIT
 	"
 
 	check_extra_config
+
+	if use test; then
+		if ! linux_config_exists ; then
+			die "Unable to check your kernel for BTF support: tests cannot run."
+		elif ! linux_chkconfig_present DEBUG_INFO_BTF ; then
+			die "CONFIG_DEBUG_INFO_BTF is not set: tests cannot run."
+		fi
+	fi
 }
 
 pkg_setup() {
@@ -93,15 +103,21 @@ pkg_setup() {
 	use test && rust_pkg_setup
 }
 
+# git-r3 overrides automatic SRC_URI unpacking
+src_unpack() {
+	default
+
+	if [[ ${PV} == *9999* ]] ; then
+		git-r3_src_unpack
+	fi
+}
+
 src_prepare() {
 	# create a usable version from git
 	if [[ ${PV} == *9999* ]] ; then
 		local rev=$(git branch --show-current | sed -e 's/* //g' -e 's/release\///g')-$(git rev-parse --short HEAD)
-		sed -i "/configure_file/i set (BPFTRACE_VERSION \"v${rev}\")" cmake/Version.cmake || die
+		sed -i "/configure_file/i set (BPFTRACE_VERSION \"${rev}\")" cmake/Version.cmake || die
 	fi
-
-	# unpack prepackaged man tarball for bpftrace.8
-	pushd "${WORKDIR}" && unpack ${PN}-${MAN_V:-${PV}}-man.tar.xz && popd
 
 	cmake_src_prepare
 }

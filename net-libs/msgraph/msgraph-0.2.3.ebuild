@@ -23,7 +23,7 @@ RDEPEND="
 	net-libs/libsoup:3.0
 	net-libs/gnome-online-accounts:=
 	>=net-libs/uhttpmock-0.11.0:1.0
-	introspection? ( >=dev-libs/gobject-introspection-0.6.2:= )
+	introspection? ( >=dev-libs/gobject-introspection-1.82.0-r2:= )
 "
 
 DEPEND="${RDEPEND}
@@ -44,4 +44,12 @@ src_configure() {
 		$(meson_use test tests)
 	)
 	meson_src_configure
+}
+
+src_install(){
+	meson_install
+	if use gtk-doc; then
+		mkdir -p "${ED}"/usr/share/gtk-doc/html || die
+		mv "${ED}"/usr/share/doc/msgraph-* "${ED}"/usr/share/gtk-doc/html || die
+	fi
 }

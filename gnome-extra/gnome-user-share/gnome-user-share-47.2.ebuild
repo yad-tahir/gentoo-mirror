@@ -10,10 +10,8 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-user-share"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~loong ~riscv ~x86"
+KEYWORDS="amd64 arm64 ~loong ~riscv x86"
 
-# FIXME: could libnotify be made optional ?
-# FIXME: selinux automagic support
 RDEPEND="
 	>=dev-libs/glib-2.74.0:2
 	>=www-apache/mod_dnssd-0.6

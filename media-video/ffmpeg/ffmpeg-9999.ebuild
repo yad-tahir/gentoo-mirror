@@ -24,7 +24,7 @@ else
 		"}
 	"
 	S=${WORKDIR}/ffmpeg-${PV} # avoid ${P} for ffmpeg-compat
-	KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86 ~amd64-linux ~x86-linux ~arm64-macos ~x64-macos"
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86 ~amd64-linux ~x86-linux ~arm64-macos ~x64-macos"
 fi
 
 DESCRIPTION="Complete solution to record/convert/stream audio and video"
@@ -47,6 +47,7 @@ FFMPEG_IUSE_MAP=(
 	bluray:libbluray
 	bs2b:libbs2b
 	bzip2:bzlib
+	cairo
 	cdio:libcdio
 	chromaprint
 	codec2:libcodec2
@@ -84,12 +85,11 @@ FFMPEG_IUSE_MAP=(
 	libplacebo
 	librtmp:librtmp
 	libsoxr
-	libtesseract
 	lv2
 	lzma
 	modplug:libmodplug
-	npp:^libnpp@nonfree # no multilib
 	nvenc:cuvid,ffnvcodec,nvdec,nvenc
+	ocr:libtesseract
 	openal
 	opencl
 	opengl
@@ -142,7 +142,7 @@ LICENSE="
 		GPL-2+
 		amr? ( GPL-3+ ) amrenc? ( GPL-3+ ) libaribb24? ( GPL-3+ )
 		gmp? ( GPL-3+ ) openssl? ( GPL-3+ )
-		fdk? ( all-rights-reserved ) npp? ( all-rights-reserved )
+		fdk? ( all-rights-reserved )
 	)
 	!gpl? (
 		LGPL-2.1+
@@ -163,7 +163,6 @@ REQUIRED_USE="
 	fribidi? ( truetype )
 	gmp? ( !librtmp )
 	libplacebo? ( vulkan )
-	npp? ( nvenc )
 	shaderc? ( vulkan )
 	libaribb24? ( gpl ) cdio? ( gpl ) dvd? ( gpl ) frei0r? ( gpl )
 	rubberband? ( gpl ) samba? ( gpl ) vidstab? ( gpl ) x264? ( gpl )
@@ -171,7 +170,7 @@ REQUIRED_USE="
 	${FFMPEG_UNSLOTTED:+chromium? ( opus )}
 	${FFMPEG_SOC_PATCH:+soc? ( drm )}
 "
-RESTRICT="gpl? ( fdk? ( bindist ) npp? ( bindist ) )"
+RESTRICT="gpl? ( fdk? ( bindist ) )"
 
 # dlopen: amdgpu-pro-amf
 COMMON_DEPEND="
@@ -188,6 +187,7 @@ COMMON_DEPEND="
 	bluray? ( media-libs/libbluray:=[${MULTILIB_USEDEP}] )
 	bs2b? ( media-libs/libbs2b[${MULTILIB_USEDEP}] )
 	bzip2? ( app-arch/bzip2[${MULTILIB_USEDEP}] )
+	cairo? ( x11-libs/cairo[${MULTILIB_USEDEP}] )
 	cdio? ( dev-libs/libcdio-paranoia:=[${MULTILIB_USEDEP}] )
 	chromaprint? ( media-libs/chromaprint:=[${MULTILIB_USEDEP}] )
 	codec2? ( media-libs/codec2:=[${MULTILIB_USEDEP}] )
@@ -233,14 +233,13 @@ COMMON_DEPEND="
 	libplacebo? ( media-libs/libplacebo:=[vulkan,${MULTILIB_USEDEP}] )
 	librtmp? ( media-video/rtmpdump[${MULTILIB_USEDEP}] )
 	libsoxr? ( media-libs/soxr[${MULTILIB_USEDEP}] )
-	libtesseract? ( app-text/tesseract:=[${MULTILIB_USEDEP}] )
 	lv2? (
 		media-libs/lilv[${MULTILIB_USEDEP}]
 		media-libs/lv2[${MULTILIB_USEDEP}]
 	)
 	lzma? ( app-arch/xz-utils[${MULTILIB_USEDEP}] )
 	modplug? ( media-libs/libmodplug[${MULTILIB_USEDEP}] )
-	npp? ( dev-util/nvidia-cuda-toolkit:= )
+	ocr? ( app-text/tesseract:=[${MULTILIB_USEDEP}] )
 	openal? ( media-libs/openal[${MULTILIB_USEDEP}] )
 	opencl? ( virtual/opencl[${MULTILIB_USEDEP}] )
 	opengl? ( media-libs/libglvnd[X,${MULTILIB_USEDEP}] )
@@ -296,7 +295,7 @@ COMMON_DEPEND="
 	xvid? ( media-libs/xvid[${MULTILIB_USEDEP}] )
 	zeromq? ( net-libs/zeromq:= )
 	zimg? ( media-libs/zimg[${MULTILIB_USEDEP}] )
-	zlib? ( sys-libs/zlib[${MULTILIB_USEDEP}] )
+	zlib? ( virtual/zlib:=[${MULTILIB_USEDEP}] )
 	zvbi? ( media-libs/zvbi[${MULTILIB_USEDEP}] )
 	${FFMPEG_SOC_PATCH:+"
 		soc? ( virtual/libudev:=[${MULTILIB_USEDEP}] )
@@ -338,7 +337,6 @@ MULTILIB_WRAPPED_HEADERS=(
 
 PATCHES=(
 	"${FILESDIR}"/ffmpeg-6.1-opencl-parallel-gmake-fix.patch
-	"${FILESDIR}"/ffmpeg-7.1.1-npp13.patch
 )
 
 pkg_pretend() {
@@ -399,12 +397,6 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	if use npp && multilib_is_native_abi; then
-		local -x CPPFLAGS=${CPPFLAGS} LDFLAGS=${LDFLAGS}
-		append-cppflags $($(tc-getPKG_CONFIG) --cflags nppc || die)
-		append-ldflags $($(tc-getPKG_CONFIG) --libs-only-L nppc || die)
-	fi
-
 	local conf=( "${S}"/configure ) # not autotools-based
 
 	local prefix=${EPREFIX}/usr
@@ -455,10 +447,12 @@ multilib_src_configure() {
 		--disable-libdavs2
 		--disable-libklvanc
 		--disable-liblcevc-dec
+		--disable-libmpeghdec
 		--disable-libmysofa
 		--disable-liboapv
 		--disable-libopenvino
 		--disable-libshine
+		--disable-libsvtjpegxs
 		--disable-libtls
 		--disable-libuavs3d
 		--disable-libvvenc
@@ -469,7 +463,6 @@ multilib_src_configure() {
 		--disable-libxeve
 		--disable-libxeveb
 		--disable-ohcodec
-		--disable-libmpeghdec
 		--disable-pocketsphinx
 		--disable-rkmpp
 		--disable-vapoursynth
@@ -481,6 +474,7 @@ multilib_src_configure() {
 		--disable-libglslang # prefer USE=shaderc (bug #918989,#920283,#922333)
 		--disable-liblensfun # https://trac.ffmpeg.org/ticket/9112 (abandoned?)
 		--disable-libmfx # prefer libvpl for USE=qsv
+		--disable-libnpp # deprecated and not supported for cuda 13.0+
 		--disable-libopencv # leaving for later due to circular opencv[ffmpeg]
 		--disable-librist # librist itself needs attention first (bug #822012)
 		--disable-libtensorflow # causes headaches, and is gone
@@ -527,6 +521,20 @@ multilib_src_configure() {
 		esac
 	fi
 
+	# skipping tests is handled at configure-time
+	local skip_tests=()
+
+	# zlib-ng is not bitexact w/ zlib producing mismatching md5sum (bug #965737)
+	has_version 'sys-libs/zlib-ng[compat]' &&
+		skip_tests+=(
+			lavf-{apng{,.png},gray16be.png,png,rgb48be.png}
+			mov-mp4-frag-flush
+			vsynth{1,2,3}-{flashsv,mpng,zlib}
+		)
+
+	(( ${#skip_tests[@]} )) &&
+		conf+=( --ignore-tests=$(IFS=,; echo "${skip_tests[*]}") )
+
 	# import options from FFMPEG_IUSE_MAP
 	local flag license mod v
 	local -A optmap=() licensemap=()
@@ -570,6 +578,7 @@ multilib_src_configure() {
 }
 
 multilib_src_compile() {
+	mkdir -p fftools/resources/ || die #965687
 	emake V=1
 	in_iuse chromium && use chromium && multilib_is_native_abi &&
 		emake V=1 libffmpeg

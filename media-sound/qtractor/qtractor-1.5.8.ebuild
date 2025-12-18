@@ -11,7 +11,7 @@ SRC_URI="https://downloads.sourceforge.net/qtractor/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE="aubio cpu_flags_x86_sse debug dssi ladspa libsamplerate mad osc rubberband vorbis zlib"
 REQUIRED_USE="dssi? ( ladspa )"
 
@@ -36,7 +36,7 @@ DEPEND="
 		media-libs/libogg
 		media-libs/libvorbis
 	)
-	zlib? ( sys-libs/zlib )
+	zlib? ( virtual/zlib:= )
 "
 RDEPEND="${DEPEND}"
 BDEPEND="
