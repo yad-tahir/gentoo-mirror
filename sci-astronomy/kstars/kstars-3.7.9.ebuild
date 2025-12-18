@@ -13,7 +13,7 @@ HOMEPAGE="https://apps.kde.org/kstars/ https://kstars.kde.org/"
 
 if [[ ${KDE_BUILD_TYPE} = release ]]; then
 	SRC_URI="mirror://kde/stable/${PN}/${PV}/${P}.tar.xz"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 ~x86"
 fi
 
 LICENSE="GPL-2+ GPL-3+"
@@ -47,7 +47,7 @@ COMMON_DEPEND="
 	>=sci-libs/indilib-2.0.2
 	sci-libs/libnova:=
 	>=sci-libs/stellarsolver-2.7
-	sys-libs/zlib
+	virtual/zlib:=
 	opencv? ( media-libs/opencv:=[ffmpeg] )
 	password? ( >=dev-libs/qtkeychain-0.14.2:=[qt6(+)] )
 	raw? ( media-libs/libraw:= )

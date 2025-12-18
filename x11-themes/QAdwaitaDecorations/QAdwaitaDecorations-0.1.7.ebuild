@@ -10,7 +10,7 @@ SRC_URI="https://github.com/FedoraQt/${PN}/archive/${PV}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 
 RDEPEND="
 	dev-qt/qtbase:6=[dbus,gui,wayland,widgets]
@@ -19,6 +19,11 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="${RDEPEND}"
+
+PATCHES=(
+	# https://github.com/FedoraQt/QAdwaitaDecorations/issues/87
+	"${FILESDIR}/${P}-qt6.10.patch"
+)
 
 src_configure() {
 	local mycmakeargs=(

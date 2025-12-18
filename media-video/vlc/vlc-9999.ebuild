@@ -23,7 +23,7 @@ else
 		if [[ ${MY_P} == ${P} ]] ; then
 			SRC_URI="https://download.videolan.org/pub/videolan/${PN}/${PV}/${P}.tar.xz"
 		else
-			SRC_URI="https://download.videolan.org/pub/videolan/testing/${MY_P}/${MY_P}.tar.xz"
+			SRC_URI="https://download.videolan.org/videolan/testing/${MY_PV}/${MY_P}.tar.xz"
 		fi
 		S="${WORKDIR}/${MY_P}"
 	fi
@@ -64,17 +64,17 @@ BDEPEND="
 	sys-devel/bison
 	sys-devel/flex
 	>=sys-devel/gettext-0.19.8
-	sys-devel/flex
 	virtual/pkgconfig
 	lua? ( ${LUA_DEPS} )
 	amd64? ( dev-lang/yasm )
 	wayland? ( dev-util/wayland-scanner )
 	x86? ( dev-lang/yasm )
 "
+# depends on abseil-cpp via protobuf targets
 RDEPEND="
 	media-libs/libvorbis
 	net-dns/libidn:=
-	sys-libs/zlib
+	virtual/zlib:=
 	virtual/libintl
 	virtual/opengl
 	a52? ( media-libs/a52dec )
@@ -92,6 +92,7 @@ RDEPEND="
 	cddb? ( media-libs/libcddb )
 	chromaprint? ( media-libs/chromaprint:= )
 	chromecast? (
+		dev-cpp/abseil-cpp:=
 		>=dev-libs/protobuf-2.5.0:=
 		>=net-libs/libmicrodns-0.1.2:=
 	)

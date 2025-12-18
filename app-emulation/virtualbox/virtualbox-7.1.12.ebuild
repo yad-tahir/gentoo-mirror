@@ -51,7 +51,7 @@ COMMON_DEPEND="
 	media-libs/libpng:0=
 	media-libs/libvpx:0=
 	net-misc/curl
-	sys-libs/zlib
+	virtual/zlib:=
 	dbus? ( sys-apps/dbus )
 	gui? (
 		dev-qt/qtbase:6[X,widgets]
@@ -199,6 +199,8 @@ REQUIRED_USE="
 PATCHES=(
 	# Downloaded patchset
 	"${WORKDIR}"/virtualbox-patches-7.1.10/patches
+
+	"${FILESDIR}"/${PN}-7.2.2-curl-8.16.patch
 )
 
 pkg_pretend() {

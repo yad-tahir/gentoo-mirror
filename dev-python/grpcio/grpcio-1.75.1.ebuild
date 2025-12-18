@@ -28,12 +28,12 @@ SRC_URI+="
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="amd64 arm64 x86"
 
 DEPEND="
 	dev-libs/openssl:=
 	net-dns/c-ares:=
-	sys-libs/zlib:=
+	virtual/zlib:=
 "
 RDEPEND="
 	${DEPEND}
@@ -59,6 +59,11 @@ src_prepare() {
 }
 
 src_configure() {
+	# -Werror=odr -Werror=lto-type-mismatch
+	# https://bugs.gentoo.org/856775
+	# https://github.com/grpc/grpc/issues/36158
+	filter-lto
+
 	export GRPC_PYTHON_BUILD_EXT_COMPILER_JOBS="$(makeopts_jobs)"
 	# system abseil-cpp crashes with USE=-debug, sigh
 	# https://bugs.gentoo.org/942021

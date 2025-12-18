@@ -85,7 +85,7 @@ RDEPEND="
 	media-libs/libpng:=
 	media-libs/tiff:=
 	sci-libs/hdf5:=[mpi=]
-	sys-libs/zlib
+	virtual/zlib:=
 	boost? ( dev-libs/boost:=[mpi?] )
 	cgns? (
 		>=sci-libs/cgnslib-4.1.1:=[hdf5,mpi=]
@@ -168,6 +168,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-9.4.2-vtk-m-jobpool-size.patch"
 	"${FILESDIR}/${PN}-9.4.2-ThirdParty-gcc15.patch"
 	"${FILESDIR}/${PN}-9.4.2-find-hdf5-in-global-scope.patch"
+	"${FILESDIR}/${PN}-9.4.2-ThirdParty-libfmt-12.patch"
 )
 
 DOCS=( CONTRIBUTING.md README.md )

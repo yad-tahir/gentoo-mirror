@@ -41,7 +41,7 @@ RDEPEND="
 	dev-libs/libfmt:=
 	dev-libs/libsodium:=
 	dev-libs/openssl:=
-	sys-libs/zlib
+	virtual/zlib:=
 	llvm-libunwind? ( llvm-runtimes/libunwind:= )
 	!llvm-libunwind? ( sys-libs/libunwind:= )
 	io-uring? ( >=sys-libs/liburing-2.10:= )
@@ -55,6 +55,7 @@ DEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-2024.11.04.00-musl-fix.patch
 	"${FILESDIR}"/${PN}-2025.04.14.00-boost-1.89.patch
+	"${FILESDIR}"/${PN}-2025.04.14.00-gcc16-workaround.patch
 )
 
 src_unpack() {

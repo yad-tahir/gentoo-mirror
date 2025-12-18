@@ -12,7 +12,7 @@ S="${WORKDIR}/PDAL-${PV}-src"
 
 LICENSE="BSD"
 SLOT="0/19"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="amd64 ~arm ~arm64 ~x86"
 IUSE="debug postgres test"
 RESTRICT="!test? ( test )"
 
@@ -27,13 +27,13 @@ RDEPEND="
 	net-misc/curl
 	sci-libs/gdal:=
 	>=sci-libs/libgeotiff-1.7.0:=
-	sys-libs/zlib
+	virtual/zlib:=
 	debug? ( sys-libs/libunwind:= )
 	postgres? ( dev-db/postgresql:*[xml] )
 "
 DEPEND="
 	${RDEPEND}
-	test? ( sci-libs/gdal[geos,jpeg,png,sqlite] )
+	test? ( sci-libs/gdal[geos,jpeg(+),png,sqlite] )
 "
 
 src_configure() {

@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile install
-DEPEND=sys-libs/zlib:=
+DEPEND=virtual/zlib:=
 DESCRIPTION=Utility to convert files in xfig format to OpenOffice.org Draw format
 EAPI=8
 HOMEPAGE=https://gitlab.com/acfbuerger/fig2sxd
 INHERIT=toolchain-funcs
-KEYWORDS=~amd64 ~x86 ~amd64-linux ~x86-linux ~ppc-macos
+KEYWORDS=~amd64 ~x86 ~amd64-linux ~x86-linux
 LICENSE=GPL-2
-RDEPEND=sys-libs/zlib:=
+RDEPEND=virtual/zlib:=
 SLOT=0
 SRC_URI=https://gitlab.com/acfbuerger/fig2sxd/-/archive/v0.23/fig2sxd-v0.23.tar.bz2
-_eclasses_=toolchain-funcs	a0b29008c671a362b505f96fa80ce9c0
-_md5_=ab574780e6c279506168e9c39769ab46
+_eclasses_=toolchain-funcs	98d9f464d912ae6b7316fb8a3721f5db
+_md5_=34ef5b462fb7cf6af355f5268a6f22a7

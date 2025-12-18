@@ -16,7 +16,7 @@ SRC_URI="http://ftp.xemacs.org/pub/xemacs/xemacs-$(ver_cut 1-2)/${P}.tar.gz
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm64 ~hppa ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm64 ~hppa ppc ppc64 ~riscv ~sparc x86"
 IUSE="alsa debug gif gpm pop postgres ldap xface nas X jpeg tiff png motif xft xim athena neXt Xaw3d gdbm berkdb +bignum"
 
 X_DEPEND="x11-libs/libXt x11-libs/libXmu x11-libs/libXext x11-misc/xbitmaps"
@@ -25,7 +25,7 @@ X_DEPEND="x11-libs/libXt x11-libs/libXmu x11-libs/libXext x11-misc/xbitmaps"
 RDEPEND="
 	berkdb? ( sys-libs/db:5.3= )
 	gdbm? ( >=sys-libs/gdbm-1.8.3:=[berkdb(+)] )
-	>=sys-libs/zlib-1.1.4
+	>=virtual/zlib-1.1.4:=
 	>=dev-libs/openssl-0.9.6:0=
 	>=media-libs/audiofile-0.2.3
 	gpm? ( >=sys-libs/gpm-1.19.6 )

@@ -19,7 +19,7 @@ REQUIRED_USE="test? ( ssl tools )"
 RESTRICT="!test? ( test )"
 
 DEPEND="
-	sys-libs/zlib
+	virtual/zlib:=
 	bzip2? ( app-arch/bzip2:= )
 	lzma? ( app-arch/xz-utils )
 	ssl? (
@@ -40,6 +40,11 @@ BDEPEND="test? ( dev-util/nihtest )"
 PATCHES=(
 	"${FILESDIR}/libzip-1.11.4-mbedtls-3.patch"
 )
+
+src_prepare() {
+	rm -r examples/cmake-project || die # bug #964582
+	cmake_src_prepare
+}
 
 src_configure() {
 	append-lfs-flags

@@ -37,7 +37,7 @@ S="${WORKDIR}/${P/_/}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm ~arm64 ~hppa ppc ppc64 ~riscv ~sparc x86"
 IUSE="acl authfile ban +caps case clamav copy ctrls deflate diskuse dso dynmasq exec ifsession ifversion ident
 	kerberos ldap log-forensic memcache msg mysql ncurses nls pam +pcre postgres qos radius
 	ratio readme rewrite selinux sftp shaper sitemisc snmp sodium softquota sqlite ssl tcpd test unique-id vroot"
@@ -60,7 +60,7 @@ COMMON_DEPEND="
 	virtual/libcrypt:=
 	acl? ( virtual/acl )
 	caps? ( sys-libs/libcap )
-	deflate? ( sys-libs/zlib )
+	deflate? ( virtual/zlib:= )
 	kerberos? (
 		sys-fs/e2fsprogs
 		virtual/krb5
@@ -91,7 +91,7 @@ COMMON_DEPEND="
 			net-dns/libidn
 		)
 	)
-	sftp? ( sys-libs/zlib )
+	sftp? ( virtual/zlib:= )
 	sqlite? (
 		dev-db/sqlite:3
 		sodium? ( dev-libs/libsodium:0= )

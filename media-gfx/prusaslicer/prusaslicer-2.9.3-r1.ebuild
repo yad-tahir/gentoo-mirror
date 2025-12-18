@@ -14,7 +14,7 @@ if [[ ${PV} == *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/prusa3d/prusaslicer.git"
 else
 	SRC_URI="https://github.com/prusa3d/PrusaSlicer/archive/refs/tags/version_${MY_PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~arm64 ~x86"
+	KEYWORDS="amd64 ~arm64 ~x86"
 	S="${WORKDIR}/${MY_PN}-version_${MY_PV}"
 fi
 
@@ -51,7 +51,7 @@ RDEPEND="
 	sci-mathematics/cgal:=
 	sci-mathematics/z3:=
 	sys-apps/dbus
-	sys-libs/zlib:=
+	virtual/zlib:=
 	virtual/opengl
 	x11-libs/gtk+:3
 	x11-libs/wxGTK:${WX_GTK_VER}=[X,opengl,webkit]

@@ -17,7 +17,7 @@ else
 		https://mkvtoolnix.download/sources/${P}.tar.xz
 		verify-sig? ( https://mkvtoolnix.download/sources/${P}.tar.xz.sig )
 	"
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86"
+	KEYWORDS="amd64 ~arm ~arm64 ppc ppc64 x86"
 
 	VERIFY_SIG_OPENPGP_KEY_PATH="/usr/share/openpgp-keys/mkvtoolnix.asc"
 fi
@@ -45,7 +45,7 @@ RDEPEND="
 	>=media-libs/libmatroska-1.7.1:=
 	media-libs/libogg
 	media-libs/libvorbis
-	sys-libs/zlib
+	virtual/zlib:=
 	dvd? ( media-libs/libdvdread:= )
 	gui? (
 		app-text/cmark:0=
