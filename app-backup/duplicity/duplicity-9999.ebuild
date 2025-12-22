@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{11..14} )
+PYTHON_COMPAT=( python3_{12..14} )
 DISTUTILS_USE_PEP517=setuptools
 DISTUTILS_EXT=1
 
@@ -19,7 +19,7 @@ else
 	SRC_URI="https://gitlab.com/duplicity/duplicity/-/archive/rel.${PV}/${PN}-rel.${PV}.tar.bz2"
 	S="${WORKDIR}"/${PN}-rel.${PV}
 
-	KEYWORDS="~amd64 ~arm64 ~x86 ~amd64-linux ~x86-linux ~x64-macos"
+	KEYWORDS="~amd64 ~arm64 ~x86 ~x64-macos"
 fi
 
 LICENSE="GPL-3"
