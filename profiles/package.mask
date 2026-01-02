@@ -1,4 +1,4 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Uses GLEP 84 format
@@ -35,6 +35,15 @@
 ## app-misc/some-package
 
 #--- END OF EXAMPLES ---
+
+# Fabian Groffen <grobian@gentoo.org> (2026-01-01)
+# multiple (build and gpkg) issues, better wait for next release
+=app-portage/portage-utils-0.98
+
+# Ionen Wolkens <ionen@gentoo.org> (2025-12-30)
+# This release has been yanked upstream, do the same in case.
+# https://github.com/PyO3/maturin/issues/2909
+~dev-util/maturin-1.11.0
 
 # James Le Cuirot <chewi@gentoo.org> (2025-12-24)
 # The upstream community has forked with the vast majority going to UZDoom, now
@@ -197,11 +206,6 @@ app-emacs/twittering-mode
 # Removal on 2026-01-02.
 net-proxy/sqtop
 
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-12-01)
-# Depends on PyQt5, no signs of upstream porting/activity.
-# Bugs #965505, 962256. Removal on 2025-12-31.
-media-video/vidcutter
-
 # David Seifert <soap@gentoo.org> (2025-12-01)
 # Last release over 20 years ago, ancient codebase, lots of QA warnings, no
 # other distro packages this anymore. Removal on 2025-12-31. Bug #944877.
@@ -229,32 +233,6 @@ sci-libs/djbfft
 # have it installed anyway.
 # Removal on 2025-12-30.  Bugs #966396, #963998.
 dev-python/readthedocs-sphinx-ext
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
-# Depends on Qt5, upstream needs help with porting. Bug #956453
-# Removal on 2025-12-27.
-media-gfx/panini
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
-# Dead upstream, depends on Qt5, so it has no future in ::gentoo.
-# Qt6-based alternatives: KDE Plasma, LXQt, liquidshell.
-# Bug #961737. Removal on 2025-12-27.
-x11-wm/lumina
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
-# Depends on Qt5, no upstream hopes of porting. Bug #955682
-# Removal on 2025-12-27.
-media-gfx/meshlab
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
-# Depends on Qt5, no reply or activity upstream. Bug #961793
-# Removal on 2025-12-27.
-app-i18n/tagainijisho
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2025-11-27)
-# Unmaintained upstream, depends on Qt5. Bug #953263
-# Removal on 2025-12-27.
-x11-misc/fraqtive
 
 # Sam James <sam@gentoo.org> (2025-11-25)
 # Generates session keys with weak (no) randomness. Please re-encrypt
