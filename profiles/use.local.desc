@@ -445,6 +445,7 @@ app-crypt/rpm-sequoia:nettle - Use dev-libs/nettle as a crypto backend
 app-crypt/rpm-sequoia:openssl - Use dev-libs/openssl as a crypto backend
 app-crypt/seahorse:ldap - Enable seahorse to manipulate GPG keys on a LDAP server.
 app-crypt/sequoia-chameleon-gnupg:botan - Use dev-libs/botan as crypto provider.
+app-crypt/sequoia-sop:botan - Use dev-libs/botan as crypto provider.
 app-crypt/sequoia-sq:botan - Use dev-libs/botan as crypto provider.
 app-crypt/sequoia-sqv:botan - Use dev-libs/botan as crypto provider.
 app-crypt/swtpm:fuse - Support sys-fs/fuse based /dev/tpm interface
@@ -1065,6 +1066,7 @@ app-office/kmymoney:holidays - Enable kde-frameworks/kholidays integration
 app-office/kmymoney:sql - Enable storage of financial data in SQL Db via dev-qt/qtsql
 app-office/kmymoney:sqlcipher - Enable SQLite3 database encryption support via dev-db/sqlcipher
 app-office/kraft:pim - Enable support for KDE PIM resources integration
+app-office/ledger:gpg - Enable support for encrypted journals
 app-office/libalkimia:webengine - Enable online quotes using dev-qt/qtwebengine
 app-office/libreoffice:base - Enable full support for LibreOffice Base databases (involves additional bundled libs)
 app-office/libreoffice:coinmp - Use sci-libs/coinor-mp as alternative solver
@@ -1121,7 +1123,6 @@ app-portage/pfl:network-cron - Adds a cron job which does a weekly submit of the
 app-portage/portage-utils:gpkg - Build GLEP-78 gpkg support in qpkg
 app-portage/portage-utils:gtree - Build gtree repository cache support
 app-portage/portage-utils:qmanifest - Build qmanifest applet, this adds additional dependencies for GPG, OpenSSL and BLAKE2B hashing
-app-portage/portage-utils:qtegrity - Build qtegrity applet, this adds additional dependencies for OpenSSL
 app-portage/tatt:templates - Install template scripts to be used with tatt
 app-shells/atuin:client - Enable the autin client
 app-shells/atuin:daemon - Enable the autin background daemon on the client
@@ -2723,7 +2724,6 @@ dev-qt/qtspeech:flite - Enable text-to-speech synthesizer plugin using app-acces
 dev-qt/qtspeech:qml - Build QML/QtQuick bindings and imports
 dev-qt/qtspeech:speechd - Enable text-to-speech synthesizer plugin using app-accessibility/speech-dispatcher engine
 dev-qt/qttools:assistant - Build Qt Assistant and the QtHelp module
-dev-qt/qttools:clang - Enable using libclang for code parsing (linguist/qdoc)
 dev-qt/qttools:designer - Build Qt Designer
 dev-qt/qttools:distancefieldgenerator - Build Qt Distance Field Generator
 dev-qt/qttools:kmap2qmap - Build tool to generate keymaps for use on Embedded Linux
@@ -2910,9 +2910,12 @@ dev-util/hip:numa - Enable NUMA support using sys-process/numactl (NUMA kernel s
 dev-util/hip:opencl - Build vendored OpenCL runtime
 dev-util/hip:video_cards_amdgpu - Build for AMD platform
 dev-util/hip:video_cards_nvidia - Build for Nvidia platform
-dev-util/idea-community:experimental - Enables Wayland support preview.
 dev-util/intel-graphics-compiler:vc - Enable VectorCompiler for a better performance.
 dev-util/intel-graphics-system-controller:cli - Build CLI tools for flashing manually a firmware upgrade.
+dev-util/intellij-idea:bundled-xvfb - Utilize the built in xvfb server. Requires purchased license from upstream.
+dev-util/intellij-idea:experimental - Enables Wayland support preview.
+dev-util/intellij-idea:professional - Enable the Professional version which requires a license purchased from Jetbrains.
+dev-util/intellij-idea:wayland - Enables support for the Wayland display server protocol.
 dev-util/kdevelop:gdbui - Enable GUI for attaching GDB to a running process
 dev-util/kdevelop:qmake - Enable support for QMake build system
 dev-util/kdevelop:share - Enable support for patch sharing using kde-frameworks/purpose
@@ -3250,7 +3253,6 @@ games-fps/urbanterror:mumble - Use Mumble for ingame VoIP (experimental)
 games-fps/urbanterror:server - Build binary for dedicated server
 games-fps/urbanterror:skeetshootmod - Build support for skeetshoot mod for specific maps
 games-fps/urbanterror:voip - Use ioq3 ingame VoIP (experimental)
-games-fps/worldofpadman:maps - Install extra maps (PadPack)
 games-fps/xonotic:ode - Enable support for physics engine from dev-games/ode
 games-fps/yamagi-quake2:client - Build client
 games-fps/yamagi-quake2:ctf - Build support for the 'Capture The Flag' addon
@@ -3728,7 +3730,6 @@ kde-plasma/plasma-nm:teamd - Enable Teamd control support
 kde-plasma/plasma-workspace:appstream - Enable AppStream software metadata support
 kde-plasma/plasma-workspace:ksysguard - Enable device notifier and system monitor applets as well as terminate applications runner
 kde-plasma/plasma-workspace:networkmanager - Enable support for location-based time zone changes
-kde-plasma/plasma-workspace:phonon - Enable KIO to Phonon bridge for network streaming via media-libs/phonon
 kde-plasma/plasma-workspace:policykit - Enable locale generation and Users KCM using sys-auth/polkit and sys-apps/accountsservice
 kde-plasma/plasma-workspace:screencast - Enable camera indicator applet (requires media-video/pipewire at runtime)
 kde-plasma/plasma-workspace:telemetry - Enable User Feedback control module for kde-plasma/systemsettings
@@ -4230,7 +4231,6 @@ media-gfx/krita:xsimd - Enable usage of SIMD instructions via dev-cpp/xsimd
 media-gfx/librecad:tools - Build additional tool programs: tff2lff
 media-gfx/luminance-hdr:fits - Enable support for the FITS format
 media-gfx/mandelbulber:opencl - Enable GPU rendering support using OpenCL
-media-gfx/meshlab:double-precision - Use double type instead of float type for scalars
 media-gfx/netgen:opencascade - Enable OpenCASCADE support
 media-gfx/nomacs:opencv - Build support for media-libs/opencv
 media-gfx/nomacs:plugins - Build officially support plugins
@@ -4260,6 +4260,7 @@ media-gfx/openvdb:utils - Build utility binaries
 media-gfx/photoqt:barcode - Support for QR and barcodes detection using media-libs/zxing-cpp
 media-gfx/photoqt:chromecast - Enable Chromecast support using dev-python/pychromecast
 media-gfx/photoqt:devil - Support additional image formats using media-libs/devil
+media-gfx/photoqt:extensions - Support additional features using extensions
 media-gfx/photoqt:freeimage - Support additional image formats using media-libs/freeimage
 media-gfx/photoqt:mpv - Support for video files using media-video/mpv
 media-gfx/photoqt:vips - Support for media-libs/vips image processing library
@@ -4383,6 +4384,14 @@ media-libs/libbluray:aacs - Add support for decryption of AACS
 media-libs/libbluray:bdplus - Use media-libs/libbdplus for BD+ decryption
 media-libs/libbluray:java - Add support for BD-J
 media-libs/libbluray:utils - Install command-line utilities and examples
+media-libs/libcamera:drm - Build with drm support for cam tool
+media-libs/libcamera:elfutils - Build with improved debugging using dev-libs/elfutils
+media-libs/libcamera:gui - Build QCam extra tool
+media-libs/libcamera:openssl - Verify IPA modules signatures using dev-libs/openssl. Note:dev-libs/openssl is also required at build time to sign IPA modules.
+media-libs/libcamera:sdl - Build Cam extra tool with SDL sink support (requires USE=gui)
+media-libs/libcamera:tools - Build extra tools (including cam, qcam and lc-compliance). Note: 'qcam' requires also USE="gui"
+media-libs/libcamera:trace - Build with tracing capabilities
+media-libs/libcamera:unwind - Build with improved debugging using sys-libs/libunwind (has no effect if USE=elfutils is set)
 media-libs/libcanberra:alsa - Enables ALSA sound driver.
 media-libs/libcanberra:gstreamer - Enables gstreamer sound driver. Not useful when alsa or pulseaudio is available.
 media-libs/libcanberra:pulseaudio - Enables PulseAudio sound driver that should be able to support positional event sounds. This is the preferred choice for best sound events experience and picked by default if compiled in and possible to use at runtime.
@@ -5347,6 +5356,7 @@ media-video/pipewire:flatpak - Enable Flatpak support
 media-video/pipewire:gsettings - Use gsettings (dev-libs/glib) to read/save used modules (useful for e.g. media-sound/paprefs
 media-video/pipewire:jack-client - Install a plugin for running PipeWire as a JACK client
 media-video/pipewire:jack-sdk - Use PipeWire as JACK replacement
+media-video/pipewire:libcamera - Enable libcamera plugin via media-libs/libcamera
 media-video/pipewire:liblc3 - Allow loading LC3 plugins via media-sound/liblc3
 media-video/pipewire:loudness - Enable loudness normalisation according to the EBU R128 standard using media-libs/libebur128
 media-video/pipewire:lv2 - Allow loading LV2 plugins via media-libs/lv2
@@ -6554,9 +6564,9 @@ net-misc/modemmanager:mbim - Enable MBIM modem protocol
 net-misc/modemmanager:qmi - Enable support for the QMI modem protocol used by devices with Qualcomm chipsets
 net-misc/modemmanager:qrtr - Enable support for the QMI over IPC Router bus (QRTR) protocol
 net-misc/moonlight:cuda - Enable accelerated video rendering on NVIDIA hardware
+net-misc/moonlight:drm - Enable video rendering via x11-libs/libdrm
 net-misc/moonlight:embedded - Optimize UI for fullscreen non-desktop usage
 net-misc/moonlight:glslow - Prefer direct KMS/DRM rendering over EGL/GLES rendering for better performance on some weaker GPUs
-net-misc/moonlight:libdrm - Enable video rendering via x11-libs/libdrm
 net-misc/moonlight:soundio - Enable sound output via media-libs/libsoundio instead of media-libs/libsdl2
 net-misc/moonlight:vkslow - Prefer hardware YUV-RGB conversion and scaling over Vulkan for better performance on some weaker GPUs
 net-misc/mosh:client - Build network client
@@ -7764,16 +7774,12 @@ sci-physics/lammps:extra - Additional compute, dump, fix, molecular, pair styles
 sci-physics/lammps:hip - Enable hip gpu computing support
 sci-physics/lammps:lammps-memalign - Enables the use of the posix_memalign() call instead of malloc() when large chunks or memory are allocated by LAMMPS. Aliengnment is on 16 byte boundaries.
 sci-physics/pythia:fastjet - Build jets using the sci-physics/fastjet package
-sci-physics/pythia:hepmc - Adds support for High Energy Physics Monte Carlo Generators sci-physics/hepmc
-sci-physics/pythia:hepmc2 - Adds support for High Energy Physics Monte Carlo Generators 2 sci-physics/hepmc
 sci-physics/pythia:hepmc3 - Adds support for High Energy Physics Monte Carlo Generators 3 sci-physics/hepmc
 sci-physics/pythia:highfive - Support hdf and highfive
 sci-physics/pythia:lhapdf - Support the use of external PDF sets via sci-physics/lhapdf
 sci-physics/pythia:mpich - Support mpich
 sci-physics/pythia:rivet - Support sci-physics/rivet
 sci-physics/pythia:root - Use sci-physics/root trees and histograms (in examples only)
-sci-physics/rivet:hepmc2 - Build with sci-physics/hepmc version 2
-sci-physics/rivet:hepmc3 - Build with sci-physics/hepmc version 3
 sci-physics/rivet:highfive - Build with sci-libs/highfive and sci-libs/hdf5
 sci-physics/rivet:zlib - Build with virtual/zlib
 sci-physics/root:R - Enable support for dev-lang/R
@@ -7798,7 +7804,6 @@ sci-physics/root:uring - Enable support for sys-libs/liburing in RNTuple
 sci-physics/root:vc - Enable support for dev-libs/vc with VecCore
 sci-physics/root:xrootd - Build the interface for net-libs/xrootd
 sci-physics/thepeg:fastjet - Adds support for sci-physics/fastjet
-sci-physics/thepeg:hepmc - Adds support for High Energy Physics Monte Carlo Generatorssci-physics/hepmc
 sci-physics/thepeg:hepmc3 - Adds support for High Energy Physics Monte Carlo Generators 3sci-physics/hepmc
 sci-physics/thepeg:lhapdf - Adds support for sci-physics/lhapdf
 sci-physics/thepeg:rivet - Adds support for sci-physics/rivet
@@ -9162,7 +9167,6 @@ x11-wm/fvwm3:go - Enable building dev-lang/go code (FvwmPrompt)
 x11-wm/i3:doc - Build and install the HTML documentation and regenerate the man pages
 x11-wm/icewm:gdk-pixbuf - Enable gdk-pixbuf rendering
 x11-wm/jwm:pango - Bidirectional text layout support with pango using xft backend.
-x11-wm/lumina:desktop-utils - Build and install lumina's desktop-utils
 x11-wm/metacity:libcanberra - Enable sound event support using media-libs/libcanberra
 x11-wm/metacity:vulkan - Enable Vulkan based compositor support via META_COMPOSITOR=vulkan environment variable
 x11-wm/muffin:sysprof - Enable profiling data capture support using dev-util/sysprof-capture
