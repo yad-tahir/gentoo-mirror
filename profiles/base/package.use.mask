@@ -6,6 +6,12 @@
 
 # New entries go on top.
 
+# Eli Schwartz <eschwartz@gentoo.org> (2026-01-09)
+# tests fail to build during src_compile:
+# - needs demos to be built
+# - OpenGLExampleBrowser.cpp:928:17: error: ‘simpleApp’ was not declared in this scope
+sci-physics/bullet test
+
 # Andreas K. Hüttel <dilfridge@gentoo.org> (2026-01-07)
 # Building glibc with clang is highly experimental and only possible and
 # tested in few configurations. Enabling the useflag clang allows free
@@ -850,6 +856,11 @@ mail-client/claws-mail litehtml
 # terms. Masked to prevent accidental installation of these files,
 # bug #318841#c20.
 sys-kernel/linux-firmware unknown-license
+sys-firmware/alsa-firmware alsa_cards_korg1212
+sys-firmware/alsa-firmware alsa_cards_maestro3
+sys-firmware/alsa-firmware alsa_cards_sb16
+sys-firmware/alsa-firmware alsa_cards_wavefront
+sys-firmware/alsa-firmware alsa_cards_ymfpci
 
 # Ulrich Müller <ulm@gentoo.org> (2019-04-25)
 # Pulls in media-fonts/kochi-substitute as dependency, which allows
