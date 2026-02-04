@@ -4,7 +4,9 @@
 EAPI=8
 
 PYTHON_COMPAT=( python3_{11..14} )
-inherit eapi9-ver flag-o-matic meson python-r1 systemd tmpfiles toolchain-funcs
+VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/isc.asc
+inherit eapi9-ver flag-o-matic meson python-r1 systemd tmpfiles
+inherit toolchain-funcs verify-sig
 
 DESCRIPTION="High-performance production grade DHCPv4 & DHCPv6 server"
 HOMEPAGE="https://www.isc.org/kea/"
@@ -13,8 +15,11 @@ if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://gitlab.isc.org/isc-projects/kea.git"
 else
-	SRC_URI="https://downloads.isc.org/isc/kea/${PV}/${P}.tar.xz"
-	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+	SRC_URI="
+		https://downloads.isc.org/isc/kea/${PV}/${P}.tar.xz
+		verify-sig? ( https://downloads.isc.org/isc/kea/${PV}/${P}.tar.xz.asc )
+	"
+	KEYWORDS="amd64 arm arm64 ~x86"
 fi
 
 LICENSE="MPL-2.0"
@@ -47,15 +52,16 @@ RDEPEND="${COMMON_DEPEND}
 	acct-user/dhcp
 "
 BDEPEND="
+	${PYTHON_DEPS}
 	>=dev-build/meson-1.8
+	virtual/pkgconfig
 	doc? (
 		$(python_gen_any_dep '
 			dev-python/sphinx[${PYTHON_USEDEP}]
 			dev-python/sphinx-rtd-theme[${PYTHON_USEDEP}]
 		')
 	)
-	virtual/pkgconfig
-	${PYTHON_DEPS}
+	verify-sig? ( sec-keys/openpgp-keys-isc )
 "
 
 python_check_deps() {
@@ -66,6 +72,19 @@ python_check_deps() {
 
 pkg_setup() {
 	python_setup
+}
+
+src_unpack() {
+	if [[ ${PV} == 9999 ]] ; then
+		git-r3_src_unpack
+		return
+	fi
+
+	if use verify-sig; then
+		verify-sig_verify_detached "${DISTDIR}"/${P}.tar.xz{,.asc}
+	fi
+
+	default
 }
 
 src_prepare() {
@@ -141,13 +160,18 @@ src_test() {
 	# Get list of all test suites into an associative array
 	# the meson test --list returns either "kea / test_suite", "kea:shell-tests / test_suite" or
 	# "kea:python-tests / test_suite"
+	# Note: In meson >= 1.10 the format has changed to
+	# the meson test --list returns either "kea:test_suite", "shell-tests - kea:test_suite" or
+	# "python-tests - kea:test_suite"
+	#
 	# Discard the shell tests as we can't run shell tests in sandbox
 
 	pushd "${BUILD_DIR}" || die
 	local -A TEST_SUITES
-	while IFS=" / " read -r subsystem test_suite ; do
-		if [[ ${subsystem} != "kea:shell-tests" ]]; then
-			TEST_SUITES["$test_suite"]=1
+
+	while IFS="/: " read -a words ; do
+		if [[ "${words[0]}" != "shell-tests" ]] && [[ "${words[2]}" != "shell-tests" ]]; then
+			TEST_SUITES["${words[-1]}"]=1
 		fi
 	done < <(meson test --list || die)
 	popd

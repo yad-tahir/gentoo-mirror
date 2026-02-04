@@ -1,4 +1,4 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -29,7 +29,6 @@ LICENSE="
 SLOT="0/${PV%%.*}"
 KEYWORDS="-* amd64 ~arm64"
 IUSE="+X abi_x86_32 abi_x86_64 kernel-open persistenced powerd +static-libs +tools wayland"
-REQUIRED_USE="kernel-open? ( modules )"
 
 COMMON_DEPEND="
 	acct-group/video
@@ -64,10 +63,7 @@ RDEPEND="
 	powerd? ( sys-apps/dbus[abi_x86_32(-)?] )
 	wayland? (
 		>=gui-libs/egl-gbm-1.1.1-r2[abi_x86_32(-)?]
-		|| (
-			>=gui-libs/egl-wayland-1.1.13.1[abi_x86_32(-)?]
-			gui-libs/egl-wayland2[abi_x86_32(-)?]
-		)
+		>=gui-libs/egl-wayland-1.1.13.1[abi_x86_32(-)?]
 		X? ( gui-libs/egl-x11[abi_x86_32(-)?] )
 	)
 "
@@ -191,6 +187,14 @@ src_compile() {
 	local xnvflags=-fPIC #840389
 	tc-is-lto && xnvflags+=" $(test-flags-CC -ffat-lto-objects)"
 
+	# Same as uname -m.
+	local target_arch
+	case ${ARCH} in
+		amd64) target_arch=x86_64 ;;
+		arm64) target_arch=aarch64 ;;
+		*) die "Unrecognised architecture: ${ARCH}" ;;
+	esac
+
 	NV_ARGS=(
 		PREFIX="${EPREFIX}"/usr
 		HOST_CC="$(tc-getBUILD_CC)"
@@ -198,6 +202,7 @@ src_compile() {
 		BUILD_GTK2LIB=
 		NV_USE_BUNDLED_LIBJANSSON=0
 		NV_VERBOSE=1 DO_STRIP= MANPAGE_GZIP= OUTPUTDIR=out
+		TARGET_ARCH="${target_arch}"
 		WAYLAND_AVAILABLE=$(usex wayland 1 0)
 		XNVCTRL_CFLAGS="${xnvflags}"
 	)
@@ -222,6 +227,7 @@ src_compile() {
 		local modargs=(
 			IGNORE_CC_MISMATCH=yes NV_VERBOSE=1
 			SYSOUT="${KV_OUT_DIR}" SYSSRC="${KV_DIR}"
+			TARGET_ARCH="${target_arch}"
 
 			# kernel takes "x86" and "x86_64" as meaning the same, but nvidia
 			# makes the distinction (since 550.135) and is not happy with "x86"
@@ -574,7 +580,7 @@ pkg_postinst() {
 		ewarn "[2] https://wiki.gentoo.org/wiki/Nouveau"
 	fi
 
-	if use kernel-open && [[ ! -v NV_HAD_KERNEL_OPEN ]]; then
+	if use kernel-open && use modules && [[ ! -v NV_HAD_KERNEL_OPEN ]]; then
 		ewarn "\nOpen source variant of ${PN} was selected, note that it requires"
 		ewarn "Turing/Ampere+ GPUs (aka GTX 1650+). Try disabling if run into issues."
 		ewarn "Also see: ${EROOT}/usr/share/doc/${PF}/html/kernel_open.html"

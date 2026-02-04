@@ -1,4 +1,4 @@
-# Copyright 2023-2025 Gentoo Authors
+# Copyright 2023-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,7 +12,7 @@ SRC_URI="https://github.com/libvips/libvips/releases/download/v${PV}/${P}.tar.xz
 
 LICENSE="LGPL-2.1+ MIT"
 SLOT="0/42" # soname
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="amd64 ~arm64 ~x86"
 IUSE="
 	archive deprecated doc exif fftw fits fontconfig graphicsmagick
 	heif +highway imagemagick imagequant +introspection +jpeg jpeg2k
@@ -92,6 +92,10 @@ BDEPEND="
 	)
 	vala? ( $(vala_depend) )
 "
+
+PATCHES=(
+	"${FILESDIR}"/${P}-glibc2.43.patch
+)
 
 pkg_setup() {
 	use doc && python-any-r1_pkg_setup
