@@ -1,10 +1,10 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python3_{11..14} )
-USE_RUBY="ruby31 ruby32 ruby33 ruby34"
+USE_RUBY="ruby31 ruby32 ruby33 ruby34 ruby40"
 
 inherit check-reqs flag-o-matic gnome2 optfeature python-any-r1 ruby-single toolchain-funcs cmake
 
@@ -103,7 +103,7 @@ BDEPEND="
 	${RUBY_DEPS}
 	app-accessibility/at-spi2-core
 	dev-lang/perl
-	dev-util/gdbus-codegen
+	>=dev-util/gdbus-codegen-2.80.5-r1
 	dev-util/glib-utils
 	dev-util/gperf
 	dev-util/unifdef

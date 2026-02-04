@@ -1,4 +1,4 @@
-# Copyright 2025 Gentoo Authors
+# Copyright 2025-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -335,6 +335,7 @@ MULTILIB_WRAPPED_HEADERS=(
 
 PATCHES=(
 	"${FILESDIR}"/ffmpeg-6.1-opencl-parallel-gmake-fix.patch
+	"${FILESDIR}"/ffmpeg-8.0.1-svt-av1-4.patch
 )
 
 pkg_pretend() {
@@ -513,6 +514,10 @@ multilib_src_configure() {
 			*mingw32*) conf+=( --target-os=mingw32 );;
 			*linux*) conf+=( --target-os=linux );;
 		esac
+	elif use arm; then
+		# TODO?: could *always* pass tc-arch-kernel, albeit that function
+		# is meant for the kernel and just mostly matches by accident
+		conf+=( --arch=arm ) #969514
 	fi
 
 	# skipping tests is handled at configure-time
