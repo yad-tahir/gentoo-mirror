@@ -356,8 +356,8 @@ app-containers/incus:fuidshift - Install the fuidshift binary - currently confli
 app-containers/incus:qemu - Pull dependencies needed to manage QEMU-based virtual machines with Incus
 app-containers/lxc:tools - Build and install additional command line tools
 app-containers/nerdctl:rootless - Enables dependencies for running in rootless mode.
-app-containers/podman:btrfs - Enables btrfs support (graph driver) in Podman
-app-containers/podman:wrapper - Install wrapper which lets use podman for command `docker`
+app-containers/podman:btrfs - Enable btrfs support (graph driver) in Podman
+app-containers/podman:wrapper - Install a wrapper to allow using `podman` as a drop-in replacement for `docker`
 app-containers/runc:kmem - Enable Kernel Memory Accounting.
 app-containers/skopeo:btrfs - Enables dependencies for the "btrfs" graph driver.
 app-containers/skopeo:rootless - Compiles with libsubid
@@ -3588,6 +3588,7 @@ kde-apps/kdenetwork-meta:dropbox - Enable support for Dropbox in kde-apps/dolphi
 kde-apps/kdenetwork-meta:samba - Enable support for net-fs/samba file sharing plugin from within file properties
 kde-apps/kdenetwork-meta:screencast - Pull in kde-apps/krfb for Plasma desktop sharing support
 kde-apps/kdenetwork-meta:webengine - Enable support for Google Drive integration via kde-misc/kio-gdrive
+kde-apps/kdenetwork-meta:zeroconf - Pull in packages using kde-frameworks/kdnssd
 kde-apps/kdenlive:designer - Build plugins for dev-qt/designer
 kde-apps/kdepim-addons:activities - Enable Plasma Activities support via kde-plasma/plasma-activities
 kde-apps/kdepim-addons:importwizard - Enable additional import plugins for kde-apps/akonadi-import-wizard
@@ -5726,6 +5727,7 @@ net-dialup/mgetty:fidonet - Enables FidoNet support
 net-dialup/ppp:activefilter - Enables active filter support
 net-dialup/ppp:gtk - Installs GTK+ password prompting program that can be used by passprompt.so PPP plugin for reading the password from a X11 input terminal
 net-dialup/xl2tpd:kernel - Enable kernel interface for PPPoL2TP
+net-dialup/xl2tpd:poll - Use experimental patch to use poll rather than select (scalability patch)
 net-dns/avahi:autoipd - Build and install the IPv4LL (RFC3927) network address configuration daemon
 net-dns/avahi:bookmarks - Install the avahi-bookmarks application (requires dev-python/twisted)
 net-dns/avahi:gtk - Use gtk3 for the avahi utilities to build the avahi-ui-gtk3 library
@@ -7245,7 +7247,7 @@ sci-biology/yass:lowmem - Build for environments with low amounts of memory
 sci-calculators/datamash:linux-crypto - Use Linux kernel cryptographic API
 sci-calculators/datamash:openssl - Use dev-libs/openssl for hash routines instead of internal gnulib
 sci-calculators/units:units-cur - Install the units_cur python script that updates currencies
-sci-chemistry/avogadro2:vtk - include vtk support
+sci-chemistry/avogadro2:rpc - Enable communication between programs using the RPC protocol and standard JSON messages
 sci-chemistry/chemtool:emf - EMF export support
 sci-chemistry/gnome-chemistry-utils:gnumeric - Add a Gnumeric plugin to provide a molarmass function for the spreadsheet
 sci-chemistry/gromacs:build-manual - Build manual instead of downloading it
@@ -7343,8 +7345,8 @@ sci-libs/armadillo:superlu - Use SuperLU for sparse linear equation solving sci-
 sci-libs/arprec:qd - Use sci-libs/qd for quad-double datatype
 sci-libs/atlas:generic - Build atlas assuming a fairly generic architecture (sse2 for x86, core2 for amd64)
 sci-libs/avogadrolibs:archive - Enable archive support using app-arch/libarchive
+sci-libs/avogadrolibs:jkqtplotter - Enable charts and spectra using sci-libs/jkqtplotter
 sci-libs/avogadrolibs:spglib - Find and set the Hall number for a crystal using sci-libs/spglib
-sci-libs/avogadrolibs:vtk - Enable sci-libs/vtk support
 sci-libs/blas-lapack-aux-wrapper:index64 - Create ILP64 wrappers as well
 sci-libs/blis:64bit-index - Enable 64bit array indexing, incompatible with runtime switching
 sci-libs/blis:eselect-ldso - Enable runtime library switching by eselect and ld.so.
@@ -7753,6 +7755,7 @@ sci-ml/evaluate:torch - Support pytorch
 sci-ml/gloo:libuv - Enable libuv support
 sci-ml/gloo:redis - Enable Redis backend for storage via dev-libs/hiredis
 sci-ml/gloo:rocm - Enable ROCm gpu computing support
+sci-ml/huggingface_hub:torch - Support pytorch
 sci-ml/oneDNN:cblas - Use virtual/cblas for sgemm routines
 sci-ml/oneDNN:mkl - Use sci-libs/mkl for sgemm routines
 sci-ml/onnx:disableStaticReg - Disable Static Registration
@@ -9047,8 +9050,6 @@ x11-misc/rss-glx:quesoglc - Enable support for OpenGL Character Renderer
 x11-misc/sent:savedconfig - Without a saved config.h, this package depends on media-gfx/farbfeld for image conversions
 x11-misc/spacefm:video-thumbnails - Support video thumbnails with media-video/ffmpegthumbnailer
 x11-misc/stalonetray:graceful-exit - use non-portable hack to exit gracefully on signal
-x11-misc/tint2:battery - Enable battery status plugin
-x11-misc/tint2:sanitize - Enable ASAN
 x11-misc/tint2:tint2conf - Build/Install tint2conf as well
 x11-misc/urxvt-perls:deprecated - Install scripts which have been marked as deprecated by upstream
 x11-misc/wbar:gtk - Enables the gtk-based wbar-config GUI
