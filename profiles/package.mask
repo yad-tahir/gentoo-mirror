@@ -36,6 +36,38 @@
 
 #--- END OF EXAMPLES ---
 
+# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-22)
+# Obsolete package blocking vdr-2.2 cleanup.
+# Removal on 2026-03-24.
+media-plugins/vdr-peer
+=media-video/vdr-2.2.0*
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-22)
+# Obsolete package. Use media-plugins/vdr-skinelchihd instead.
+# Bug #945071. Removal on 2026-03-24.
+media-plugins/vdr-skincurses
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-22)
+# Obsolete package. Use media-video/vdr[demoplugins] instead.
+# Removal on 2026-03-24.
+media-plugins/vdr-skinelchi
+
+# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-15)
+# Masked for testing and possible libvlc revdeps breakage.
+~media-video/vlc-4.0.0_pre20260215
+
+# Conrad Kostecki <conikost@gentoo.org> (2026-02-15)
+# Supports only Qt5 and upstream not making any progress towards Qt6.
+# Removal on 2026-03-01. Bug #953260.
+x11-misc/projecteur
+
+# Volkmar W. Pogatzki <gentoo@pogatzki.net> (2026-02-10)
+# Unused Java library. Upstream is gone. SRC_URI points to
+# 'https://dev.gentoo.org/~monsieurp' which does not exist.
+# Last consumer was net-p2p/freenet-0.7.5_p1503-r2.
+# Removal on 2026-03-10. Bug #969322.
+dev-java/fec
+
 # Thomas Beierlein <tomjbe@gentoo.org> (2026-02-14)
 # Move ebuild versioning to classical x.y.z number scheme
 # Should be kept until net-wireless/sdrplay-3.15.2 (dep for coming
@@ -303,12 +335,6 @@ app-emacs/use-package
 # Removal on 2026-02-22.
 # Bug #966194, #907208, #906665, #796242, #794028, #656354.
 app-portage/java-ebuilder
-
-# Ulrich Müller <ulm@gentoo.org> (2026-01-18)
-# Obsolete since Emacs 29, per upstream README.md. Use the "docker"
-# method from the integrated tramp-container package as replacement.
-# Removal on 2026-02-17. Bug #968938.
-app-emacs/docker-tramp
 
 # Eray Aslan <eras@gentoo.org> (2025-12-24)
 # Mask experimental software

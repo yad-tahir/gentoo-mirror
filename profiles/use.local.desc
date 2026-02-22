@@ -182,7 +182,6 @@ app-admin/syslog-ng:redis - Enable support for Redis destinations
 app-admin/syslog-ng:smtp - Enable support for SMTP destinations
 app-admin/syslog-ng:spoof-source - Enable support for spoofed source addresses
 app-admin/sysstat:dcron - Adjust cronjobs to work properly under sys-process/dcron
-app-admin/testdisk:ewf - Include ewf library
 app-admin/testdisk:ntfs - Include the ability to read NTFS filesystems
 app-admin/testdisk:reiserfs - Include reiserfs reading ability
 app-admin/testdisk:sudo - Enable sudo helper integration
@@ -988,7 +987,6 @@ app-misc/mosquitto:bridge - Enable bridge support in the MQTT broker.
 app-misc/mosquitto:persistence - Store messages and subscriptions to a file.
 app-misc/mosquitto:srv - Include SRV lookup support.
 app-misc/mosquitto:websockets - Support the WebSocket protocol.
-app-misc/neofetch:X - Enable support for detecting DEs, WMs, screen resolutions, and showing images from an X terminal
 app-misc/nnn:8contexts - Enable 8 contexts (instead of 4)
 app-misc/nnn:colemak - Key bindings for Colemak keyboard layout
 app-misc/nnn:emoji - Display icons using emoji
@@ -1071,6 +1069,7 @@ app-office/gnumeric:libgda - Enable database support through gnome-extra/libgda.
 app-office/gnumeric:perl - Enable perl plugin loader.
 app-office/grisbi:goffice - enable goffice graphic support
 app-office/kmymoney:activities - Enable kde-plasma/plasma-activities integration
+app-office/kmymoney:addressbook - Enable kde-apps/akonadi contact integration
 app-office/kmymoney:hbci - Enable HBCI support using net-libs/aqbanking
 app-office/kmymoney:holidays - Enable kde-frameworks/kholidays integration
 app-office/kmymoney:sql - Enable storage of financial data in SQL Db via dev-qt/qtsql
@@ -1539,6 +1538,7 @@ dev-embedded/sdcc:device-lib - Enable built of devices libraries
 dev-embedded/sdcc:ds390 - Add support for Dallas DS390
 dev-embedded/sdcc:ds400 - Add support for Dallas DS400
 dev-embedded/sdcc:ez80-z80 - Add support for EZ80-Z80
+dev-embedded/sdcc:f8 - Add support for the new F8 arch
 dev-embedded/sdcc:hc08 - Add support for Freescale/Motorola HC08 based
 dev-embedded/sdcc:mcs51 - Add support for Intel mcs51
 dev-embedded/sdcc:mos6502 - Add support for MOS 6502
@@ -1554,6 +1554,7 @@ dev-embedded/sdcc:pic16 - Add support for Microchip 16 bits PICs
 dev-embedded/sdcc:r2k - Add support for Rabbit 2000
 dev-embedded/sdcc:r2ka - Add support for Rabbit 2000A
 dev-embedded/sdcc:r3ka - Add support for Rabbit 3000A
+dev-embedded/sdcc:r800 - Add support for ASCII Corporation R800
 dev-embedded/sdcc:s08 - Add support for Freescale/Motorola S08
 dev-embedded/sdcc:sdcdb - Enable SDCC source level debugger
 dev-embedded/sdcc:sdcpp - Enable SDCC preprocessor based on GCC cpp
@@ -2248,15 +2249,12 @@ dev-libs/poco:cppparser - Build and install a minimal C++ parser
 dev-libs/poco:crypt - Encryption and digital signing classes (including SSL and JWT).
 dev-libs/poco:data - Database abstraction layer to easily send/retrieve data to/from various databases
 dev-libs/poco:file2pagecompiler - Utility to convert ordinary files to Page Compiler source files
-dev-libs/poco:json - Add JSON support
-dev-libs/poco:jwt - Add JSON Web Token support
 dev-libs/poco:mariadb - Prefer dev-db/mariadb-connector-c over dev-db/mysql-connector-c
 dev-libs/poco:mongodb - Add dev-db/mongodb support
 dev-libs/poco:net - Classes to write network clients & servers
 dev-libs/poco:pagecompiler - Simple compiler translating HTML pages containing embedded C++ code into HTTPRequestHandler classes
 dev-libs/poco:pocodoc - POCO documentation generator
 dev-libs/poco:prometheus - Add prometheus monitoring system support
-dev-libs/poco:ssl - Encryption and digital signing classes
 dev-libs/poco:util - Several utility classes (like logger, timer, config file parser). Also enables JSON
 dev-libs/poco:zip - Add support for the zip & gz archive formats
 dev-libs/ppl:cdd - Build the ppl_lcdd program for vertex/facet enumeration accepting the same input format as the programs shipped with sci-libs/cddlib and sci-libs/lrslib
@@ -3363,6 +3361,7 @@ games-strategy/freeciv:system-lua - Use dev-lang/lua instead of the bundled libl
 games-strategy/freeciv:web-server - Build the freeciv-web server in place of the freeciv server
 games-strategy/freeorion:client - Build game client
 games-strategy/ja2-stracciatella:editor - Adds necessary file to run the editor
+games-strategy/ja2-stracciatella:launcher - Build the ja2-stracciatella launcher
 games-strategy/ja2-stracciatella:ru-gold - Support for russian gold ja2 version
 games-strategy/megaglest:editor - Build map editor
 games-strategy/megaglest:fribidi - Enable FriBIDi support
@@ -3517,6 +3516,7 @@ gui-libs/neatvnc:h264 - Enable H.264 encoding
 gui-libs/neatvnc:jpeg - Enable JPEG compression
 gui-libs/neatvnc:tracing - Trace kernel and memory calls
 gui-libs/neatvnc:websockets - Enable websockets support
+gui-libs/qt-color-widgets:designer - Build plugins for dev-qt/designer
 gui-libs/vte:icu - Enable legacy charset support using dev-libs/icu
 gui-libs/vte:systemd - Support moving terminal child processes to their own systemd user scopes to avoid terminal getting killed due to child causing OOM
 gui-libs/vte-common:systemd - Support moving terminal child processes to their own systemd user scopes to avoid terminal getting killed due to child causing OOM
@@ -3549,7 +3549,7 @@ kde-apps/analitza:eigen - Enable dev-cpp/eigen mathematical templates support
 kde-apps/ark:zip - Enable ZIP archive support via dev-libs/libzip
 kde-apps/cantor:R - Enable dev-lang/R backend support
 kde-apps/cantor:analitza - Enable kde-apps/analitza backend support
-kde-apps/cantor:julia - Enable dev-lang/julia backend support
+kde-apps/cantor:julia - Enable dev-lang/julia-bin backend support
 kde-apps/cantor:qalculate - Enable sci-libs/libqalculate backend support
 kde-apps/cantor:webengine - Use dev-qt/qtwebengine as embedded QtHelp documentation browser
 kde-apps/gwenview:activities - Enable kactivities support
@@ -3706,6 +3706,7 @@ kde-plasma/kdeplasma-addons:webengine - Enable dictionary and web browser applet
 kde-plasma/kinfocenter:usb - Show USB device information
 kde-plasma/ksystemstats:networkmanager - Enable improved backend for Network statistics using kde-frameworks/networkmanager-qt
 kde-plasma/kwin:X - Enable ability to support native X11 applications via x11-base/xwayland
+kde-plasma/kwin:gamepad - Support using game controllers as input devices
 kde-plasma/kwin:lock - Enable screen locking via kde-plasma/kscreenlocker
 kde-plasma/kwin:screencast - Enable screencast portal using media-video/pipewire
 kde-plasma/kwin:shortcuts - Enable global shortcuts support via kde-plasma/kglobalacceld
@@ -3730,6 +3731,7 @@ kde-plasma/plasma-meta:flatpak - Pull in kde-plasma/flatpak-kcm for flatpak perm
 kde-plasma/plasma-meta:grub - Pull in Breeze theme for sys-boot/grub
 kde-plasma/plasma-meta:gtk - Enable Breeze widget style and system settings module for GTK+
 kde-plasma/plasma-meta:kwallet - Enable support for KWallet auto-unlocking via kde-plasma/kwallet-pam
+kde-plasma/plasma-meta:ocr - Enable Optical Character Recognition support via app-text/tesseract
 kde-plasma/plasma-meta:oxygen-theme - Pull in Oxygen icons, sound theme and visual style for KDE Plasma
 kde-plasma/plasma-meta:plymouth - Pull in Breeze theme for sys-boot/plymouth
 kde-plasma/plasma-meta:pulseaudio - Install Plasma applet for PulseAudio volume management
@@ -3739,6 +3741,7 @@ kde-plasma/plasma-meta:sdk - Pull in kde-plasma/plasma-sdk for Plasma developmen
 kde-plasma/plasma-meta:smart - Pull in kde-plasma/plasma-disks for disk health monitoring
 kde-plasma/plasma-meta:thunderbolt - Pull in kde-plasma/plasma-thunderbolt control center module
 kde-plasma/plasma-meta:unsupported - Allow packages that are known to ruin runtime experience ** DO NOT FILE BUGS WITH THIS ENABLED **
+kde-plasma/plasma-meta:virtualkeyboard - Pull in kde-plasma/plasma-keyboard
 kde-plasma/plasma-meta:wacom - Pull in kde-plasma/wacomtablet control center module
 kde-plasma/plasma-meta:wallpapers - Install wallpapers for the Plasma Workspace
 kde-plasma/plasma-meta:webengine - Use kde-apps/khelpcenter to access the locally installed KDE Help System Handbook
@@ -4177,6 +4180,7 @@ media-gfx/fbida:X - Install the Motif based image viewer "ida"
 media-gfx/fbida:fbcon - Install the framebuffer image viewer "fbi"
 media-gfx/feh:magic - Use libmagic from sys-apps/file to filter unsupported file formats
 media-gfx/fig2dev:ghostscript - Require app-text/ghostscript-gpl to export PDF an bitmap formats
+media-gfx/flameshot:imgur - Enable Imgur uploader
 media-gfx/fontforge:truetype-debugger - Enable truetype debugger in fontforge
 media-gfx/fontforge:woff2 - Enable support for WOFF2 format
 media-gfx/fotowall:webcam - Enable webcam support
@@ -4237,9 +4241,7 @@ media-gfx/inkscape:visio - Enable support for Microsoft Visio diagrams via media
 media-gfx/inkscape:wpg - Enable support for WordPerfect graphics via app-text/libwpg
 media-gfx/iscan-plugin-gt-f500:minimal - Install the firmware only, and not the plugin.
 media-gfx/kphotoalbum:map - Enable map display support using kde-apps/marble
-media-gfx/kphotoalbum:phonon - Enable media-libs/phonon video backend (known to crash on some video formats)
 media-gfx/kphotoalbum:share - Enable support for a share menu using kde-frameworks/purpose
-media-gfx/kphotoalbum:vlc - Enable media-video/vlc video backend (recommended for X11)
 media-gfx/krita:color-management - Enable color management via media-libs/opencolorio
 media-gfx/krita:media - Enable sound support for animations via media-libs/mlt
 media-gfx/krita:mypaint-brush-engine - Enable MyPaint brush engine support media-libs/libmypaint
@@ -4756,6 +4758,7 @@ media-sound/amarok:mariadb - Prefer dev-db/mariadb-connector-c over dev-db/mysql
 media-sound/amarok:mtp - Enable support for libMTP (Plays4Sure) devices access through libmtp
 media-sound/amarok:podcast - Enable gpodder.net podcast support via media-libs/libmygpo-qt
 media-sound/amarok:webengine - Enable wikipedia widget using dev-qt/qtwebengine
+media-sound/amarok:zeroconf - Enable DAAP collections support using kde-frameworks/kdnssd
 media-sound/amsynth:dssi - Enable support for DSSI Soft Synth Interface
 media-sound/amsynth:lv2 - Add support for Ladspa V2
 media-sound/amsynth:nsm - Build support for Non Session Manager
@@ -5010,7 +5013,9 @@ media-sound/snd:notcurses - Terminal interface via dev-cpp/notcurses
 media-sound/snd:s7 - Enable the s7 extension language (a version of Scheme)
 media-sound/sonic-visualiser:id3tag - Enables ID3 tagging with id3tag library
 media-sound/sox:amr - Enables Adaptive Multi-Rate Audio support
+media-sound/sox:dolbyb - Support Dolby B like noise reduction with media-libs/libdolbyb
 media-sound/sox:id3tag - Enables ID3 tagging with id3tag library
+media-sound/sox:loudness - Support loudness normalisation according to the EBU R128 standard using media-libs/libebur128
 media-sound/sox:sndio - Enable support for sndio
 media-sound/sox:speexdsp - Support for automatic gain control, denoise and dereverb with media-libs/speexdsp
 media-sound/sox:twolame - Enables twolame support (MPEG Audio Layer 2 encoder)
@@ -5177,6 +5182,7 @@ media-video/ffmpeg:librtmp - Enable Real Time Messaging Protocol support via med
 media-video/ffmpeg:libsoxr - Enable use of the audio resampler from media-libs/soxr
 media-video/ffmpeg:lv2 - Enable use of filters through media-libs/lv2
 media-video/ffmpeg:ocr - Enable Optical Character Recognition (OCR) filter support via app-text/tesseract
+media-video/ffmpeg:opencolorio - Enable use of color management filters via media-libs/opencolorio
 media-video/ffmpeg:openh264 - Enable H.264 encoding support via media-libs/openh264
 media-video/ffmpeg:openmpt - Enable MPTM tracked music files decoding support via media-libs/libopenmpt
 media-video/ffmpeg:openssl - Enable using dev-libs/openssl for TLS/HTTPS support and other minor functions (USE=gnutls has no effect if set)
@@ -5720,7 +5726,6 @@ net-dialup/freeradius:memcached - Include dev-libs/libmemcached in caching drive
 net-dialup/freeradius:mongodb - Include support for MongoDB database
 net-dialup/freeradius:redis - Include support for Redis database
 net-dialup/freeradius:yubikey - Include support for ubikey
-net-dialup/freeradius-client:scp - Add service type hints derived from username prefix
 net-dialup/freeradius-client:shadow - Enable shadow password support
 net-dialup/mgetty:fax - Enables fax support
 net-dialup/mgetty:fidonet - Enables FidoNet support
@@ -5810,7 +5815,6 @@ net-dns/nsd:minimal-responses - If minimal responses are disabled, responses are
 net-dns/nsd:mmap - Use mmap(2) instead of malloc(3); currently experimental
 net-dns/nsd:munin - Install a plugin for net-analyzer/munin to graph statistical data from nsd
 net-dns/nsd:nsec3 - Enable NSEC3 support
-net-dns/nsd:packed - Enable packed structure alignment; uses less memory but has unaligned reads
 net-dns/nsd:radix-tree - Use a radix tree for main lookups instead of a red-black tree
 net-dns/nsd:ratelimit - Enables ratelimiting, based on query name, type and source
 net-dns/nsd:recvmmsg - Enable recvmmsg and sendmmsg compilation, faster but some kernel versions may have implementation problems for IPv6
@@ -6872,7 +6876,6 @@ net-p2p/rtorrent:tinyxml2 - Use vendor tinyxml2 instead of xmlrpc-c. This allows
 net-p2p/syncthing:tools - Install stdiscosrv, strelaysrv and other tools to /usr/libexec/syncthing/.
 net-p2p/transmission:cli - Build command-line client
 net-p2p/transmission:debug - Enable assertions
-net-p2p/transmission:mbedtls - Use mbed TLS instead of OpenSSL
 net-p2p/transmission-remote-gtk:libproxy - Use net-libs/libproxy for getting the HTTP/HTTPS/SOCKS proxy configuration.
 net-print/cups:openssl - Use dev-libs/openssl instead of net-libs/gnutls for TLS support
 net-print/cups-filters:foomatic - Build the included foomatic-rip printer driver. Strongly recommended.
@@ -7278,9 +7281,7 @@ sci-chemistry/votca:gromacs - Add support for gromacs file formats through sci-c
 sci-electronics/gerbv:unit-mm - Set default unit for coordinates in status bar to mm
 sci-electronics/ghdl:llvm - Build LLVM code generator
 sci-electronics/gtkwave:fasttree - Enables experimental Fast SST Tree widget code.
-sci-electronics/gtkwave:fatlines - Renders lines as double width in gtkwave.
 sci-electronics/gtkwave:judy - Enables Judy array support.
-sci-electronics/gtkwave:packed - Enables '#pragma pack' for data arrays (saves memory, costs time).
 sci-electronics/kicad-meta:minimal - Do not install extra data like 3D packages and templates.
 sci-electronics/ktechlab:gpsim - Enable support for Microchip PIC microcontrollers similation using dev-embedded/gpsim
 sci-electronics/librepcb:opencascade - Build with sci-libs/opencascadethe 3D features (e.g. reading/writing STEP files)
@@ -8413,6 +8414,7 @@ sys-firmware/alsa-firmware:deduplicate - Remove firmware that is also provided b
 sys-firmware/blisp:tools - Build the blisp command-line utility used to upload firmware to the pinecil
 sys-firmware/broadcom-bt-firmware:compress-xz - Compress firmware using xz (app-arch/xz-utils) before installation
 sys-firmware/broadcom-bt-firmware:compress-zstd - Compress firmware using zstd (app-arch/zstd) before installation
+sys-firmware/intel-microcode:dist-kernel - Delegate microcode initramfs generation to sys-kernel/installkernel
 sys-firmware/intel-microcode:hostonly - Only install ucode(s) supported by currently available (=online) processor(s)
 sys-firmware/intel-microcode:initramfs - Install a small initramfs for use with CONFIG_MICROCODE_EARLY
 sys-firmware/intel-microcode:split-ucode - Install the split binary ucode files (used by the kernel directly)
@@ -8536,6 +8538,7 @@ sys-kernel/kpatch:kpatch-build - Enable tools which convert a source diff patch 
 sys-kernel/linux-firmware:compress-xz - Compress firmware using xz (app-arch/xz-utils) before installation
 sys-kernel/linux-firmware:compress-zstd - Compress firmware using zstd (app-arch/zstd) before installation
 sys-kernel/linux-firmware:deduplicate - Create symlinks for all firmware that is duplicate using rdfind
+sys-kernel/linux-firmware:dist-kernel - Delegate microcode initramfs generation to sys-kernel/installkernel
 sys-kernel/linux-firmware:initramfs - Create and install initramfs for early microcode loading in /boot (only AMD for now)
 sys-kernel/linux-firmware:redistributable - Install also non-free (but redistributable) firmware files
 sys-kernel/linux-firmware:savedconfig - Allows individual selection of firmware files
