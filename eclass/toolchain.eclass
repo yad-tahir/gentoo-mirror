@@ -1427,6 +1427,10 @@ toolchain_src_configure() {
 		;;
 	esac
 
+	if in_iuse ada ; then
+		confgcc+=( $(use_enable ada libada) )
+	fi
+
 	### Cross-compiler option
 	#
 	# Note that 'newlib' here doesn't have to mean genuine newlib.
@@ -1779,10 +1783,6 @@ toolchain_src_configure() {
 		else
 			confgcc+=( --disable-libssp )
 		fi
-	fi
-
-	if in_iuse ada ; then
-		confgcc+=( $(use_enable ada libada) )
 	fi
 
 	if in_iuse cet ; then
@@ -2791,7 +2791,7 @@ gcc_movelibs() {
 	# that you want to link against when building tools rather than building
 	# code to run on the target.
 	if is_crosscompile ; then
-		dodir "${HOSTLIBPATH#${EPREFIX}}"
+		dodir "${HOSTLIBPATH#"${EPREFIX}"}"
 		# XXX: Ideally, we'd use $(get_libdir) here, but it's
 		# not right for cross. See bug #942573 and bug #794181.
 		if [[ ${GCC_BUILD_PLUGINS} == 1 ]] ; then
@@ -2801,7 +2801,7 @@ gcc_movelibs() {
 
 	# libgccjit gets installed to /usr/lib, not /usr/$(get_libdir). Probably
 	# due to a bug in gcc build system.
-	dodir "${LIBPATH#${EPREFIX}}"
+	dodir "${LIBPATH#"${EPREFIX}"}"
 
 	if is_jit ; then
 		mv "${ED}"/usr/lib/libgccjit* "${D}${LIBPATH}" || die
@@ -2846,9 +2846,14 @@ gcc_movelibs() {
 	# Without this, we end up either unable to find the libgomp spec/archive, or
 	# we underlink and can't find gomp_nvptx_main (presumably because we can't find the plugin)
 	# https://src.fedoraproject.org/rpms/gcc/blob/02c34dfa3627ef05d676d30e152a66e77b58529b/f/gcc.spec#_1445
-	if [[ ${CATEGORY} == cross-accel-nvptx* ]] && is_fortran ; then
+	#
+	# openmp/fortran check is needed here to know if we're in the stage1
+	# build or not.
+	if [[ ${CATEGORY} == cross-accel-nvptx* ]] && { _tc_use_if_iuse openmp || is_fortran ; } ; then
 		rm -rf "${ED}"/usr/libexec/gcc/nvptx-none/${GCCMAJOR}/install-tools
-		rm -rf "${ED}"/usr/libexec/gcc/${CHOST}/${GCCMAJOR}/accel/nvptx-none/{install-tools,plugin,cc1,cc1plus,f951}
+		rm -rf "${ED}"/usr/libexec/gcc/${CHOST}/${GCCMAJOR}/accel/nvptx-none/{install-tools,plugin,cc1,cc1plus}
+		is_fortran && rm -rf "${ED}"/usr/libexec/gcc/${CHOST}/${GCCMAJOR}/accel/nvptx-none/f951
+
 		rm -rf "${ED}"/usr/lib/gcc/nvptx-none/${GCCMAJOR}/{install-tools,plugin}
 		rm -rf "${ED}"/usr/lib/gcc/${CHOST}/${GCCMAJOR}/accel/nvptx-none/{install-tools,plugin,include-fixed}
 		mv "${ED}"/usr/nvptx-none/lib/*.{a,spec} "${ED}"/usr/lib/gcc/${CHOST}/${GCCMAJOR}/accel/nvptx-none/

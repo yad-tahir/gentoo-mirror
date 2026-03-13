@@ -15,7 +15,7 @@ HOMEPAGE="https://apps.kde.org/kontact/"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="6"
-KEYWORDS="~amd64 ~arm64"
+KEYWORDS="amd64 arm64"
 IUSE="activities importwizard markdown test"
 
 RESTRICT="!test? ( test )"
@@ -107,6 +107,8 @@ src_test() {
 		"messageviewer-dkimauthenticationverifiedserverdialogtest"
 		# Test pass but get stuck indefinetly afterwards.
 		"kdepim-addons-todoedittest"
+		# test for a disabled feature that's gone in git master / 26.04
+		"enterpriseheaderstyleplugintest"
 	)
 
 	# tests can get stuck with spawned processes, 4 minutes is a reasonable timeout

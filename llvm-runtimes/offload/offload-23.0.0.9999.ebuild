@@ -12,10 +12,9 @@ HOMEPAGE="https://openmp.llvm.org"
 
 LICENSE="Apache-2.0-with-LLVM-exceptions || ( UoI-NCSA MIT )"
 SLOT="0/${LLVM_SOABI}"
-IUSE="+clang +debug ompt test llvm_targets_AMDGPU llvm_targets_NVPTX"
-REQUIRED_USE="
-	llvm_targets_AMDGPU? ( clang )
-	llvm_targets_NVPTX? ( clang )
+IUSE="
+	+clang +debug ompt test
+	llvm_targets_AMDGPU llvm_targets_NVPTX llvm_targets_SPIRV
 "
 RESTRICT="!test? ( test )"
 
@@ -24,6 +23,7 @@ RDEPEND="
 	~llvm-core/llvm-${PV}
 	~llvm-runtimes/openmp-${PV}[ompt?]
 	llvm_targets_AMDGPU? ( dev-libs/rocr-runtime:= )
+	llvm_targets_SPIRV? ( dev-libs/level-zero:= )
 "
 DEPEND="
 	${RDEPEND}
@@ -36,13 +36,12 @@ BDEPEND="
 	dev-lang/perl
 	virtual/pkgconfig
 	clang? ( llvm-core/clang )
-	llvm_targets_AMDGPU? ( llvm-core/clang[llvm_targets_AMDGPU] )
-	llvm_targets_NVPTX? ( llvm-core/clang[llvm_targets_NVPTX] )
 	test? (
 		$(python_gen_any_dep '
 			dev-python/lit[${PYTHON_USEDEP}]
 		')
-		llvm-core/clang
+		llvm-core/clang:${LLVM_MAJOR}
+		llvm-core/llvm:${LLVM_MAJOR}
 	)
 "
 
@@ -95,6 +94,9 @@ src_configure() {
 		if use llvm_targets_NVPTX; then
 			plugins+=";cuda"
 		fi
+		if use llvm_targets_SPIRV; then
+			plugins+=";level_zero"
+		fi
 	fi
 
 	local mycmakeargs=(
@@ -115,14 +117,15 @@ src_configure() {
 		# prevent trying to access the GPU
 		-DLIBOMPTARGET_AMDGPU_ARCH=LIBOMPTARGET_AMDGPU_ARCH-NOTFOUND
 		-DLIBOMPTARGET_NVPTX_ARCH=LIBOMPTARGET_NVPTX_ARCH-NOTFOUND
+		-DLIBOMPTARGET_OFFLOAD_ARCH=LIBOMPTARGET_OFFLOAD_ARCH-NOTFOUND
 	)
 	use test && mycmakeargs+=(
 		# this project does not use standard LLVM cmake macros
 		-DOPENMP_LLVM_LIT_EXECUTABLE="${EPREFIX}/usr/bin/lit"
 		-DOPENMP_LIT_ARGS="$(get_lit_flags)"
 
-		-DOPENMP_TEST_C_COMPILER="$(type -P "${CHOST}-clang")"
-		-DOPENMP_TEST_CXX_COMPILER="$(type -P "${CHOST}-clang++")"
+		-DOPENMP_TEST_C_COMPILER="$(type -P "${CHOST}-clang-${LLVM_MAJOR}")"
+		-DOPENMP_TEST_CXX_COMPILER="$(type -P "${CHOST}-clang++-${LLVM_MAJOR}")"
 		# requires flang
 		-DOPENMP_TEST_Fortran_COMPILER=
 	)

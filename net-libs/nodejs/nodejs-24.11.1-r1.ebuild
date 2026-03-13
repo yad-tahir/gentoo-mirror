@@ -7,7 +7,8 @@ CONFIG_CHECK="~ADVISE_SYSCALLS"
 PYTHON_COMPAT=( python3_{11..14} )
 PYTHON_REQ_USE="threads(+)"
 
-inherit bash-completion-r1 check-reqs flag-o-matic linux-info ninja-utils pax-utils python-any-r1 toolchain-funcs xdg-utils
+inherit bash-completion-r1 check-reqs flag-o-matic linux-info
+inherit ninja-utils pax-utils python-any-r1 toolchain-funcs xdg-utils
 
 DESCRIPTION="A JavaScript runtime built on Chrome's V8 JavaScript engine"
 HOMEPAGE="https://nodejs.org/"
@@ -115,6 +116,13 @@ src_prepare() {
 	# We need to disable mprotect on two files when it builds Bug 694100.
 	use pax-kernel &&
 		PATCHES+=( "${FILESDIR}"/${PN}-24.1.0-paxmarking.patch )
+
+	if use ppc64; then
+		PATCHES+=(
+			"${FILESDIR}/${PN}-24.11.1-gcc15-ppc.patch"
+			"${FILESDIR}/${PN}-24.11.1-restore-ppc64be.patch"
+		)
+	fi
 
 	default
 }

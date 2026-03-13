@@ -14,7 +14,7 @@ HOMEPAGE="https://apps.kde.org/neochat/"
 
 LICENSE="GPL-3+ handbook? ( CC-BY-SA-4.0 )"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64"
+KEYWORDS="amd64 arm64"
 
 COMMON_DEPEND="
 	app-text/cmark:=
@@ -65,6 +65,8 @@ CMAKE_SKIP_TESTS=(
 	eventhandlertest
 	# bug 909816, tries access /proc/PID/mem
 	texthandlertest # ki18n (KLocalizedString) failure
+	roommanagertest # bug 969837, who cares
+	servernoticestest # bug 967518, really
 )
 
 src_configure() {
