@@ -33,10 +33,10 @@ fi
 LICENSE="BSD curl ISC test? ( BSD-4 )"
 SLOT="0"
 IUSE="+adns +alt-svc brotli debug ech +ftp gnutls gopher +hsts +http2 +http3 +httpsrr idn +imap kerberos ldap"
-IUSE+=" mbedtls +openssl +pop3 +psl +quic rtmp rustls samba sasl-scram +smtp ssh ssl static-libs test"
+IUSE+=" mbedtls +openssl +pop3 +psl +quic rustls samba sasl-scram +smtp ssh ssl static-libs test"
 IUSE+=" telnet +tftp +websockets zstd"
 # These select the default tls implementation / which quic impl to use
-IUSE+=" +curl_quic_openssl curl_quic_ngtcp2 curl_ssl_gnutls curl_ssl_mbedtls +curl_ssl_openssl curl_ssl_rustls"
+IUSE+=" curl_ssl_gnutls curl_ssl_mbedtls +curl_ssl_openssl curl_ssl_rustls"
 RESTRICT="!test? ( test )"
 
 # HTTPS RR is technically usable with the threaded resolver, but it still uses c-ares to
@@ -57,9 +57,12 @@ REQUIRED_USE="
 	httpsrr? ( adns )
 	quic? (
 		^^ (
-			curl_quic_openssl
-			curl_quic_ngtcp2
+			openssl
+			gnutls
 		)
+		!gnutls
+		!mbedtls
+		!rustls
 		http3
 		ssl
 	)
@@ -70,18 +73,6 @@ REQUIRED_USE="
 			curl_ssl_openssl
 			curl_ssl_rustls
 		)
-	)
-	curl_quic_openssl? (
-		curl_ssl_openssl
-		!gnutls
-		!mbedtls
-		!rustls
-	)
-	curl_quic_ngtcp2? (
-		curl_ssl_gnutls
-		!mbedtls
-		!openssl
-		!rustls
 	)
 	curl_ssl_gnutls? ( gnutls )
 	curl_ssl_mbedtls? ( mbedtls )
@@ -98,9 +89,6 @@ REQUIRED_USE="
 # However 'supported' vs 'works' are two entirely different things; be sane but
 # don't be afraid to require a later version.
 # ngtcp2 = https://bugs.gentoo.org/912029 - can only build with one tls backend at a time.
-# TODO: OpenSSL-QUIC support is going to be removed in 2026; depend on ngtcp2[{gnutls,openssl}] before that point.
-# - https://github.com/curl/curl/pull/18820 (Deprecate OpenSSL QUIC support)
-# - https://github.com/curl/curl/issues/18336 (curl w/ OpenSSL QUIC fails to fetch Google.com)
 RDEPEND="
 	>=virtual/zlib-1.2.5:=[${MULTILIB_USEDEP}]
 	adns? ( >=net-dns/c-ares-1.16.0:=[${MULTILIB_USEDEP}] )
@@ -112,10 +100,9 @@ RDEPEND="
 	ldap? ( >=net-nds/openldap-2.0.0:=[static-libs?,${MULTILIB_USEDEP}] )
 	psl? ( net-libs/libpsl[${MULTILIB_USEDEP}] )
 	quic? (
-		curl_quic_openssl? ( >=dev-libs/openssl-3.3.0:=[quic,${MULTILIB_USEDEP}] )
-		curl_quic_ngtcp2? ( >=net-libs/ngtcp2-1.2.0[gnutls,ssl,-openssl,${MULTILIB_USEDEP}] )
+		gnutls? ( >=net-libs/ngtcp2-1.20.0-r1[gnutls,ssl,${MULTILIB_USEDEP}] )
+		openssl? ( >=net-libs/ngtcp2-1.20.0-r1[openssl,ssl,${MULTILIB_USEDEP}] )
 	)
-	rtmp? ( media-video/rtmpdump[${MULTILIB_USEDEP}] )
 	ssh? ( >=net-libs/libssh2-1.2.8[${MULTILIB_USEDEP}] )
 	sasl-scram? ( >=net-misc/gsasl-2.2.0[static-libs?,${MULTILIB_USEDEP}] )
 	ssl? (
@@ -151,7 +138,7 @@ BDEPEND="
 	verify-sig? ( sec-keys/openpgp-keys-danielstenberg )
 "
 
-DOCS=( README docs/{FEATURES.md,INTERNALS.md,FAQ,BUGS.md,CONTRIBUTE.md} )
+DOCS=( README docs/{FEATURES.md,INTERNALS.md,FAQ.md,BUGS.md,CONTRIBUTE.md} )
 
 MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/curl/curlbuild.h
@@ -176,7 +163,7 @@ QA_CONFIG_IMPL_DECL_SKIP=(
 )
 
 PATCHES=(
-	"${FILESDIR}/${PN}-prefix-5.patch"
+	"${FILESDIR}/${PN}-prefix-6.patch"
 	"${FILESDIR}/${PN}-respect-cflags-3.patch"
 )
 
@@ -248,17 +235,10 @@ multilib_src_configure() {
 	if use ssl; then
 		local -a tls_backend_opts
 		readarray -t tls_backend_opts < <(_get_curl_tls_configure_opts)
-		myconf+=("${tls_backend_opts[@]}")
-		if use quic; then
-			myconf+=(
-				$(use_with curl_quic_ngtcp2 ngtcp2)
-				$(use_with curl_quic_openssl openssl-quic)
-			)
-		else
-			# Without a REQUIRED_USE to ensure that QUIC was requested when at least one default backend is
-			# enabled we need ensure that we don't try to build QUIC support
-			myconf+=( --without-ngtcp2 --without-openssl-quic )
-		fi
+		myconf+=(
+			"${tls_backend_opts[@]}"
+			$(use_with quic ngtcp2)
+		)
 	else
 		myconf+=( --without-ssl )
 		einfo "SSL disabled"
@@ -280,7 +260,6 @@ multilib_src_configure() {
 		$(use_enable pop3)
 		$(use_enable samba smb)
 		$(use_with ssh libssh2) # enables scp/sftp
-		$(use_with rtmp librtmp)
 		--enable-rtsp
 		$(use_enable smtp)
 		$(use_enable telnet)

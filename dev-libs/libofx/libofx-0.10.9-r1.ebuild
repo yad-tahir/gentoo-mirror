@@ -11,7 +11,7 @@ SRC_URI="https://github.com/libofx/libofx/releases/download/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0/10"
-KEYWORDS="~amd64 ~arm64 ~ppc ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm64 ppc ppc64 ~riscv x86"
 IUSE="doc test"
 RESTRICT="!test? ( test )"
 
@@ -35,6 +35,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-curl.patch
 	"${FILESDIR}"/${P}-dtd.patch
 	"${FILESDIR}"/${PN}-0.10.9-parallel-build-help2man.patch
+	"${FILESDIR}"/${PN}-0.10.9-fix_cxxflags.patch
 )
 
 src_prepare() {
@@ -46,6 +47,8 @@ src_prepare() {
 src_configure() {
 	# bug #566456
 	append-cxxflags -std=c++14
+	# -Werror=odr
+	filter-lto
 
 	econf $(use_enable doc html-docs)
 }

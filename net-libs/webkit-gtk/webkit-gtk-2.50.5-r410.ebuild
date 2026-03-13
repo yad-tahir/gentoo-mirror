@@ -17,7 +17,7 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4.1/0" # soname version of libwebkit2gtk-4.1
-KEYWORDS="~amd64 ~arm arm64 ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="amd64 ~arm arm64 ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
 
 IUSE="aqua avif examples gamepad keyring +gstreamer +introspection pdf jpegxl +jumbo-build lcms seccomp spell systemd wayland X"
 REQUIRED_USE="|| ( aqua wayland X )"
@@ -173,6 +173,11 @@ src_configure() {
 
 	# Try to use less memory, bug #469942 (see Fedora .spec for reference)
 	append-ldflags $(test-flags-CCLD "-Wl,--no-keep-memory")
+
+	if is-flagq '-g?(gdb)?([2-9])'; then #965483
+		replace-flags '-g?(gdb)?([2-9])' -g1
+		ewarn "-g2+/-ggdb* *FLAGS replaced with -g1"
+	fi
 
 	# Ruby situation is a bit complicated. See bug 513888
 	local rubyimpl

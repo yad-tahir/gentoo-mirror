@@ -1,6 +1,10 @@
 # Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Nicolas PARLANT <nicolas.parlant@parhuet.fr> (2026-02-23)
+# x11-libs/qtermwidget is not keyworded here
+app-office/texstudio qtermwidget
+
 # Jaco Kroon <jaco@uls.co.za> (2026-02-06)
 # Requires sys-auth/libyubikey
 net-dialup/freeradius yubikey
@@ -128,10 +132,6 @@ sys-kernel/dracut test
 sys-auth/polkit kde
 virtual/notification-daemon kde
 
-# Andreas Sturmlechner <asturm@gentoo.org> (2024-07-31)
-# KF6 and media-libs/phonon will drop arm keyword
-app-office/texstudio video
-
 # Michał Górny <mgorny@gentoo.org> (2024-07-24)
 # Full testing requires www-client/firefox.
 dev-python/selenium test-rust
@@ -246,7 +246,6 @@ app-text/enchant nuspell
 # Adel Kara Slimane <adel.ks@zegrapher.com> (2022-03-14)
 # Untested useflag on other arches, needs keywording
 media-video/ffmpeg vmaf
-media-video/ffmpeg-compat vmaf
 
 # Sam James <sam@gentoo.org> (2022-03-10)
 # Boost has support for ARM32
