@@ -36,12 +36,147 @@
 
 #--- END OF EXAMPLES ---
 
-# Ionen Wolkens <ionen@gentoo.org> (2026-03-12)
-# Package was added for games-strategy/naev-0.12.x but 0.13.x no longer
-# needs it and it never gained other consumers. Have no intentions to
-# keep maintaining this so may as well remove rather than leave it m-n.
-# Removal on 2026-04-11.
-dev-libs/nativefiledialog-extended
+# Michał Górny <mgorny@gentoo.org> (2026-03-25)
+# Broken with >=dev-python/numpy-2.  Unmaintained.  No revdeps.
+# Removal on 2026-04-24.  Bug #962941.
+dev-python/amodem
+
+# Ionen Wolkens <ionen@gentoo.org> (2026-03-23)
+# Masked for testing the new .0 version and leave time for packages
+# to catch up on support. Will likely be kept masked until 6.11.1
+# is released unless there is a notable reason to need this earlier.
+#
+# If wanted, feel welcome to add `dev-qt/*:6/6.11.0` to package.unmask
+# and report issues.
+=dev-python/pyside-6.11.0*
+=dev-qt/qt-docs-6.11.0*
+=dev-qt/qt3d-6.11.0*
+=dev-qt/qt5compat-6.11.0*
+=dev-qt/qtbase-6.11.0*
+=dev-qt/qtcharts-6.11.0*
+=dev-qt/qtconnectivity-6.11.0*
+=dev-qt/qtdeclarative-6.11.0*
+=dev-qt/qtgraphs-6.11.0*
+=dev-qt/qthttpserver-6.11.0*
+=dev-qt/qtimageformats-6.11.0*
+=dev-qt/qtlanguageserver-6.11.0*
+=dev-qt/qtlocation-6.11.0*
+=dev-qt/qtmultimedia-6.11.0*
+=dev-qt/qtnetworkauth-6.11.0*
+=dev-qt/qtpositioning-6.11.0*
+=dev-qt/qtquick3d-6.11.0*
+=dev-qt/qtquicktimeline-6.11.0*
+=dev-qt/qtremoteobjects-6.11.0*
+=dev-qt/qtscxml-6.11.0*
+=dev-qt/qtsensors-6.11.0*
+=dev-qt/qtserialbus-6.11.0*
+=dev-qt/qtserialport-6.11.0*
+=dev-qt/qtshadertools-6.11.0*
+=dev-qt/qtspeech-6.11.0*
+=dev-qt/qtsvg-6.11.0*
+=dev-qt/qttools-6.11.0*
+=dev-qt/qttranslations-6.11.0*
+=dev-qt/qtvirtualkeyboard-6.11.0*
+=dev-qt/qtwayland-6.11.0*
+=dev-qt/qtwebchannel-6.11.0*
+=dev-qt/qtwebengine-6.11.0*
+=dev-qt/qtwebsockets-6.11.0*
+=dev-qt/qtwebview-6.11.0*
+
+# Sam James <sam@gentoo.org> (2026-03-22)
+# Commits since the last release of Crypt-OpenSSL-RSA (0.370) are heavily
+# driven by LLM automation. Avoid exposing users to this (bug #971488).
+# Sadly, other dists by the same maintainers upstream are also affected,
+# and so these are includeed here too.
+>dev-perl/Crypt-OpenSSL-RSA-0.370.0
+>dev-perl/B-COW-0.7.0
+>dev-perl/Business-UPS-2.20.0
+>dev-perl/CDB_File-1.50.0-r1
+>dev-perl/Clone-0.470.0
+>dev-perl/Crypt-RIPEMD160-0.80.0
+>dev-perl/IO-Stty-0.40.0
+>dev-perl/IO-Tty-1.200.0
+>dev-perl/IPC-Run-20250809.0.0
+>dev-perl/Net-Daemon-0.490.0
+>dev-perl/Net-Ident-1.250.0
+>dev-perl/Safe-Hole-0.140.0
+>dev-perl/Schedule-Cron-Events-1.960.0
+>dev-perl/Sys-Mmap-0.200.0
+>dev-perl/Template-Toolkit-3.102.0
+>dev-perl/TimeDate-2.330.0-r1
+>dev-perl/XML-Parser-2.470.1
+>dev-perl/XString-0.5.0
+>dev-perl/YAML-Syck-1.360.0
+
+# Michał Górny <mgorny@gentoo.org> (2026-03-22)
+# Cyclic dependency through dev-python/vcs-versioning →
+# dev-python/hatchling → dev-python/pluggy.
+# https://github.com/pypa/setuptools-scm/issues/1302
+>=dev-python/setuptools-scm-10
+dev-python/vcs-versioning
+
+# Michał Górny <mgorny@gentoo.org> (2026-03-20)
+# Low-value package with a test suite that requires tons of effort to
+# work offline. Upstream made that harder again in the most recent
+# release.  If you need pipx functionality, dev-python/uv provides uvx
+# executable.
+# Removal on 2026-04-19.  Bug #971387.
+dev-python/pipx
+
+# Michał Górny <mgorny@gentoo.org> (2026-03-19)
+#
+# MkDocs 1.x are no longer maintained upstream.  MkDocs 2.x, while not
+# yet released, are not backwards compatible and have made some
+# questionable design choices, such as removing plugin support.  MkDocs
+# 1.x have been then forked into ProperDocs, which are not a drop-in
+# replacment.  Also, Zensical started being independently developed.
+#
+# Over all this time, MkDocs have been barely used in ::gentoo,
+# and the work invested in keeping the whole stack working, along with
+# all the plugins and NIH dependencies, greatly exceeded the benefit.
+# It does not help that most of this is developed with the assumption
+# that docs will be built straight from the git repository.
+#
+# Removal on 2026-04-18.  Bug #971358.
+dev-python/csscompressor
+dev-python/dunamai
+dev-python/ghp-import
+dev-python/griffe
+dev-python/griffe-inherited-docstrings
+dev-python/jsmin
+dev-python/markdown-exec
+dev-python/mergedeep
+dev-python/mkdocs
+dev-python/mkdocs-autorefs
+dev-python/mkdocs-bootstrap
+dev-python/mkdocs-bootswatch
+dev-python/mkdocs-gen-files
+dev-python/mkdocs-get-deps
+dev-python/mkdocs-git-authors-plugin
+dev-python/mkdocs-git-revision-date-localized-plugin
+dev-python/mkdocs-htmlproofer-plugin
+dev-python/mkdocs-i18n
+dev-python/mkdocs-material
+dev-python/mkdocs-material-extensions
+dev-python/mkdocs-minify-plugin
+dev-python/mkdocs-monorepo-plugin
+dev-python/mkdocs-pymdownx-material-extras
+dev-python/mkdocs-redirects
+dev-python/mkdocs-static-i18n
+dev-python/mkdocstrings
+dev-python/mkdocstrings-python
+dev-python/paginate
+dev-python/pygments-ansi-color
+dev-python/pyyaml-env-tag
+dev-python/readtime
+dev-python/uv-dynamic-versioning
+
+# Jakov Smolić <jsmolic@gentoo.org> (2026-03-13)
+# sqlite-3.52.0 has been withdrawn shortly after its release due to
+# backwards-compatibility issues
+# https://sqlite.org/releaselog/3_52_0.html
+=dev-db/sqlite-3.52.0-r1
+=dev-python/apsw-3.52.0.0
 
 # Mike Pagano <mpagano@gentoo.org> (2026-03-13)
 # Upstream has announced the archiving of this application
@@ -51,7 +186,7 @@ dev-libs/nativefiledialog-extended
 # are www-servers/nginx or www-servers/apache
 # depending on your application needs.
 # Removal on 2026-04-13.
-sys-apps/nginx-unit
+www-servers/nginx-unit
 
 # Alfredo Tupone <tupone@gentoo.org> (2026-03-12)
 # No reverse dependency. Included in dev-tcltk/tklib
@@ -110,42 +245,6 @@ dev-qt/qtscxml:5
 dev-qt/qtspeech:5
 dev-qt/qtwebsockets:5
 
-# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-26)
-# Depends on Qt5 and does not appear to be ported to Qt6 any time soon.
-# Possible alternatives are app-text/xournalpp or media-gfx/pdf4qt (only in
-# guru overlay right now). Many bugs: #965497, #935693, #935692, #935694,
-# #900162, #850064, #935695.
-# Removal on 2026-03-28.
-app-text/master-pdf-editor
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-26)
-# Depends on Qt5 and does not appear to be ported to Qt6. Upstream's main
-# problem is reliance on QtXMLPatterns which is not available in Qt6.
-# Bug #955183
-# Removal on 2026-03-28.
-app-editors/qxmledit
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-26)
-# Current release depends on Qt5, painful to package which may explain why not
-# many other distributions care to do so.  Upstream AppImage available.
-# Many bugs: #909069, #937133, #945721, #947403, #956111, #956112, #956113,
-# #956451, #967186.
-# Removal on 2026-03-28.
-net-p2p/retroshare
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-26)
-# Qt binaries-to-path symlinking tool obsolete with Qt6. Removal on 2026-03-28.
-dev-qt/qtchooser
-
-# Ulrich Müller <ulm@gentoo.org> (2026-02-25)
-# This is an eviscerated version. Several core commands no longer
-# work, notably C-x 2 (split-current-window), M-x describe-bindings
-# and M-? (help). Furthermore, it adds an unconditional dependency
-# on hunspell, hardcoding the American English dictionary.
-# Masking this version for now because it seems inferior to the
-# previous 20180719 snapshot. Bug #970594.
-~app-editors/uemacs-pk-4.0.15_p20260224
-
 # Andreas Sturmlechner <asturm@gentoo.org> (2026-02-24)
 # Phonon is effectively dead upstream, its only remaining backend depends
 # on VLC-3. Bug #935797  Removal on 2026-03-26.
@@ -158,48 +257,15 @@ media-libs/phonon-vlc
 net-mail/list-remote-forwards
 net-mail/mailbox-count
 
-# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-22)
-# Obsolete package blocking vdr-2.2 cleanup.
-# Removal on 2026-03-24.
-media-plugins/vdr-peer
-=media-video/vdr-2.2.0*
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-22)
-# Obsolete package. Use media-plugins/vdr-skinelchihd instead.
-# Bug #945071. Removal on 2026-03-24.
-media-plugins/vdr-skincurses
-
-# Andreas Sturmlechner <asturm@gentoo.org> (2026-02-22)
-# Obsolete package. Use media-video/vdr[demoplugins] instead.
-# Removal on 2026-03-24.
-media-plugins/vdr-skinelchi
-
 # Andreas Sturmlechner <asturm@gentoo.org> (2026-02-15)
 # Masked for testing and possible libvlc revdeps breakage.
-~media-video/vlc-4.0.0_pre20260215
-
-# Conrad Kostecki <conikost@gentoo.org> (2026-02-15)
-# Supports only Qt5 and upstream not making any progress towards Qt6.
-# Removal on 2026-03-01. Bug #953260.
-x11-misc/projecteur
+~media-video/vlc-4.0.0_pre20260320
 
 # Thomas Beierlein <tomjbe@gentoo.org> (2026-02-14)
 # Move ebuild versioning to classical x.y.z number scheme
 # Should be kept until net-wireless/sdrplay-3.15.2 (dep for coming
 # new version) gets stable.
 >=net-wireless/soapysdrplay-20000000
-
-# David Seifert <soap@gentoo.org> (2026-02-14)
-# Behemoth package, with a massive and brittle testsuite. No other major distro
-# packages this anymore. Lots of QA issues, broken tests and blocking cleanup
-# efforts. This package will only be allowed back in ::gentoo after a sustained
-# demonstration of maintenance dedication. Removal on 2026-03-16. Bug #966712.
-dev-cpp/muParserX
-dev-python/pylatexenc
-dev-python/python-constraint
-dev-python/qiskit
-dev-python/qiskit-aer
-dev-python/rustworkx
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2026-02-12)
 # Misc Qt5-based libraries without any revdeps left.
@@ -283,11 +349,6 @@ net-analyzer/echoping
 <=dev-libs/hyprland-protocols-0.6.4
 <=dev-libs/hyprgraphics-0.1.5
 <=gui-wm/hyprland-0.51.1
-
-# Michał Górny <mgorny@gentoo.org> (2026-02-09)
-# setuptools-82 removes pkg_sources, inevitably leading to breakage.
->=dev-python/ensurepip-setuptools-82
->=dev-python/setuptools-82
 
 # Andreas Sturmlechner <asturm@gentoo.org> (2026-02-08)
 # All remaining KF5 revdeps have been masked.
@@ -426,10 +487,6 @@ net-analyzer/arp-sk
 # See bug #966299.
 =dev-util/librnp-0.18.0
 
-# Sam James <sam@gentoo.org> (2025-10-13)
-# Crashes in memtodest when handling PATH. Not yet reported upstream.
-=app-shells/dash-0.5.13.1
-
 # Michał Górny <mgorny@gentoo.org> (2025-10-12)
 # Requires Rust with RUST_SYSROOTS=bpf, which isn't currently supported
 # by dev-lang/rust-bin.  Also needs net-proxy/mitmproxy-linux updates.
@@ -535,10 +592,6 @@ dev-db/mysql:8.4
 # Doesn't seem to cleanly load, see:
 # https://github.com/lkrg-org/lkrg/issues/364
 =app-antivirus/lkrg-0.9.9
-
-# Eray Aslan <eras@gentoo.org> (2025-02-24)
-# Mask experimental software
-=mail-mta/postfix-3.11*
 
 # Sam James <sam@gentoo.org> (2025-02-22)
 # (Only) needed for no-yet-released LibreOffice. Mask for now to avoid
