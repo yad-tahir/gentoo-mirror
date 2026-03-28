@@ -1,4 +1,4 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,7 +12,7 @@ CODENAME="Piers"
 LIBDVDCSS_VERSION="1.4.3-Next-Nexus-Alpha2-2"
 LIBDVDREAD_VERSION="6.1.3-Next-Nexus-Alpha2-2"
 LIBDVDNAV_VERSION="6.1.1-Next-Nexus-Alpha2-2"
-FFMPEG_VERSION="8.0.1"
+FFMPEG_VERSION="8.1"
 
 # Java bundles from xbmc/interfaces/swig/CMakeLists.txt
 GROOVY_VERSION="4.0.26"
@@ -280,7 +280,7 @@ Please consider enabling IP_MULTICAST under Networking options.
 
 pkg_setup() {
 	check_extra_config
-	java-pkg-2_pkg_setup
+	ROOT= java-pkg-2_pkg_setup
 	python-single-r1_pkg_setup
 }
 
@@ -323,6 +323,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# used below and by vendored libdvdread
+	tc-export PKG_CONFIG
+
 	local core_platform=(
 		$(usev gbm)
 		$(usev wayland)
@@ -352,6 +355,10 @@ src_configure() {
 		-DENABLE_GOLD=OFF
 		-DENABLE_LLD=OFF
 		-DENABLE_MOLD=OFF
+
+		# This isn't normally necessary with CMake, but Kodi includes its own
+		# FindPkgConfig module that doesn't respect PKG_CONFIG. :(
+		-DPKG_CONFIG_EXECUTABLE=$(type -P "${PKG_CONFIG}")
 
 		# Features
 		-DENABLE_AIRTUNES=$(usex airplay)
@@ -441,9 +448,6 @@ src_configure() {
 
 	# bug #926076
 	append-flags -fPIC
-
-	# used by vendored libdvdread
-	tc-export PKG_CONFIG
 
 	if tc-is-cross-compiler; then
 		for t in "${NATIVE_TOOLS[@]}" ; do

@@ -5,7 +5,7 @@ EAPI=8
 
 LUA_COMPAT=( lua5-1 luajit )
 
-inherit cmake lua-single
+inherit cmake lua-single xdg-utils
 
 DESCRIPTION="Quest editor for Solarus game engine"
 HOMEPAGE="https://www.solarus-games.org/"
@@ -16,8 +16,11 @@ if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
 else
 	SRC_URI="https://gitlab.com/solarus-games/solarus/-/archive/v${PV}/solarus-v${PV}.tar.bz2"
+	S="${WORKDIR}/solarus-v${PV}"
 	KEYWORDS="~amd64"
 fi
+
+CMAKE_USE_DIR="${S}"/editor
 
 LICENSE="GPL-3+"
 SLOT="0"
@@ -27,7 +30,7 @@ REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
 	dev-games/physfs
-	dev-qt/qtbase[gui,widgets]
+	dev-qt/qtbase:6[gui,opengl,widgets]
 	media-libs/libmodplug
 	>=media-libs/libsdl2-2.0.1[X,joystick,video]
 	media-libs/libvorbis
@@ -36,16 +39,8 @@ RDEPEND="
 	>=dev-qt/qlementine-1.4.0
 	~games-engines/solarus-${PV}
 "
-
-DEPEND="
-	${RDEPEND}
-"
-
-if ! [[ ${PV} == 9999 ]]; then
-	S="${WORKDIR}/solarus-v${PV}"
-fi
-
-CMAKE_USE_DIR=${S}/editor
+DEPEND="${RDEPEND}"
+BDEPEND="dev-qt/qttools:6[linguist]"
 
 src_configure() {
 	local mycmakeargs=(
@@ -55,10 +50,10 @@ src_configure() {
 	cmake_src_configure
 }
 
-src_compile() {
-	cmake_src_compile
+pkg_postinst() {
+	xdg_icon_cache_update
 }
 
-src_install() {
-	cmake_src_install
+pkg_postrm() {
+	xdg_icon_cache_update
 }
