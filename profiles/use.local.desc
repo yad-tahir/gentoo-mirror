@@ -4842,7 +4842,7 @@ media-sound/linuxsampler:lv2 - Add support for Ladspa V2
 media-sound/linuxsampler:sf2 - Add support for SoundFont 2 sound bank files
 media-sound/mangler:espeak - Text to speech engine
 media-sound/mixxx:benchmark - Build and install benchmark binary: mixxx-test --benchmark
-media-sound/mixxx:experimental - Add support for experimental-QML-UI. Available with --qml arg
+media-sound/mixxx:experimental - Add support for experimental-QML-UI. Available with --new-ui arg
 media-sound/mixxx:keyfinder - Enable musical key detection support via media-libs/libkeyfinder
 media-sound/mixxx:lv2 - Add support for Ladspa V2 via media-libs/lilv
 media-sound/mixxx:midi - Enable MIDI support via media-libs/portmidi
@@ -5447,11 +5447,6 @@ net-analyzer/bwm-ng:csv - Enable csv output
 net-analyzer/bwm-ng:html - Enable html output
 net-analyzer/cacti:doc - install html documentation
 net-analyzer/driftnet:httpd - Enable the HTTP/WebSockets server to display images
-net-analyzer/echoping:http - enable support for http protocol.
-net-analyzer/echoping:icp - enable support for ICP (used to monitor proxies).
-net-analyzer/echoping:priority - enable socket priority support.
-net-analyzer/echoping:smtp - enable support for SMTP protocol.
-net-analyzer/echoping:tos - enable support for TOS (TYpe Of Service).
 net-analyzer/ettercap:plugins - Install ettercap plugins (et_*.so)
 net-analyzer/flowgrind:pcap - Enable packet capturing support using net-libs/libpcap
 net-analyzer/fprobe:messages - enable console messages
@@ -7193,7 +7188,6 @@ sci-biology/clustalw-mpi:mpi-njtree - Use MPI (as opposed to serial) code for co
 sci-biology/clustalw-mpi:static-pairalign - Use static (as opposed to dynamic) scheduling for pair alignments
 sci-biology/exonerate:utils - Install the follow binaries: esd2esi, fasta2esd, fastaannotatecdna, fastachecksum, fastaclean, fastaclip, fastacomposition, fastadiff, fastaexplode, fastafetch, fastahardmask, fastaindex, fastalength, fastanrdb, fastaoverlap, fastareformat, fastaremove, fastarevcomp, fastasoftmask, fastasort, fastasplit, fastasubseq, fastatranslate, fastavalidcds
 sci-biology/fasttree:double-precision - use double precision instead of single-precision floating point (2x memroy required)
-sci-biology/mcl:blast - Add support for NCBI BLAST data
 sci-biology/mothur:boost - Depend on dev-libs/boost for make.contigs to read .gz compressed files.
 sci-biology/mothur:gsl - Use sci-libs/gsl to support diversity estimates for estimiator.single.
 sci-biology/mothur:hdf5 - Support Biom format 2.0 for the biom.info command via sci-libs/hdf5.
@@ -7691,6 +7685,7 @@ sci-ml/caffe2:distributed - Support distributed applications
 sci-ml/caffe2:fbgemm - Use sci-ml/FBGEMM
 sci-ml/caffe2:flash - Enable flash attention
 sci-ml/caffe2:gloo - Use sci-ml/gloo
+sci-ml/caffe2:kineto - Usesci-ml/kinetoprofiling library
 sci-ml/caffe2:memefficient - Enable mem efficient attention
 sci-ml/caffe2:mimalloc - Use dev-libs/mimalloc as replacement for system malloc
 sci-ml/caffe2:mkl - Use sci-libs/mkl for blas, lapack and sparse blas routines
@@ -7782,6 +7777,8 @@ sci-physics/vgm:root - Enable interaction with ROOT (sci-physics/root)
 sci-physics/yoda:eigen - Build with dev-cpp/eigen
 sci-physics/yoda:highfive - Build with sci-libs/highfive and sci-libs/hdf5
 sci-physics/yoda:root - Adds support for sci-physics/root
+sci-visualization/dash:compress - Use dev-python/flask-compress to save bandwidth
+sci-visualization/dash:diskcache - Use dev-python/diskcache to cache on disk
 sci-visualization/fityk:nlopt - Enable optimization with sci-libs/nlopt
 sci-visualization/gle:manip - Build data manipulation program
 sci-visualization/gnuplot:amos - Enable Amos routines for complex Airy and Bessel functions (dev-libs/openspecfun)
@@ -7963,8 +7960,8 @@ sys-apps/kmod:tools - Install module loading/unloading tools.
 sys-apps/kmod:zlib - Enable support for gzipped modules
 sys-apps/kmscon:drm - Enable Linux DRM for backend
 sys-apps/kmscon:fbdev - Enable Linux FBDev for backend
+sys-apps/kmscon:freetype - Enable freetype2 renderer
 sys-apps/kmscon:pango - Enable pango font rendering
-sys-apps/kmscon:pixman - Enable pixman font rendering
 sys-apps/kmscon:systemd - Enable multiseat support via systemd
 sys-apps/linux-misc-apps:usbip - Include USB/IP binaries to replace net-misc/usbip
 sys-apps/lm-sensors:contrib - Installs user contributed configuration files so you don't need to find settings on your own for your system if somebody else has already created such a configuration for sensors/mainboards you are using.
@@ -8772,6 +8769,8 @@ www-client/opera-beta:ffmpeg-chromium - Use Chromium FFmpeg fork (media-video/ff
 www-client/opera-beta:proprietary-codecs - Enable codecs for patent-encumbered audio and video formats.
 www-client/opera-developer:ffmpeg-chromium - Use Chromium FFmpeg fork (media-video/ffmpeg-chromium) rather than mainline FFmpeg (media-video/ffmpeg)
 www-client/opera-developer:proprietary-codecs - Enable codecs for patent-encumbered audio and video formats.
+www-client/opera-gx:ffmpeg-chromium - Use Chromium FFmpeg fork (media-video/ffmpeg-chromium) rather than mainline FFmpeg (media-video/ffmpeg)
+www-client/opera-gx:proprietary-codecs - Enable codecs for patent-encumbered audio and video formats.
 www-client/qutebrowser:adblock - Enable Brave's ABP-style adblocker library for improved adblocking
 www-client/qutebrowser:widevine - Unsupported closed-source DRM capability (required by Netflix VOD)
 www-client/seamonkey:chatzilla - Build Mozilla's IRC client (default on)
@@ -8948,6 +8947,9 @@ x11-libs/libwnck:tools - Install wnckprop-3 and wnck-urgency-monitor-3 command-l
 x11-libs/libxcb:xkb - Enable the XCB keyboard extension
 x11-libs/libxkbcommon:tools - Build the xkbcli tools
 x11-libs/libxkbcommon:wayland - Build the Wayland utilities
+x11-libs/motif:xcursor - Add support for cursors (x11-libs/libXcursor)
+x11-libs/motif:xrandr - Add support for monitor information (x11-libs/libXrandr)
+x11-libs/motif:xrender - Add support for transparency (x11-libs/libXrender)
 x11-libs/pango:X - Build and install the legacy pangoxft library
 x11-libs/pango:examples - Install source code examples
 x11-libs/pango:sysprof - Enable profiling data capture support using dev-util/sysprof-capture
