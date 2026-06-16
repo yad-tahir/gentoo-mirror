@@ -3,8 +3,6 @@
 
 EAPI=8
 
-TS_BINDINGS=( python )
-
 inherit tree-sitter-grammar
 
 DESCRIPTION="Vimscript grammar for Tree-sitter"
@@ -13,4 +11,4 @@ SRC_URI="https://github.com/tree-sitter-grammars/tree-sitter-vim/archive/v${PV}.
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~arm arm64 ~ppc ~ppc64 ~riscv x86"

@@ -4,17 +4,17 @@
 EAPI=8
 
 # These don't necessarily have to align with the upstream release.
-BUILD_DEPS_COMMIT="e87b7cec9c3a01cb671cdd8ba19fe443105412d4"
-DISPLAYDEV_COMMIT="v2025.612.225826"
+BUILD_DEPS_COMMIT="d8b1d18b7e82f8ee396bdd05e226896fa523b0df"
+DISPLAYDEV_COMMIT="v2026.322.2407"
 ENET_COMMIT="115a10baa1d7f291ff5b870765610fd3b4a6e43c"
 GLAD_COMMIT="v2.0.8"
-INPUTTINO_COMMIT="504f0abc7da8ebc351f8300fb2ed98db5438ee48"
-MOONLIGHT_COMMIT="5f2280183cb62cba1052894d76e64e5f4153377d"
+INPUTTINO_COMMIT="f4ce2b0df536ef309e9ff318f75b460f7097d7c1"
+MOONLIGHT_COMMIT="62687809b1f7410c3db4be2527503a54ae408d70"
 NANORS_COMMIT="19f07b513e924e471cadd141943c1ec4adc8d0e0"
-TRAY_COMMIT="0309a7cb84aad25079b60c40d1eae0bacd05b26d"
-SWS_COMMIT="187f798d54a9c6cee742f2eb2c54e9ba26f5a385"
+TRAY_COMMIT="563dee475f8878d252ab2b9938d3a014e776ed08"
+SWS_COMMIT="546895a93a29062bb178367b46c7afb72da9881e"
 WLRP_COMMIT="a741f0ac5d655338a5100fc34bc8cec87d237346"
-FFMPEG_VERSION="8.1"
+FFMPEG_VERSION="8.1.1"
 
 # To make the assets tarball:
 # PV=
@@ -52,13 +52,15 @@ else
 	S="${WORKDIR}/Sunshine-${PV}"
 fi
 
-inherit cmake fcaps flag-o-matic systemd toolchain-funcs udev xdg
+PYTHON_COMPAT=( python3_{12..15} )
+
+inherit cmake fcaps flag-o-matic python-any-r1 systemd toolchain-funcs udev xdg
 
 DESCRIPTION="Self-hosted game stream host for Moonlight"
 HOMEPAGE="https://github.com/LizardByte/Sunshine"
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="cuda debug libdrm svt-av1 systemd trayicon vaapi vulkan wayland X x264 x265"
+IUSE="cuda debug +libdrm pipewire svt-av1 systemd trayicon vaapi vulkan wayland X x264 x265"
 
 # Strings for CPU features in the useflag[:configure_option] form
 # if :configure_option isn't set, it will use 'useflag' as configure option
@@ -133,19 +135,19 @@ REQUIRED_USE="
 
 CDEPEND="
 	>=dev-libs/boost-1.89:=[nls]
+	dev-libs/glib:2
 	dev-libs/libevdev
 	dev-libs/openssl:=
 	media-libs/opus
 	net-libs/miniupnpc:=
 	net-misc/curl
+	sys-libs/libcap
 	|| (
 		media-libs/libpulse
 		media-sound/apulse[sdk]
 	)
-	libdrm? (
-		sys-libs/libcap
-		x11-libs/libdrm
-	)
+	libdrm? ( x11-libs/libdrm )
+	pipewire? ( media-video/pipewire:= )
 	svt-av1? ( media-libs/svt-av1:= )
 	trayicon? (
 		dev-libs/libayatana-appindicator
@@ -178,22 +180,32 @@ DEPEND="
 	${CDEPEND}
 	dev-cpp/nlohmann_json
 	>=media-libs/amf-headers-1.4.36-r1
-	<media-libs/nv-codec-headers-14
+	=media-libs/nv-codec-headers-13*
 	cuda? ( dev-util/nvidia-cuda-toolkit )
-	vulkan? ( >=dev-util/vulkan-headers-1.4.317 )
-	wayland? ( dev-libs/wayland-protocols )
+	pipewire? ( x11-libs/libdrm )
+	vulkan? (
+		>=dev-util/vulkan-headers-1.4.317
+		x11-libs/libdrm
+	)
+	wayland? (
+		dev-libs/wayland-protocols
+		x11-libs/libdrm
+	)
 "
 
 BDEPEND="
+	${PYTHON_DEPS}
 	net-libs/nodejs[npm]
 	virtual/pkgconfig
 	cpu_flags_x86_mmx? ( >=dev-lang/nasm-2.13 )
 	cuda? ( llvm-core/clang:*[llvm_targets_NVPTX] )
 	wayland? ( dev-util/wayland-scanner )
+	$(python_gen_any_dep '
+		dev-python/jinja2[${PYTHON_USEDEP}]
+	')
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-2025.122.141614-nvcodec.patch
 	"${FILESDIR}"/${PN}-new-boost.patch
 	"${FILESDIR}"/${PN}-new-cuda.patch
 )
@@ -209,6 +221,11 @@ export npm_config_loglevel=verbose
 export npm_config_optional=true # https://github.com/npm/cli/issues/4828
 export npm_config_progress=false
 export npm_config_save=false
+
+python_check_deps() {
+	# needed for glad
+	python_has_version "dev-python/jinja2[${PYTHON_USEDEP}]"
+}
 
 src_unpack() {
 	if [[ ${PV} = 9999* ]]; then
@@ -234,6 +251,7 @@ src_unpack() {
 		cd "${S}" || die
 		npm install || die
 	else
+		default
 		find moonlight-common-c-${MOONLIGHT_COMMIT} "${S}"/third-party \
 			build-deps-${BUILD_DEPS_COMMIT}/third-party/FFmpeg -mindepth 1 -type d -empty -delete || die
 		mv enet-${ENET_COMMIT} moonlight-common-c-${MOONLIGHT_COMMIT}/enet || die
@@ -368,14 +386,19 @@ src_configure() {
 		-DCCACHE_FOUND=no
 		-DFFMPEG_PLATFORM_LIBRARIES="$(usev svt-av1 SvtAv1Enc);$(usev vaapi 'va;va-drm');$(usev vulkan);$(usev x264);$(usev x265)"
 		-DFFMPEG_PREPARED_BINARIES="${S}"/third-party/build-deps/dist/ffmpeg
+		-DGLAD_SKIP_PIP_INSTALL=yes
 		-DSUNSHINE_ASSETS_DIR=share/${PN}
 		-DSUNSHINE_ENABLE_CUDA=$(usex cuda)
 		-DSUNSHINE_ENABLE_DRM=$(usex libdrm)
+		-DSUNSHINE_ENABLE_KWIN=no # Not in any KWin release yet
+		-DSUNSHINE_ENABLE_PORTAL=$(usex pipewire)
 		-DSUNSHINE_ENABLE_VAAPI=$(usex vaapi)
+		-DSUNSHINE_ENABLE_VULKAN=$(usex vulkan)
 		-DSUNSHINE_ENABLE_WAYLAND=$(usex wayland)
 		-DSUNSHINE_ENABLE_X11=$(usex X)
 		-DSUNSHINE_ENABLE_TRAY=$(usex trayicon)
 		-DSUNSHINE_SYSTEM_WAYLAND_PROTOCOLS=yes
+		-DSUNSHINE_SYSTEM_VULKAN_HEADERS=yes
 		-DUDEV_RULES_INSTALL_DIR=$(get_udevdir)/rules.d
 	)
 
@@ -409,7 +432,10 @@ src_compile() {
 pkg_postinst() {
 	udev_reload
 	xdg_pkg_postinst
-	use libdrm && fcaps cap_sys_admin+p usr/bin/"$(readlink "${EROOT}"/usr/bin/${PN})"
+
+	local caps="cap_sys_nice"
+	use libdrm && caps+=",cap_sys_admin"
+	fcaps "${caps}+p" usr/bin/${PN}
 
 	elog "At upstream's request, please report any issues to https://bugs.gentoo.org"
 	elog "rather than going directly to them."

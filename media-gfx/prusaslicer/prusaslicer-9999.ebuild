@@ -28,7 +28,7 @@ IUSE="test"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
-	dev-cpp/eigen:3
+	dev-cpp/eigen:=
 	dev-cpp/tbb:=
 	dev-cpp/nlohmann_json:=
 	dev-libs/boost:=[nls]
@@ -36,6 +36,7 @@ RDEPEND="
 	dev-libs/expat
 	dev-libs/glib:2
 	dev-libs/gmp:=
+	dev-libs/hidapi
 	dev-libs/mpfr:=
 	media-gfx/openvdb:=
 	media-gfx/libbgcode
@@ -70,6 +71,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-2.8.1-boost-1.87.patch"
 	"${FILESDIR}/${PN}-2.9.2-boost-1.88.patch"
 	"${FILESDIR}/${PN}-2.9.4-boost-1.89.patch"
+	"${FILESDIR}/${PN}-2.9.5-test_emboss-property-map.patch"
 )
 
 src_prepare() {

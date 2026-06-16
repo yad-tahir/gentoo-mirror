@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=standalone
-PYTHON_COMPAT=( python3_{11..14} python3_{13,14}t pypy3_11 )
+PYTHON_COMPAT=( python3_{11..15} python3_{13..15}t pypy3_11 )
 
 inherit distutils-r1
 
@@ -20,7 +20,7 @@ SRC_URI="
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~loong ~mips ppc ppc64 ~riscv ~s390 ~sparc x86"
 
 # see src/pdm/backend/_vendor/vendor.txt
 RDEPEND="
@@ -43,6 +43,13 @@ RDEPEND+="
 
 EPYTEST_PLUGINS=()
 distutils_enable_tests pytest
+
+EPYTEST_DESELECT=(
+	# changes in editables or somewhere
+	tests/test_api.py::test_build_editable
+	tests/test_api.py::test_build_editable_src
+	tests/test_api.py::test_build_editable_pep420
+)
 
 src_prepare() {
 	rm -r src/pdm/backend/_vendor || die

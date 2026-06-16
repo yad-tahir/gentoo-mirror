@@ -8,7 +8,7 @@ inherit qt6-build
 DESCRIPTION="Graphs component library for the Qt6 framework"
 
 if [[ ${QT6_BUILD_TYPE} == release ]]; then
-	KEYWORDS="~amd64"
+	KEYWORDS="amd64"
 fi
 
 IUSE="quick3d"
@@ -33,5 +33,5 @@ src_configure() {
 		$(cmake_use_find_package quick3d Qt6Quick3D)
 	)
 
-	cmake_src_configure
+	qt6-build_src_configure
 }

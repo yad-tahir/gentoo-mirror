@@ -1,4 +1,4 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,7 +7,7 @@ DOCS_BUILDER="sphinx"
 DOCS_DIR="doc"
 DOCS_AUTODOC=0
 
-PYTHON_COMPAT=( python3_{11..13} )
+PYTHON_COMPAT=( python3_{11..14} )
 
 # python-any-r1 is inherited first because docs.eclass sources it, and cmake.eclass exports phases.
 inherit python-any-r1 cmake docs flag-o-matic linux-info
@@ -37,6 +37,7 @@ RDEPEND="
 	dev-libs/libfmt:=
 	dev-libs/pugixml
 	dev-libs/spdlog:=
+	dev-libs/jsoncpp:=
 	net-libs/libupnp:=[ipv6(+),reuseaddr,-blocking-tcp]
 	sys-apps/util-linux
 	virtual/zlib:=
@@ -88,6 +89,7 @@ src_configure() {
 		-DWITH_SYSTEMD=$(usex systemd)
 		-DWITH_TAGLIB=$(usex taglib)
 		-DWITH_TESTS=$(usex test)
+		-DWITH_ZIP=0
 	)
 
 	cmake_src_configure

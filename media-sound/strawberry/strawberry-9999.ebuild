@@ -1,4 +1,4 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -15,7 +15,7 @@ else
 	KEYWORDS="~amd64 ~arm64 ~ppc64 ~x86"
 fi
 
-LICENSE="GPL-3 discord? ( MIT )"
+LICENSE="GPL-3"
 SLOT="0"
 IUSE="alsa cdda chromaprint +dbus debug discord kde +loudness ipod moodbar mtp +pulseaudio streaming test X"
 RESTRICT="!test? ( test )"
@@ -53,7 +53,6 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	dev-cpp/sparsehash
 	dev-libs/boost
-	discord? ( dev-libs/rapidjson )
 	test? ( dev-cpp/gtest )
 "
 BDEPEND="

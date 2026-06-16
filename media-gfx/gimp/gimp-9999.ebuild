@@ -31,7 +31,7 @@ else
 		[[ $(( $(ver_cut 2) % 2 )) -eq 0 ]] &&
 		[[ $(( $(ver_cut 3) % 2 )) -eq 0 ]]
 	then
-		KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~x86"
+		KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~riscv ~x86"
 	fi
 fi
 
@@ -196,23 +196,27 @@ src_prepare() {
 	default
 
 	# Fix Gimp  and GimpUI devel doc installation paths
-	sed -i -e "s/'doc'/'gtk-doc'/" devel-docs/reference/gimp/meson.build || die
-	sed -i -e "s/'doc'/'gtk-doc'/" devel-docs/reference/gimp-ui/meson.build || die
+	sed -e "s/'doc'/'gtk-doc'/" -i devel-docs/reference/gimp{,-ui}/meson.build || die
 
 	# Fix pygimp.interp python implementation path.
 	# Meson @PYTHON_PATH@ use sandbox path e.g.:
 	# '/var/tmp/portage/media-gfx/gimp-2.99.12/temp/python3.10/bin/python3'
-	sed -i -e 's/@PYTHON_EXE@/'${EPYTHON}'/' plug-ins/python/pygimp.interp.in || die
+	sed -e 's/@PYTHON_EXE@/'${EPYTHON}'/' -i plug-ins/python/pygimp.interp.in || die
 
 	# Set proper intallation path of documentation logo
-	sed -i -e "s/'gimp-' + gimp_api_version/'gimp-${PVR}'/" gimp-data/images/logo/meson.build || die
+	sed -e "s/'gimp-' + gimp_api_version/'gimp-${PVR}'/" -i gimp-data/images/logo/meson.build || die
 
-	# Force disable x11_target if USE="-X" is setup. See bug 943164 for additional info
-	use !X && { sed -i -e 's/x11_target = /x11_target = false #/' meson.build || die; }
+	# Force disable x11_target if USE="-X" is setup. See bug #943164 for additional info
+	if use !X; then
+		sed -e 's/x11_target = /x11_target = false #/' -i meson.build || die
+	fi
+
+	# Disable automagic pandoc use that isn't relevant for a package build
+	sed -e '/pandoc/ s/ = .*/ = disabler()/' -i docs/meson.build || die
 }
 
 src_configure() {
-	# defang automagic dependencies. Bug 943164
+	# Defang automagic dependencies, bug #943164
 	use wayland || append-cppflags -DGENTOO_GTK_HIDE_WAYLAND
 	use X || append-cppflags -DGENTOO_GTK_HIDE_X11
 
@@ -230,7 +234,6 @@ src_configure() {
 		-Dbug-report-url="${BRANDING_OS_BUG_REPORT_URL}"
 		-Dilbm=disabled
 		-Dlibbacktrace=false
-		-Dwebkit-unmaintained=false
 		$(meson_feature aalib aa)
 		$(meson_feature alsa)
 		$(meson_feature bash-completion)
@@ -266,7 +269,7 @@ src_compile() {
 	meson_src_compile
 }
 
-# for https://bugs.gentoo.org/664938
+# bug #664938
 _rename_plugins() {
 	einfo 'Renaming plug-ins to not collide with pre-2.10.6 file layout (bug #664938)...'
 	local prename=gimp-org-
