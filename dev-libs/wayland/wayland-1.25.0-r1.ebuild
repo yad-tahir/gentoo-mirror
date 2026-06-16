@@ -8,7 +8,7 @@ if [[ ${PV} = *9999* ]]; then
 	inherit git-r3
 else
 	SRC_URI="https://gitlab.freedesktop.org/wayland/${PN}/-/releases/${PV}/downloads/${P}.tar.xz"
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86"
 fi
 inherit meson-multilib
 
@@ -17,7 +17,7 @@ HOMEPAGE="https://wayland.freedesktop.org/ https://gitlab.freedesktop.org/waylan
 
 LICENSE="MIT doc? ( Apache-2.0 OFL-1.1 )"
 SLOT="0"
-IUSE="doc test"
+IUSE="doc test selinux"
 RESTRICT="!test? ( test )"
 
 BDEPEND="
@@ -33,7 +33,10 @@ BDEPEND="
 DEPEND="
 	>=dev-libs/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
 "
-RDEPEND="${DEPEND}"
+RDEPEND="
+	${DEPEND}
+	selinux? ( sec-policy/selinux-wayland )
+"
 
 multilib_src_configure() {
 	local emesonargs=(

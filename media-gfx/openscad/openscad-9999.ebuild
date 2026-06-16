@@ -1,9 +1,9 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{11..13} )
+PYTHON_COMPAT=( python3_{12..14} )
 inherit cmake flag-o-matic optfeature python-any-r1 virtualx xdg
 
 DESCRIPTION="The Programmers Solid 3D CAD Modeller"
@@ -58,6 +58,7 @@ REQUIRED_USE="
 "
 
 RDEPEND="
+	dev-cpp/eigen:=
 	dev-libs/boost:=
 	dev-libs/double-conversion:=
 	dev-libs/glib:2
@@ -94,7 +95,6 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	dev-cpp/eigen:3
 "
 BDEPEND="
 	app-alternatives/yacc

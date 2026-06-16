@@ -28,7 +28,7 @@ SRC_URI="
 # public-domain modplug
 LICENSE="BSD-2 BSD CC-BY-SA-4.0 GPL-2+ GPL-3 ISC LGPL-2.1+ MIT public-domain"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc64 ~riscv ~x86"
+KEYWORDS="amd64 ~ppc ~ppc64 ~riscv x86"
 IUSE="
 	aac +alsa ampache bs2b cdda cue ffmpeg flac fluidsynth gme gtk http jack
 	lame libnotify libsamplerate lirc mms modplug +mp3 opengl openmpt opus
@@ -142,6 +142,11 @@ DEPEND="
 	wavpack? ( >=media-sound/wavpack-4.50.1-r1 )
 "
 RDEPEND="${DEPEND}"
+
+PATCHES=(
+	# backport from 4.6beta1
+	"${FILESDIR}"/${P}-libsidplayfp-3.patch
+)
 
 src_prepare() {
 	default

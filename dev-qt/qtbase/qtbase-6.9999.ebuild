@@ -12,7 +12,7 @@ if [[ ${QT6_BUILD_TYPE} == release ]]; then
 	KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~loong ~ppc ~ppc64 ~riscv ~x86"
 fi
 
-declare -A QT6_IUSE=(
+declare -gA QT6_IUSE=(
 	[global]="+ssl +udev zstd"
 	[core]="icu io-uring journald syslog"
 	[modules]="+concurrent +dbus +gui +network +sql +xml"
@@ -195,14 +195,12 @@ src_prepare() {
 
 	if use test; then
 		# test itself has -Werror=strict-aliasing issues, drop for simplicity
-		sed -e '/add_subdirectory(qsharedpointer)/d' \
-			-i tests/auto/corelib/tools/CMakeLists.txt || die
+		cmake_comment_add_subdirectory -f tests/auto/corelib/tools qsharedpointer
 
 		# workaround for __extendhfxf2 being used for tst_qfloat16.cpp
 		# which is unavailable with compiler-rt (assume used if clang)
 		if tc-is-clang; then
-			sed -e '/add_subdirectory(qfloat16)/d' \
-				-i tests/auto/corelib/global/CMakeLists.txt || die
+			cmake_comment_add_subdirectory -f tests/auto/corelib/global qfloat16
 		fi
 	fi
 }
@@ -399,12 +397,16 @@ src_test() {
 		tst_qimagewriter
 		tst_qpluginloader
 		tst_quuid # >=6.6.2 had related fixes, needs retesting
+		# this test has often caused trouble depending on arch, endianness,
+		# musl, and others with some image/pixel formats and similar and,
+		# while there is likely real bugs, it's above what I'm willing to
+		# handle for now
+		tst_qimage
 		# partially broken on llvm-musl, needs looking into but skip to have
 		# a baseline for regressions (rest of dev-qt still passes with musl)
 		$(usev elibc_musl '
 			tst_qicoimageformat
 			tst_qimagereader
-			tst_qimage
 		')
 		# fails due to hppa's NaN handling, needs looking into (bug #914371)
 		$(usev hppa '

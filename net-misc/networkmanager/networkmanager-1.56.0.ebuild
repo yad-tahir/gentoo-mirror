@@ -109,6 +109,7 @@ DEPEND="${COMMON_DEPEND}
 	test? ( >=dev-libs/jansson-2.7 )
 "
 BDEPEND="
+	app-text/docbook-xsl-stylesheets
 	>=dev-util/gdbus-codegen-2.80.5-r1
 	dev-util/glib-utils
 	>=sys-devel/gettext-0.17

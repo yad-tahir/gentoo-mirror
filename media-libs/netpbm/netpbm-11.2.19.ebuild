@@ -1,4 +1,4 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -8,14 +8,14 @@ inherit flag-o-matic multilib toolchain-funcs
 # Upstream has 3 flavors of netpbm: super stable, stable and advanced.
 # They only provide a tarball for super stable, but super stable is a bit lagging.
 # So we package the stable branch of their svn (currently versions 11.2.xx) on SLOT "0/stable"
-# and the advanced branch of their svn (currently versions 11.13.yy) on SLOT "0/advanced".
+# and the advanced branch of their svn (currently versions 11.14.yy) on SLOT "0/advanced".
 # The stable branch is stabilized according to usual Gentoo rules, while the
 # advanced branch will not be stabilized.
 # A detailed explanation is here https://netpbm.sourceforge.net/release.html
 
 DESCRIPTION="A set of utilities for converting to/from the netpbm (and related) formats"
 HOMEPAGE="https://netpbm.sourceforge.net/"
-SRC_URI="https://dev.gentoo.org/~ceamac/${CATEGORY}/${PN}/${P}.tar.xz"
+SRC_URI="https://distfiles.gentoo.org/pub/dev/ceamac@gentoo.org/${CATEGORY}/${PN}/${P}.tar.xz"
 
 LICENSE="Artistic BSD GPL-2 IJG LGPL-2.1 MIT public-domain"
 SLOT="0/stable"

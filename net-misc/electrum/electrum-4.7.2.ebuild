@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{11..13} )
+PYTHON_COMPAT=( python3_{11..14} )
 PYTHON_REQ_USE="ncurses?"
 
 inherit distutils-r1 eapi9-ver verify-sig xdg-utils
@@ -25,7 +25,7 @@ S=${WORKDIR}/${MY_P}
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE="cli ncurses qrcode +qt6"
 REQUIRED_USE="|| ( cli ncurses qt6 )"
 

@@ -3,8 +3,8 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{11..13} )
-USE_RUBY="ruby31 ruby32"
+PYTHON_COMPAT=( python3_{11..14} )
+USE_RUBY="ruby31 ruby32 ruby33"
 RUBY_OPTIONAL="yes"
 inherit python-r1 java-pkg-opt-2 ruby-ng udev xdg-utils
 
